@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import Fireworks from './Fireworks';
@@ -25,7 +24,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isComplete, setIsComplete] = useState(false);
-  const [showFireworks, setShowFireworks] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(true);
   // Disable fireworks flag
   const enableFireworks = false;
 
@@ -79,22 +78,22 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
           </div>
         ) : (
           timeLeft.days > 0 || (timeLeft.days === 0 && label.includes("Wedding")) ? (
-            <div className="flex justify-center gap-2 sm:gap-4">
-              <div className="bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-3xl font-serif text-primary">{formatNumber(timeLeft.days)}</div>
-                <div className="text-xs uppercase text-text/70 mt-1">Days</div>
+            <div className="flex justify-center gap-3 sm:gap-5">
+              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
+                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.days)}</div>
+                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Days</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-3xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
-                <div className="text-xs uppercase text-text/70 mt-1">Hours</div>
+              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
+                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
+                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Hours</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-3xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
-                <div className="text-xs uppercase text-text/70 mt-1">Mins</div>
+              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
+                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
+                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Mins</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-3xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
-                <div className="text-xs uppercase text-text/70 mt-1">Secs</div>
+              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
+                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
+                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Secs</div>
               </div>
             </div>
           ) : (

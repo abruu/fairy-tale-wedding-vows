@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,44 +10,63 @@ interface MusicPlayerProps {
 const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Initialize audio element
   useEffect(() => {
-    if (audioRef.current) {
-      if (autoPlay) {
-        // Try to play audio on component mount
-        const playPromise = audioRef.current.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(error => {
-              console.error("Autoplay prevented:", error);
-              setIsPlaying(false);
-            });
-        }
-      }
-    }
+    const audio = new Audio(audioSrc);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.oncanplaythrough = () => setAudioLoaded(true);
+    audioRef.current = audio;
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.src = '';
       }
     };
-  }, [autoPlay]);
+  }, [audioSrc]);
+
+  // Handle autoplay when enabled
+  useEffect(() => {
+    if (audioRef.current && autoPlay && audioLoaded) {
+      console.log("Attempting to play audio...");
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("Audio playing successfully");
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.error("Autoplay prevented:", error);
+            setIsPlaying(false);
+          });
+      }
+    }
+  }, [autoPlay, audioLoaded]);
 
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play().catch(err => {
-          console.error("Error playing audio:", err);
-        });
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch(err => {
+              console.error("Error playing audio:", err);
+              setIsPlaying(false);
+            });
+        }
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -61,8 +79,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3 bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg border border-accent/30">
-      <audio ref={audioRef} src={audioSrc} loop />
-      
       <button 
         onClick={togglePlay}
         className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
