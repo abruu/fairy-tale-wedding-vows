@@ -74,6 +74,16 @@ const Index = () => {
       <div className="min-h-screen bg-background text-text">
         {/* Header / Hero Section */}
         <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-accent/20 via-background to-background overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png" 
+              alt="Alan and Agnes" 
+              className="w-full h-full object-cover opacity-15"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-accent/70 via-background/90 to-background"></div>
+          </div>
+          
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/3 -left-10 w-24 h-24 rounded-full bg-primary/5 blur-3xl"></div>
             <div className="absolute bottom-1/4 -right-10 w-32 h-32 rounded-full bg-accent/10 blur-3xl"></div>
