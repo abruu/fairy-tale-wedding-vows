@@ -26,6 +26,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isComplete, setIsComplete] = useState(false);
   const [showFireworks, setShowFireworks] = useState(false);
+  // Disable fireworks flag
+  const enableFireworks = false;
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -34,8 +36,11 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       if (difference <= 0) {
         if (!isComplete) {
           setIsComplete(true);
-          setShowFireworks(true);
-          setTimeout(() => setShowFireworks(false), 10000); // Show fireworks for 10 seconds
+          // Only show fireworks if enabled
+          if (enableFireworks) {
+            setShowFireworks(true);
+            setTimeout(() => setShowFireworks(false), 10000); // Show fireworks for 10 seconds
+          }
           if (onComplete) onComplete();
         }
         return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -57,13 +62,13 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate, onComplete, isComplete]);
+  }, [targetDate, onComplete, isComplete, enableFireworks]);
 
   const formatNumber = (num: number) => String(num).padStart(2, '0');
 
   return (
     <>
-      {showFireworks && <Fireworks duration={10000} />}
+      {showFireworks && enableFireworks && <Fireworks duration={10000} />}
       <div className={cn("space-y-3", className)}>
         <h3 className="text-center text-primary font-medium">{label}</h3>
         {isComplete ? (
