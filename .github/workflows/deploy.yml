@@ -1,45 +1,39 @@
-name: 🚀 Build and Deploy React App
+name: Deploy to Server
 
 on:
   push:
     branches:
-      - main  # or change to your branch
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: ⚙️ Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: 🏗️ Build the React app
+      - name: Build project
         run: npm run build
 
-      - name: 🔐 Add SSH key to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p 1907 server.abru.fun >> ~/.ssh/known_hosts
-
-      - name: 📤 Upload build to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Setup SSH key
         run: |
           echo "$SSH_PRIVATE_KEY" > key.pem
           chmod 600 key.pem
-
-          rsync -avz -e "ssh -i key.pem -p 1907" ./dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist/
-
-      - name: 🔁 Reload Nginx
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy dist folder to server
         run: |
-          ssh -i key.pem -p 1907 jarvis@server.abru.fun "sudo systemctl reload nginx"
+          rsync -avz -e "ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no" dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
+
+      - name: Run deploy script on server
+        run: ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun "bash /var/www/fairy-tale-wedding-vows/deploy.sh"
