@@ -1,6 +1,15 @@
 #!/bin/bash
+
 cd /var/www/fairy-tale-wedding-vows
-git pull origin main
-npm install
+
+# Optional: Reset git if used
+# git reset --hard
+
+# Install dependencies
+npm install --no-audit --no-fund
+
+# Build
 npm run build
-sudo /bin/systemctl reload nginx
+
+# Reload nginx (make sure jarvis has sudo privileges without password)
+sudo -S systemctl reload nginx < /dev/null
