@@ -177,7 +177,7 @@ const Index = () => {
               Alan Biju & Agnes George
             </p>
             <p className="text-lg text-text/80 mb-8">
-              Are getting engaged... and married!...
+              Are getting engaged... and married!..
             </p>
             
             {showYoutube ? (
