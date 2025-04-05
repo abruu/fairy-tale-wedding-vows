@@ -35,8 +35,8 @@ jobs:
 
     - name: 🚀 Run Deploy Script on Server
       run: |
-        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun \
-        'bash /var/www/fairy-tale-wedding-vows/deploy.sh'
+        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun 'bash /var/www/fairy-tale-wedding-vows/deploy.sh'
+
 
     - name: 🧹 Cleanup SSH Key
       run: rm -f key.pem
