@@ -10,29 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    - name: 📦 Checkout Code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js
+    - name: 🔧 Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
 
-    - name: Install Dependencies
+    - name: 📥 Install Dependencies
       run: npm install
 
-    - name: Build Project
+    - name: 🛠️ Build Project
       run: npm run build
 
-    - name: Copy SSH Key
+    - name: 🔐 Copy SSH Key
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
         chmod 600 key.pem
 
-    - name: Upload dist/ to server
+    - name: 🚚 Upload dist/ to Server
       run: |
         scp -i key.pem -P 1907 -o StrictHostKeyChecking=no -r dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
 
-    - name: Run deploy script on server
+    - name: 🚀 Run Deploy Script on Server
       run: |
-        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun 'bash /var/www/fairy-tale-wedding-vows/deploy.sh'
+        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun \
+        'bash /var/www/fairy-tale-wedding-vows/deploy.sh'
+
+    - name: 🧹 Cleanup SSH Key
+      run: rm -f key.pem
