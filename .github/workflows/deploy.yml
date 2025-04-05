@@ -29,6 +29,10 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
         chmod 600 key.pem
 
+    - name: 🧹 Remove Existing dist/ on Server
+      run: |
+        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun 'rm -rf /var/www/fairy-tale-wedding-vows/dist'
+
     - name: 🚚 Upload dist/ to Server
       run: |
         scp -i key.pem -P 1907 -o StrictHostKeyChecking=no -r dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
@@ -36,7 +40,6 @@ jobs:
     - name: 🚀 Run Deploy Script on Server
       run: |
         ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun 'bash /var/www/fairy-tale-wedding-vows/deploy.sh'
-
 
     - name: 🧹 Cleanup SSH Key
       run: rm -f key.pem
