@@ -11,6 +11,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
+  const [autoplayFailed, setAutoplayFailed] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize audio element
@@ -32,22 +33,57 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
   // Handle autoplay when enabled
   useEffect(() => {
     if (audioRef.current && autoPlay && audioLoaded) {
-      console.log("Attempting to play audio...");
-      const playPromise = audioRef.current.play();
-      
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log("Audio playing successfully");
-            setIsPlaying(true);
-          })
-          .catch(error => {
-            console.error("Autoplay prevented:", error);
-            setIsPlaying(false);
-          });
-      }
+      // Try to play with a slight delay to ensure audio is fully loaded
+      setTimeout(() => {
+        if (audioRef.current) {
+          const playPromise = audioRef.current.play();
+          
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                setIsPlaying(true);
+                setAutoplayFailed(false);
+              })
+              .catch(error => {
+                console.error("Autoplay prevented:", error);
+                setIsPlaying(false);
+                setAutoplayFailed(true);
+              });
+          }
+        }
+      }, 500);
     }
   }, [autoPlay, audioLoaded]);
+
+  // Try to play again if user interacts with the page
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (audioRef.current && autoPlay && autoplayFailed) {
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+              setAutoplayFailed(false);
+            })
+            .catch(err => {
+              console.error("Error playing audio after interaction:", err);
+            });
+        }
+      }
+    };
+
+    // Add event listeners for common user interactions
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+    document.addEventListener('touchstart', handleUserInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, [autoPlay, autoplayFailed]);
 
   const togglePlay = () => {
     if (audioRef.current) {
