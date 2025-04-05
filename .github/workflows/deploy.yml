@@ -31,7 +31,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy dist folder to server
+      - name: Deploy to server
         run: |
           rsync -avz -e "ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no" dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
 
