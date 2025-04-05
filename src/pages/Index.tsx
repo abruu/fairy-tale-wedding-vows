@@ -25,8 +25,12 @@ const Index = () => {
       alt: 'Alan and Agnes on stairs in traditional attire' 
     },
     { 
-      src: '/lovable-uploads/f4073b95-9f4d-4bf1-9465-479b63a22248.png', 
-      alt: 'Another photo of Alan and Agnes on stairs' 
+      src: '/lovable-uploads/PHOTO-2025-04-04-23-46-23 (1).jpg', 
+      alt: 'Another photo of Alan and Agsssnes on stairs' 
+    },
+    { 
+      src: '/lovable-uploads/PHOTO-2025-04-04-23-46-23.jpg', 
+      alt: 'Another photo of Alan and Agsssnes on stairs' 
     },
     { 
       src: '/lovable-uploads/6d90887f-7fa1-48b6-bb81-542ccb9368ad.png', 
@@ -271,7 +275,16 @@ const Index = () => {
                   <div>
                     <p className="font-medium text-primary mb-1">Venue</p>
                     <p>St. Thomas Cathedral, Pala</p>
-                    <p className="text-sm text-text/70 mt-1">Reception Dinner: Bishop Vayalil Parish Hall, Pala</p>
+                    <p className="text-sm text-text/70 mt-1">Reception Dinner: Bishop Vayalil Parish Hall, Pala </p>
+                    <a 
+                      href="https://maps.app.goo.gl/iTj5eJdmZHJ9tGw37" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center mt-2 px-3 py-1 bg-primary/10 text-primary rounded-md hover:bg-primary/20 transition-colors"
+                    >
+                      <MapPin size={16} className="mr-1" />
+                      <span>View Location on Google Maps</span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -306,6 +319,15 @@ const Index = () => {
                     <p className="font-medium text-primary mb-1">Venue</p>
                     <p>Marth Mariam Church, Cheppumpara</p>
                     <p className="text-sm text-text/70 mt-1">Reception: Marth Mariam Church Parish Hall (6:30 PM - 9:00 PM)</p>
+                    <a 
+                      href="https://maps.app.goo.gl/zqdSg5wqe8sK8B8r8" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center mt-2 px-3 py-1 bg-primary/10 text-primary rounded-md hover:bg-primary/20 transition-colors"
+                    >
+                      <MapPin size={16} className="mr-1" />
+                      <span>View Location on Google Maps</span>
+                    </a>
                   </div>
                 </div>
               </div>
