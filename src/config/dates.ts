@@ -16,8 +16,8 @@ export const WEDDING_CONFIG = {
     
     // Fireworks configuration
     fireworks: {
-      duration: 60000,      // Duration in milliseconds
-      intensity: 10,        // Intensity level (1-10)
+      duration: 50000,      // Duration in milliseconds
+      intensity: 7,        // Intensity level (1-10)
       startDelay: 500,      // Delay before starting in milliseconds
     }
   },

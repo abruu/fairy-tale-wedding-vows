@@ -203,15 +203,15 @@ const Index = () => {
       
       <div className="min-h-screen bg-background text-text overflow-x-hidden">
         {/* Header / Hero Section */}
-        <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-accent/20 via-background to-background overflow-hidden">
+        <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-accent/5 via-background to-background overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img 
               src="/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png" 
               alt="Alan and Agnes" 
-              className="w-full h-full object-cover opacity-80"
+              className="w-full h-full object-cover opacity-40"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-accent/70 via-background/90 to-background"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-accent/40 via-background/90 to-background"></div>
           </div>
           
           {/* Decorative Frame Images */}
@@ -259,9 +259,10 @@ const Index = () => {
           </div>
           
           <div className="max-w-4xl mx-auto relative z-10" data-aos="fade-up" data-aos-duration="1200">
-            <h1 className="text-4xl md:text-6xl font-serif text-heading italic mb-4">
+            <h1 className="text-4xl md:text-6xl font-serif text-heading italic mb-4 wedding-title">
             A Fairy Tale Beginning
             </h1>
+            <div className="wedding-divider mx-auto w-32 my-4"></div>
             <p className="text-2xl md:text-4xl font-serif text-primary mb-6">
               Alan Biju & Agnes George
             </p>
@@ -323,8 +324,8 @@ const Index = () => {
         {/* Main Content */}
         <main className="container mx-auto px-4 py-16 max-w-5xl overflow-hidden">
           {/* Invitation Section */}
-          <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-accent/20 mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+          <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               An Invitation From
             </h2>
@@ -350,8 +351,8 @@ const Index = () => {
           {/* Events Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 overflow-hidden">
             {/* Engagement Section */}
-            <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-xl border border-accent/20" data-aos="fade-right">
-              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6">
+            <section className="wedding-card p-8 md:p-10" data-aos="fade-right">
+              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
                 The Engagement
               </h2>
               
@@ -393,8 +394,8 @@ const Index = () => {
             </section>
             
             {/* Wedding Section */}
-            <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-xl border border-accent/20" data-aos="fade-left">
-              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6">
+            <section className="wedding-card p-8 md:p-10" data-aos="fade-left">
+              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
                 The Wedding
               </h2>
               
@@ -448,8 +449,8 @@ const Index = () => {
           </div>
           
           {/* Our Story Section */}
-          <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-accent/20 mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+          <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               Our Story
             </h2>
@@ -463,16 +464,17 @@ const Index = () => {
           
           {/* Gallery Section */}
           <section className="mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Music className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               Cherished Moments
             </h2>
+            <div className="wedding-divider mx-auto mb-8"></div>
             
             <PhotoGallery images={galleryImages} />
           </section>
           
           {/* Quote Section */}
-          <section className="text-center my-20" data-aos="fade-up">
+          <section className="text-center my-20 wedding-card p-8" data-aos="fade-up">
             <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
               "Let all that you do be done in love."
             </p>
@@ -481,15 +483,17 @@ const Index = () => {
         </main>
         
         {/* Footer */}
-        <footer className="text-center py-12 border-t border-accent/20 bg-gradient-to-t from-accent/20 via-background to-background overflow-hidden">
+        <footer className="text-center py-12 border-t border-accent/10 bg-gradient-to-t from-accent/5 via-background to-background overflow-hidden">
           <div className="container mx-auto px-4 max-w-5xl" data-aos="fade-up">
             <p className="text-lg text-text/80 mb-4">Sharing the Happiness:<br/>Though miles apart, always in our hearts—</p>
             <p className="text-xl font-medium text-primary mb-6">Angitha Biju & Jibin Sebastian</p>
             
+            <div className="wedding-divider mx-auto my-6"></div>
+            
             <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
             <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p>
             
-            <p className="text-2xl md:text-3xl font-serif text-heading mb-3">Alan & Agnes</p>
+            <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Alan & Agnes</p>
             <p className="text-lg font-medium text-primary mb-8">Engagement: 26.04.2025 | Wedding: 17.05.2025</p>
             
             <p className="text-sm text-text/60"> 2025 Alan & Agnes. Crafted with love.</p>
