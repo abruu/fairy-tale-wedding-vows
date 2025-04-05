@@ -2,7 +2,7 @@
 export const WEDDING_CONFIG = {
   // Event dates in ISO format with timezone
   dates: {
-    engagement: "2025-04-26T16:50:00+05:30", // 26th April 2025, 5:00 PM Indian time
+    engagement: "2025-04-26T17:00:00+05:30", // 26th April 2025, 5:00 PM Indian time
     wedding: "2025-05-17T15:30:00+05:30",    // 17th May 2025, 3:30 PM
   },
   
