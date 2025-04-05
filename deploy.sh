@@ -1,12 +1,18 @@
 #!/bin/bash
 
-cd /var/www/fairy-tale-wedding-vows
+cd /var/www/fairy-tale-wedding-vows || exit
 
+echo "✅ Pulling latest code..."
+git reset --hard HEAD         # optional: resets local changes
+git pull origin main
+
+echo "📦 Installing dependencies..."
 npm install
+
+echo "🛠️ Building project..."
 npm run build
 
-# Use exact path to systemctl
-sudo /usr/bin/systemctl reload nginx
-#!/bin/bash
-echo "Running deployment..."
+echo "🚀 Restarting Nginx..."
 sudo /bin/systemctl restart nginx || sudo /bin/systemctl start nginx
+
+echo "✅ Deployment complete"
