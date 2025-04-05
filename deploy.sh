@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# Go to the project directory
 cd /var/www/fairy-tale-wedding-vows
 
-# Ensure permissions
-sudo /bin/chown -R www-data:www-data dist
-sudo /bin/chmod -R 755 dist
+# Optional: make sure correct permissions (only if needed)
+# sudo chown -R jarvis:jarvis .
 
-# Reload nginx
+# Install dependencies (if necessary)
+npm install
+
+# Build project (optional if already done via GitHub Actions)
+npm run build
+
+# Restart or reload nginx with sudo (no password prompt now)
 sudo /usr/bin/systemctl reload nginx
