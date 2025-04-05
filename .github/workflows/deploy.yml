@@ -3,37 +3,36 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - main
+      - main  # Change to your deployment branch if needed
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install Dependencies
+      run: npm install
 
-      - name: Build project
-        run: npm run build
+    - name: Build Project
+      run: npm run build
 
-      - name: Setup SSH key
-        run: |
-          echo "$SSH_PRIVATE_KEY" > key.pem
-          chmod 600 key.pem
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Copy SSH Key
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+        chmod 600 key.pem
 
-      - name: Deploy to server
-        run: |
-          rsync -avz -e "ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no" dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
+    - name: Upload dist/ to server
+      run: |
+        scp -i key.pem -P 1907 -o StrictHostKeyChecking=no -r dist/ jarvis@server.abru.fun:/var/www/fairy-tale-wedding-vows/dist
 
-      - name: Run deploy script on server
-        run: ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun "bash /var/www/fairy-tale-wedding-vows/deploy.sh"
+    - name: Run deploy script on server
+      run: |
+        ssh -i key.pem -p 1907 -o StrictHostKeyChecking=no jarvis@server.abru.fun 'bash /var/www/fairy-tale-wedding-vows/deploy.sh'

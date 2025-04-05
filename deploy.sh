@@ -1,15 +1,11 @@
 #!/bin/bash
 
+# Navigate to the project directory
 cd /var/www/fairy-tale-wedding-vows
 
-# Optional: Reset git if used
-# git reset --hard
+# Optional: Set correct ownership and permissions
+sudo chown -R www-data:www-data dist
+sudo chmod -R 755 dist
 
-# Install dependencies
-npm install --no-audit --no-fund
-
-# Build
-npm run build
-
-# Reload nginx (make sure jarvis has sudo privileges without password)
-sudo -S systemctl reload nginx < /dev/null
+# Reload nginx
+sudo /usr/bin/systemctl reload nginx
