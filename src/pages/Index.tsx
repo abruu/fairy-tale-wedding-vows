@@ -12,10 +12,11 @@ import { WEDDING_CONFIG } from '@/config/dates';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [musicEnabled, setMusicEnabled] = useState(WEDDING_CONFIG.features.autoPlayMusic);
+  const [musicEnabled, setMusicEnabled] = useState(false);
   const [showFireworks, setShowFireworks] = useState(WEDDING_CONFIG.features.showFireworks);
   const [showVideo, setShowVideo] = useState(WEDDING_CONFIG.features.showVideo);
   const [engagementComplete, setEngagementComplete] = useState(false);
+  const [showMusicPrompt, setShowMusicPrompt] = useState(false);
   
   // Important dates from config
   const engagementDate = WEDDING_CONFIG.dates.engagement;
@@ -45,6 +46,18 @@ const Index = () => {
     
     return () => clearInterval(interval);
   }, [engagementDate]);
+  
+  // Effect to handle music initialization
+  useEffect(() => {
+    if (isLoaded && WEDDING_CONFIG.features.autoPlayMusic) {
+      // Try to play music after 3 seconds
+      const timer = setTimeout(() => {
+        setMusicEnabled(true);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoaded]);
   
   // Function to trigger when countdown completes
   const handleCountdownComplete = (type: 'engagement' | 'wedding') => {
@@ -171,37 +184,38 @@ const Index = () => {
           )}
           <MusicPlayer audioSrc={WEDDING_CONFIG.media.musicUrl} autoPlay={musicEnabled} />
           
+          {/* Minimal music control - only shown if autoplay fails */}
           {!musicEnabled && (
             <div 
-              className="fixed bottom-6 right-6 z-50 bg-background/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-accent/30 animate-pulse"
+              className="fixed bottom-6 right-6 z-50 bg-background/90 backdrop-blur-md p-3 rounded-full shadow-lg border border-accent/30"
               onClick={() => setMusicEnabled(true)}
             >
               <button 
-                className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
+                aria-label="Play music"
               >
                 <Music size={18} />
-                <span className="font-medium">Play Wedding Melody</span>
               </button>
             </div>
           )}
         </>
       )}
       
-      <div className="min-h-screen bg-background text-text">
+      <div className="min-h-screen bg-background text-text overflow-x-hidden">
         {/* Header / Hero Section */}
-        <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-accent/20 via-background to-background overflow-hidden">
+        <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-accent/5 via-background to-background overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <img 
               src="/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png" 
               alt="Alan and Agnes" 
-              className="w-full h-full object-cover opacity-80"
+              className="w-full h-full object-cover opacity-40"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-accent/70 via-background/90 to-background"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-accent/40 via-background/90 to-background"></div>
           </div>
           
           {/* Decorative Frame Images */}
-          <div className="absolute inset-0 pointer-events-none z-10">
+          <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
             {/* Top Left Frame - Hidden on mobile, visible on larger screens */}
             <div className="absolute hidden md:block top-1/4 left-16 w-32 h-32 transform -rotate-6 hover:rotate-0 transition-transform animate-wiggle">
               <img 
@@ -215,15 +229,6 @@ const Index = () => {
             <div className="absolute hidden md:block top-1/4 right-16 w-32 h-32 transform rotate-6 hover:rotate-0 transition-transform animate-wiggle-delay">
               <img 
                 src="/lovable-uploads/6d90887f-7fa1-48b6-bb81-542ccb9368ad.png" 
-                alt="Frame decoration" 
-                className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
-              />
-            </div>
-            
-            {/* Mobile Top Frames - Positioned above the title */}
-            <div className="absolute md:hidden top-10 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 transform -rotate-6 hover:rotate-0 transition-transform animate-wiggle">
-              <img 
-                src="/lovable-uploads/a9e1bdbe-a0d1-434a-81ca-fdb7daae1387.png" 
                 alt="Frame decoration" 
                 className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
               />
@@ -248,15 +253,16 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-1/3 -left-10 w-24 h-24 rounded-full bg-primary/5 blur-3xl"></div>
             <div className="absolute bottom-1/4 -right-10 w-32 h-32 rounded-full bg-accent/10 blur-3xl"></div>
           </div>
           
           <div className="max-w-4xl mx-auto relative z-10" data-aos="fade-up" data-aos-duration="1200">
-            <h1 className="text-4xl md:text-6xl font-serif text-heading italic mb-4">
+            <h1 className="text-4xl md:text-6xl font-serif text-heading italic mb-4 wedding-title">
             A Fairy Tale Beginning
             </h1>
+            <div className="wedding-divider mx-auto w-32 my-4"></div>
             <p className="text-2xl md:text-4xl font-serif text-primary mb-6">
               Alan Biju & Agnes George
             </p>
@@ -295,7 +301,7 @@ const Index = () => {
                 <CountdownTimer 
                   targetDate={weddingDate} 
                   label=""
-                  className="scale-110 transform origin-top"
+                  className="scale-90 sm:scale-110 transform origin-top"
                   onComplete={() => handleCountdownComplete('wedding')}
                 />
               </div>
@@ -307,7 +313,7 @@ const Index = () => {
                 <CountdownTimer 
                   targetDate={engagementDate} 
                   label=""
-                  className="scale-110 transform origin-top"
+                  className="scale-90 sm:scale-110 transform origin-top"
                   onComplete={() => handleCountdownComplete('engagement')}
                 />
               </div>
@@ -316,10 +322,10 @@ const Index = () => {
         </header>
         
         {/* Main Content */}
-        <main className="container mx-auto px-4 py-16 max-w-5xl">
+        <main className="container mx-auto px-4 py-16 max-w-5xl overflow-hidden">
           {/* Invitation Section */}
-          <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-accent/20 mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+          <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               An Invitation From
             </h2>
@@ -343,10 +349,10 @@ const Index = () => {
           </section>
           
           {/* Events Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 overflow-hidden">
             {/* Engagement Section */}
-            <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-xl border border-accent/20" data-aos="fade-right">
-              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6">
+            <section className="wedding-card p-8 md:p-10" data-aos="fade-right">
+              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
                 The Engagement
               </h2>
               
@@ -388,8 +394,8 @@ const Index = () => {
             </section>
             
             {/* Wedding Section */}
-            <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-xl border border-accent/20" data-aos="fade-left">
-              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6">
+            <section className="wedding-card p-8 md:p-10" data-aos="fade-left">
+              <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
                 The Wedding
               </h2>
               
@@ -434,6 +440,7 @@ const Index = () => {
                   <CountdownTimer 
                     targetDate={weddingDate} 
                     label="Countdown to Wedding" 
+                    className="scale-90 sm:scale-100"
                     onComplete={() => handleCountdownComplete('wedding')}
                   />
                 )}
@@ -442,8 +449,8 @@ const Index = () => {
           </div>
           
           {/* Our Story Section */}
-          <section className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-accent/20 mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+          <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               Our Story
             </h2>
@@ -457,16 +464,17 @@ const Index = () => {
           
           {/* Gallery Section */}
           <section className="mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Music className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               Cherished Moments
             </h2>
+            <div className="wedding-divider mx-auto mb-8"></div>
             
             <PhotoGallery images={galleryImages} />
           </section>
           
           {/* Quote Section */}
-          <section className="text-center my-20" data-aos="fade-up">
+          <section className="text-center my-20 wedding-card p-8" data-aos="fade-up">
             <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
               "Let all that you do be done in love."
             </p>
@@ -475,15 +483,17 @@ const Index = () => {
         </main>
         
         {/* Footer */}
-        <footer className="text-center py-12 border-t border-accent/20 bg-gradient-to-t from-accent/20 via-background to-background">
+        <footer className="text-center py-12 border-t border-accent/10 bg-gradient-to-t from-accent/5 via-background to-background overflow-hidden">
           <div className="container mx-auto px-4 max-w-5xl" data-aos="fade-up">
             <p className="text-lg text-text/80 mb-4">Sharing the Happiness:<br/>Though miles apart, always in our hearts—</p>
             <p className="text-xl font-medium text-primary mb-6">Angitha Biju & Jibin Sebastian</p>
             
+            <div className="wedding-divider mx-auto my-6"></div>
+            
             <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
             <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p>
             
-            <p className="text-2xl md:text-3xl font-serif text-heading mb-3">Alan & Agnes</p>
+            <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Alan & Agnes</p>
             <p className="text-lg font-medium text-primary mb-8">Engagement: 26.04.2025 | Wedding: 17.05.2025</p>
             
             <p className="text-sm text-text/60"> 2025 Alan & Agnes. Crafted with love.</p>

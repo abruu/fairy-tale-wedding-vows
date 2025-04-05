@@ -7,33 +7,36 @@
 
 @layer base {
   :root {
-    --background: 48 54% 98%;
-    --foreground: 19 23% 36%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 19 23% 36%;
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 19 23% 36%;
+    --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 43 80% 38%;
-    --primary-foreground: 47 71% 98%;
+    --primary-foreground: 355 100% 97%;
 
-    --secondary: 30 39% 59%;
-    --secondary-foreground: 47 71% 98%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 30 10% 92%;
-    --muted-foreground: 19 23% 55%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 300 27% 86%;
-    --accent-foreground: 19 23% 36%;
+    --accent: 43 80% 38%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 300 27% 90%;
+    --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 43 80% 38%;
+    
+    --heading: 43 80% 38%;
+    --text: 220 14% 30%;
 
     --radius: 0.75rem;
 
@@ -91,12 +94,61 @@
     @apply border-border;
   }
 
+  html, body {
+    @apply overflow-x-hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
   body {
     @apply bg-background text-foreground font-sans;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0d78a' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-heading;
+  }
+  
+  /* Modern wedding styling */
+  .wedding-card {
+    @apply bg-white bg-opacity-95 backdrop-blur-md rounded-2xl shadow-xl border border-accent/10 transition-all duration-300;
+    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .wedding-card:hover {
+    box-shadow: 0 15px 40px -15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .wedding-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)/5%) 0%, hsl(var(--primary)/0%) 100%);
+  }
+  
+  .wedding-title {
+    @apply font-serif text-heading;
+    letter-spacing: 0.02em;
+  }
+  
+  .wedding-divider {
+    position: relative;
+    height: 1px;
+    background-color: hsl(var(--primary)/20%);
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 200px;
+  }
+  
+  .wedding-divider::before {
+    content: "♥";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: hsl(var(--primary));
+    padding: 0 1rem;
+    font-size: 1rem;
   }
 }
 

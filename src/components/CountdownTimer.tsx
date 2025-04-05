@@ -70,36 +70,36 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
           </div>
         ) : (
           timeLeft.days > 0 || (timeLeft.days === 0 && label.includes("Wedding")) ? (
-            <div className="flex justify-center gap-3 sm:gap-5">
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
-                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.days)}</div>
+            <div className="flex justify-center gap-2 sm:gap-5">
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
+                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.days)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Days</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
-                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
+                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Hours</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
-                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
+                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Mins</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-20 shadow-md border border-accent/30">
-                <div className="text-3xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
+                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Secs</div>
               </div>
             </div>
           ) : (
-            <div className="flex justify-center gap-3 sm:gap-5">
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
+            <div className="flex justify-center gap-2 sm:gap-5">
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
+                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Hours</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
+                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Mins</div>
               </div>
-              <div className="bg-background/80 backdrop-blur-sm p-3 sm:p-5 rounded-lg text-center min-w-16 shadow-md border border-accent/30">
-                <div className="text-2xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
+              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
+                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
                 <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Secs</div>
               </div>
             </div>
