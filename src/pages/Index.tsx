@@ -171,7 +171,7 @@ const Index = () => {
           
           <div className="max-w-4xl mx-auto relative z-10" data-aos="fade-up" data-aos-duration="1200">
             <h1 className="text-4xl md:text-6xl font-serif text-heading italic mb-4">
-              A Fairy Tale Beginning
+            test  A Fairy Tale Beginning
             </h1>
             <p className="text-2xl md:text-4xl font-serif text-primary mb-6">
               Alan Biju & Agnes George
