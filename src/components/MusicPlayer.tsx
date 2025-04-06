@@ -14,12 +14,20 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
   const [autoplayFailed, setAutoplayFailed] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Log prop changes
+  useEffect(() => {
+    console.log("MusicPlayer props changed - autoPlay:", autoPlay);
+  }, [autoPlay]);
+
   // Initialize audio element
   useEffect(() => {
     const audio = new Audio(audioSrc);
     audio.loop = true;
     audio.preload = "auto";
-    audio.oncanplaythrough = () => setAudioLoaded(true);
+    audio.oncanplaythrough = () => {
+      console.log("Audio can play through");
+      setAudioLoaded(true);
+    };
     audioRef.current = audio;
 
     return () => {
@@ -33,25 +41,23 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
   // Handle autoplay when enabled
   useEffect(() => {
     if (audioRef.current && autoPlay && audioLoaded) {
-      // Try to play with a slight delay to ensure audio is fully loaded
-      setTimeout(() => {
-        if (audioRef.current) {
-          const playPromise = audioRef.current.play();
-          
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                setIsPlaying(true);
-                setAutoplayFailed(false);
-              })
-              .catch(error => {
-                console.error("Autoplay prevented:", error);
-                setIsPlaying(false);
-                setAutoplayFailed(true);
-              });
-          }
-        }
-      }, 500);
+      console.log("Attempting to autoplay music");
+      // Try to play immediately
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("Music autoplay successful");
+            setIsPlaying(true);
+            setAutoplayFailed(false);
+          })
+          .catch(error => {
+            console.error("Autoplay prevented:", error);
+            setIsPlaying(false);
+            setAutoplayFailed(true);
+          });
+      }
     }
   }, [autoPlay, audioLoaded]);
 
