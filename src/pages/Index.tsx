@@ -366,7 +366,7 @@ const Index = () => {
         {/* Main Content */}
         <main ref={mainContentRef} className="container mx-auto px-4 py-0 max-w-5xl overflow-hidden">
           {/* Invitation Section */}
-          <section className="text-center my-2 wedding-card p-8" data-aos="fade-up">
+          <section className="text-center my-10 mt-0 wedding-card p-8" data-aos="fade-up">
             <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
               "Let all that you do be done in love."
             </p>
