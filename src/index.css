@@ -33,7 +33,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 43 80% 38%;
-    
+
     --heading: 43 80% 38%;
     --text: 220 14% 30%;
 
@@ -108,27 +108,27 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-heading;
   }
-  
+
   /* Modern wedding styling */
   .wedding-card {
     @apply bg-white bg-opacity-95 backdrop-blur-md rounded-2xl shadow-xl border border-accent/10 transition-all duration-300;
     box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
   }
-  
+
   .wedding-card:hover {
     box-shadow: 0 15px 40px -15px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
   }
-  
+
   .wedding-gradient {
     background: linear-gradient(135deg, hsl(var(--primary)/5%) 0%, hsl(var(--primary)/0%) 100%);
   }
-  
+
   .wedding-title {
     @apply font-serif text-heading;
     letter-spacing: 0.02em;
   }
-  
+
   .wedding-divider {
     position: relative;
     height: 1px;
@@ -137,14 +137,14 @@
     width: 80%;
     max-width: 200px;
   }
-  
+
   .wedding-divider::before {
     content: "♥";
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: #ffffff00;
     color: hsl(var(--primary));
     padding: 0 1rem;
     font-size: 1rem;
@@ -242,18 +242,18 @@
       width: 180px;
       scale: 0.8;
     }
-    
+
     .scroll-indicator-header {
       font-size: 0.9rem;
       padding: 4px 12px;
     }
-    
+
     .scroll-indicator-icon {
       width: 22px;
       height: 36px;
       margin-top: 4px;
     }
-    
+
     .scroll-indicator-text {
       font-size: 0.75rem;
     }

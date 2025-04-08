@@ -165,7 +165,7 @@ const Index = () => {
 
   const storyItems = [
     { date: 'January 27, 2025', content: 'First call with both families via matrimonial.' },
-    { date: 'January 28, 2025', content: 'Started talking personally on WhatsApp.' },
+    // { date: 'January 28, 2025', content: 'Started talking personally on WhatsApp.' },
     { date: 'February 1, 2025', content: 'First visit to Agnes\'s home with family (Pennukaanal).' },
     { date: 'February 5, 2025', content: 'Agnes and her family visited Alan\'s home.' },
     { date: 'February 14, 2025', content: 'Final Pennukaanal: Went to Agnes\'s home with family and relatives to finalize the date.' },
@@ -300,11 +300,11 @@ const Index = () => {
               Alan Biju & Agnes George
             </p>
             <p className="text-lg text-text/80 mb-8">
-              Are getting engaged... and married!...
+              Are getting married...
             </p>
 
             {showVideo ? (
-              <div className="mt-8 mb-4">
+              <div className="mt-4 mb-4">
                 <div className="flex justify-center items-center mb-4">
                   <div className="flex items-center">
                     <h3 className="text-xl md:text-2xl font-medium text-primary mr-3">Our Engagement Ceremony</h3>
@@ -339,9 +339,9 @@ const Index = () => {
                 />
               </div>
             ) : (
-              <div className="mt-8 mb-4">
+              <div className="mt-2 mb-4">
                 <div className="text-center mb-4">
-                  <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Engagement</h3>
+                  <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Betrothal</h3>
                 </div>
                 <CountdownTimer
                   targetDate={engagementDate}
@@ -364,7 +364,7 @@ const Index = () => {
         </header>
 
         {/* Main Content */}
-        <main ref={mainContentRef} className="container mx-auto px-4 py-16 max-w-5xl overflow-hidden">
+        <main ref={mainContentRef} className="container mx-auto px-4 py-10 max-w-5xl overflow-hidden">
           {/* Invitation Section */}
           <section className="text-center my-10 wedding-card p-8" data-aos="fade-up">
             <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
@@ -401,7 +401,7 @@ const Index = () => {
             {/* Engagement Section */}
             <section className="wedding-card p-8 md:p-10" data-aos="fade-right">
               <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
-                The Engagement
+                The Betrothal
               </h2>
 
               <div className="space-y-6 mb-8">
