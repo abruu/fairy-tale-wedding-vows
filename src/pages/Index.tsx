@@ -62,7 +62,7 @@ const Index = () => {
           setMusicEnabled(true);
         }
       }
-      
+
       // Hide scroll indicator after scrolling down
       if (window.scrollY > 200) {
         setShowScrollIndicator(false);
@@ -74,7 +74,7 @@ const Index = () => {
         setShowBackToTop(false);
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
@@ -121,10 +121,10 @@ const Index = () => {
       src: '/lovable-uploads/7dbb0a93-7d77-4171-9d43-8658d5c94f0c.png',
       alt: 'Family photo at the engagement ceremony',
     },
-    {
-      src: '/lovable-uploads/a9e1bdbe-a0d1-434a-81ca-fdb7daae1387.png',
-      alt: 'Alan and Agnes in formal attire, black and white portrait',
-    },
+    // {
+    //   src: '/lovable-uploads/a9e1bdbe-a0d1-434a-81ca-fdb7daae1387.png',
+    //   alt: 'Alan and Agnes in formal attire, black and white portrait',
+    // },
     {
       src: '/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png',
       alt: 'Alan and Agnes on stairs in traditional attire',
@@ -145,18 +145,18 @@ const Index = () => {
       src: '/lovable-uploads/24e56c2c-ab84-444a-9d24-dca21ca15850.png',
       alt: 'Alan and Agnes walking outdoors',
     },
-    {
-      src: '/lovable-uploads/e4fc4e4e-b77c-4058-9b0e-e5c2e2d982f9.png',
-      alt: 'Alan and Agnes in front of floral backdrop',
-    },
-    {
-      src: '/lovable-uploads/21fa5845-2592-4d58-bb74-5a5a79e21c35.png',
-      alt: 'Alan and Agnes in front of a hotel',
-    },
-    {
-      src: '/lovable-uploads/86d60ec9-5ee5-4524-a090-9bdc7e89bc26.png',
-      alt: 'Close-up portrait of Alan and Agnes',
-    },
+    // {
+    //   src: '/lovable-uploads/e4fc4e4e-b77c-4058-9b0e-e5c2e2d982f9.png',
+    //   alt: 'Alan and Agnes in front of floral backdrop',
+    // },
+    // {
+    //   src: '/lovable-uploads/21fa5845-2592-4d58-bb74-5a5a79e21c35.png',
+    //   alt: 'Alan and Agnes in front of a hotel',
+    // },
+    // {
+    //   src: '/lovable-uploads/86d60ec9-5ee5-4524-a090-9bdc7e89bc26.png',
+    //   alt: 'Close-up portrait of Alan and Agnes',
+    // },
     {
       src: '/lovable-uploads/204885e5-d672-42f6-bdd0-a2944490fa46.png',
       alt: 'Alan and Agnes in an elegant setting',
@@ -366,6 +366,12 @@ const Index = () => {
         {/* Main Content */}
         <main ref={mainContentRef} className="container mx-auto px-4 py-16 max-w-5xl overflow-hidden">
           {/* Invitation Section */}
+          <section className="text-center my-10 wedding-card p-8" data-aos="fade-up">
+            <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
+              "Let all that you do be done in love."
+            </p>
+            <p className="text-sm text-text/70 mt-3">(1 Corinthians 16:14)</p>
+          </section>
           <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
             <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
@@ -454,7 +460,7 @@ const Index = () => {
                   <Clock className="text-primary flex-shrink-0 mr-4 mt-1" size={20} />
                   <div>
                     <p className="font-medium text-primary mb-1">Time</p>
-                    <p>3:30 PM</p>
+                    <p>4:30 PM</p>
                   </div>
                 </div>
 
@@ -516,17 +522,12 @@ const Index = () => {
           </section>
 
           {/* Quote Section */}
-          <section className="text-center my-20 wedding-card p-8" data-aos="fade-up">
-            <p className="text-xl md:text-2xl font-serif text-primary italic max-w-3xl mx-auto leading-relaxed">
-              "Let all that you do be done in love."
-            </p>
-            <p className="text-sm text-text/70 mt-3">(1 Corinthians 16:14)</p>
-          </section>
+
         </main>
 
         {/* Back to Top Button */}
-        <div 
-          className={`back-to-top ${showBackToTop ? 'visible' : ''}`} 
+        <div
+          className={`back-to-top ${showBackToTop ? 'visible' : ''}`}
           onClick={scrollToTop}
           aria-label="Scroll to top"
         >
@@ -538,14 +539,15 @@ const Index = () => {
           <div className="container mx-auto px-4 max-w-5xl" data-aos="fade-up">
             <p className="text-lg text-text/80 mb-4">Sharing the Happiness:<br/>Though miles apart, always in our hearts—</p>
             <p className="text-xl font-medium text-primary mb-6">Angitha Biju & Jibin Sebastian</p>
-
+            <div className="wedding-divider mx-auto my-6"></div>
+            <p  className="text-xl font-medium text-primary mb-6">Arthur & Griffin</p>
             <div className="wedding-divider mx-auto my-6"></div>
 
             <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
             <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p>
 
             <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Alan & Agnes</p>
-            <p className="text-lg font-medium text-primary mb-8">Engagement: 26.04.2025 | Wedding: 17.05.2025</p>
+            <p className="text-lg font-medium text-primary mb-8">Engagement: 26.04.2025 <br></br> Wedding: 17.05.2025</p>
 
             <p className="text-sm text-text/60"> 2025 Alan & Agnes. Crafted with love.</p>
           </div>

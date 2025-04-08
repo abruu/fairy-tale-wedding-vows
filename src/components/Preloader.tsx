@@ -26,7 +26,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
         setIsLoading(false);
         if (onLoaded) onLoaded();
       }
-    }, 2000);
+    }, 4000); // Extended to 4 seconds (2 seconds extra)
 
     return () => clearTimeout(timer);
   }, [onLoaded, enableFireworks]);
@@ -39,7 +39,9 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
       <div className="relative">
         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
       </div>
-      <p className="mt-6 text-primary font-serif text-xl italic">A Fairy Tale Beginning...</p>
+      {/* <p className="mt-6 text-primary font-serif text-xl italic">A Fairy Tale Beginning...</p> */}
+      <p className="mt-4 text-primary/80 font-serif text-lg italic">"God has made everything beautiful in its time"</p>
+      <p className="mt-1 text-primary/70 font-serif text-sm">Ecclesiastes 3:11</p>
     </div>
   );
 };
