@@ -92,27 +92,30 @@ const Index = () => {
     // Only proceed if countdown triggers are enabled
     if (!WEDDING_CONFIG.features.countdownTriggers.enabled) return;
 
-    // Mark engagement as complete if it's the engagement countdown
+    // Only show fireworks and video for wedding countdown
+    if (type === 'wedding') {
+      // Show fireworks if enabled in config
+      if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
+        setShowFireworks(true);
+      }
+
+      // Show video after wedding countdown completes
+      if (WEDDING_CONFIG.features.countdownTriggers.showVideo) {
+        setShowVideo(true);
+      }
+
+      // Set a timeout to hide fireworks after duration
+      if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
+        setTimeout(() => {
+          setShowFireworks(false);
+        }, WEDDING_CONFIG.features.countdownTriggers.fireworksDuration);
+      }
+    }
+
+    // For engagement countdown, we don't show fireworks or video
     if (type === 'engagement') {
       // Don't immediately set as complete - will be set by the useEffect after one day
-      // Just show fireworks and video
-    }
-
-    // Show fireworks if enabled in config
-    if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
-      setShowFireworks(true);
-    }
-
-    // Show video for both engagement and wedding countdowns if enabled in config
-    if (WEDDING_CONFIG.features.countdownTriggers.showVideo) {
-      setShowVideo(true);
-    }
-
-    // Set a timeout to hide fireworks after duration
-    if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
-      setTimeout(() => {
-        setShowFireworks(false);
-      }, WEDDING_CONFIG.features.countdownTriggers.fireworksDuration);
+      // Don't show fireworks or video for engagement countdown
     }
   };
 
@@ -303,11 +306,26 @@ const Index = () => {
               Are getting married...
             </p>
 
-            {showVideo ? (
-              <div className="mt-4 mb-4">
+            {/* Always show the wedding countdown in the hero section */}
+          {!showVideo && (<div className="mt-8 mb-4">
+              <div className="text-center mb-4">
+                <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Wedding</h3>
+              </div>
+              <CountdownTimer
+                targetDate={weddingDate}
+                label=""
+                className="scale-90 sm:scale-110 transform origin-top"
+                onComplete={() => handleCountdownComplete('wedding')}
+              />
+            </div>
+          )}
+
+            {/* Show YouTube iframe only after wedding countdown completion */}
+            {showVideo && (
+              <div className="mt-8 mb-4">
                 <div className="flex justify-center items-center mb-4">
                   <div className="flex items-center">
-                    <h3 className="text-xl md:text-2xl font-medium text-primary mr-3">Our Engagement Ceremony</h3>
+                    <h3 className="text-xl md:text-2xl font-medium text-primary mr-3">Wedding Ceremony</h3>
                     <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full mt-2 flex items-center">
                       <span className="w-2 h-2 bg-white rounded-full mr-1 animate-pulse"></span>
                       LIVE
@@ -326,19 +344,10 @@ const Index = () => {
                   />
                 </div>
               </div>
-            ) : engagementComplete ? (
-              <div className="mt-8 mb-4">
-                <div className="text-center mb-4">
-                  <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Wedding</h3>
-                </div>
-                <CountdownTimer
-                  targetDate={weddingDate}
-                  label=""
-                  className="scale-90 sm:scale-110 transform origin-top"
-                  onComplete={() => handleCountdownComplete('wedding')}
-                />
-              </div>
-            ) : (
+            )}
+
+            {/* Engagement countdown section */}
+            {!engagementComplete && !showVideo ? (
               <div className="mt-2 mb-4">
                 <div className="text-center mb-4">
                   <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Betrothal</h3>
@@ -350,7 +359,7 @@ const Index = () => {
                   onComplete={() => handleCountdownComplete('engagement')}
                 />
               </div>
-            )}
+            ) : null}
           </div>
 
           {/* Scroll Indicator - Optimized UI/UX */}
@@ -483,15 +492,14 @@ const Index = () => {
                 </div>
               </div>
 
+              {/* Removed duplicate countdown timer that was here */}
               <div className="mt-8" data-aos="fade-up" data-aos-delay="250">
-                {!engagementComplete && (
-                  <CountdownTimer
+              <CountdownTimer
                     targetDate={weddingDate}
                     label="Countdown to Wedding"
                     className="scale-90 sm:scale-100"
                     onComplete={() => handleCountdownComplete('wedding')}
                   />
-                )}
               </div>
             </section>
           </div>
