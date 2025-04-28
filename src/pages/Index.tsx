@@ -11,6 +11,7 @@ import 'aos/dist/aos.css';
 import { WEDDING_CONFIG } from '@/config/dates';
 
 const Index = () => {
+  console.log("Loaded")
   const [isLoaded, setIsLoaded] = useState(false);
   const [musicEnabled, setMusicEnabled] = useState(false);
   const [showFireworks, setShowFireworks] = useState(WEDDING_CONFIG.features.showFireworks);
