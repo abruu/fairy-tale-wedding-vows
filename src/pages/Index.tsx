@@ -409,7 +409,7 @@ const Index = () => {
           {/* Events Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 overflow-hidden">
             {/* Engagement Section */}
-            <section className="wedding-card p-8 md:p-10" data-aos="fade-right">
+            {/* <section className="wedding-card p-8 md:p-10" data-aos="fade-right">
               <h2 className="text-2xl md:text-3xl font-serif text-heading text-center mb-6 wedding-title">
                 The Betrothal
               </h2>
@@ -449,7 +449,7 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section> */}
 
             {/* Wedding Section */}
             <section className="wedding-card p-8 md:p-10" data-aos="fade-left">
