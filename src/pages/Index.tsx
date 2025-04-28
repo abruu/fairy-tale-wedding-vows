@@ -5,12 +5,76 @@ import MusicPlayer from '@/components/MusicPlayer';
 import Preloader from '@/components/Preloader';
 import CountdownTimer from '@/components/CountdownTimer';
 import OurStory from '@/components/OurStory';
+import BirthdayFireworks from '@/components/BirthdayFireworks';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { WEDDING_CONFIG } from '@/config/dates';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [musicEnabled, setMusicEnabled] = useState(false);
-  const [showYoutube, setShowYoutube] = useState(false);
-
+  const [musicEnabled, setMusicEnabled] = useState(WEDDING_CONFIG.features.autoPlayMusic);
+  const [showFireworks, setShowFireworks] = useState(WEDDING_CONFIG.features.showFireworks);
+  const [showVideo, setShowVideo] = useState(WEDDING_CONFIG.features.showVideo);
+  const [engagementComplete, setEngagementComplete] = useState(false);
+  
+  // Important dates from config
+  const engagementDate = WEDDING_CONFIG.dates.engagement;
+  const weddingDate = WEDDING_CONFIG.dates.wedding;
+  
+  // Check if engagement is complete (one day after engagement date)
+  useEffect(() => {
+    const checkEngagementStatus = () => {
+      const now = new Date();
+      const engagementDay = new Date(engagementDate);
+      
+      // Add one day to engagement date
+      const dayAfterEngagement = new Date(engagementDay);
+      dayAfterEngagement.setDate(dayAfterEngagement.getDate() + 1);
+      
+      // If current time is after one day from engagement, mark as complete
+      if (now.getTime() > dayAfterEngagement.getTime()) {
+        setEngagementComplete(true);
+      }
+    };
+    
+    // Check engagement status on component mount
+    checkEngagementStatus();
+    
+    // Also check periodically (every hour)
+    const interval = setInterval(checkEngagementStatus, 60 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, [engagementDate]);
+  
+  // Function to trigger when countdown completes
+  const handleCountdownComplete = (type: 'engagement' | 'wedding') => {
+    // Only proceed if countdown triggers are enabled
+    if (!WEDDING_CONFIG.features.countdownTriggers.enabled) return;
+    
+    // Mark engagement as complete if it's the engagement countdown
+    if (type === 'engagement') {
+      // Don't immediately set as complete - will be set by the useEffect after one day
+      // Just show fireworks and video
+    }
+    
+    // Show fireworks if enabled in config
+    if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
+      setShowFireworks(true);
+    }
+    
+    // Show video for both engagement and wedding countdowns if enabled in config
+    if (WEDDING_CONFIG.features.countdownTriggers.showVideo) {
+      setShowVideo(true);
+    }
+    
+    // Set a timeout to hide fireworks after duration
+    if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
+      setTimeout(() => {
+        setShowFireworks(false);
+      }, WEDDING_CONFIG.features.countdownTriggers.fireworksDuration);
+    }
+  };
+  
   const galleryImages = [
     { 
       src: '/lovable-uploads/7dbb0a93-7d77-4171-9d43-8658d5c94f0c.png', 
@@ -71,13 +135,25 @@ const Index = () => {
   ];
 
   useEffect(() => {
-    // Small delay to ensure the page is fully loaded
-    const timer = setTimeout(() => {
-      setMusicEnabled(true);
-    }, 1500);
+    // Initialize AOS animation library
+    AOS.init({
+      duration: 800,
+      once: true,
+      easing: 'ease-in-out',
+    });
     
-    return () => clearTimeout(timer);
-  }, []);
+    // Set up the cleanup timer for fireworks if needed
+    const timer = setTimeout(() => {
+      // This is just to ensure fireworks eventually stop if user stays on page for a long time
+      if (showFireworks) {
+        setShowFireworks(false);
+      }
+    }, WEDDING_CONFIG.media.fireworks.duration);
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showFireworks]);
 
   return (
     <>
@@ -85,7 +161,15 @@ const Index = () => {
       
       {isLoaded && (
         <>
-          <MusicPlayer audioSrc="/music/wedding-song.mp3" autoPlay={musicEnabled} />
+          {showFireworks && (
+            <BirthdayFireworks 
+              duration={WEDDING_CONFIG.media.fireworks.duration} 
+              intensity={WEDDING_CONFIG.media.fireworks.intensity}
+              autoStart={true}
+              startDelay={WEDDING_CONFIG.media.fireworks.startDelay}
+            />
+          )}
+          <MusicPlayer audioSrc={WEDDING_CONFIG.media.musicUrl} autoPlay={musicEnabled} />
           
           {!musicEnabled && (
             <div 
@@ -177,10 +261,10 @@ const Index = () => {
               Alan Biju & Agnes George
             </p>
             <p className="text-lg text-text/80 mb-8">
-              Are getting engaged... and married!..
+              Are getting engaged... and married!...
             </p>
             
-            {showYoutube ? (
+            {showVideo ? (
               <div className="mt-8 mb-4">
                 <div className="flex justify-center items-center mb-4">
                   <div className="flex items-center">
@@ -194,7 +278,7 @@ const Index = () => {
                 <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-xl">
                   <iframe 
                     className="absolute top-0 left-0 w-full h-full"
-                    src="https://www.youtube.com/embed/iHfxTCHTtyw?autoplay=1" 
+                    src={WEDDING_CONFIG.media.youtubeUrl} 
                     title="Perfect" 
                     frameBorder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -203,15 +287,28 @@ const Index = () => {
                   />
                 </div>
               </div>
+            ) : engagementComplete ? (
+              <div className="mt-8 mb-4">
+                <div className="text-center mb-4">
+                  <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Wedding</h3>
+                </div>
+                <CountdownTimer 
+                  targetDate={weddingDate} 
+                  label=""
+                  className="scale-110 transform origin-top"
+                  onComplete={() => handleCountdownComplete('wedding')}
+                />
+              </div>
             ) : (
               <div className="mt-8 mb-4">
                 <div className="text-center mb-4">
                   <h3 className="text-xl md:text-2xl font-medium text-primary">Countdown to Engagement</h3>
                 </div>
                 <CountdownTimer 
-                  targetDate="2025-04-26T17:00:00+05:30" 
+                  targetDate={engagementDate} 
                   label=""
                   className="scale-110 transform origin-top"
+                  onComplete={() => handleCountdownComplete('engagement')}
                 />
               </div>
             )}
@@ -333,10 +430,13 @@ const Index = () => {
               </div>
               
               <div className="mt-8" data-aos="fade-up" data-aos-delay="250">
-                <CountdownTimer 
-                  targetDate="2025-05-17T15:30:00+05:30" 
-                  label="Countdown to Wedding" 
-                />
+                {!engagementComplete && (
+                  <CountdownTimer 
+                    targetDate={weddingDate} 
+                    label="Countdown to Wedding" 
+                    onComplete={() => handleCountdownComplete('wedding')}
+                  />
+                )}
               </div>
             </section>
           </div>
