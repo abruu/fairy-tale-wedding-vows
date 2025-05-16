@@ -495,12 +495,15 @@ const Index = () => {
 
               {/* Removed duplicate countdown timer that was here */}
               <div className="mt-8" data-aos="fade-up" data-aos-delay="250">
-              <CountdownTimer
-                    targetDate={weddingDate}
-                    label="Countdown to Wedding"
-                    className="scale-90 sm:scale-100"
-                    onComplete={() => handleCountdownComplete('wedding')}
-                  />
+                {!showVideo&& (
+   <CountdownTimer
+   targetDate={weddingDate}
+   label="Countdown to Wedding"
+   className="scale-90 sm:scale-100"
+   onComplete={() => handleCountdownComplete('wedding')}
+ />
+                )}
+
               </div>
             </section>
           </div>

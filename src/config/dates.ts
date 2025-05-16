@@ -3,13 +3,13 @@ export const WEDDING_CONFIG = {
   // Event dates in ISO format with timezone
   dates: {
     engagement: "2025-04-26T17:00:00+05:30", // 26th April 2025, 5:00 PM Indian time
-    wedding: "2025-05-17T16:30:00+05:30", // 17th May 2025, 4:30 PM
+    wedding: "2025-05-17T16:15:00+05:30", // 17th May 2025, 4:15 PM
   },
 
   // Media configuration
   media: {
     // YouTube video ID or full embed URL
-    youtubeUrl: "https://www.youtube.com/embed/jcN3MjzL4wk?autoplay=1",
+    youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
 
     // Background music URL
     musicUrl: "/music/msuic1.mp3",
