@@ -122,7 +122,7 @@ const Index = () => {
 
   const galleryImages = [
     {
-      src: '/lovable-uploads/7dbb0a93-7d77-4171-9d43-8658d5c94f0c.png',
+      src: '/lovable-uploads/Image (1).jpeg',
       alt: 'Family photo at the engagement ceremony',
     },
     // {
@@ -130,23 +130,23 @@ const Index = () => {
     //   alt: 'Alan and Agnes in formal attire, black and white portrait',
     // },
     {
-      src: '/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png',
+      src: '/lovable-uploads/Image (2).jpeg',
       alt: 'Alan and Agnes on stairs in traditional attire',
     },
     {
-      src: '/lovable-uploads/PHOTO-2025-04-04-23-46-23 (1).jpg',
+      src: '/lovable-uploads/Image (3).jpeg',
       alt: 'Another photo of Alan and Agsssnes on stairs',
     },
     {
-      src: '/lovable-uploads/PHOTO-2025-04-04-23-46-23.jpg',
+      src: '/lovable-uploads/Image (4).jpeg',
       alt: 'Another photo of Alan and Agsssnes on stairs',
     },
     {
-      src: '/lovable-uploads/6d90887f-7fa1-48b6-bb81-542ccb9368ad.png',
+      src: '/lovable-uploads/Image (5).jpeg',
       alt: 'Alan and Agnes posing by a console table',
     },
     {
-      src: '/lovable-uploads/24e56c2c-ab84-444a-9d24-dca21ca15850.png',
+      src: '/lovable-uploads/Image (6).jpeg',
       alt: 'Alan and Agnes walking outdoors',
     },
     // {
@@ -162,7 +162,7 @@ const Index = () => {
     //   alt: 'Close-up portrait of Alan and Agnes',
     // },
     {
-      src: '/lovable-uploads/204885e5-d672-42f6-bdd0-a2944490fa46.png',
+      src: '/lovable-uploads/Image (7).jpeg',
       alt: 'Alan and Agnes in an elegant setting',
     },
   ];
@@ -244,7 +244,7 @@ const Index = () => {
           {/* Background image */}
           <div className="absolute inset-0 z-0">
             <img
-              src="/lovable-uploads/7d71f697-651e-40a8-b0c1-638f367d2d5e.png"
+              src="/lovable-uploads/Image (11).jpeg"
               alt="Alan and Agnes"
               className="w-full h-full object-cover opacity-40"
             />
@@ -256,7 +256,7 @@ const Index = () => {
             {/* Top Left Frame - Hidden on mobile, visible on larger screens */}
             <div className="absolute hidden md:block top-1/4 left-16 w-32 h-32 transform -rotate-6 hover:rotate-0 transition-transform animate-wiggle">
               <img
-                src="/lovable-uploads/a9e1bdbe-a0d1-434a-81ca-fdb7daae1387.png"
+                src="/lovable-uploads/Image.jpeg"
                 alt="Frame decoration"
                 className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
               />
@@ -265,7 +265,7 @@ const Index = () => {
             {/* Top Right Frame - Hidden on mobile, visible on larger screens */}
             <div className="absolute hidden md:block top-1/4 right-16 w-32 h-32 transform rotate-6 hover:rotate-0 transition-transform animate-wiggle-delay">
               <img
-                src="/lovable-uploads/6d90887f-7fa1-48b6-bb81-542ccb9368ad.png"
+                src="/lovable-uploads/Image (10).jpeg"
                 alt="Frame decoration"
                 className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
               />
@@ -274,7 +274,7 @@ const Index = () => {
             {/* Bottom Left Frame - Adjusted position for mobile */}
             <div className="absolute bottom-20 md:bottom-1/3 left-4 md:left-16 w-20 md:w-32 h-20 md:h-32 transform rotate-6 hover:rotate-0 transition-transform animate-wiggle-delay-2">
               <img
-                src="/lovable-uploads/e4fc4e4e-b77c-4058-9b0e-e5c2e2d982f9.png"
+                src="/lovable-uploads/Image (6).jpeg"
                 alt="Frame decoration"
                 className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
               />
@@ -283,7 +283,7 @@ const Index = () => {
             {/* Bottom Right Frame - Adjusted position for mobile */}
             <div className="absolute bottom-20 md:bottom-1/3 right-4 md:right-16 w-20 md:w-32 h-20 md:h-32 transform -rotate-6 hover:rotate-0 transition-transform animate-wiggle">
               <img
-                src="/lovable-uploads/86d60ec9-5ee5-4524-a090-9bdc7e89bc26.png"
+                src="/lovable-uploads/Image (4).jpeg"
                 alt="Frame decoration"
                 className="w-full h-full object-cover rounded-lg shadow-lg border-2 border-primary/30"
               />
@@ -389,7 +389,7 @@ const Index = () => {
             </h2>
 
             <div className="text-center">
-              <p className="text-lg md:text-xl mb-2">Mr. jose Syrine & Mrs. Shylamma jose</p>
+              <p className="text-lg md:text-xl mb-2">Mr. JOSE SYRIAC & Mrs. SHYLA JOSE</p>
               <p className="text-sm md:text-base text-text/70 mb-8">Kanakkanchery (H), Kulathuvayal, Kozhikode</p>
 
               <p className="max-w-3xl mx-auto text-base md:text-lg text-text/80 mb-8 leading-relaxed">
@@ -567,7 +567,7 @@ const Index = () => {
         <footer className="text-center py-12 border-t border-accent/10 bg-gradient-to-t from-accent/5 via-background to-background overflow-hidden">
           <div className="container mx-auto px-4 max-w-5xl" data-aos="fade-up">
             <p className="text-lg text-text/80 mb-4">Sharing the Happiness:<br/>Though miles apart, always in our hearts—</p>
-            <p className="text-xl font-medium text-primary mb-6">Daril & Megha</p>
+            <p className="text-xl font-medium text-primary mb-6">JOEL & MEGHA</p>
             {/* <div className="wedding-divider mx-auto my-6"></div>
             <p  className="text-xl font-medium text-primary mb-6">Arthur & Griffin</p> */}
             <div className="wedding-divider mx-auto my-6"></div>
@@ -575,7 +575,7 @@ const Index = () => {
             {/* <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
             <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p> */}
 
-            <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Alan & Agnes</p>
+            <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Daril & Sneha</p>
             <p className="text-lg font-medium text-primary mb-8">
               {/* Engagement: 26.04.2025  */}
               <br>
