@@ -301,7 +301,7 @@ const Index = () => {
             </h1>
             <div className="wedding-divider mx-auto w-32 my-4"></div>
             <p className="text-2xl md:text-4xl font-serif text-primary mb-6">
-              Alan Biju & Agnes George
+            Daril K. jose & Sneha Kurian
             </p>
             <p className="text-lg text-text/80 mb-8">
               Are getting married...
@@ -389,19 +389,19 @@ const Index = () => {
             </h2>
 
             <div className="text-center">
-              <p className="text-lg md:text-xl mb-2">Mr. Biju T Kurian & Mrs. Mini Biju</p>
-              <p className="text-sm md:text-base text-text/70 mb-8">Thadamuriyil (H), Lakkattoor</p>
+              <p className="text-lg md:text-xl mb-2">Mr. jose Syrine & Mrs. Shylamma jose</p>
+              <p className="text-sm md:text-base text-text/70 mb-8">Kanakkanchery (H), Kulathuvayal, Kozhikode</p>
 
               <p className="max-w-3xl mx-auto text-base md:text-lg text-text/80 mb-8 leading-relaxed">
                 With hearts full of joy and gratitude, invite you and your family to join us in celebrating the blessed occasions of the engagement & marriage of our beloved son,
               </p>
 
-              <p className="text-2xl md:text-3xl font-serif text-primary mb-3">Alan Biju</p>
+              <p className="text-2xl md:text-3xl font-serif text-primary mb-3">Daril K. jose</p>
               <p className="text-lg">&</p>
-              <p className="text-2xl md:text-3xl font-serif text-primary mt-3 mb-6">Agnes George</p>
+              <p className="text-2xl md:text-3xl font-serif text-primary mt-3 mb-6">Sneha Kurian</p>
 
               <p className="text-sm text-text/70">
-                (Daughter of Mr. George Thomas & Mrs. Ashly George, Vattakunnel (H), Pala)
+                (Daughter of Mr. Shijimon Joseph & Mrs. Jessy Shiji, Vennayippilli (H), Thriruvambady, Kozhikode)
               </p>
             </div>
           </section>
@@ -462,7 +462,7 @@ const Index = () => {
                   <Calendar className="text-primary flex-shrink-0 mr-4 mt-1" size={20} />
                   <div>
                     <p className="font-medium text-primary mb-1">When</p>
-                    <p>Saturday, 17th May 2025</p>
+                    <p>Thursday, 28th August 2025</p>
                   </div>
                 </div>
 
@@ -470,24 +470,41 @@ const Index = () => {
                   <Clock className="text-primary flex-shrink-0 mr-4 mt-1" size={20} />
                   <div>
                     <p className="font-medium text-primary mb-1">Time</p>
-                    <p>4:30 PM</p>
+                    <p>10:30 am</p>
                   </div>
                 </div>
 
-                <div className="flex items-start" data-aos="fade-up" data-aos-delay="200">
+                <div className="flex items-start mb-6" data-aos="fade-up" data-aos-delay="200">
                   <MapPin className="text-primary flex-shrink-0 mr-4 mt-1" size={20} />
                   <div>
-                    <p className="font-medium text-primary mb-1">Venue</p>
-                    <p>Marth Mariam Church, Cheppumpara</p>
-                    <p className="text-sm text-text/70 mt-1">Reception: Marth Mariam Church Parish Hall (6:30 PM - 9:00 PM)</p>
+                    <p className="font-medium text-primary mb-1">Ceremony Venue</p>
+                    <p>St. George Shrine Church Kulathuvayal</p>
                     <a
-                      href="https://maps.app.goo.gl/zqdSg5wqe8sK8B8r8"
+                      href="https://maps.app.goo.gl/95Xt8TP1BnYuHmep8"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center mt-2 px-3 py-1 bg-primary/10 text-primary rounded-md hover:bg-primary/20 transition-colors"
                     >
                       <MapPin size={16} className="mr-1" />
-                      <span>View Location on Google Maps</span>
+                      <span>View Church Location</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start mb-6" data-aos="fade-up" data-aos-delay="250">
+                  <MapPin className="text-primary flex-shrink-0 mr-4 mt-1" size={20} />
+                  <div>
+                    <p className="font-medium text-primary mb-1">Reception Venue</p>
+                    <p>Doffodils Convention Center</p>
+                    <p className="text-sm text-text/70">Mukkalil, Chembara (from 12:30 PM)</p>
+                    <a
+                      href="https://maps.app.goo.gl/TsqQkt5Wn3BfLyjU8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center mt-2 px-3 py-1 bg-primary/10 text-primary rounded-md hover:bg-primary/20 transition-colors"
+                    >
+                      <MapPin size={16} className="mr-1" />
+                      <span>View Reception Location</span>
                     </a>
                   </div>
                 </div>
@@ -509,7 +526,7 @@ const Index = () => {
           </div>
 
           {/* Our Story Section */}
-          <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
+          {/* <section className="wedding-card p-8 md:p-12 mb-16" data-aos="fade-up">
             <h2 className="text-3xl md:text-4xl font-serif text-heading text-center mb-8 wedding-title">
               <Heart className="inline-block mr-2 text-primary" size={28} strokeWidth={1.5} />
               Our Story
@@ -520,7 +537,7 @@ const Index = () => {
             </p>
 
             <OurStory items={storyItems} />
-          </section>
+          </section> */}
 
           {/* Gallery Section */}
           <section className="mb-16" data-aos="fade-up">
@@ -550,18 +567,21 @@ const Index = () => {
         <footer className="text-center py-12 border-t border-accent/10 bg-gradient-to-t from-accent/5 via-background to-background overflow-hidden">
           <div className="container mx-auto px-4 max-w-5xl" data-aos="fade-up">
             <p className="text-lg text-text/80 mb-4">Sharing the Happiness:<br/>Though miles apart, always in our hearts—</p>
-            <p className="text-xl font-medium text-primary mb-6">Angitha Biju & Jibin Sebastian</p>
-            <div className="wedding-divider mx-auto my-6"></div>
-            <p  className="text-xl font-medium text-primary mb-6">Arthur & Griffin</p>
+            <p className="text-xl font-medium text-primary mb-6">Daril & Megha</p>
+            {/* <div className="wedding-divider mx-auto my-6"></div>
+            <p  className="text-xl font-medium text-primary mb-6">Arthur & Griffin</p> */}
             <div className="wedding-divider mx-auto my-6"></div>
 
-            <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
-            <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p>
+            {/* <p className="text-lg text-text/80 mb-3">With Love and Blessings,</p>
+            <p className="text-xl font-medium text-primary mb-10">Biju T Kurian, Mini Biju & Family</p> */}
 
             <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Alan & Agnes</p>
-            <p className="text-lg font-medium text-primary mb-8">Engagement: 26.04.2025 <br></br> Wedding: 17.05.2025</p>
+            <p className="text-lg font-medium text-primary mb-8">
+              {/* Engagement: 26.04.2025  */}
+              <br>
+            </br> Wedding: 17.05.2025</p>
 
-            <p className="text-sm text-text/60"> 2025 Alan & Agnes. Crafted with love.</p>
+            <p className="text-sm text-text/60"> 2025 Daril & Sneha. Crafted with love.</p>
           </div>
         </footer>
       </div>
