@@ -301,7 +301,7 @@ const Index = () => {
             </h1>
             <div className="wedding-divider mx-auto w-32 my-4"></div>
             <p className="text-2xl md:text-4xl font-serif text-primary mb-6">
-            Daril K. jose & Sneha Kurian
+            Daril K jose & Sneha Kurian
             </p>
             <p className="text-lg text-text/80 mb-8">
               Are getting married...
@@ -396,7 +396,7 @@ const Index = () => {
                 With hearts full of joy and gratitude, invite you and your family to join us in celebrating the blessed occasions of the engagement & marriage of our beloved son,
               </p>
 
-              <p className="text-2xl md:text-3xl font-serif text-primary mb-3">Daril K. jose</p>
+              <p className="text-2xl md:text-3xl font-serif text-primary mb-3">Daril K jose</p>
               <p className="text-lg">&</p>
               <p className="text-2xl md:text-3xl font-serif text-primary mt-3 mb-6">Sneha Kurian</p>
 
@@ -578,8 +578,13 @@ const Index = () => {
             <p className="text-2xl md:text-3xl font-serif text-heading mb-3 wedding-title">Daril & Sneha</p>
             <p className="text-lg font-medium text-primary mb-8">
               {/* Engagement: 26.04.2025  */}
-              <br>
-            </br> Wedding: 17.05.2025</p>
+              <br />
+              Wedding: {new Date(WEDDING_CONFIG.dates.wedding).toLocaleDateString('en-GB', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+              }).replace(/\//g, '.')}
+            </p>
 
             <p className="text-sm text-text/60"> 2025 Daril & Sneha. Crafted with love.</p>
           </div>
