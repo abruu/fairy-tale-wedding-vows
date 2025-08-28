@@ -304,7 +304,7 @@ const Index = () => {
             Daril K. jose & Sneha Kurian
             </p>
             <p className="text-lg text-text/80 mb-8">
-              Are getting married...
+              Are Officially Married
             </p>
 
             {/* Always show the wedding countdown in the hero section */}
@@ -326,7 +326,7 @@ const Index = () => {
               <div className="mt-8 mb-4">
                 <div className="flex justify-center items-center mb-4">
                   <div className="flex items-center">
-                    <h3 className="text-xl md:text-2xl font-medium text-primary mr-3">Wedding Ceremony has started </h3>
+                    {/* <h3 className="text-xl md:text-2xl font-medium text-primary mr-3">Wedding Ceremony has started </h3> */}
                     {/* <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full mt-2 flex items-center">
                       <span className="w-2 h-2 bg-white rounded-full mr-1 animate-pulse"></span>
                       LIVE
