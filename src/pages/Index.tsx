@@ -127,52 +127,52 @@ const Index = () => {
     },
     // {
     //   src: '/lovable-uploads/a9e1bdbe-a0d1-434a-81ca-fdb7daae1387.png',
-    //   alt: 'Alan and Agnes in formal attire, black and white portrait',
+    //   alt: 'Daril and Sneha in formal attire, black and white portrait',
     // },
     {
       src: '/lovable-uploads/Image (2).jpeg',
-      alt: 'Alan and Agnes on stairs in traditional attire',
+      alt: 'Daril and Sneha on stairs in traditional attire',
     },
     {
       src: '/lovable-uploads/Image (3).jpeg',
-      alt: 'Another photo of Alan and Agsssnes on stairs',
+      alt: 'Another photo of Daril and Sneha on stairs',
     },
     {
       src: '/lovable-uploads/Image (4).jpeg',
-      alt: 'Another photo of Alan and Agsssnes on stairs',
+      alt: 'Another photo of Daril and Sneha on stairs',
     },
     {
       src: '/lovable-uploads/Image (5).jpeg',
-      alt: 'Alan and Agnes posing by a console table',
+      alt: 'Daril and Sneha posing by a console table',
     },
     {
       src: '/lovable-uploads/Image (6).jpeg',
-      alt: 'Alan and Agnes walking outdoors',
+      alt: 'Daril and Sneha walking outdoors',
     },
     // {
     //   src: '/lovable-uploads/e4fc4e4e-b77c-4058-9b0e-e5c2e2d982f9.png',
-    //   alt: 'Alan and Agnes in front of floral backdrop',
+    //   alt: 'Daril and Sneha in front of floral backdrop',
     // },
     // {
     //   src: '/lovable-uploads/21fa5845-2592-4d58-bb74-5a5a79e21c35.png',
-    //   alt: 'Alan and Agnes in front of a hotel',
+    //   alt: 'Daril and Sneha in front of a hotel',
     // },
     // {
     //   src: '/lovable-uploads/86d60ec9-5ee5-4524-a090-9bdc7e89bc26.png',
-    //   alt: 'Close-up portrait of Alan and Agnes',
+    //   alt: 'Close-up portrait of Daril and Sneha',
     // },
     {
       src: '/lovable-uploads/Image (7).jpeg',
-      alt: 'Alan and Agnes in an elegant setting',
+      alt: 'Daril and Sneha in an elegant setting',
     },
   ];
 
   const storyItems = [
     { date: 'January 27, 2025', content: 'First call with both families via matrimonial.' },
     // { date: 'January 28, 2025', content: 'Started talking personally on WhatsApp.' },
-    { date: 'February 1, 2025', content: 'First visit to Agnes\'s home with family (Pennukaanal).' },
-    { date: 'February 5, 2025', content: 'Agnes and her family visited Alan\'s home.' },
-    { date: 'February 14, 2025', content: 'Final Pennukaanal: Went to Agnes\'s home with family and relatives to finalize the date.' },
+    { date: 'February 1, 2025', content: 'First visit to Sneha\'s home with family (Pennukaanal).' },
+    { date: 'February 5, 2025', content: 'Sneha and her family visited Daril\'s home.' },
+    { date: 'February 14, 2025', content: 'Final Pennukaanal: Went to Sneha\'s home with family and relatives to finalize the date.' },
     { date: 'February 18, 2025', content: 'Official first date.' },
     { date: 'March 2, 2025', content: 'Engagement Fixation.' },
     { date: 'April 26, 2025', content: 'Betrothal.' },
@@ -245,7 +245,7 @@ const Index = () => {
           <div className="absolute inset-0 z-0">
             <img
               src="/lovable-uploads/Image (11).jpeg"
-              alt="Alan and Agnes"
+              alt="Daril and Sneha"
               className="w-full h-full object-cover opacity-40"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-accent/40 via-background/90 to-background"></div>
