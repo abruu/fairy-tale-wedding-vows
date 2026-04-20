@@ -2,80 +2,106 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 
 interface VideoIntroProps {
   onComplete: () => void;
+  onStart?: () => void;
 }
 
-// welcome → playing → fading → done
-type Phase = 'welcome' | 'playing' | 'fading' | 'done';
+// idle → playing → fading → done
+type Phase = 'idle' | 'playing' | 'fading' | 'done';
 
-// How long the welcome card stays visible before auto-playing the video
-const WELCOME_DURATION_MS = 3000;
+// Safety timeout: if video stalls in 'playing' for this long, skip it
+const VIDEO_STALL_TIMEOUT_MS = 30000;
+// How long the fade-out transition lasts
+const FADE_DURATION_MS = 1200;
 
-const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete }) => {
+const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [phase, setPhase] = useState<Phase>('welcome');
-  // Drives the welcome overlay's own opacity so it can fade independently
-  const [welcomeVisible, setWelcomeVisible] = useState(true);
+  const [phase, setPhase] = useState<Phase>('idle');
+  const [videoReady, setVideoReady] = useState(false);
+  const stallTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasTriggeredRef = useRef(false);
 
-  // ── Seek to frame 1 so the first frame shows as a poster ──
-  const handleLoadedMetadata = useCallback(() => {
-    if (videoRef.current) videoRef.current.currentTime = 0.001;
-  }, []);
-
+  // ── Fade out and complete ──
   const triggerFadeOut = useCallback(() => {
+    if (hasTriggeredRef.current) return;
+    hasTriggeredRef.current = true;
+    if (stallTimerRef.current) clearTimeout(stallTimerRef.current);
     setPhase('fading');
     setTimeout(() => {
       setPhase('done');
       onComplete();
-    }, 1100);
+    }, FADE_DURATION_MS);
   }, [onComplete]);
 
-  // ── Auto-play sequence: fade welcome out, then start video ──
-  useEffect(() => {
-    if (phase !== 'welcome') return;
+  // ── Seek to first frame so it appears as a poster ──
+  const handleLoadedMetadata = useCallback(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0.001;
+    }
+  }, []);
 
-    // After WELCOME_DURATION_MS, start fading the welcome card out
-    const fadeTimer = setTimeout(() => {
-      setWelcomeVisible(false);
-    }, WELCOME_DURATION_MS);
+  // ── Mark the video as ready to play ──
+  const handleCanPlay = useCallback(() => {
+    setVideoReady(true);
+  }, []);
 
-    // After the welcome fade-out finishes (~600 ms later), play the video
-    const playTimer = setTimeout(() => {
+  // ── Video error (unsupported format, 404, etc.) → skip to content ──
+  const handleVideoError = useCallback(() => {
+    triggerFadeOut();
+  }, [triggerFadeOut]);
+
+  // ── User clicks → play the video ──
+  const handlePlay = useCallback(() => {
+    if (phase !== 'idle') return;
+    const vid = videoRef.current;
+    if (!vid) { triggerFadeOut(); return; }
+
+    onStart?.(); // start music immediately
+
+    vid.play().then(() => {
       setPhase('playing');
-      videoRef.current?.play().catch(() => triggerFadeOut());
-    }, WELCOME_DURATION_MS + 600);
+      // Safety: if video stalls, skip after timeout
+      stallTimerRef.current = setTimeout(triggerFadeOut, VIDEO_STALL_TIMEOUT_MS);
+    }).catch(() => {
+      triggerFadeOut();
+    });
+  }, [phase, onStart, triggerFadeOut]);
 
+  // ── Cleanup stall timer on unmount ──
+  useEffect(() => {
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(playTimer);
+      if (stallTimerRef.current) clearTimeout(stallTimerRef.current);
     };
-  }, [phase, triggerFadeOut]);
+  }, []);
 
   if (phase === 'done') return null;
 
   const isFading = phase === 'fading';
+  const isIdle = phase === 'idle';
 
   return (
     <div
+      onClick={isIdle ? handlePlay : undefined}
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 60,
         background: '#0a0505',
         overflow: 'hidden',
-        // Outer fade-out when the whole intro concludes
         opacity: isFading ? 0 : 1,
-        transition: 'opacity 1.1s ease',
+        transition: `opacity ${FADE_DURATION_MS}ms ease`,
+        cursor: isIdle ? 'pointer' : 'default',
       }}
     >
-      {/* ── Video (always rendered, paused on first frame until phase=playing) ── */}
+      {/* ── Video (shows first frame immediately) ── */}
       <video
         ref={videoRef}
-        src="/video/openVideo.mov"
         muted
         playsInline
         preload="auto"
         onLoadedMetadata={handleLoadedMetadata}
+        onCanPlay={handleCanPlay}
         onEnded={triggerFadeOut}
+        onError={handleVideoError}
         style={{
           position: 'absolute',
           inset: 0,
@@ -83,114 +109,248 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete }) => {
           height: '100%',
           objectFit: 'cover',
         }}
-      />
-
-      {/* ── Dark scrim so the welcome card reads well over the first frame ── */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(10,5,5,0.55) 0%, rgba(10,5,5,0.35) 50%, rgba(10,5,5,0.65) 100%)',
-          opacity: welcomeVisible ? 1 : 0,
-          transition: 'opacity 0.6s ease',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* ── Welcome card ── */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '1rem',
-          opacity: welcomeVisible ? 1 : 0,
-          transition: 'opacity 0.6s ease',
-          pointerEvents: 'none',
-        }}
       >
-        {/* Top flourish */}
-        <p
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: '0.65rem',
-            letterSpacing: '0.35em',
-            textTransform: 'uppercase',
-            color: 'rgba(230,203,168,0.7)',
-            animation: 'fade-in 0.9s ease-out both',
-          }}
-        >
-          Welcome to our celebration
-        </p>
+        <source src="/video/openVideo.mp4" type="video/mp4" />
+        <source src="/video/openVideo.mov" type="video/quicktime" />
+      </video>
 
-        {/* Divider */}
+      {/* ── Play overlay (visible only when idle, before user clicks) ── */}
+      {isIdle && (
         <div
-          aria-hidden="true"
           style={{
-            width: 48,
-            height: 1,
-            background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.6), transparent)',
-            animation: 'fade-in 1s ease-out 0.2s both',
-          }}
-        />
-
-        {/* Names */}
-        <h1
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontStyle: 'italic',
-            fontSize: 'clamp(2rem, 8vw, 4rem)',
-            color: '#E6CBA8',
-            textShadow: '0 2px 30px rgba(0,0,0,0.7)',
-            margin: 0,
-            lineHeight: 1.1,
-            animation: 'fade-in 1s ease-out 0.3s both',
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'radial-gradient(ellipse at center, rgba(10,5,5,0.3) 0%, rgba(10,5,5,0.6) 60%, rgba(10,5,5,0.8) 100%)',
           }}
         >
-          Daril &amp; Sneha
-        </h1>
+          {/* ── Top flourish ── */}
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: '0.6rem',
+              letterSpacing: '0.45em',
+              textTransform: 'uppercase',
+              color: 'rgba(230,203,168,0.6)',
+              marginBottom: '0.6rem',
+              animation: 'vi-slide-down 1s ease-out 0.2s both',
+            }}
+          >
+            You are invited to witness
+          </p>
 
-        {/* Wedding date */}
-        <p
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 'clamp(0.7rem, 2vw, 0.85rem)',
-            letterSpacing: '0.2em',
-            color: 'rgba(255,255,255,0.55)',
-            animation: 'fade-in 1s ease-out 0.5s both',
-          }}
-        >
-          August 28, 2025
-        </p>
+          {/* ── Decorative line ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              width: 80,
+              height: 1,
+              background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.5), transparent)',
+              marginBottom: '1.4rem',
+              animation: 'vi-expand 1.2s ease-out 0.4s both',
+            }}
+          />
 
-        {/* Divider */}
-        <div
-          aria-hidden="true"
-          style={{
-            width: 48,
-            height: 1,
-            background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.6), transparent)',
-            animation: 'fade-in 1s ease-out 0.6s both',
-          }}
-        />
+          {/* ── "The Wedding of" ── */}
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: 'clamp(0.55rem, 1.8vw, 0.75rem)',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(183,110,121,0.8)',
+              marginBottom: '0.5rem',
+              animation: 'vi-slide-up 0.9s ease-out 0.5s both',
+            }}
+          >
+            The Wedding of
+          </p>
 
-        {/* Hearts */}
-        <p
-          aria-hidden="true"
-          style={{
-            color: 'rgba(183,110,121,0.8)',
-            fontSize: '1.1rem',
-            letterSpacing: '0.4em',
-            animation: 'fade-in 1s ease-out 0.7s both, heartbeat 1.6s ease-in-out 1.2s infinite',
-          }}
-        >
-          ♥ ♥ ♥
-        </p>
-      </div>
+          {/* ── Names ── */}
+          <h1
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(2.4rem, 9vw, 5rem)',
+              color: '#E6CBA8',
+              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(230,203,168,0.15)',
+              margin: 0,
+              lineHeight: 1.05,
+              animation: 'vi-slide-up 1s ease-out 0.6s both',
+            }}
+          >
+            Daril
+          </h1>
+
+          {/* ── Ampersand ── */}
+          <p
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(1.2rem, 4vw, 2rem)',
+              color: 'rgba(183,110,121,0.7)',
+              margin: '0.15rem 0',
+              animation: 'vi-slide-up 1s ease-out 0.75s both, heartbeat 2.5s ease-in-out 2s infinite',
+            }}
+          >
+            &amp;
+          </p>
+
+          <h1
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontStyle: 'italic',
+              fontSize: 'clamp(2.4rem, 9vw, 5rem)',
+              color: '#E6CBA8',
+              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(230,203,168,0.15)',
+              margin: 0,
+              lineHeight: 1.05,
+              animation: 'vi-slide-up 1s ease-out 0.85s both',
+            }}
+          >
+            Sneha
+          </h1>
+
+          {/* ── Date line ── */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.8rem',
+              marginTop: '1.2rem',
+              animation: 'vi-slide-up 0.9s ease-out 1s both',
+            }}
+          >
+            <div style={{ width: 30, height: 1, background: 'rgba(230,203,168,0.35)' }} />
+            <p
+              style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: 'clamp(0.6rem, 1.8vw, 0.78rem)',
+                letterSpacing: '0.25em',
+                color: 'rgba(255,255,255,0.5)',
+              }}
+            >
+              28 · 08 · 2026
+            </p>
+            <div style={{ width: 30, height: 1, background: 'rgba(230,203,168,0.35)' }} />
+          </div>
+
+          {/* ── Venue ── */}
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: '0.55rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.3)',
+              marginTop: '0.4rem',
+              animation: 'vi-slide-up 0.9s ease-out 1.1s both',
+            }}
+          >
+            St. George Shrine Church · Kulathuvayal
+          </p>
+
+          {/* ── Decorative line ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              width: 80,
+              height: 1,
+              background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.5), transparent)',
+              marginTop: '1.4rem',
+              animation: 'vi-expand 1.2s ease-out 1.2s both',
+            }}
+          />
+
+          {/* ── Play button with pulsing ring ── */}
+          <div
+            style={{
+              position: 'relative',
+              marginTop: '1.8rem',
+              animation: 'vi-slide-up 0.8s ease-out 1.4s both',
+            }}
+          >
+            {/* Pulsing ring */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                inset: -8,
+                borderRadius: '50%',
+                border: '1px solid rgba(230,203,168,0.25)',
+                animation: 'vi-pulse-ring 2.5s ease-out 2s infinite',
+              }}
+            />
+            <button
+              aria-label="Play intro video"
+              style={{
+                width: 68,
+                height: 68,
+                borderRadius: '50%',
+                border: '1.5px solid rgba(230,203,168,0.5)',
+                background: 'rgba(230,203,168,0.08)',
+                backdropFilter: 'blur(12px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease',
+                boxShadow: '0 0 30px rgba(230,203,168,0.08)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.12)';
+                e.currentTarget.style.background = 'rgba(230,203,168,0.16)';
+                e.currentTarget.style.boxShadow = '0 0 40px rgba(230,203,168,0.2)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.background = 'rgba(230,203,168,0.08)';
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(230,203,168,0.08)';
+              }}
+              onClick={e => { e.stopPropagation(); handlePlay(); }}
+            >
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <path d="M3 1.5L22 14L3 26.5V1.5Z" fill="#E6CBA8" fillOpacity="0.8" />
+              </svg>
+            </button>
+          </div>
+
+          {/* ── CTA text ── */}
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: '0.58rem',
+              letterSpacing: '0.35em',
+              textTransform: 'uppercase',
+              color: 'rgba(230,203,168,0.45)',
+              marginTop: '1rem',
+              animation: 'vi-slide-up 0.8s ease-out 1.6s both, vi-gentle-pulse 3s ease-in-out 2.5s infinite',
+            }}
+          >
+            Tap to begin our story
+          </p>
+
+          {/* ── Bottom flourish hearts ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              bottom: 'clamp(1.5rem, 5vh, 3rem)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              animation: 'vi-slide-up 0.8s ease-out 1.8s both',
+            }}
+          >
+            <span style={{ color: 'rgba(183,110,121,0.3)', fontSize: '0.5rem' }}>✦</span>
+            <span style={{ color: 'rgba(183,110,121,0.4)', fontSize: '0.7rem', animation: 'heartbeat 2s ease-in-out 2.2s infinite' }}>♥</span>
+            <span style={{ color: 'rgba(183,110,121,0.3)', fontSize: '0.5rem' }}>✦</span>
+          </div>
+        </div>
+      )}
 
       {/* ── Skip button (visible while video is playing) ── */}
       {phase === 'playing' && (

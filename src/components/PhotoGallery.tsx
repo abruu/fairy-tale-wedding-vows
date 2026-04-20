@@ -1,7 +1,9 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { ChevronLeft, ChevronRight, X, Expand } from 'lucide-react';
+import { ANIMATION_CONFIG } from '@/config/animations';
+import { useScrollReveal, staggerDelay } from '@/hooks/useScrollReveal';
 
 interface GalleryImage {
   src: string;
@@ -15,6 +17,12 @@ interface PhotoGalleryProps {
 const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const animFrameRef = useRef(0);
+  const scrollPos = useRef(0);
+  const isPaused = useRef(false);
+
+  const galleryCfg = ANIMATION_CONFIG.gallery;
 
   const openLightbox = (index: number) => {
     setCurrentIndex(index);
@@ -43,45 +51,116 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
     return () => window.removeEventListener('keydown', onKey);
   }, [lightboxOpen, prev, next]);
 
+  // Horizontal auto-slide
+  useEffect(() => {
+    if (!galleryCfg.autoSlide.enabled) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const speed = galleryCfg.autoSlide.speed;
+    const dir = galleryCfg.autoSlide.direction === 'left' ? 1 : -1;
+    let lastTime = performance.now();
+
+    const tick = (now: number) => {
+      if (!isPaused.current) {
+        const dt = (now - lastTime) / 1000;
+        scrollPos.current += speed * dir * dt;
+
+        // Loop: when scrolled past half (duplicated content), reset
+        const maxScroll = el.scrollWidth / 2;
+        if (scrollPos.current >= maxScroll) scrollPos.current -= maxScroll;
+        if (scrollPos.current < 0) scrollPos.current += maxScroll;
+
+        el.scrollLeft = scrollPos.current;
+      }
+      lastTime = now;
+      animFrameRef.current = requestAnimationFrame(tick);
+    };
+
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameRef.current);
+  }, [galleryCfg.autoSlide]);
+
+  const handleMouseEnter = () => {
+    if (galleryCfg.autoSlide.pauseOnHover) isPaused.current = true;
+  };
+  const handleMouseLeave = () => {
+    if (galleryCfg.autoSlide.pauseOnHover) isPaused.current = false;
+  };
+
   // Responsive grid: vary the aspect ratio for a more dynamic feel
   const aspectRatios = ['3/4', '4/5', '3/4', '4/3', '3/4', '4/5', '3/4'];
 
+  // Duplicate images for seamless loop
+  const displayImages = galleryCfg.autoSlide.enabled
+    ? [...images, ...images]
+    : images;
+
   return (
     <div className="w-full">
-      {/* Gallery grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className="gallery-item"
-            style={{ aspectRatio: aspectRatios[index % aspectRatios.length] }}
-            onClick={() => openLightbox(index)}
-            role="button"
-            tabIndex={0}
-            aria-label={`View photo: ${image.alt}`}
-            onKeyDown={e => e.key === 'Enter' && openLightbox(index)}
-            data-aos="zoom-in"
-            data-aos-delay={index * 60}
-            data-aos-duration="500"
-          >
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-            <div className="gallery-overlay">
-              <div
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
-                style={{ background: 'rgba(75,56,50,0.6)', backdropFilter: 'blur(6px)' }}
-              >
-                <Expand size={12} />
-                View Photo
-              </div>
-            </div>
+      {/* Auto-sliding horizontal gallery */}
+      {galleryCfg.autoSlide.enabled ? (
+        <div
+          ref={scrollRef}
+          className="gallery-autoslide"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="gallery-autoslide-track">
+            {displayImages.map((image, index) => {
+              const depthOffset = galleryCfg.parallaxDepth.enabled
+                ? (index % images.length) * galleryCfg.parallaxDepth.speedVariance
+                : 0;
+              return (
+                <div
+                  key={`slide-${index}`}
+                  className="gallery-autoslide-item gallery-item-enhanced"
+                  onClick={() => openLightbox(index % images.length)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View photo: ${image.alt}`}
+                  onKeyDown={e => e.key === 'Enter' && openLightbox(index % images.length)}
+                  style={{
+                    transform: depthOffset ? `translateY(${depthOffset * 20}px)` : undefined,
+                  }}
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                  {galleryCfg.shimmerOverlay && (
+                    <div className="gallery-shimmer-overlay" />
+                  )}
+                  <div className="gallery-overlay">
+                    <div
+                      className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
+                      style={{ background: 'rgba(75,56,50,0.6)', backdropFilter: 'blur(6px)' }}
+                    >
+                      <Expand size={12} />
+                      View Photo
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        /* Static grid fallback */
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          {images.map((image, index) => (
+            <GalleryGridItem
+              key={index}
+              image={image}
+              index={index}
+              aspectRatio={aspectRatios[index % aspectRatios.length]}
+              onOpen={() => openLightbox(index)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Lightbox */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
@@ -90,7 +169,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
           style={{ background: 'rgba(10,5,5,0.95)', borderRadius: '1rem' }}
         >
           <div className="relative w-full flex items-center justify-center min-h-[60vh]">
-            {/* Close */}
             <button
               className="absolute top-3 right-3 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
               style={{ background: 'rgba(255,255,255,0.12)' }}
@@ -100,7 +178,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
               <X size={18} className="text-white" />
             </button>
 
-            {/* Prev */}
             <button
               className="absolute left-3 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
               style={{ background: 'rgba(255,255,255,0.12)' }}
@@ -110,7 +187,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
               <ChevronLeft size={22} className="text-white" />
             </button>
 
-            {/* Image */}
             <div className="w-full flex justify-center p-4">
               <img
                 src={images[currentIndex].src}
@@ -120,7 +196,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
               />
             </div>
 
-            {/* Next */}
             <button
               className="absolute right-3 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
               style={{ background: 'rgba(255,255,255,0.12)' }}
@@ -130,7 +205,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
               <ChevronRight size={22} className="text-white" />
             </button>
 
-            {/* Dots indicator */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5">
               {images.map((_, i) => (
                 <button
@@ -149,6 +223,51 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
           </div>
         </DialogContent>
       </Dialog>
+    </div>
+  );
+};
+
+/** Individual grid item with scroll-reveal */
+const GalleryGridItem: React.FC<{
+  image: GalleryImage;
+  index: number;
+  aspectRatio: string;
+  onOpen: () => void;
+}> = ({ image, index, aspectRatio, onOpen }) => {
+  const { ref, style } = useScrollReveal<HTMLDivElement>({
+    animation: 'scale-in',
+    delay: staggerDelay(index),
+  });
+
+  return (
+    <div
+      ref={ref}
+      className="gallery-item gallery-item-enhanced"
+      style={{ ...style, aspectRatio }}
+      onClick={onOpen}
+      role="button"
+      tabIndex={0}
+      aria-label={`View photo: ${image.alt}`}
+      onKeyDown={e => e.key === 'Enter' && onOpen()}
+    >
+      <img
+        src={image.src}
+        alt={image.alt}
+        loading="lazy"
+        className="w-full h-full object-cover"
+      />
+      {ANIMATION_CONFIG.gallery.shimmerOverlay && (
+        <div className="gallery-shimmer-overlay" />
+      )}
+      <div className="gallery-overlay">
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
+          style={{ background: 'rgba(75,56,50,0.6)', backdropFilter: 'blur(6px)' }}
+        >
+          <Expand size={12} />
+          View Photo
+        </div>
+      </div>
     </div>
   );
 };

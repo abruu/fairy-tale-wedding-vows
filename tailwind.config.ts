@@ -152,6 +152,19 @@ export default {
           "0%": { clipPath: "inset(0 100% 0 0)" },
           "100%": { clipPath: "inset(0 0% 0 0)" },
         },
+        "countdown-entrance": {
+          "0%": { opacity: "0", transform: "translateY(20px) scale(0.9)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        "floating-drift": {
+          "0%": { transform: "translateY(0) translateX(0) rotate(0deg) scale(1)", opacity: "0" },
+          "5%": { opacity: "0.4" },
+          "25%": { transform: "translateY(-40px) translateX(15px) rotate(45deg) scale(1.05)" },
+          "50%": { transform: "translateY(-20px) translateX(-10px) rotate(90deg) scale(0.95)" },
+          "75%": { transform: "translateY(-60px) translateX(20px) rotate(180deg) scale(1.02)" },
+          "95%": { opacity: "0.4" },
+          "100%": { transform: "translateY(-80px) translateX(-5px) rotate(360deg) scale(1)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -171,6 +184,8 @@ export default {
         "scale-in": "scale-in 0.5s ease-out forwards",
         "wave-bar": "wave-bar 1s ease-in-out infinite",
         "scroll-dot": "scroll-dot 1.5s ease-in-out infinite",
+        "countdown-entrance": "countdown-entrance 0.6s ease-out forwards",
+        "floating-drift": "floating-drift 20s linear infinite",
       },
       fontFamily: {
         serif: ["Playfair Display", "Georgia", "serif"],

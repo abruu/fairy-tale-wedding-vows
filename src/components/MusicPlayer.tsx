@@ -4,11 +4,12 @@ import { Play, Pause, Volume2, VolumeX, Music } from 'lucide-react';
 interface MusicPlayerProps {
   audioSrc: string;
   autoPlay?: boolean;
+  forcePlayRef?: React.MutableRefObject<(() => void) | null>;
 }
 
 const WAVE_DELAYS = ['0s', '0.15s', '0.3s', '0.45s', '0.3s'];
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false }) => {
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, forcePlayRef }) => {
   const [isPlaying, setIsPlaying]   = useState(false);
   const [isMuted, setIsMuted]       = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
@@ -35,6 +36,18 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false })
       .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
       .catch(() => { setIsPlaying(false); setAutoplayFailed(true); });
   }, [autoPlay, audioLoaded]);
+
+  // Expose forcePlay so parent can call audio.play() within user gesture context
+  useEffect(() => {
+    if (!forcePlayRef) return;
+    forcePlayRef.current = () => {
+      if (!audioRef.current) return;
+      audioRef.current.play()
+        .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
+        .catch(() => { setAutoplayFailed(true); });
+    };
+    return () => { if (forcePlayRef) forcePlayRef.current = null; };
+  }, [forcePlayRef, audioLoaded]);
 
   // Retry on user interaction (browser policy)
   useEffect(() => {
