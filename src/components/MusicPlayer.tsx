@@ -1,148 +1,152 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Play, Pause, Volume2, VolumeX, Music } from 'lucide-react';
 
 interface MusicPlayerProps {
   audioSrc: string;
   autoPlay?: boolean;
+  forcePlayRef?: React.MutableRefObject<(() => void) | null>;
 }
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+const WAVE_DELAYS = ['0s', '0.15s', '0.3s', '0.45s', '0.3s'];
+
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, forcePlayRef }) => {
+  const [isPlaying, setIsPlaying]   = useState(false);
+  const [isMuted, setIsMuted]       = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
   const [autoplayFailed, setAutoplayFailed] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Log prop changes
-  useEffect(() => {
-    console.log("MusicPlayer props changed - autoPlay:", autoPlay);
-  }, [autoPlay]);
-
-  // Initialize audio element
+  // Init audio
   useEffect(() => {
     const audio = new Audio(audioSrc);
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.oncanplaythrough = () => {
-      console.log("Audio can play through");
-      setAudioLoaded(true);
-    };
+    audio.loop    = true;
+    audio.preload = 'auto';
+    audio.oncanplaythrough = () => setAudioLoaded(true);
     audioRef.current = audio;
-
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
-      }
+      audio.pause();
+      audio.src = '';
     };
   }, [audioSrc]);
 
-  // Handle autoplay when enabled
+  // Autoplay on flag change
   useEffect(() => {
-    if (audioRef.current && autoPlay && audioLoaded) {
-      console.log("Attempting to autoplay music");
-      // Try to play immediately
-      const playPromise = audioRef.current.play();
-      
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log("Music autoplay successful");
-            setIsPlaying(true);
-            setAutoplayFailed(false);
-          })
-          .catch(error => {
-            console.error("Autoplay prevented:", error);
-            setIsPlaying(false);
-            setAutoplayFailed(true);
-          });
-      }
-    }
+    if (!audioRef.current || !autoPlay || !audioLoaded) return;
+    audioRef.current.play()
+      .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
+      .catch(() => { setIsPlaying(false); setAutoplayFailed(true); });
   }, [autoPlay, audioLoaded]);
 
-  // Try to play again if user interacts with the page
+  // Expose forcePlay so parent can call audio.play() within user gesture context
   useEffect(() => {
-    const handleUserInteraction = () => {
-      if (audioRef.current && autoPlay && autoplayFailed) {
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-              setAutoplayFailed(false);
-            })
-            .catch(err => {
-              console.error("Error playing audio after interaction:", err);
-            });
-        }
-      }
+    if (!forcePlayRef) return;
+    forcePlayRef.current = () => {
+      if (!audioRef.current) return;
+      audioRef.current.play()
+        .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
+        .catch(() => { setAutoplayFailed(true); });
     };
+    return () => { if (forcePlayRef) forcePlayRef.current = null; };
+  }, [forcePlayRef, audioLoaded]);
 
-    // Add event listeners for common user interactions
-    document.addEventListener('click', handleUserInteraction);
-    document.addEventListener('keydown', handleUserInteraction);
-    document.addEventListener('touchstart', handleUserInteraction);
-
+  // Retry on user interaction (browser policy)
+  useEffect(() => {
+    const retry = () => {
+      if (!audioRef.current || !autoPlay || !autoplayFailed) return;
+      audioRef.current.play()
+        .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
+        .catch(() => {});
+    };
+    document.addEventListener('click',      retry);
+    document.addEventListener('keydown',    retry);
+    document.addEventListener('touchstart', retry);
     return () => {
-      document.removeEventListener('click', handleUserInteraction);
-      document.removeEventListener('keydown', handleUserInteraction);
-      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('click',      retry);
+      document.removeEventListener('keydown',    retry);
+      document.removeEventListener('touchstart', retry);
     };
   }, [autoPlay, autoplayFailed]);
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(err => {
-              console.error("Error playing audio:", err);
-              setIsPlaying(false);
-            });
-        }
-      }
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
     }
   };
 
   const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !audioRef.current.muted;
-      setIsMuted(!isMuted);
-    }
+    if (!audioRef.current) return;
+    audioRef.current.muted = !isMuted;
+    setIsMuted(m => !m);
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3 bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg border border-accent/30">
-      <button 
+    <div
+      className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5"
+      style={{
+        background: 'rgba(255,248,240,0.88)',
+        backdropFilter: 'blur(14px)',
+        borderRadius: '3rem',
+        padding: '0.5rem 1rem 0.5rem 0.5rem',
+        border: '1px solid rgba(248,200,220,0.5)',
+        boxShadow: '0 4px 20px rgba(183,110,121,0.18)',
+      }}
+    >
+      {/* Play / Pause */}
+      <button
         onClick={togglePlay}
-        className="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
-        aria-label={isPlaying ? "Pause music" : "Play music"}
+        aria-label={isPlaying ? 'Pause music' : 'Play music'}
+        className="flex items-center justify-center rounded-full transition-all duration-200"
+        style={{
+          width: 40,
+          height: 40,
+          background: 'linear-gradient(135deg, #B76E79, #C8828D)',
+          color: '#fff',
+          boxShadow: '0 2px 10px rgba(183,110,121,0.4)',
+          flexShrink: 0,
+        }}
       >
-        {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
       </button>
-      
-      <button 
+
+      {/* Wave bars (visible while playing) */}
+      <div
+        className="flex items-end gap-0.5"
+        style={{ height: 18, opacity: isPlaying ? 1 : 0, transition: 'opacity 0.3s' }}
+        aria-hidden="true"
+      >
+        {WAVE_DELAYS.map((delay, i) => (
+          <div
+            key={i}
+            className="music-wave-bar"
+            style={{
+              height: '100%',
+              animationDelay: delay,
+              animationPlayState: isPlaying ? 'running' : 'paused',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Note icon when paused */}
+      {!isPlaying && (
+        <Music size={14} style={{ color: '#B76E79', opacity: 0.7 }} aria-hidden="true" />
+      )}
+
+      {/* Mute */}
+      <button
         onClick={toggleMute}
-        className="w-8 h-8 rounded-full flex items-center justify-center bg-secondary/20 text-text hover:bg-secondary/40 transition-all"
-        aria-label={isMuted ? "Unmute music" : "Mute music"}
+        aria-label={isMuted ? 'Unmute' : 'Mute'}
+        className="flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
+        style={{ color: '#B76E79', padding: '2px' }}
       >
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
-      
-      <span className={cn(
-        "text-xs font-medium transition-opacity duration-300", 
-        isPlaying ? "opacity-100" : "opacity-0"
-      )}>
-        ♫ Wedding Melody
-      </span>
     </div>
   );
 };

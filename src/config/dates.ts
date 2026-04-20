@@ -1,42 +1,87 @@
-// Wedding event configuration
+// Wedding event configuration — ALL content is driven from this config
 export const WEDDING_CONFIG = {
-  // Event dates in ISO format with timezone
-  dates: {
-    engagement: "2025-04-26T17:00:00+05:30", // 26th April 2025, 5:00 PM Indian time
-    wedding: "2025-08-28T10:39:00+05:30", // 17th May 2025, 4:15 PM
+  // ─── Couple & Content ───
+  couple: {
+    name1: "Daril",
+    name2: "Sneha",
+    /** Short display (hero heading) */
+    displayNames: "Daril & Sneha",
+    /** Hero tagline above names */
+    tagline: "Wedding Invitation",
+    /** Primary wedding message */
+    weddingMessage: "We are getting married",
+    /** Supporting sub-message */
+    supportingMessage: "Join us to celebrate our special day",
+    /** Venue line shown under date */
+    venue: "St. George Shrine Church · Kulathuvayal",
   },
 
-  // Media configuration
+  // ─── Event Dates (ISO with timezone) ───
+  dates: {
+    engagement: "2026-05-26T17:00:00+05:30", // 26th May 2026, 5:00 PM IST
+    wedding: "2026-08-28T10:39:00+05:30", // 28th August 2026, 10:39 AM IST
+  },
+
+  // ─── Countdown Behaviour ───
+  countdown: {
+    /** Style: "premium" | "minimal" */
+    style: "premium" as "premium" | "minimal",
+    /** Labels for countdown */
+    engagementLabel: "Countdown to Betrothal",
+    weddingLabel: "Countdown to Our Wedding",
+    /** Show dual-event timeline indicator on hero */
+    showDualEventTimeline: true,
+    /** Engagement event label in timeline */
+    engagementTimelineLabel: "Betrothal",
+    /** Wedding event label in timeline */
+    weddingTimelineLabel: "Wedding",
+  },
+
+  // ─── Text Overlay / Visibility ───
+  textOverlay: {
+    /** Hero overlay gradient — strengthened for readability */
+    heroGradient:
+      "linear-gradient(to bottom, rgba(10,5,5,0.65) 0%, rgba(10,5,5,0.35) 35%, rgba(10,5,5,0.50) 65%, rgba(10,5,5,0.75) 100%)",
+    /** Glass effect behind hero text block */
+    heroGlass: {
+      enabled: false,
+      background: "rgba(10, 5, 5, 0.30)",
+      blur: 12, // px
+      borderRadius: 24, // px
+      border: "1px solid rgba(230,203,168,0.15)",
+    },
+    /** Text shadow for hero text */
+    textShadow: "0 2px 24px rgba(0,0,0,0.6), 0 4px 48px rgba(0,0,0,0.35)",
+    /** Name-specific stronger shadow */
+    nameShadow: "0 2px 28px rgba(0,0,0,0.65), 0 6px 52px rgba(0,0,0,0.4)",
+  },
+
+  // ─── Media Configuration ───
   media: {
-    // YouTube video ID or full embed URL
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
-
-    // Background music URL
     musicUrl: "/music/msuic1.mp3",
-
-    // Fireworks configuration
     fireworks: {
-      duration: 50000, // Duration in milliseconds
-      intensity: 7, // Intensity level (1-10)
-      startDelay: 500, // Delay before starting in milliseconds
+      duration: 50000,
+      intensity: 7,
+      startDelay: 500,
     },
   },
 
-  // Feature flags to enable/disable features
+  // ─── Feature Flags ───
   features: {
-    autoPlayMusic: true, // Auto-play music when page loads
-    showFireworks: false, // Show fireworks animation
-    showVideo: false, // Show YouTube video
+    autoPlayMusic: true,
+    showFireworks: false,
+    showVideo: false,
+    /** Enable parallax on hero section */
+    heroParallax: true,
+    /** Enable floating decorations */
+    floatingDecorations: true,
 
-    // Countdown completion triggers
     countdownTriggers: {
-      enabled: true, // Enable automatic triggers when countdown reaches zero
-      showFireworks: true, // Show fireworks when countdown reaches zero
-      showVideo: true, // Show video when countdown reaches zero (engagement only)
-      fireworksDuration: 60000, // How long to show fireworks after countdown reaches zero
+      enabled: true,
+      showFireworks: true,
+      showVideo: true,
+      fireworksDuration: 60000,
     },
   },
 };
-//TODO: Update dates
-
-// engagement date no live
