@@ -15,98 +15,100 @@ interface CountdownTimerProps {
   className?: string;
 }
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ 
-  targetDate, 
-  label, 
+const CountdownTimer: React.FC<CountdownTimerProps> = ({
+  targetDate,
+  label,
   onComplete,
-  className 
+  className,
 }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = new Date(targetDate).getTime() - new Date().getTime();
-      
+    const calculateTimeLeft = (): TimeLeft => {
+      const difference = new Date(targetDate).getTime() - Date.now();
       if (difference <= 0) {
         if (!isComplete) {
           setIsComplete(true);
-          if (onComplete) onComplete();
+          onComplete?.();
         }
         return { days: 0, hours: 0, minutes: 0, seconds: 0 };
       }
-
       return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        days:    Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours:   Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        seconds: Math.floor((difference % (1000 * 60)) / 1000),
       };
     };
 
-    // Calculate time left initially
     setTimeLeft(calculateTimeLeft());
-
-    // Update time left every second
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    // Clean up on unmount
+    const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
     return () => clearInterval(timer);
   }, [targetDate, isComplete, onComplete]);
 
-  const formatNumber = (num: number) => String(num).padStart(2, '0');
+  const fmt = (n: number) => String(n).padStart(2, '0');
+
+  if (isComplete) {
+    return (
+      <div className={cn('text-center py-4', className)}>
+        <p className="font-serif italic text-xl" style={{ color: '#B76E79' }}>
+          ✨ United Forever ✨
+        </p>
+      </div>
+    );
+  }
+
+  const units = timeLeft.days > 0
+    ? [
+        { value: timeLeft.days,    label: 'Days'    },
+        { value: timeLeft.hours,   label: 'Hours'   },
+        { value: timeLeft.minutes, label: 'Minutes' },
+        { value: timeLeft.seconds, label: 'Seconds' },
+      ]
+    : [
+        { value: timeLeft.hours,   label: 'Hours'   },
+        { value: timeLeft.minutes, label: 'Minutes' },
+        { value: timeLeft.seconds, label: 'Seconds' },
+      ];
 
   return (
-    <>
-      <div className={cn("space-y-3", className)}>
-        <h3 className="text-center text-primary font-medium">{label}</h3>
-        {isComplete ? (
-          <div className="text-center">
-            <p className="text-primary font-medium text-lg">
-              {label} has begun! ✨
-            </p>
+    <div className={cn('space-y-4', className)}>
+      {label && (
+        <p
+          className="text-center text-sm font-semibold uppercase tracking-widest"
+          style={{ color: '#B76E79', letterSpacing: '0.12em' }}
+        >
+          {label}
+        </p>
+      )}
+      <div className="flex justify-center gap-3 sm:gap-5">
+        {units.map((unit, i) => (
+          <div
+            key={unit.label}
+            className="countdown-box flex flex-col items-center justify-center"
+            style={{
+              minWidth: timeLeft.days > 0 ? '4.5rem' : '5rem',
+              padding: '1rem 0.75rem',
+              animationDelay: `${i * 0.4}s`,
+            }}
+          >
+            <span
+              className="countdown-number"
+              style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}
+            >
+              {fmt(unit.value)}
+            </span>
+            <span
+              className="mt-1.5 text-xs uppercase tracking-widest font-medium"
+              style={{ color: '#9D7070', letterSpacing: '0.1em' }}
+            >
+              {unit.label}
+            </span>
           </div>
-        ) : (
-          timeLeft.days > 0 || (timeLeft.days === 0 && label.includes("Wedding")) ? (
-            <div className="flex justify-center gap-2 sm:gap-5">
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
-                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.days)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Days</div>
-              </div>
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
-                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Hours</div>
-              </div>
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
-                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Mins</div>
-              </div>
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-14 sm:min-w-20">
-                <div className="text-2xl sm:text-5xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Secs</div>
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center gap-2 sm:gap-5">
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
-                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.hours)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Hours</div>
-              </div>
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
-                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.minutes)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Mins</div>
-              </div>
-              <div className="wedding-card p-2 sm:p-5 text-center min-w-12 sm:min-w-16">
-                <div className="text-xl sm:text-4xl font-serif text-primary">{formatNumber(timeLeft.seconds)}</div>
-                <div className="text-xs sm:text-sm uppercase text-text/70 mt-1 font-medium">Secs</div>
-              </div>
-            </div>
-          )
-        )}
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

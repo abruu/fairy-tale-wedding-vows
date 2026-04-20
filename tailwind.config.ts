@@ -62,8 +62,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-                text: '#6B4F4F',
-                heading: '#5C4033'
+				// Wedding palette — hex values so opacity modifiers (/70 etc.) work
+				text: '#5A3E3E',
+				heading: '#4B3832',
+				// Semantic wedding colours
+				'blush-pink': '#F8C8DC',
+				'champagne-gold': '#E6CBA8',
+				'rose-gold': '#B76E79',
+				'sage-green': '#A8C3A0',
+				'soft-peach': '#FFD6C9',
+				'ivory': '#FFF8F0',
+				'charcoal': '#3A3A3A',
+				'deep-brown': '#4B3832',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -72,38 +82,96 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				},
 				'wiggle': {
 					'0%, 100%': { transform: 'rotate(-6deg)' },
 					'25%': { transform: 'rotate(-3deg)' },
 					'50%': { transform: 'rotate(3deg)' },
 					'75%': { transform: 'rotate(6deg)' }
-				}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+					'33%': { transform: 'translateY(-12px) rotate(4deg)' },
+					'66%': { transform: 'translateY(-6px) rotate(-3deg)' },
+				},
+				'petal-fall': {
+					'0%': { transform: 'translateY(-30px) rotateZ(0deg)', opacity: '0' },
+					'5%': { opacity: '0.85' },
+					'90%': { opacity: '0.5' },
+					'100%': { transform: 'translateY(110vh) rotateZ(720deg)', opacity: '0' },
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' },
+				},
+				'glow-pulse': {
+					'0%, 100%': { opacity: '0.7', transform: 'scale(1)' },
+					'50%': { opacity: '1', transform: 'scale(1.06)' },
+				},
+				'heartbeat': {
+					'0%, 100%': { transform: 'scale(1)' },
+					'10%': { transform: 'scale(1.18)' },
+					'20%': { transform: 'scale(1)' },
+					'30%': { transform: 'scale(1.1)' },
+					'40%': { transform: 'scale(1)' },
+				},
+				'fade-up': {
+					'0%': { opacity: '0', transform: 'translateY(40px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' },
+				},
+				'slide-in-left': {
+					'0%': { opacity: '0', transform: 'translateX(-30px)' },
+					'100%': { opacity: '1', transform: 'translateX(0)' },
+				},
+				'scale-in': {
+					'0%': { opacity: '0', transform: 'scale(0.85)' },
+					'100%': { opacity: '1', transform: 'scale(1)' },
+				},
+				'wave-bar': {
+					'0%, 100%': { transform: 'scaleY(0.4)' },
+					'50%': { transform: 'scaleY(1)' },
+				},
+				'scroll-dot': {
+					'0%': { transform: 'translateY(0)', opacity: '1' },
+					'100%': { transform: 'translateY(8px)', opacity: '0' },
+				},
+				'reveal-clip': {
+					'0%': { clipPath: 'inset(0 100% 0 0)' },
+					'100%': { clipPath: 'inset(0 0% 0 0)' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'wiggle': 'wiggle 5s ease-in-out infinite',
 				'wiggle-delay': 'wiggle 5s ease-in-out 1s infinite',
-				'wiggle-delay-2': 'wiggle 5s ease-in-out 2s infinite'
+				'wiggle-delay-2': 'wiggle 5s ease-in-out 2s infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'float-slow': 'float 9s ease-in-out infinite',
+				'petal-fall': 'petal-fall 10s linear infinite',
+				'shimmer': 'shimmer 4s linear infinite',
+				'glow-pulse': 'glow-pulse 2.5s ease-in-out infinite',
+				'heartbeat': 'heartbeat 2.2s ease-in-out infinite',
+				'fade-up': 'fade-up 0.8s ease-out forwards',
+				'fade-in': 'fade-in 0.6s ease-out forwards',
+				'slide-in-left': 'slide-in-left 0.6s ease-out forwards',
+				'scale-in': 'scale-in 0.5s ease-out forwards',
+				'wave-bar': 'wave-bar 1s ease-in-out infinite',
+				'scroll-dot': 'scroll-dot 1.5s ease-in-out infinite',
 			},
             fontFamily: {
-                serif: ['Playfair Display', 'serif'],
-                sans: ['Montserrat', 'sans-serif']
+                serif: ['Playfair Display', 'Georgia', 'serif'],
+                sans: ['Montserrat', 'system-ui', 'sans-serif'],
             }
 		}
 	},
