@@ -19,7 +19,7 @@ export const WEDDING_CONFIG = {
   // ─── Event Dates (ISO with timezone) ───
   dates: {
     engagement: "2026-05-26T17:00:00+05:30", // 26th May 2026, 5:00 PM IST
-    wedding: "2026-08-28T10:39:00+05:30",    // 28th August 2026, 10:39 AM IST
+    wedding: "2026-08-28T10:39:00+05:30", // 28th August 2026, 10:39 AM IST
   },
 
   // ─── Countdown Behaviour ───

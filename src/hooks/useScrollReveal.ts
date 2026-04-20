@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { ANIMATION_CONFIG } from '@/config/animations';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { ANIMATION_CONFIG } from "@/config/animations";
 
-type RevealAnimation = 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-in';
+type RevealAnimation =
+  | "fade-up"
+  | "fade-in"
+  | "fade-left"
+  | "fade-right"
+  | "scale-in";
 
 interface UseScrollRevealOptions {
   /** Override default animation */
@@ -63,11 +68,12 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   const style: React.CSSProperties = disabled
     ? {}
     : {
-        transitionProperty: 'opacity, transform',
+        transitionProperty: "opacity, transform",
         transitionDuration: `${duration}ms`,
-        transitionTimingFunction: ANIMATION_CONFIG.sectionTransitions.fadeSlideUp.easing,
+        transitionTimingFunction:
+          ANIMATION_CONFIG.sectionTransitions.fadeSlideUp.easing,
         transitionDelay: `${delay}ms`,
-        willChange: 'opacity, transform',
+        willChange: "opacity, transform",
         ...(revealed ? getRevealedStyle() : getHiddenStyle(animation)),
       };
 
@@ -78,22 +84,22 @@ function getHiddenStyle(animation: RevealAnimation): React.CSSProperties {
   const dist = ANIMATION_CONFIG.sectionTransitions.fadeSlideUp.distance;
   const base: React.CSSProperties = { opacity: 0 };
   switch (animation) {
-    case 'fade-up':
+    case "fade-up":
       return { ...base, transform: `translateY(${dist}px)` };
-    case 'fade-left':
+    case "fade-left":
       return { ...base, transform: `translateX(-${dist}px)` };
-    case 'fade-right':
+    case "fade-right":
       return { ...base, transform: `translateX(${dist}px)` };
-    case 'scale-in':
-      return { ...base, transform: 'scale(0.88)' };
-    case 'fade-in':
+    case "scale-in":
+      return { ...base, transform: "scale(0.88)" };
+    case "fade-in":
     default:
       return base;
   }
 }
 
 function getRevealedStyle(): React.CSSProperties {
-  return { opacity: 1, transform: 'translate3d(0,0,0) scale(1)' };
+  return { opacity: 1, transform: "translate3d(0,0,0) scale(1)" };
 }
 
 /**

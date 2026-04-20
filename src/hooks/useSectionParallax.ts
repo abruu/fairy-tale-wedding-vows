@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { ANIMATION_CONFIG } from '@/config/animations';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { ANIMATION_CONFIG } from "@/config/animations";
 
 /**
  * Tracks a section's position relative to the viewport and
@@ -15,7 +15,7 @@ export function useSectionParallax() {
   const currentProgress = useRef(0);
   const targetProgress = useRef(0);
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const disabled =
     !ANIMATION_CONFIG.enabled ||
     !cfg.enabled ||
@@ -41,12 +41,12 @@ export function useSectionParallax() {
       targetProgress.current = Math.max(0, Math.min(1, raw));
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll(); // initial
     rafId.current = requestAnimationFrame(tick);
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(rafId.current);
     };
   }, [disabled, tick]);
@@ -61,7 +61,7 @@ export function useSectionParallax() {
       const offset = (progress - 0.5) * speed * cfg.maxOffset;
       return {
         transform: `translate3d(0, ${offset}px, 0)`,
-        willChange: 'transform',
+        willChange: "transform",
       };
     },
     [disabled, progress, cfg.maxOffset],
