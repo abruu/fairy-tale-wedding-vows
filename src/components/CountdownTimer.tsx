@@ -119,13 +119,13 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     ? [
         { value: timeLeft.days,    label: 'Days'    },
         { value: timeLeft.hours,   label: 'Hours'   },
-        { value: timeLeft.minutes, label: 'Minutes' },
-        { value: timeLeft.seconds, label: 'Seconds' },
+        { value: timeLeft.minutes, label: 'Min' },
+        { value: timeLeft.seconds, label: 'Sec' },
       ]
     : [
         { value: timeLeft.hours,   label: 'Hours'   },
-        { value: timeLeft.minutes, label: 'Minutes' },
-        { value: timeLeft.seconds, label: 'Seconds' },
+        { value: timeLeft.minutes, label: 'Min' },
+        { value: timeLeft.seconds, label: 'Sec' },
       ];
 
   return (

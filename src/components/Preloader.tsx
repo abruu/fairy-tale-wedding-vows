@@ -76,7 +76,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
           transition: 'opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s',
         }}
       >
-        Daril &amp; Sneha
+        Praveena &amp; Sneha
       </h1>
 
       {/* Scripture */}

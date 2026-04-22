@@ -9,7 +9,7 @@ interface VideoIntroProps {
 type Phase = 'idle' | 'playing' | 'fading' | 'done';
 
 // Safety timeout: if video stalls in 'playing' for this long, skip it
-const VIDEO_STALL_TIMEOUT_MS = 30000;
+const VIDEO_STALL_TIMEOUT_MS = 15000;
 // How long the fade-out transition lasts
 const FADE_DURATION_MS = 1200;
 
@@ -17,6 +17,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [phase, setPhase] = useState<Phase>('idle');
   const [videoReady, setVideoReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const stallTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasTriggeredRef = useRef(false);
 
@@ -51,20 +52,23 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
 
   // ── User clicks → play the video ──
   const handlePlay = useCallback(() => {
-    if (phase !== 'idle') return;
+    if (phase !== 'idle' || isLoading) return;
     const vid = videoRef.current;
     if (!vid) { triggerFadeOut(); return; }
 
+    setIsLoading(true);
     onStart?.(); // start music immediately
 
     vid.play().then(() => {
+      setIsLoading(false);
       setPhase('playing');
       // Safety: if video stalls, skip after timeout
       stallTimerRef.current = setTimeout(triggerFadeOut, VIDEO_STALL_TIMEOUT_MS);
     }).catch(() => {
+      setIsLoading(false);
       triggerFadeOut();
     });
-  }, [phase, onStart, triggerFadeOut]);
+  }, [phase, isLoading, onStart, triggerFadeOut]);
 
   // ── Cleanup stall timer on unmount ──
   useEffect(() => {
@@ -80,7 +84,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
 
   return (
     <div
-      onClick={isIdle ? handlePlay : undefined}
+      onClick={isIdle && !isLoading ? handlePlay : undefined}
       style={{
         position: 'fixed',
         inset: 0,
@@ -89,7 +93,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
         overflow: 'hidden',
         opacity: isFading ? 0 : 1,
         transition: `opacity ${FADE_DURATION_MS}ms ease`,
-        cursor: isIdle ? 'pointer' : 'default',
+        cursor: isIdle && !isLoading ? 'pointer' : 'default',
       }}
     >
       {/* ── Video (shows first frame immediately) ── */}
@@ -97,7 +101,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
         ref={videoRef}
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         onLoadedMetadata={handleLoadedMetadata}
         onCanPlay={handleCanPlay}
         onEnded={triggerFadeOut}
@@ -114,8 +118,47 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
         <source src="/video/openVideo.mov" type="video/quicktime" />
       </video>
 
+      {/* ── Loading spinner (after tap, while video buffers) ── */}
+      {isLoading && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(10,5,5,0.7)',
+            zIndex: 2,
+          }}
+        >
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+              border: '3px solid rgba(168,201,230,0.15)',
+              borderTopColor: 'rgba(168,201,230,0.8)',
+              animation: 'vi-spin 0.8s linear infinite',
+            }}
+          />
+          <p
+            style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontSize: '0.65rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(168,201,230,0.5)',
+              marginTop: '1rem',
+            }}
+          >
+            Loading…
+          </p>
+        </div>
+      )}
+
       {/* ── Play overlay (visible only when idle, before user clicks) ── */}
-      {isIdle && (
+      {isIdle && !isLoading && (
         <div
           style={{
             position: 'absolute',
@@ -174,12 +217,15 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
-              fontSize: 'clamp(3rem, 11vw, 6rem)',
+              fontSize: 'clamp(2rem, 10vw, 6rem)',
               color: '#A8C9E6',
               textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(168,201,230,0.15)',
               margin: 0,
               lineHeight: 1.05,
               animation: 'vi-slide-up 1s ease-out 0.6s both',
+              maxWidth: '90vw',
+              textAlign: 'center',
+              wordBreak: 'break-word',
             }}
           >
             Sebin
@@ -203,12 +249,15 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
-              fontSize: 'clamp(3rem, 11vw, 6rem)',
+              fontSize: 'clamp(2rem, 10vw, 6rem)',
               color: '#A8C9E6',
               textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(168,201,230,0.15)',
               margin: 0,
               lineHeight: 1.05,
               animation: 'vi-slide-up 1s ease-out 0.85s both',
+              maxWidth: '90vw',
+              textAlign: 'center',
+              wordBreak: 'break-word',
             }}
           >
             Praveena

@@ -21,6 +21,12 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
   const animFrameRef = useRef(0);
   const scrollPos = useRef(0);
   const isPaused = useRef(false);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragScrollStart = useRef(0);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const dragMovedPx = useRef(0);
 
   const galleryCfg = ANIMATION_CONFIG.gallery;
 
@@ -81,11 +87,47 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
     return () => cancelAnimationFrame(animFrameRef.current);
   }, [galleryCfg.autoSlide]);
 
+  // Cleanup resume timer
+  useEffect(() => {
+    return () => { if (resumeTimer.current) clearTimeout(resumeTimer.current); };
+  }, []);
+
   const handleMouseEnter = () => {
-    if (galleryCfg.autoSlide.pauseOnHover) isPaused.current = true;
+    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current) isPaused.current = true;
   };
   const handleMouseLeave = () => {
-    if (galleryCfg.autoSlide.pauseOnHover) isPaused.current = false;
+    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current) isPaused.current = false;
+  };
+
+  // ── Manual drag / touch scroll ──
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!scrollRef.current) return;
+    isDragging.current = true;
+    dragMovedPx.current = 0;
+    dragStartX.current = e.clientX;
+    dragScrollStart.current = scrollPos.current;
+    scrollRef.current.setPointerCapture(e.pointerId);
+    isPaused.current = true;
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    const delta = dragStartX.current - e.clientX;
+    dragMovedPx.current = Math.abs(delta);
+    const maxScroll = scrollRef.current.scrollWidth / 2;
+    const newPos = ((dragScrollStart.current + delta) % maxScroll + maxScroll) % maxScroll;
+    scrollPos.current = newPos;
+    scrollRef.current.scrollLeft = newPos;
+  };
+
+  const handlePointerUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    // Resume auto-scroll 1.5 s after the user releases
+    resumeTimer.current = setTimeout(() => {
+      isPaused.current = false;
+    }, 1500);
   };
 
   // Responsive grid: vary the aspect ratio for a more dynamic feel
@@ -103,8 +145,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
         <div
           ref={scrollRef}
           className="gallery-autoslide"
+          style={{ cursor: 'grab' }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
         >
           <div className="gallery-autoslide-track">
             {displayImages.map((image, index) => {
@@ -115,7 +162,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                 <div
                   key={`slide-${index}`}
                   className="gallery-autoslide-item gallery-item-enhanced"
-                  onClick={() => openLightbox(index % images.length)}
+                  onClick={() => { if (dragMovedPx.current < 6) openLightbox(index % images.length); }}
                   role="button"
                   tabIndex={0}
                   aria-label={`View photo: ${image.alt}`}

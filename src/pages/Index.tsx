@@ -191,7 +191,7 @@ const Index = () => {
 
           {/* Central hero content — foreground parallax */}
           <div
-            className="relative z-20 text-center px-5 max-w-3xl mx-auto"
+            className="relative z-20 text-center  max-w-3xl mx-auto"
             style={!parallaxDisabled ? {
               transform: `translate3d(0, ${-parallaxOffsets.fg * 0.5}px, 0)`,
               willChange: 'transform',
@@ -222,16 +222,51 @@ const Index = () => {
                 </p>
 
                 {/* Names — primary headline */}
-                <h1
+                <div
                   className="hero-names mb-2"
                   style={{
-                    fontSize: 'clamp(2.8rem, 9vw, 6.5rem)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    lineHeight: 1.05,
                     animation: 'fade-up 1s ease-out 0.4s both',
-                    textShadow: WEDDING_CONFIG.textOverlay.nameShadow,
                   }}
                 >
-                  {WEDDING_CONFIG.couple.displayNames}
-                </h1>
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(2.8rem, 9vw, 6.5rem)',
+                      color: '#fff',
+                      textShadow: WEDDING_CONFIG.textOverlay.nameShadow,
+                    }}
+                  >
+                    {WEDDING_CONFIG.couple.name1}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(1rem, 3vw, 1.8rem)',
+                      color: 'rgba(168,201,230,0.85)',
+                      letterSpacing: '0.1em',
+                      margin: '0.15em 0',
+                    }}
+                  >
+                    &amp;
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(2.8rem, 9vw, 6.5rem)',
+                      color: '#fff',
+                      textShadow: WEDDING_CONFIG.textOverlay.nameShadow,
+                    }}
+                  >
+                    {WEDDING_CONFIG.couple.name2}
+                  </span>
+                </div>
 
                 {/* Wedding message — secondary headline */}
                 <p
@@ -258,7 +293,7 @@ const Index = () => {
                 </div>
 
                 {/* Date — prominently highlighted */}
-                <p
+                {/* <p
                   className="hero-date-highlight font-serif text-lg md:text-2xl mb-1 font-semibold"
                   style={{
                     color: '#A8C9E6',
@@ -267,10 +302,10 @@ const Index = () => {
                   }}
                 >
                   {weddingDateFormatted}
-                </p>
+                </p> */}
 
                 {/* Venue */}
-                <p
+                {/* <p
                   className="text-xs uppercase tracking-[0.2em] mb-4"
                   style={{
                     color: 'rgba(255,255,255,0.65)',
@@ -279,7 +314,7 @@ const Index = () => {
                   }}
                 >
                   {WEDDING_CONFIG.couple.venue}
-                </p>
+                </p> */}
 
                 {/* Supporting line */}
                 <p
@@ -366,7 +401,7 @@ const Index = () => {
           </div>
 
           {/* Scroll indicator */}
-          <div
+          {/* <div
             className="scroll-indicator"
             onClick={scrollToContent}
             aria-label="Scroll down"
@@ -375,7 +410,7 @@ const Index = () => {
               scroll
             </span>
             <div className="scroll-mouse" />
-          </div>
+          </div> */}
         </section>
 
         {/* ══════════ SCRIPTURE BANNER ══════════ */}
@@ -756,7 +791,7 @@ const Index = () => {
             <p className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(255,248,240,0.55)' }}>
               Sharing the happiness — though miles apart, always in our hearts.
             </p>
-            <p className="font-medium text-base mb-8" style={{ color: '#A8C9E6' }}>Joel &amp; Megha</p>
+            {/* <p className="font-medium text-base mb-8" style={{ color: '#A8C9E6' }}>Joel &amp; Megha</p> */}
 
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
               © 2026 Praveena &amp; Sebin · Crafted with love ♥
