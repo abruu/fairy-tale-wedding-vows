@@ -83,14 +83,14 @@ export const ANIMATION_CONFIG = {
     /** Button hover: scale + glow */
     buttonHover: {
       scale: 1.04,
-      glowColor: "rgba(183,110,121,0.4)",
+      glowColor: "rgba(74,127,193,0.4)",
       glowSize: "0 0 20px",
       duration: 300,
     },
     /** Soft pulsing glow on important elements */
     glowPulse: {
       enabled: true,
-      color: "rgba(183,110,121,0.3)",
+      color: "rgba(74,127,193,0.3)",
       duration: 2500,
     },
     /** Card hover lift */

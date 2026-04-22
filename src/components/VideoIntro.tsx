@@ -131,10 +131,10 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           <p
             style={{
               fontFamily: "'Montserrat', sans-serif",
-              fontSize: '0.6rem',
+              fontSize: '0.72rem',
               letterSpacing: '0.45em',
               textTransform: 'uppercase',
-              color: 'rgba(230,203,168,0.6)',
+              color: 'rgba(168,201,230,0.6)',
               marginBottom: '0.6rem',
               animation: 'vi-slide-down 1s ease-out 0.2s both',
             }}
@@ -148,7 +148,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               width: 80,
               height: 1,
-              background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.5), transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(168,201,230,0.5), transparent)',
               marginBottom: '1.4rem',
               animation: 'vi-expand 1.2s ease-out 0.4s both',
             }}
@@ -158,10 +158,10 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           <p
             style={{
               fontFamily: "'Montserrat', sans-serif",
-              fontSize: 'clamp(0.55rem, 1.8vw, 0.75rem)',
+              fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(183,110,121,0.8)',
+              color: 'rgba(74,127,193,0.8)',
               marginBottom: '0.5rem',
               animation: 'vi-slide-up 0.9s ease-out 0.5s both',
             }}
@@ -174,15 +174,15 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
-              fontSize: 'clamp(2.4rem, 9vw, 5rem)',
-              color: '#E6CBA8',
-              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(230,203,168,0.15)',
+              fontSize: 'clamp(3rem, 11vw, 6rem)',
+              color: '#A8C9E6',
+              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(168,201,230,0.15)',
               margin: 0,
               lineHeight: 1.05,
               animation: 'vi-slide-up 1s ease-out 0.6s both',
             }}
           >
-            Daril
+            Sebin
           </h1>
 
           {/* ── Ampersand ── */}
@@ -191,7 +191,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
               fontSize: 'clamp(1.2rem, 4vw, 2rem)',
-              color: 'rgba(183,110,121,0.7)',
+              color: 'rgba(74,127,193,0.7)',
               margin: '0.15rem 0',
               animation: 'vi-slide-up 1s ease-out 0.75s both, heartbeat 2.5s ease-in-out 2s infinite',
             }}
@@ -203,15 +203,15 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
-              fontSize: 'clamp(2.4rem, 9vw, 5rem)',
-              color: '#E6CBA8',
-              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(230,203,168,0.15)',
+              fontSize: 'clamp(3rem, 11vw, 6rem)',
+              color: '#A8C9E6',
+              textShadow: '0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(168,201,230,0.15)',
               margin: 0,
               lineHeight: 1.05,
               animation: 'vi-slide-up 1s ease-out 0.85s both',
             }}
           >
-            Sneha
+            Praveena
           </h1>
 
           {/* ── Date line ── */}
@@ -224,25 +224,25 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.9s ease-out 1s both',
             }}
           >
-            <div style={{ width: 30, height: 1, background: 'rgba(230,203,168,0.35)' }} />
+            <div style={{ width: 30, height: 1, background: 'rgba(168,201,230,0.35)' }} />
             <p
               style={{
                 fontFamily: "'Montserrat', sans-serif",
-                fontSize: 'clamp(0.6rem, 1.8vw, 0.78rem)',
+                fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
                 letterSpacing: '0.25em',
                 color: 'rgba(255,255,255,0.5)',
               }}
             >
-              28 · 08 · 2026
+              23 · 08 · 2026
             </p>
-            <div style={{ width: 30, height: 1, background: 'rgba(230,203,168,0.35)' }} />
+            <div style={{ width: 30, height: 1, background: 'rgba(168,201,230,0.35)' }} />
           </div>
 
           {/* ── Venue ── */}
           <p
             style={{
               fontFamily: "'Montserrat', sans-serif",
-              fontSize: '0.55rem',
+              fontSize: '0.65rem',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.3)',
@@ -250,7 +250,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.9s ease-out 1.1s both',
             }}
           >
-            St. George Shrine Church · Kulathuvayal
+            Pampady Dayara Church · Kottayam
           </p>
 
           {/* ── Decorative line ── */}
@@ -259,7 +259,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             style={{
               width: 80,
               height: 1,
-              background: 'linear-gradient(to right, transparent, rgba(230,203,168,0.5), transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(168,201,230,0.5), transparent)',
               marginTop: '1.4rem',
               animation: 'vi-expand 1.2s ease-out 1.2s both',
             }}
@@ -280,7 +280,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
                 position: 'absolute',
                 inset: -8,
                 borderRadius: '50%',
-                border: '1px solid rgba(230,203,168,0.25)',
+                border: '1px solid rgba(168,201,230,0.25)',
                 animation: 'vi-pulse-ring 2.5s ease-out 2s infinite',
               }}
             />
@@ -290,30 +290,30 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
                 width: 68,
                 height: 68,
                 borderRadius: '50%',
-                border: '1.5px solid rgba(230,203,168,0.5)',
-                background: 'rgba(230,203,168,0.08)',
+                border: '1.5px solid rgba(168,201,230,0.5)',
+                background: 'rgba(168,201,230,0.08)',
                 backdropFilter: 'blur(12px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease',
-                boxShadow: '0 0 30px rgba(230,203,168,0.08)',
+                boxShadow: '0 0 30px rgba(168,201,230,0.08)',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.transform = 'scale(1.12)';
-                e.currentTarget.style.background = 'rgba(230,203,168,0.16)';
-                e.currentTarget.style.boxShadow = '0 0 40px rgba(230,203,168,0.2)';
+                e.currentTarget.style.background = 'rgba(168,201,230,0.16)';
+                e.currentTarget.style.boxShadow = '0 0 40px rgba(168,201,230,0.2)';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.background = 'rgba(230,203,168,0.08)';
-                e.currentTarget.style.boxShadow = '0 0 30px rgba(230,203,168,0.08)';
+                e.currentTarget.style.background = 'rgba(168,201,230,0.08)';
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(168,201,230,0.08)';
               }}
               onClick={e => { e.stopPropagation(); handlePlay(); }}
             >
               <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
-                <path d="M3 1.5L22 14L3 26.5V1.5Z" fill="#E6CBA8" fillOpacity="0.8" />
+                <path d="M3 1.5L22 14L3 26.5V1.5Z" fill="#A8C9E6" fillOpacity="0.8" />
               </svg>
             </button>
           </div>
@@ -325,7 +325,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               fontSize: '0.58rem',
               letterSpacing: '0.35em',
               textTransform: 'uppercase',
-              color: 'rgba(230,203,168,0.45)',
+              color: 'rgba(168,201,230,0.45)',
               marginTop: '1rem',
               animation: 'vi-slide-up 0.8s ease-out 1.6s both, vi-gentle-pulse 3s ease-in-out 2.5s infinite',
             }}
@@ -345,9 +345,9 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.8s ease-out 1.8s both',
             }}
           >
-            <span style={{ color: 'rgba(183,110,121,0.3)', fontSize: '0.5rem' }}>✦</span>
-            <span style={{ color: 'rgba(183,110,121,0.4)', fontSize: '0.7rem', animation: 'heartbeat 2s ease-in-out 2.2s infinite' }}>♥</span>
-            <span style={{ color: 'rgba(183,110,121,0.3)', fontSize: '0.5rem' }}>✦</span>
+            <span style={{ color: 'rgba(74,127,193,0.3)', fontSize: '0.5rem' }}>✦</span>
+            <span style={{ color: 'rgba(74,127,193,0.4)', fontSize: '0.7rem', animation: 'heartbeat 2s ease-in-out 2.2s infinite' }}>♥</span>
+            <span style={{ color: 'rgba(74,127,193,0.3)', fontSize: '0.5rem' }}>✦</span>
           </div>
         </div>
       )}

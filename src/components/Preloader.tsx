@@ -29,7 +29,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden"
       style={{
-        background: 'linear-gradient(160deg, #FFF8F0 0%, #FFF0F4 50%, #FFE6EE 100%)',
+        background: 'linear-gradient(160deg, #F0F7FF 0%, #FFF0F4 50%, #FFE6EE 100%)',
         transition: 'opacity 0.6s ease',
         opacity: phase === 'reveal' ? 1 : 1,
       }}
@@ -59,8 +59,8 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
           />
           <defs>
             <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#B76E79" />
-              <stop offset="100%" stopColor="#E6CBA8" />
+              <stop offset="0%" stopColor="#4A7FC1" />
+              <stop offset="100%" stopColor="#A8C9E6" />
             </linearGradient>
           </defs>
         </svg>
@@ -70,7 +70,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
       <h1
         className="font-serif italic text-3xl md:text-4xl mb-2"
         style={{
-          color: '#B76E79',
+          color: '#4A7FC1',
           opacity: phase === 'reveal' ? 1 : 0,
           transform: phase === 'reveal' ? 'translateY(0)' : 'translateY(16px)',
           transition: 'opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s',
@@ -108,7 +108,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
         style={{
           width: 140,
           height: 2,
-          background: 'rgba(183,110,121,0.15)',
+          background: 'rgba(74,127,193,0.15)',
           opacity: phase === 'loading' ? 1 : 0,
           transition: 'opacity 0.5s ease',
         }}
@@ -116,7 +116,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
         <div
           className="h-full rounded-full"
           style={{
-            background: 'linear-gradient(90deg, #B76E79, #E6CBA8)',
+            background: 'linear-gradient(90deg, #4A7FC1, #A8C9E6)',
             animation: 'shimmer 1.4s ease-in-out infinite',
             backgroundSize: '200% auto',
             width: '100%',

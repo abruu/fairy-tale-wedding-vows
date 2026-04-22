@@ -53,12 +53,12 @@ const RSVPSection: React.FC = () => {
       <div
         aria-hidden="true"
         className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-20"
-        style={{ background: 'radial-gradient(circle, #F8C8DC, transparent)' }}
+        style={{ background: 'radial-gradient(circle, #C5E0FF, transparent)' }}
       />
       <div
         aria-hidden="true"
         className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full opacity-15"
-        style={{ background: 'radial-gradient(circle, #E6CBA8, transparent)' }}
+        style={{ background: 'radial-gradient(circle, #A8C9E6, transparent)' }}
       />
 
       <div className="max-w-xl mx-auto relative z-10">
@@ -66,9 +66,9 @@ const RSVPSection: React.FC = () => {
         <div className="text-center mb-10">
           <div
             className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-5 glow-pulse-element"
-            style={{ background: 'rgba(183,110,121,0.12)' }}
+            style={{ background: 'rgba(74,127,193,0.12)' }}
           >
-            <Heart size={26} style={{ color: '#B76E79' }} fill="#B76E79" />
+            <Heart size={26} style={{ color: '#4A7FC1' }} fill="#4A7FC1" />
           </div>
           <h2 className="section-title mb-3">Send Your Wishes</h2>
           <div className="wedding-divider mx-auto" />
@@ -96,7 +96,7 @@ const RSVPSection: React.FC = () => {
                 Your wishes have been received. We are so grateful to have you celebrating with us!
               </p>
               <div className="mt-6">
-                <span style={{ color: '#B76E79', fontSize: '1.5rem' }}>♥</span>
+                <span style={{ color: '#4A7FC1', fontSize: '1.5rem' }}>♥</span>
               </div>
             </div>
           ) : (
@@ -108,7 +108,7 @@ const RSVPSection: React.FC = () => {
                     className="block text-sm font-medium mb-1.5"
                     style={{ color: '#7A5A5A' }}
                   >
-                    Your Name <span aria-hidden="true" style={{ color: '#B76E79' }}>*</span>
+                    Your Name <span aria-hidden="true" style={{ color: '#4A7FC1' }}>*</span>
                   </label>
                   <input
                     id="wish-name"

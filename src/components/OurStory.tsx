@@ -19,7 +19,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
         <div
           className="absolute left-1/2 top-0 bottom-0 w-px hidden md:block"
           style={{
-            background: 'linear-gradient(to bottom, transparent, rgba(183,110,121,0.35) 10%, rgba(183,110,121,0.35) 90%, transparent)',
+            background: 'linear-gradient(to bottom, transparent, rgba(74,127,193,0.35) 10%, rgba(74,127,193,0.35) 90%, transparent)',
             transform: 'translateX(-50%)',
           }}
           aria-hidden="true"
@@ -28,7 +28,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
         <div
           className="absolute left-5 top-0 bottom-0 w-px md:hidden"
           style={{
-            background: 'linear-gradient(to bottom, transparent, rgba(183,110,121,0.35) 10%, rgba(183,110,121,0.35) 90%, transparent)',
+            background: 'linear-gradient(to bottom, transparent, rgba(74,127,193,0.35) 10%, rgba(74,127,193,0.35) 90%, transparent)',
           }}
           aria-hidden="true"
         />
@@ -52,7 +52,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
                       <div className="wedding-card p-5 inline-block text-left max-w-xs">
                         <span
                           className="block text-xs font-semibold uppercase tracking-widest mb-1.5"
-                          style={{ color: '#B76E79' }}
+                          style={{ color: '#4A7FC1' }}
                         >
                           {item.date}
                         </span>
@@ -63,7 +63,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
                     ) : (
                       <span
                         className="text-sm font-semibold text-right"
-                        style={{ color: '#B76E79' }}
+                        style={{ color: '#4A7FC1' }}
                       >
                         {item.date}
                       </span>
@@ -86,7 +86,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
                       <div className="wedding-card p-5 inline-block max-w-xs">
                         <span
                           className="block text-xs font-semibold uppercase tracking-widest mb-1.5"
-                          style={{ color: '#B76E79' }}
+                          style={{ color: '#4A7FC1' }}
                         >
                           {item.date}
                         </span>
@@ -95,7 +95,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
                         </p>
                       </div>
                     ) : (
-                      <span className="text-sm font-semibold" style={{ color: '#B76E79' }}>
+                      <span className="text-sm font-semibold" style={{ color: '#4A7FC1' }}>
                         {item.date}
                       </span>
                     )}
@@ -115,7 +115,7 @@ const OurStory: React.FC<OurStoryProps> = ({ items }) => {
                   <div className="wedding-card p-4 flex-1">
                     <span
                       className="block text-xs font-semibold uppercase tracking-widest mb-1"
-                      style={{ color: '#B76E79' }}
+                      style={{ color: '#4A7FC1' }}
                     >
                       {item.date}
                     </span>

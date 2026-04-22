@@ -100,23 +100,17 @@ const Index = () => {
 
   const galleryImages = [
     { src: '/lovable-uploads/Image (1).jpeg',  alt: 'Family photo at the engagement ceremony' },
-    { src: '/lovable-uploads/Image (2).jpeg',  alt: 'Alan and Agnes on stairs in traditional attire' },
-    { src: '/lovable-uploads/Image (3).jpeg',  alt: 'Alan and Agnes on stairs' },
-    { src: '/lovable-uploads/Image (4).jpeg',  alt: 'Alan and Agnes on stairs' },
-    { src: '/lovable-uploads/Image (5).jpeg',  alt: 'Alan and Agnes posing by a console table' },
-    { src: '/lovable-uploads/Image (6).jpeg',  alt: 'Alan and Agnes walking outdoors' },
-    { src: '/lovable-uploads/Image (7).jpeg',  alt: 'Alan and Agnes in an elegant setting' },
+    { src: '/lovable-uploads/Image (2).jpeg',  alt: 'Praveena and Sebin in traditional attire' },
+    { src: '/lovable-uploads/Image (3).jpeg',  alt: 'Praveena and Sebin together' },
+    { src: '/lovable-uploads/Image (4).jpeg',  alt: 'Praveena and Sebin together' },
+    { src: '/lovable-uploads/Image (5).jpeg',  alt: 'Praveena and Sebin posing' },
+    { src: '/lovable-uploads/Image (6).jpeg',  alt: 'Praveena and Sebin outdoors' },
+    { src: '/lovable-uploads/Image (7).jpeg',  alt: 'Praveena and Sebin in an elegant setting' },
   ];
 
   const storyItems = [
-    { date: 'January 27, 2025',  content: 'First call with both families via matrimonial.' },
-    { date: 'February 1, 2025',  content: "First visit to Agnes's home with family (Pennukaanal)." },
-    { date: 'February 5, 2025',  content: "Agnes and her family visited Alan's home." },
-    { date: 'February 14, 2025', content: "Final Pennukaanal: Went to Agnes's home with family and relatives to finalize the date." },
-    { date: 'February 18, 2025', content: 'Official first date.' },
-    { date: 'March 2, 2025',     content: 'Engagement Fixation.' },
-    { date: 'April 26, 2025',    content: 'Betrothal.' },
-    { date: 'August 28, 2025',   content: 'Marriage. A new forever begins.' },
+    { date: 'August 17, 2026',  content: 'Engagement at Mulanthuruthy Church Community Hall.' },
+    { date: 'August 23, 2026',  content: 'Holy Matrimony at Pampady Dayara Church. A new forever begins.' },
   ];
 
   const weddingDateFormatted = new Date(WEDDING_CONFIG.dates.wedding).toLocaleDateString('en-GB', {
@@ -158,7 +152,7 @@ const Index = () => {
           >
             <img
               src="/lovable-uploads/Image (11).jpeg"
-              alt="Daril and Sneha"
+              alt="Praveena and Sebin"
               className="w-full h-full object-cover"
               style={{ filter: 'brightness(0.75)' }}
             />
@@ -176,22 +170,22 @@ const Index = () => {
             <div className="absolute top-[22%] left-14 w-28 h-28 animate-wiggle">
               <img src="/lovable-uploads/Image.jpeg" alt="" aria-hidden="true"
                 className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(230,203,168,0.6)' }} />
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
             </div>
             <div className="absolute top-[22%] right-14 w-28 h-28 animate-wiggle-delay">
               <img src="/lovable-uploads/Image (10).jpeg" alt="" aria-hidden="true"
                 className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(230,203,168,0.6)' }} />
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
             </div>
             <div className="absolute bottom-[24%] left-14 w-24 h-24 animate-wiggle-delay-2">
               <img src="/lovable-uploads/Image (6).jpeg" alt="" aria-hidden="true"
                 className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(230,203,168,0.6)' }} />
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
             </div>
             <div className="absolute bottom-[24%] right-14 w-24 h-24 animate-wiggle">
               <img src="/lovable-uploads/Image (4).jpeg" alt="" aria-hidden="true"
                 className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(230,203,168,0.6)' }} />
+                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
             </div>
           </div>
 
@@ -219,7 +213,7 @@ const Index = () => {
                 <p
                   className="text-xs uppercase tracking-[0.3em] mb-3 font-medium"
                   style={{
-                    color: '#E6CBA8',
+                    color: '#A8C9E6',
                     animation: 'fade-in 1s ease-out 0.2s both',
                     textShadow: WEDDING_CONFIG.textOverlay.textShadow,
                   }}
@@ -258,16 +252,16 @@ const Index = () => {
                   className="flex items-center justify-center gap-4 mb-3"
                   style={{ animation: 'fade-in 0.8s ease-out 0.7s both' }}
                 >
-                  <div style={{ height: 1, width: 60, background: 'rgba(230,203,168,0.5)' }} />
-                  <Heart size={14} fill="#E6CBA8" style={{ color: '#E6CBA8' }} />
-                  <div style={{ height: 1, width: 60, background: 'rgba(230,203,168,0.5)' }} />
+                  <div style={{ height: 1, width: 60, background: 'rgba(168,201,230,0.5)' }} />
+                  <Heart size={14} fill="#A8C9E6" style={{ color: '#A8C9E6' }} />
+                  <div style={{ height: 1, width: 60, background: 'rgba(168,201,230,0.5)' }} />
                 </div>
 
                 {/* Date — prominently highlighted */}
                 <p
                   className="hero-date-highlight font-serif text-lg md:text-2xl mb-1 font-semibold"
                   style={{
-                    color: '#E6CBA8',
+                    color: '#A8C9E6',
                     animation: 'fade-in 0.8s ease-out 0.9s both',
                     textShadow: WEDDING_CONFIG.textOverlay.textShadow,
                   }}
@@ -392,13 +386,13 @@ const Index = () => {
         >          <div
             aria-hidden="true"
             className="absolute inset-0 opacity-5"
-            style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #B76E79 0%, transparent 70%), radial-gradient(circle at 80% 50%, #E6CBA8 0%, transparent 70%)' }}
+            style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #4A7FC1 0%, transparent 70%), radial-gradient(circle at 80% 50%, #A8C9E6 0%, transparent 70%)' }}
           />
           <div className="max-w-2xl mx-auto text-center relative">
             <p className="font-serif italic leading-relaxed" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: '#7A4A4A' }}>
               "Let all that you do be done in love."
             </p>
-            <p className="mt-3 text-xs uppercase tracking-widest" style={{ color: '#B76E79' }}>
+            <p className="mt-3 text-xs uppercase tracking-widest" style={{ color: '#4A7FC1' }}>
               1 Corinthians 16:14
             </p>
           </div>
@@ -415,9 +409,9 @@ const Index = () => {
               <div className="flex justify-center mb-6">
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(183,110,121,0.1)' }}
+                  style={{ background: 'rgba(74,127,193,0.1)' }}
                 >
-                  <Heart size={28} fill="#B76E79" style={{ color: '#B76E79' }} />
+                  <Heart size={28} fill="#4A7FC1" style={{ color: '#4A7FC1' }} />
                 </div>
               </div>
 
@@ -425,11 +419,12 @@ const Index = () => {
               <div className="wedding-divider mx-auto mb-8" />
 
               <div className="text-center space-y-3">
+                {/* Groom's family */}
                 <p className="font-medium text-lg" style={{ color: '#4B3832' }}>
-                  Mr. Jose Syriac &amp; Mrs. Shyla Jose
+                  Mr. P A John &amp; Mrs. Gracy John
                 </p>
                 <p className="text-sm" style={{ color: '#9D7070' }}>
-                  Kanakkanchery (H), Kulathuvayal, Kozhikode
+                  Pulickal House, Aruvikuzhy P O, Kottayam, Kerala — Pin 686503
                 </p>
 
                 <p className="max-w-xl mx-auto text-sm md:text-base leading-relaxed pt-4" style={{ color: '#5A3E3E' }}>
@@ -438,27 +433,30 @@ const Index = () => {
                 </p>
 
                 <div className="py-4">
-                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#B76E79' }}>
-                    Daril K Jose
+                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
+                    Sebin John
                   </p>
-                  <p className="my-2 text-sm" style={{ color: '#9D7070' }}>with</p>
-                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#B76E79' }}>
-                    Sneha Kurian
+                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>Pulickal House</p>
+                  <p className="my-3 text-sm" style={{ color: '#9D7070' }}>with</p>
+                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
+                    Praveena Paul
                   </p>
+                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>Penattu House</p>
                 </div>
 
-                <p className="text-xs leading-relaxed pt-2" style={{ color: '#9D7070' }}>
-                  Daughter of Mr. Shijimon Joseph &amp; Mrs. Jessy Shiji<br />
-                  Vennayippilli (H), Thiruvambady, Kozhikode
+                {/* Bride's family */}
+                <p className="text-sm font-medium pt-2" style={{ color: '#4B3832' }}>
+                  Daughter of Mr. Paul P P &amp; Mrs. Rosily Joy
                 </p>
+                <p className="text-xs" style={{ color: '#9D7070' }}>Penattu House</p>
 
                 <div className="pt-6 flex justify-center">
                   <div
                     className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium"
-                    style={{ background: 'rgba(183,110,121,0.08)', color: '#B76E79', border: '1px solid rgba(183,110,121,0.2)' }}
+                    style={{ background: 'rgba(74,127,193,0.08)', color: '#4A7FC1', border: '1px solid rgba(74,127,193,0.2)' }}
                   >
                     <Sparkles size={14} />
-                    Are Officially Married
+                    Joyfully Invite You
                     <Sparkles size={14} />
                   </div>
                 </div>
@@ -481,16 +479,16 @@ const Index = () => {
             aria-hidden="true"
             className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-20 -translate-y-1/2 translate-x-1/2"
             style={{
-              background: 'radial-gradient(circle, #F8C8DC, transparent)',
+              background: 'radial-gradient(circle, #C5E0FF, transparent)',
               ...storyLayerStyle(ANIMATION_CONFIG.parallax.layers.background),
             }}
           />
           <div className="max-w-4xl mx-auto relative z-10">
             <div ref={storyHeaderRef} className="text-center mb-14" style={storyHeaderStyle}>
               <div className="inline-flex items-center gap-2 mb-4">
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
-                <Heart size={14} style={{ color: '#B76E79' }} />
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
+                <Heart size={14} style={{ color: '#4A7FC1' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
               </div>
               <h2 className="section-title mb-3">Our Story</h2>
               <div className="wedding-divider mx-auto" />
@@ -514,9 +512,9 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <div ref={eventsHeaderRef} className="text-center mb-14" style={eventsHeaderStyle}>
               <div className="inline-flex items-center gap-2 mb-4">
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
-                <Calendar size={14} style={{ color: '#B76E79' }} />
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
+                <Calendar size={14} style={{ color: '#4A7FC1' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
               </div>
               <h2 className="section-title mb-3">Event Details</h2>
               <div className="wedding-divider mx-auto" />
@@ -533,36 +531,53 @@ const Index = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <div
                     className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(183,110,121,0.1)' }}
+                    style={{ background: 'rgba(74,127,193,0.1)' }}
                   >
-                    <Heart size={20} style={{ color: '#B76E79' }} />
+                    <Heart size={20} style={{ color: '#4A7FC1' }} />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-0.5" style={{ color: '#B76E79' }}>Engagement</p>
+                    <p className="text-xs uppercase tracking-widest mb-0.5" style={{ color: '#4A7FC1' }}>Engagement</p>
                     <h3 className="font-serif text-xl" style={{ color: '#4B3832' }}>Betrothal Ceremony</h3>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#B76E79' }} />
+                    <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Date</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Tuesday, 26th May 2026</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Monday, 17th August 2026</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#B76E79' }} />
+                    <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Time</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>5:00 PM</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>12:00 PM</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
+                    <div>
+                      <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Venue</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Mulanthuruthy Church Community Hall</p>
+                      <a
+                        href="https://maps.app.goo.gl/caLcK3zZt9DuEbjFA?g_st=aw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
+                        style={{ borderColor: '#4A7FC1', color: '#4A7FC1' }}
+                      >
+                        <MapPin size={12} />
+                        View on Map
+                      </a>
                     </div>
                   </div>
                 </div>
 
                 {/* Betrothal countdown */}
                 {!engagementComplete && (
-                  <div className="mt-8 pt-6" style={{ borderTop: '1px solid rgba(183,110,121,0.15)' }}>
+                  <div className="mt-8 pt-6" style={{ borderTop: '1px solid rgba(74,127,193,0.15)' }}>
                     <CountdownTimer
                       targetDate={engagementDate}
                       label="Days Until Betrothal"
@@ -571,8 +586,8 @@ const Index = () => {
                   </div>
                 )}
                 {engagementComplete && (
-                  <div className="mt-8 pt-6 text-center" style={{ borderTop: '1px solid rgba(183,110,121,0.15)' }}>
-                    <p className="font-serif italic text-base animate-glow-pulse" style={{ color: '#B76E79' }}>
+                  <div className="mt-8 pt-6 text-center" style={{ borderTop: '1px solid rgba(74,127,193,0.15)' }}>
+                    <p className="font-serif italic text-base animate-glow-pulse" style={{ color: '#4A7FC1' }}>
                       ✨ Betrothed ✨
                     </p>
                   </div>
@@ -589,43 +604,59 @@ const Index = () => {
                 <div className="flex items-center gap-3 mb-6">
                   <div
                     className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(230,203,168,0.2)' }}
+                    style={{ background: 'rgba(168,201,230,0.2)' }}
                   >
-                    <Sparkles size={20} style={{ color: '#C9A96E' }} />
+                    <Sparkles size={20} style={{ color: '#5B9BD5' }} />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest mb-0.5" style={{ color: '#C9A96E' }}>Holy Matrimony</p>
+                    <p className="text-xs uppercase tracking-widest mb-0.5" style={{ color: '#5B9BD5' }}>Holy Matrimony</p>
                     <h3 className="font-serif text-xl" style={{ color: '#4B3832' }}>Wedding Ceremony</h3>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#C9A96E' }} />
+                    <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Date</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Friday, 28th August 2026</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Sunday, 23rd August 2026</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#C9A96E' }} />
+                    <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Time</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>10:39 AM</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>11:30 AM</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#C9A96E' }} />
+                    <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Venue</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>St. George Shrine Church</p>
-                      <p className="text-xs mt-0.5" style={{ color: '#9D7070' }}>Kulathuvayal</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Pampady Dayara Church</p>
                       <a
-                        href="https://maps.app.goo.gl/95Xt8TP1BnYuHmep8"
+                        href="https://maps.app.goo.gl/qTyvU2wbLQBZxWp89?g_st=ic"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
-                        style={{ borderColor: '#C9A96E', color: '#C9A96E' }}
+                        style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
+                      >
+                        <MapPin size={12} />
+                        View on Map
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
+                    <div>
+                      <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Reception Venue</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>P. C. Yohannan Ramban Memorial Dhyana Mandiram</p>
+                      <a
+                        href="https://maps.app.goo.gl/5kyJgix7T5RRev9RA?g_st=ic"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
+                        style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
                       >
                         <MapPin size={12} />
                         View on Map
@@ -635,7 +666,7 @@ const Index = () => {
                 </div>
 
                 {/* Wedding countdown */}
-                <div className="mt-8 pt-6" style={{ borderTop: '1px solid rgba(230,203,168,0.2)' }}>
+                <div className="mt-8 pt-6" style={{ borderTop: '1px solid rgba(168,201,230,0.2)' }}>
                   <CountdownTimer
                     targetDate={weddingDate}
                     label="Days Until Wedding"
@@ -660,16 +691,16 @@ const Index = () => {
             aria-hidden="true"
             className="absolute inset-0 opacity-10"
             style={{
-              backgroundImage: 'radial-gradient(circle at 70% 30%, #F8C8DC 0%, transparent 60%)',
+              backgroundImage: 'radial-gradient(circle at 70% 30%, #C5E0FF 0%, transparent 60%)',
               ...galleryLayerStyle(ANIMATION_CONFIG.parallax.layers.background),
             }}
           />
           <div className="max-w-5xl mx-auto relative z-10">
             <div ref={galleryHeaderRef} className="text-center mb-14" style={galleryHeaderStyle}>
               <div className="inline-flex items-center gap-2 mb-4">
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
-                <Camera size={14} style={{ color: '#B76E79' }} />
-                <div style={{ height: 1, width: 36, background: 'rgba(183,110,121,0.4)' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
+                <Camera size={14} style={{ color: '#4A7FC1' }} />
+                <div style={{ height: 1, width: 36, background: 'rgba(74,127,193,0.4)' }} />
               </div>
               <h2 className="section-title mb-3">Cherished Moments</h2>
               <div className="wedding-divider mx-auto" />
@@ -693,42 +724,42 @@ const Index = () => {
           <div
             aria-hidden="true"
             className="absolute inset-0 opacity-5"
-            style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #F8C8DC 0%, transparent 50%), radial-gradient(circle at 70% 50%, #E6CBA8 0%, transparent 50%)' }}
+            style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #C5E0FF 0%, transparent 50%), radial-gradient(circle at 70% 50%, #A8C9E6 0%, transparent 50%)' }}
           />
 
           <div ref={footerRef} className="max-w-2xl mx-auto text-center relative z-10" style={footerStyle}>
             {/* Heart */}
             <div className="flex justify-center mb-5">
               <div style={{ animation: 'heartbeat 2.2s ease-in-out infinite' }}>
-                <Heart size={32} fill="#E6CBA8" style={{ color: '#E6CBA8' }} />
+                <Heart size={32} fill="#A8C9E6" style={{ color: '#A8C9E6' }} />
               </div>
             </div>
 
             {/* Names */}
             <h2
               className="font-serif italic mb-2"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#E6CBA8' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#A8C9E6' }}
             >
               {WEDDING_CONFIG.couple.displayNames}
             </h2>
-            <p className="font-serif italic text-sm mb-6" style={{ color: 'rgba(230,203,168,0.65)' }}>
-              Married · {weddingDateFormatted}
+            <p className="font-serif italic text-sm mb-6" style={{ color: 'rgba(168,201,230,0.65)' }}>
+              Getting Married · {weddingDateFormatted}
             </p>
 
             {/* Divider */}
             <div className="flex items-center justify-center gap-3 mb-6">
-              <div style={{ height: 1, width: 50, background: 'rgba(230,203,168,0.3)' }} />
-              <span style={{ color: '#B76E79', fontSize: '0.9rem' }}>♥</span>
-              <div style={{ height: 1, width: 50, background: 'rgba(230,203,168,0.3)' }} />
+              <div style={{ height: 1, width: 50, background: 'rgba(168,201,230,0.3)' }} />
+              <span style={{ color: '#4A7FC1', fontSize: '0.9rem' }}>♥</span>
+              <div style={{ height: 1, width: 50, background: 'rgba(168,201,230,0.3)' }} />
             </div>
 
             <p className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(255,248,240,0.55)' }}>
               Sharing the happiness — though miles apart, always in our hearts.
             </p>
-            <p className="font-medium text-base mb-8" style={{ color: '#E6CBA8' }}>Joel &amp; Megha</p>
+            <p className="font-medium text-base mb-8" style={{ color: '#A8C9E6' }}>Joel &amp; Megha</p>
 
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              © 2025 Daril &amp; Sneha · Crafted with love ♥
+              © 2026 Praveena &amp; Sebin · Crafted with love ♥
             </p>
           </div>
         </footer>

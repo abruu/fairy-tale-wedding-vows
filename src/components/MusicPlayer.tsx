@@ -93,8 +93,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, f
         backdropFilter: 'blur(14px)',
         borderRadius: '3rem',
         padding: '0.5rem 1rem 0.5rem 0.5rem',
-        border: '1px solid rgba(248,200,220,0.5)',
-        boxShadow: '0 4px 20px rgba(183,110,121,0.18)',
+        border: '1px solid rgba(180,210,255,0.5)',
+        boxShadow: '0 4px 20px rgba(74,127,193,0.18)',
       }}
     >
       {/* Play / Pause */}
@@ -105,9 +105,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, f
         style={{
           width: 40,
           height: 40,
-          background: 'linear-gradient(135deg, #B76E79, #C8828D)',
+          background: 'linear-gradient(135deg, #4A7FC1, #6BA3D6)',
           color: '#fff',
-          boxShadow: '0 2px 10px rgba(183,110,121,0.4)',
+          boxShadow: '0 2px 10px rgba(74,127,193,0.4)',
           flexShrink: 0,
         }}
       >
@@ -135,7 +135,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, f
 
       {/* Note icon when paused */}
       {!isPlaying && (
-        <Music size={14} style={{ color: '#B76E79', opacity: 0.7 }} aria-hidden="true" />
+        <Music size={14} style={{ color: '#4A7FC1', opacity: 0.7 }} aria-hidden="true" />
       )}
 
       {/* Mute */}
@@ -143,7 +143,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioSrc, autoPlay = false, f
         onClick={toggleMute}
         aria-label={isMuted ? 'Unmute' : 'Mute'}
         className="flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
-        style={{ color: '#B76E79', padding: '2px' }}
+        style={{ color: '#4A7FC1', padding: '2px' }}
       >
         {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>

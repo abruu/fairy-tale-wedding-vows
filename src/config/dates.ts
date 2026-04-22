@@ -2,10 +2,10 @@
 export const WEDDING_CONFIG = {
   // ─── Couple & Content ───
   couple: {
-    name1: "Daril",
-    name2: "Sneha",
+    name1: "Sebin",
+    name2: "Praveena",
     /** Short display (hero heading) */
-    displayNames: "Daril & Sneha",
+    displayNames: "Sebin & Praveena",
     /** Hero tagline above names */
     tagline: "Wedding Invitation",
     /** Primary wedding message */
@@ -13,13 +13,13 @@ export const WEDDING_CONFIG = {
     /** Supporting sub-message */
     supportingMessage: "Join us to celebrate our special day",
     /** Venue line shown under date */
-    venue: "St. George Shrine Church · Kulathuvayal",
+    venue: "Pampady Dayara Church · Kottayam",
   },
 
   // ─── Event Dates (ISO with timezone) ───
   dates: {
-    engagement: "2026-05-26T17:00:00+05:30", // 26th May 2026, 5:00 PM IST
-    wedding: "2026-08-28T10:39:00+05:30", // 28th August 2026, 10:39 AM IST
+    engagement: "2026-08-17T12:00:00+05:30", // 17th Aug 2026, 12:00 PM IST
+    wedding: "2026-08-23T11:30:00+05:30", // 23rd August 2026, 11:30 AM IST
   },
 
   // ─── Countdown Behaviour ───

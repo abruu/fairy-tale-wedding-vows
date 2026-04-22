@@ -108,7 +108,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   if (isComplete) {
     return (
       <div className={cn('text-center py-4', className)}>
-        <p className="font-serif italic text-xl animate-glow-pulse" style={{ color: '#B76E79' }}>
+        <p className="font-serif italic text-xl animate-glow-pulse" style={{ color: '#4A7FC1' }}>
           ✨ United Forever ✨
         </p>
       </div>
@@ -134,7 +134,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
         <p
           className="text-center text-sm font-semibold uppercase tracking-widest"
           style={{
-            color: premium ? 'rgba(230,203,168,0.85)' : '#B76E79',
+            color: premium ? 'rgba(168,201,230,0.85)' : '#4A7FC1',
             letterSpacing: '0.12em',
             textShadow: premium ? '0 1px 6px rgba(0,0,0,0.3)' : undefined,
           }}
@@ -165,10 +165,11 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
                 <AnimatedDigit value={fmt(unit.value)} duration={digitDuration} />
               </span>
               <span
-                className={cn('mt-1.5 text-xs uppercase tracking-widest font-medium', premium && 'countdown-label-text')}
+                className={cn('mt-1.5 text-xs uppercase tracking-widest font-semibold', premium && 'countdown-label-text')}
                 style={{
-                  color: premium ? undefined : '#9D7070',
+                  color: premium ? undefined : '#4A7FC1',
                   letterSpacing: '0.1em',
+                  textShadow: premium ? '0 1px 6px rgba(0,0,0,0.6)' : undefined,
                 }}
               >
                 {unit.label}

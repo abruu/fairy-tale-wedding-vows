@@ -10,20 +10,20 @@ interface Petal {
 }
 
 const PETALS: Petal[] = [
-  { left: '8%',  duration: '12s', delay: '0s',   size: 10, opacity: 0.55, color: '#F8C8DC' },
-  { left: '18%', duration: '16s', delay: '2.5s', size: 8,  opacity: 0.45, color: '#E6CBA8' },
+  { left: '8%',  duration: '12s', delay: '0s',   size: 10, opacity: 0.55, color: '#C5E0FF' },
+  { left: '18%', duration: '16s', delay: '2.5s', size: 8,  opacity: 0.45, color: '#A8C9E6' },
   { left: '28%', duration: '11s', delay: '1s',   size: 12, opacity: 0.5,  color: '#FFD6C9' },
-  { left: '40%', duration: '14s', delay: '3.5s', size: 8,  opacity: 0.4,  color: '#F8C8DC' },
-  { left: '52%', duration: '13s', delay: '0.8s', size: 11, opacity: 0.5,  color: '#E6CBA8' },
+  { left: '40%', duration: '14s', delay: '3.5s', size: 8,  opacity: 0.4,  color: '#C5E0FF' },
+  { left: '52%', duration: '13s', delay: '0.8s', size: 11, opacity: 0.5,  color: '#A8C9E6' },
   { left: '62%', duration: '10s', delay: '4s',   size: 9,  opacity: 0.45, color: '#FFD6C9' },
-  { left: '72%', duration: '15s', delay: '1.8s', size: 10, opacity: 0.55, color: '#F8C8DC' },
-  { left: '82%', duration: '12s', delay: '3s',   size: 8,  opacity: 0.4,  color: '#E6CBA8' },
+  { left: '72%', duration: '15s', delay: '1.8s', size: 10, opacity: 0.55, color: '#C5E0FF' },
+  { left: '82%', duration: '12s', delay: '3s',   size: 8,  opacity: 0.4,  color: '#A8C9E6' },
   { left: '90%', duration: '11s', delay: '2s',   size: 12, opacity: 0.5,  color: '#FFD6C9' },
-  { left: '4%',  duration: '17s', delay: '5s',   size: 7,  opacity: 0.35, color: '#F8C8DC' },
-  { left: '35%', duration: '13s', delay: '6s',   size: 9,  opacity: 0.45, color: '#B76E79' },
-  { left: '58%', duration: '14s', delay: '0.3s', size: 8,  opacity: 0.35, color: '#E6CBA8' },
+  { left: '4%',  duration: '17s', delay: '5s',   size: 7,  opacity: 0.35, color: '#C5E0FF' },
+  { left: '35%', duration: '13s', delay: '6s',   size: 9,  opacity: 0.45, color: '#4A7FC1' },
+  { left: '58%', duration: '14s', delay: '0.3s', size: 8,  opacity: 0.35, color: '#A8C9E6' },
   { left: '76%', duration: '16s', delay: '4.5s', size: 11, opacity: 0.5,  color: '#FFD6C9' },
-  { left: '94%', duration: '12s', delay: '2.8s', size: 9,  opacity: 0.4,  color: '#F8C8DC' },
+  { left: '94%', duration: '12s', delay: '2.8s', size: 9,  opacity: 0.4,  color: '#C5E0FF' },
 ];
 
 /** Heart SVG petal */

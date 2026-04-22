@@ -136,7 +136,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                   <div className="gallery-overlay">
                     <div
                       className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
-                      style={{ background: 'rgba(75,56,50,0.6)', backdropFilter: 'blur(6px)' }}
+                      style={{ background: 'rgba(30,50,100,0.6)', backdropFilter: 'blur(6px)' }}
                     >
                       <Expand size={12} />
                       View Photo
@@ -215,7 +215,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                   style={{
                     width: i === currentIndex ? 20 : 6,
                     height: 6,
-                    background: i === currentIndex ? '#E6CBA8' : 'rgba(255,255,255,0.3)',
+                    background: i === currentIndex ? '#A8C9E6' : 'rgba(255,255,255,0.3)',
                   }}
                 />
               ))}
@@ -262,7 +262,7 @@ const GalleryGridItem: React.FC<{
       <div className="gallery-overlay">
         <div
           className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
-          style={{ background: 'rgba(75,56,50,0.6)', backdropFilter: 'blur(6px)' }}
+          style={{ background: 'rgba(30,50,100,0.6)', backdropFilter: 'blur(6px)' }}
         >
           <Expand size={12} />
           View Photo
