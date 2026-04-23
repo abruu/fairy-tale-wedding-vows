@@ -15,10 +15,9 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
     {
-      name: 'wedding-html-inject',
+      name: "wedding-html-inject",
       transformIndexHtml(html: string) {
         return html
           .replace(/%WEDDING_TITLE%/g, weddingTitle)
