@@ -426,64 +426,102 @@ const Index = () => {
         <div ref={mainContentRef} />
 
         {/* ══════════ INVITATION ══════════ */}
-        <section ref={invitationRef} id="invitation" className="py-20 px-4" style={invitationStyle}>
-          <div className="max-w-3xl mx-auto">
-            <div className="wedding-card wedding-card-enhanced p-8 md:p-14">
-              {/* Decorative top */}
-              <div className="flex justify-center mb-6">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(74,127,193,0.1)' }}
-                >
-                  <Heart size={28} fill="#4A7FC1" style={{ color: '#4A7FC1' }} />
+        <section
+          ref={invitationRef}
+          id="invitation"
+          className="invitation-section-bg py-20 px-4 relative overflow-hidden"
+          style={invitationStyle}
+        >
+          {/* Decorative background glows */}
+          <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+            <div
+              className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-30 -translate-x-1/2 -translate-y-1/2"
+              style={{ background: 'radial-gradient(circle, rgba(168,201,230,0.45) 0%, transparent 70%)' }}
+            />
+            <div
+              className="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-25 translate-x-1/3 translate-y-1/3"
+              style={{ background: 'radial-gradient(circle, rgba(74,127,193,0.3) 0%, transparent 70%)' }}
+            />
+          </div>
+
+          <div className="max-w-2xl mx-auto relative z-10">
+            <div className="invitation-frame" data-aos="fade-up">
+
+              {/* Corner flourishes */}
+              <span className="invitation-corner invitation-corner-tl" aria-hidden="true">✦</span>
+              <span className="invitation-corner invitation-corner-tr" aria-hidden="true">✦</span>
+              <span className="invitation-corner invitation-corner-bl" aria-hidden="true">✦</span>
+              <span className="invitation-corner invitation-corner-br" aria-hidden="true">✦</span>
+
+              {/* Header emblem */}
+              <div className="flex flex-col items-center mb-6" data-aos="fade-down" data-aos-delay="100">
+                <div className="invitation-crest">
+                  <Heart size={24} fill="#4A7FC1" style={{ color: '#4A7FC1' }} />
+                </div>
+                <div className="invitation-ornament-line" />
+                <p className="invitation-label">An Invitation From</p>
+                <div className="invitation-ornament-line" />
+              </div>
+
+              {/* Two-family grid */}
+              <div className="invitation-families" data-aos="fade-up" data-aos-delay="150">
+                <div className="invitation-family">
+                  <p className="invitation-family-name">{WEDDING_CONFIG.couple.groomParents}</p>
+                  <p className="invitation-family-address">{WEDDING_CONFIG.couple.groomAddress}</p>
+                </div>
+                <div className="invitation-family-connector" aria-hidden="true">
+                  <div className="invitation-connector-line" />
+                  <span className="invitation-connector-and">and</span>
+                  <div className="invitation-connector-line" />
+                </div>
+                <div className="invitation-family">
+                  <p className="invitation-family-name">{WEDDING_CONFIG.couple.brideParents}</p>
+                  <p className="invitation-family-address">{WEDDING_CONFIG.couple.brideAddress}</p>
                 </div>
               </div>
 
-              <h2 className="section-title mb-2">An Invitation From</h2>
-              <div className="wedding-divider mx-auto mb-8" />
+              {/* Divider */}
+              <div className="wedding-divider mx-auto my-6" />
 
-              <div className="text-center space-y-3">
-                {/* Groom's family */}
-                <p className="font-medium text-lg" style={{ color: '#4B3832' }}>
-                  {WEDDING_CONFIG.couple.groomParents}
-                </p>
-                <p className="text-sm" style={{ color: '#9D7070' }}>
-                  {WEDDING_CONFIG.couple.groomAddress}
-                </p>
+              {/* Intro text */}
+              <p className="invitation-intro-text" data-aos="fade-up" data-aos-delay="200">
+                {WEDDING_CONFIG.couple.invitationIntro}
+              </p>
 
-                <p className="max-w-xl mx-auto text-sm md:text-base leading-relaxed pt-4" style={{ color: '#5A3E3E' }}>
-                  {WEDDING_CONFIG.couple.invitationIntro}
-                </p>
-
-                <div className="py-4">
-                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
-                    {WEDDING_CONFIG.couple.name1}
-                  </p>
-                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.groomHouseShort}</p>
-                  <p className="my-3 text-sm" style={{ color: '#9D7070' }}>with</p>
-                  <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
-                    {WEDDING_CONFIG.couple.name2}
-                  </p>
-                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.brideHouseShort}</p>
+              {/* Couple names */}
+              <div className="invitation-names-block" data-aos="fade-up" data-aos-delay="250">
+                <div className="invitation-name-row">
+                  <p className="invitation-name">{WEDDING_CONFIG.couple.name1}</p>
+                  <p className="invitation-house">{WEDDING_CONFIG.couple.groomHouseShort}</p>
                 </div>
-
-                {/* Bride's family */}
-                <p className="text-sm font-medium pt-2" style={{ color: '#4B3832' }}>
-                  {WEDDING_CONFIG.couple.brideParents}
-                </p>
-                <p className="text-xs" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.brideAddress}</p>
-
-                <div className="pt-6 flex justify-center">
-                  <div
-                    className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium"
-                    style={{ background: 'rgba(74,127,193,0.08)', color: '#4A7FC1', border: '1px solid rgba(74,127,193,0.2)' }}
-                  >
-                    <Sparkles size={14} />
-                    Joyfully Invite You
-                    <Sparkles size={14} />
-                  </div>
+                <div className="invitation-names-ampersand" aria-hidden="true">
+                  <div className="invitation-amp-line" />
+                  <span className="invitation-amp">&amp;</span>
+                  <div className="invitation-amp-line" />
+                </div>
+                <div className="invitation-name-row">
+                  <p className="invitation-name">{WEDDING_CONFIG.couple.name2}</p>
+                  <p className="invitation-house">{WEDDING_CONFIG.couple.brideHouseShort}</p>
                 </div>
               </div>
+
+              {/* Bottom ornament line */}
+              <div className="invitation-ornament-line mx-auto mt-2 mb-7" />
+
+              {/* Joy badge */}
+              <div className="flex justify-center" data-aos="fade-up" data-aos-delay="300">
+                <div className="invitation-joy-badge">
+                  <Sparkles size={13} />
+                  <span>Joyfully Invite You</span>
+                  <Sparkles size={13} />
+                </div>
+              </div>
+
+              {/* Sharing happiness */}
+              <p className="invitation-sharing" data-aos="fade-up" data-aos-delay="350">
+                {WEDDING_CONFIG.couple.sharingHappiness}
+              </p>
+
             </div>
           </div>
         </section>
