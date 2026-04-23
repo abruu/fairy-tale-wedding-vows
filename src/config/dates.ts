@@ -2,24 +2,77 @@
 export const WEDDING_CONFIG = {
   // ─── Couple & Content ───
   couple: {
-    name1: "Sebin",
-    name2: "Praveena",
+    name1: "Nikhil",
+    name2: "Sona",
     /** Short display (hero heading) */
-    displayNames: "Sebin & Praveena",
+    displayNames: "Nikhil & Sona",
     /** Hero tagline above names */
     tagline: "Wedding Invitation",
     /** Primary wedding message */
     weddingMessage: "We are getting married",
     /** Supporting sub-message */
-    supportingMessage: "Join us to celebrate our special day",
+    supportingMessage:
+      '"I have found the one whom my soul loves" — Song of Solomon 3:4',
     /** Venue line shown under date */
-    venue: "Pampady Dayara Church · Kottayam",
+    venue: "St. Antony's Church · Arimbur",
+    // ─── Family / Invitation ───
+    groomParents: "Mrs. Sheeba Antony & (Late) Antony C. K.",
+    groomAddress: "Chiriyankandath House, Manakody, Thrissur",
+    groomHouseShort: "Chiriyankandath House",
+    brideParents: "Mrs. Sherly Wilson & Mr. Wilson C A",
+    brideAddress: "Chalakkal House, Thriprayar, Thrissur",
+    brideHouseShort: "Chalakkal House",
+    invitationIntro:
+      "Cordially invite your esteemed presence with family on the auspicious occasion of the wedding of their son,",
+    sharingHappiness:
+      "Sharing the happiness: Averin, Adhaline & Amyra Ember Wilson",
   },
 
   // ─── Event Dates (ISO with timezone) ───
   dates: {
-    engagement: "2026-08-17T12:00:00+05:30", // 17th Aug 2026, 12:00 PM IST
-    wedding: "2026-08-23T11:30:00+05:30", // 23rd August 2026, 11:30 AM IST
+    engagement: "2026-05-06T11:00:00+05:30", // 6th May 2026, 11:00 AM IST — St. Jude Church, Thriprayar
+    wedding: "2026-05-12T15:30:00+05:30", // 12th May 2026, 3:30 PM IST — St. Antony's Church, Arimbur
+  },
+
+  // ─── Detailed Event Info ───
+  events: {
+    betrothal: {
+      dateLabel: "Wednesday, 6th May 2026",
+      time: "11:00 AM",
+      venue: "St. Jude Church, Thriprayar",
+      mapsUrl: "",
+      receptionVenue: "Zahras International Convention Centre, Chenthrapini",
+      receptionMapsUrl: "",
+    },
+    wedding: {
+      dateLabel: "Tuesday, 12th May 2026",
+      time: "3:30 PM",
+      venue: "St. Antony's Church, Arimbur",
+      mapsUrl: "",
+      receptionVenue: "Parish Hall, St. Antony's Church, Arimbur",
+      receptionMapsUrl: "",
+    },
+  },
+
+  // ─── Scripture Banner ───
+  scripture: {
+    quote: '"Let all that you do be done in love."',
+    reference: "1 Corinthians 16:14",
+  },
+
+  // ─── Our Story Items ───
+  story: {
+    items: [
+      {
+        date: "May 6, 2026",
+        content: "Betrothal at St. Jude Church, Thriprayar.",
+      },
+      {
+        date: "May 12, 2026",
+        content:
+          "Holy Matrimony at St. Antony's Church, Arimbur. A new forever begins.",
+      },
+    ],
   },
 
   // ─── Countdown Behaviour ───
@@ -67,9 +120,62 @@ export const WEDDING_CONFIG = {
     },
   },
 
+  // ─── Video Intro Screen ───
+  videoIntro: {
+    /** Top flourish line */
+    topFlourish: "You are invited to witness",
+    /** "The Wedding of" label */
+    weddingOfLabel: "The Wedding of",
+    /** CTA text below play button */
+    ctaText: "Tap to begin our story",
+    /** Venue shown on intro screen (short form) */
+    venue: "St. Antony's Church · Arimbur",
+  },
+
+  // ─── Preloader ───
+  preloader: {
+    /** Names shown on preloader screen */
+    names: "Nikhil & Sona",
+    /** Scripture quote */
+    scriptureQuote: '"God has made everything beautiful in its time"',
+    /** Scripture reference */
+    scriptureRef: "Ecclesiastes 3:11",
+  },
+
+  // ─── Gallery ───
+  gallery: {
+    images: [
+      {
+        src: "/lovable-uploads/Image (1).jpeg",
+        alt: "Family photo at the engagement ceremony",
+      },
+      {
+        src: "/lovable-uploads/Image (2).jpeg",
+        alt: "Nikhil and Sona in traditional attire",
+      },
+      {
+        src: "/lovable-uploads/Image (3).jpeg",
+        alt: "Nikhil and Sona together",
+      },
+      {
+        src: "/lovable-uploads/Image (4).jpeg",
+        alt: "Nikhil and Sona together",
+      },
+      { src: "/lovable-uploads/Image (5).jpeg", alt: "Nikhil and Sona posing" },
+      {
+        src: "/lovable-uploads/Image (6).jpeg",
+        alt: "Nikhil and Sona outdoors",
+      },
+      {
+        src: "/lovable-uploads/Image (7).jpeg",
+        alt: "Nikhil and Sona in an elegant setting",
+      },
+    ],
+  },
+
   // ─── Feature Flags ───
   features: {
-    autoPlayMusic: true,
+    autoPlayMusic: false,
     showFireworks: false,
     showVideo: false,
     /** Enable parallax on hero section */

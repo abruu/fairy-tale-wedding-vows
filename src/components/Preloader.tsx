@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { WEDDING_CONFIG } from '@/config/dates';
 
 interface PreloaderProps {
   onLoaded?: () => void;
@@ -76,7 +77,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
           transition: 'opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s',
         }}
       >
-        Praveena &amp; Sneha
+        {WEDDING_CONFIG.preloader.names}
       </h1>
 
       {/* Scripture */}
@@ -89,7 +90,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
           transition: 'opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s',
         }}
       >
-        "God has made everything beautiful in its time"
+        {WEDDING_CONFIG.preloader.scriptureQuote}
       </p>
       <p
         className="text-xs mt-1"
@@ -99,7 +100,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onLoaded }) => {
           transition: 'opacity 0.7s ease 0.4s',
         }}
       >
-        Ecclesiastes 3:11
+        {WEDDING_CONFIG.preloader.scriptureRef}
       </p>
 
       {/* Loading bar */}

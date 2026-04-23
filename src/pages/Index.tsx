@@ -98,20 +98,9 @@ const Index = () => {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  const galleryImages = [
-    { src: '/lovable-uploads/Image (1).jpeg',  alt: 'Family photo at the engagement ceremony' },
-    { src: '/lovable-uploads/Image (2).jpeg',  alt: 'Praveena and Sebin in traditional attire' },
-    { src: '/lovable-uploads/Image (3).jpeg',  alt: 'Praveena and Sebin together' },
-    { src: '/lovable-uploads/Image (4).jpeg',  alt: 'Praveena and Sebin together' },
-    { src: '/lovable-uploads/Image (5).jpeg',  alt: 'Praveena and Sebin posing' },
-    { src: '/lovable-uploads/Image (6).jpeg',  alt: 'Praveena and Sebin outdoors' },
-    { src: '/lovable-uploads/Image (7).jpeg',  alt: 'Praveena and Sebin in an elegant setting' },
-  ];
+  const galleryImages = WEDDING_CONFIG.gallery.images;
 
-  const storyItems = [
-    { date: 'August 17, 2026',  content: 'Engagement at Mulanthuruthy Church Community Hall.' },
-    { date: 'August 23, 2026',  content: 'Holy Matrimony at Pampady Dayara Church. A new forever begins.' },
-  ];
+  const storyItems = WEDDING_CONFIG.story.items;
 
   const weddingDateFormatted = new Date(WEDDING_CONFIG.dates.wedding).toLocaleDateString('en-GB', {
     day: '2-digit', month: 'long', year: 'numeric',
@@ -152,7 +141,7 @@ const Index = () => {
           >
             <img
               src="/lovable-uploads/Image (11).jpeg"
-              alt="Praveena and Sebin"
+              alt={WEDDING_CONFIG.couple.displayNames}
               className="w-full h-full object-cover"
               style={{ filter: 'brightness(0.75)' }}
             />
@@ -425,10 +414,10 @@ const Index = () => {
           />
           <div className="max-w-2xl mx-auto text-center relative">
             <p className="font-serif italic leading-relaxed" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: '#7A4A4A' }}>
-              "Let all that you do be done in love."
+              {WEDDING_CONFIG.scripture.quote}
             </p>
             <p className="mt-3 text-xs uppercase tracking-widest" style={{ color: '#4A7FC1' }}>
-              1 Corinthians 16:14
+              {WEDDING_CONFIG.scripture.reference}
             </p>
           </div>
         </section>
@@ -456,34 +445,33 @@ const Index = () => {
               <div className="text-center space-y-3">
                 {/* Groom's family */}
                 <p className="font-medium text-lg" style={{ color: '#4B3832' }}>
-                  Mr. P A John &amp; Mrs. Gracy John
+                  {WEDDING_CONFIG.couple.groomParents}
                 </p>
                 <p className="text-sm" style={{ color: '#9D7070' }}>
-                  Pulickal House, Aruvikuzhy P O, Kottayam, Kerala — Pin 686503
+                  {WEDDING_CONFIG.couple.groomAddress}
                 </p>
 
                 <p className="max-w-xl mx-auto text-sm md:text-base leading-relaxed pt-4" style={{ color: '#5A3E3E' }}>
-                  With hearts full of joy and gratitude, invite you and your family to join us
-                  in celebrating the blessed occasion of the marriage of our beloved son,
+                  {WEDDING_CONFIG.couple.invitationIntro}
                 </p>
 
                 <div className="py-4">
                   <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
-                    Sebin John
+                    {WEDDING_CONFIG.couple.name1}
                   </p>
-                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>Pulickal House</p>
+                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.groomHouseShort}</p>
                   <p className="my-3 text-sm" style={{ color: '#9D7070' }}>with</p>
                   <p className="font-serif italic text-3xl md:text-4xl" style={{ color: '#4A7FC1' }}>
-                    Praveena Paul
+                    {WEDDING_CONFIG.couple.name2}
                   </p>
-                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>Penattu House</p>
+                  <p className="text-xs mt-1" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.brideHouseShort}</p>
                 </div>
 
                 {/* Bride's family */}
                 <p className="text-sm font-medium pt-2" style={{ color: '#4B3832' }}>
-                  Daughter of Mr. Paul P P &amp; Mrs. Rosily Joy
+                  {WEDDING_CONFIG.couple.brideParents}
                 </p>
-                <p className="text-xs" style={{ color: '#9D7070' }}>Penattu House</p>
+                <p className="text-xs" style={{ color: '#9D7070' }}>{WEDDING_CONFIG.couple.brideAddress}</p>
 
                 <div className="pt-6 flex justify-center">
                   <div
@@ -581,31 +569,33 @@ const Index = () => {
                     <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Date</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Monday, 17th August 2026</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.betrothal.dateLabel}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Time</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>12:00 PM</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.betrothal.time}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#4A7FC1' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Venue</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Mulanthuruthy Church Community Hall</p>
-                      <a
-                        href="https://maps.app.goo.gl/caLcK3zZt9DuEbjFA?g_st=aw"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
-                        style={{ borderColor: '#4A7FC1', color: '#4A7FC1' }}
-                      >
-                        <MapPin size={12} />
-                        View on Map
-                      </a>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.betrothal.venue}</p>
+                      {WEDDING_CONFIG.events.betrothal.mapsUrl && (
+                        <a
+                          href={WEDDING_CONFIG.events.betrothal.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
+                          style={{ borderColor: '#4A7FC1', color: '#4A7FC1' }}
+                        >
+                          <MapPin size={12} />
+                          View on Map
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -654,48 +644,52 @@ const Index = () => {
                     <Calendar size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Date</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Sunday, 23rd August 2026</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.wedding.dateLabel}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Clock size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Time</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>11:30 AM</p>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.wedding.time}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Venue</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>Pampady Dayara Church</p>
-                      <a
-                        href="https://maps.app.goo.gl/qTyvU2wbLQBZxWp89?g_st=ic"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
-                        style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
-                      >
-                        <MapPin size={12} />
-                        View on Map
-                      </a>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.wedding.venue}</p>
+                      {WEDDING_CONFIG.events.wedding.mapsUrl && (
+                        <a
+                          href={WEDDING_CONFIG.events.wedding.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
+                          style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
+                        >
+                          <MapPin size={12} />
+                          View on Map
+                        </a>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#5B9BD5' }} />
                     <div>
                       <p className="text-xs uppercase tracking-wide mb-0.5" style={{ color: '#9D7070' }}>Reception Venue</p>
-                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>P. C. Yohannan Ramban Memorial Dhyana Mandiram</p>
-                      <a
-                        href="https://maps.app.goo.gl/5kyJgix7T5RRev9RA?g_st=ic"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
-                        style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
-                      >
-                        <MapPin size={12} />
-                        View on Map
-                      </a>
+                      <p className="text-sm font-medium" style={{ color: '#4B3832' }}>{WEDDING_CONFIG.events.wedding.receptionVenue}</p>
+                      {WEDDING_CONFIG.events.wedding.receptionMapsUrl && (
+                        <a
+                          href={WEDDING_CONFIG.events.wedding.receptionMapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline mt-3 text-xs py-1.5 px-4 inline-flex"
+                          style={{ borderColor: '#5B9BD5', color: '#5B9BD5' }}
+                        >
+                          <MapPin size={12} />
+                          View on Map
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -789,12 +783,12 @@ const Index = () => {
             </div>
 
             <p className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(255,248,240,0.55)' }}>
-              Sharing the happiness — though miles apart, always in our hearts.
+              {WEDDING_CONFIG.couple.sharingHappiness}
             </p>
             {/* <p className="font-medium text-base mb-8" style={{ color: '#A8C9E6' }}>Joel &amp; Megha</p> */}
 
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              © 2026 Praveena &amp; Sebin · Crafted with love ♥
+              © 2026 {WEDDING_CONFIG.couple.displayNames} · Crafted with love ♥
             </p>
           </div>
         </footer>

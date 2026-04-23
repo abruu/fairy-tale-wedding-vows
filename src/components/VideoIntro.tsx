@@ -1,4 +1,14 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { WEDDING_CONFIG } from '@/config/dates';
+
+// Format ISO date string as "DD · MM · YYYY"
+const formatIntroDate = (iso: string): string => {
+  const d = new Date(iso);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  return `${dd} · ${mm} · ${yyyy}`;
+};
 
 interface VideoIntroProps {
   onComplete: () => void;
@@ -182,7 +192,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-down 1s ease-out 0.2s both',
             }}
           >
-            You are invited to witness
+            {WEDDING_CONFIG.videoIntro.topFlourish}
           </p>
 
           {/* ── Decorative line ── */}
@@ -209,7 +219,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.9s ease-out 0.5s both',
             }}
           >
-            The Wedding of
+            {WEDDING_CONFIG.videoIntro.weddingOfLabel}
           </p>
 
           {/* ── Names ── */}
@@ -228,7 +238,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               wordBreak: 'break-word',
             }}
           >
-            Sebin
+            {WEDDING_CONFIG.couple.name1}
           </h1>
 
           {/* ── Ampersand ── */}
@@ -260,7 +270,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               wordBreak: 'break-word',
             }}
           >
-            Praveena
+            {WEDDING_CONFIG.couple.name2}
           </h1>
 
           {/* ── Date line ── */}
@@ -282,7 +292,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
                 color: 'rgba(255,255,255,0.5)',
               }}
             >
-              23 · 08 · 2026
+              {formatIntroDate(WEDDING_CONFIG.dates.wedding)}
             </p>
             <div style={{ width: 30, height: 1, background: 'rgba(168,201,230,0.35)' }} />
           </div>
@@ -299,7 +309,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.9s ease-out 1.1s both',
             }}
           >
-            Pampady Dayara Church · Kottayam
+            {WEDDING_CONFIG.videoIntro.venue}
           </p>
 
           {/* ── Decorative line ── */}
@@ -379,7 +389,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
               animation: 'vi-slide-up 0.8s ease-out 1.6s both, vi-gentle-pulse 3s ease-in-out 2.5s infinite',
             }}
           >
-            Tap to begin our story
+            {WEDDING_CONFIG.videoIntro.ctaText}
           </p>
 
           {/* ── Bottom flourish hearts ── */}

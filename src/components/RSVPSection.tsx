@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, Send, CheckCircle } from 'lucide-react';
 import { ANIMATION_CONFIG } from '@/config/animations';
+import { WEDDING_CONFIG } from '@/config/dates';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import FloatingDecorations from '@/components/FloatingDecorations';
 
@@ -135,7 +136,7 @@ const RSVPSection: React.FC = () => {
                     id="wish-message"
                     name="message"
                     rows={4}
-                    placeholder="Write your heartfelt wishes for Daril & Sneha…"
+                    placeholder={`Write your heartfelt wishes for ${WEDDING_CONFIG.couple.displayNames}…`}
                     value={form.message}
                     onChange={handleChange}
                     className="form-input resize-none"
