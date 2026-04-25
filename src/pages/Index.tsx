@@ -129,277 +129,166 @@ const Index = () => {
         {/* ══════════ HERO ══════════ */}
         <section
           id="hero"
-          className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+          className="relative min-h-screen flex items-center justify-center overflow-hidden"
         >
           {/* Background image with parallax */}
           <div
-            className="absolute inset-0 z-0 parallax-bg-layer"
+            className="absolute inset-0 z-0"
             style={!parallaxDisabled ? {
-              transform: `translate3d(0, ${parallaxOffsets.bg}px, 0) scale(1.1)`,
+              transform: `translate3d(0, ${parallaxOffsets.bg}px, 0) scale(1.08)`,
               willChange: 'transform',
             } : undefined}
           >
             <img
-              src="/lovable-uploads/Image (11).jpeg"
+              src={WEDDING_CONFIG.media.heroBgImage}
               alt={WEDDING_CONFIG.couple.displayNames}
               className="w-full h-full object-cover"
-              style={{ filter: 'brightness(0.75)' }}
             />
-            <div className="absolute inset-0" style={{ background: WEDDING_CONFIG.textOverlay.heroGradient }} />
+            {/* Stronger overlay for text readability */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.52) 40%, rgba(0,0,0,0.75) 100%)' }} />
           </div>
 
-          {/* Floating petals on hero */}
-          <FloatingPetals count={10} />
+          {/* Subtle floating petals (snowfall) */}
+          <FloatingPetals count={6} />
 
-          {/* Floating decorative elements (flowers, sparkles) */}
-          <FloatingDecorations types={['flowers', 'sparkles']} maxCount={10} />
-
-          {/* Decorative corner frames (desktop) */}
+          {/* Decorative corner frames (desktop only) */}
           <div className="absolute inset-0 pointer-events-none z-10 hidden md:block">
-            <div className="absolute top-[22%] left-14 w-28 h-28 animate-wiggle">
-              <img src="/lovable-uploads/Image.jpeg" alt="" aria-hidden="true"
-                className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
-            </div>
-            <div className="absolute top-[22%] right-14 w-28 h-28 animate-wiggle-delay">
-              <img src="/lovable-uploads/Image (10).jpeg" alt="" aria-hidden="true"
-                className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
-            </div>
-            <div className="absolute bottom-[24%] left-14 w-24 h-24 animate-wiggle-delay-2">
-              <img src="/lovable-uploads/Image (6).jpeg" alt="" aria-hidden="true"
-                className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
-            </div>
-            <div className="absolute bottom-[24%] right-14 w-24 h-24 animate-wiggle">
-              <img src="/lovable-uploads/Image (4).jpeg" alt="" aria-hidden="true"
-                className="w-full h-full object-cover rounded-xl"
-                style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
-            </div>
+            {WEDDING_CONFIG.heroCornerFrames.map((frame, i) => (
+              <div key={i} className={`absolute ${frame.position} ${frame.size} ${frame.animation}`}>
+                <img src={frame.src} alt="" aria-hidden="true"
+                  className="w-full h-full object-cover rounded-xl"
+                  style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '2px solid rgba(168,201,230,0.6)' }} />
+              </div>
+            ))}
           </div>
 
-          {/* Central hero content — foreground parallax */}
+          {/* Hero content */}
           <div
-            className="relative z-20 text-center  max-w-3xl mx-auto"
+            className="relative z-20 text-center px-6 w-full max-w-2xl mx-auto"
             style={!parallaxDisabled ? {
-              transform: `translate3d(0, ${-parallaxOffsets.fg * 0.5}px, 0)`,
+              transform: `translate3d(0, ${-parallaxOffsets.fg * 0.4}px, 0)`,
               willChange: 'transform',
             } : undefined}
           >
-            {/* Glass backdrop for text readability */}
-            <div
-              className="hero-glass-backdrop"
-              style={WEDDING_CONFIG.textOverlay.heroGlass.enabled ? {
-                background: WEDDING_CONFIG.textOverlay.heroGlass.background,
-                backdropFilter: `blur(${WEDDING_CONFIG.textOverlay.heroGlass.blur}px)`,
-                WebkitBackdropFilter: `blur(${WEDDING_CONFIG.textOverlay.heroGlass.blur}px)`,
-                borderRadius: WEDDING_CONFIG.textOverlay.heroGlass.borderRadius,
-                border: WEDDING_CONFIG.textOverlay.heroGlass.border,
-                padding: '2.5rem 2rem 2rem',
-              } : { padding: '2.5rem 2rem 2rem' }}
+            {/* Eyebrow label */}
+            <p
+              className="text-xs uppercase tracking-[0.35em] mb-8 font-medium"
+              style={{ color: 'rgba(168,201,230,0.9)', animation: 'fade-in 0.8s ease-out 0.1s both' }}
             >
-                {/* Tag line */}
-                <p
-                  className="text-xs uppercase tracking-[0.3em] mb-3 font-medium"
-                  style={{
-                    color: '#A8C9E6',
-                    animation: 'fade-in 1s ease-out 0.2s both',
-                    textShadow: WEDDING_CONFIG.textOverlay.textShadow,
-                  }}
-                >
-                  {WEDDING_CONFIG.couple.tagline}
-                </p>
+              {WEDDING_CONFIG.couple.tagline}
+            </p>
 
-                {/* Names — primary headline */}
+            {/* Names */}
+            <h1
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontStyle: 'italic',
+                fontSize: 'clamp(3.2rem, 10vw, 7rem)',
+                lineHeight: 1,
+                color: '#ffffff',
+                textShadow: '0 2px 30px rgba(0,0,0,0.7)',
+                animation: 'fade-up 0.9s ease-out 0.25s both',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {WEDDING_CONFIG.couple.name1}
+              <span
+                style={{
+                  display: 'block',
+                  fontSize: 'clamp(1rem, 3vw, 1.6rem)',
+                  color: 'rgba(168,201,230,0.9)',
+                  letterSpacing: '0.15em',
+                  margin: '0.3em 0',
+                  fontStyle: 'normal',
+                  fontWeight: 300,
+                }}
+              >
+                &amp;
+              </span>
+              {WEDDING_CONFIG.couple.name2}
+            </h1>
+
+            {/* Divider */}
+            <div
+              className="flex items-center justify-center gap-3 my-7"
+              style={{ animation: 'fade-in 0.7s ease-out 0.55s both' }}
+            >
+              <div style={{ height: '1px', width: 48, background: 'rgba(168,201,230,0.5)' }} />
+              <Heart size={13} fill="#A8C9E6" style={{ color: '#A8C9E6' }} />
+              <div style={{ height: '1px', width: 48, background: 'rgba(168,201,230,0.5)' }} />
+            </div>
+
+            {/* Subtext */}
+            <p
+              className="font-serif italic mb-3"
+              style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+                color: 'rgba(255,255,255,0.9)',
+                animation: 'fade-up 0.8s ease-out 0.6s both',
+                letterSpacing: '0.02em',
+              }}
+            >
+              {WEDDING_CONFIG.couple.weddingMessage}
+            </p>
+
+            {/* Wedding date */}
+            <p
+              className="mb-10 font-medium"
+              style={{
+                fontSize: 'clamp(0.85rem, 2vw, 1rem)',
+                color: '#A8C9E6',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                animation: 'fade-up 0.8s ease-out 0.7s both',
+              }}
+            >
+              {weddingDateFormatted}
+            </p>
+
+            {/* Countdown — frosted card, fully centered */}
+            {!showVideo && (
+              <div
+                style={{ animation: 'fade-up 0.9s ease-out 0.8s both' }}
+              >
                 <div
-                  className="hero-names mb-2"
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    lineHeight: 1.05,
-                    animation: 'fade-up 1s ease-out 0.4s both',
+                    background: 'rgba(0,0,0,0)',
+                    backdropFilter: 'blur(5px)',
+                    WebkitBackdropFilter: 'blur(18px)',
+                    border: '1px solid rgba(168,201,230,0.3)',
+                    borderRadius: '1.25rem',
+                    padding: '1.5rem 1.5rem',
+                    textAlign: 'center',
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "'Playfair Display', Georgia, serif",
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(2.8rem, 9vw, 6.5rem)',
-                      color: '#fff',
-                      textShadow: WEDDING_CONFIG.textOverlay.nameShadow,
-                    }}
-                  >
-                    {WEDDING_CONFIG.couple.name1}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "'Playfair Display', Georgia, serif",
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(1rem, 3vw, 1.8rem)',
-                      color: 'rgba(168,201,230,0.85)',
-                      letterSpacing: '0.1em',
-                      margin: '0.15em 0',
-                    }}
-                  >
-                    &amp;
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "'Playfair Display', Georgia, serif",
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(2.8rem, 9vw, 6.5rem)',
-                      color: '#fff',
-                      textShadow: WEDDING_CONFIG.textOverlay.nameShadow,
-                    }}
-                  >
-                    {WEDDING_CONFIG.couple.name2}
-                  </span>
+                  {!engagementComplete ? (
+                    <CountdownTimer
+                      targetDate={engagementDate}
+                      label={WEDDING_CONFIG.countdown.engagementLabel}
+                      premium
+                      onComplete={() => { setEngagementComplete(true); handleCountdownComplete('engagement'); }}
+                    />
+                  ) : (
+                    <CountdownTimer
+                      targetDate={weddingDate}
+                      label={WEDDING_CONFIG.countdown.weddingLabel}
+                      premium
+                      onComplete={() => handleCountdownComplete('wedding')}
+                    />
+                  )}
                 </div>
-
-                {/* Wedding message — secondary headline */}
-                <p
-                  className="hero-wedding-message font-serif italic mb-3"
-                  style={{
-                    fontSize: 'clamp(1.1rem, 3vw, 1.6rem)',
-                    color: '#fff',
-                    animation: 'fade-up 0.9s ease-out 0.55s both',
-                    textShadow: WEDDING_CONFIG.textOverlay.textShadow,
-                    letterSpacing: '0.04em',
-                  }}
-                >
-                  {WEDDING_CONFIG.couple.weddingMessage}
-                </p>
-
-                {/* Divider */}
-                <div
-                  className="flex items-center justify-center gap-4 mb-3"
-                  style={{ animation: 'fade-in 0.8s ease-out 0.7s both' }}
-                >
-                  <div style={{ height: 1, width: 60, background: 'rgba(168,201,230,0.5)' }} />
-                  <Heart size={14} fill="#A8C9E6" style={{ color: '#A8C9E6' }} />
-                  <div style={{ height: 1, width: 60, background: 'rgba(168,201,230,0.5)' }} />
-                </div>
-
-                {/* Date — prominently highlighted */}
-                {/* <p
-                  className="hero-date-highlight font-serif text-lg md:text-2xl mb-1 font-semibold"
-                  style={{
-                    color: '#A8C9E6',
-                    animation: 'fade-in 0.8s ease-out 0.9s both',
-                    textShadow: WEDDING_CONFIG.textOverlay.textShadow,
-                  }}
-                >
-                  {weddingDateFormatted}
-                </p> */}
-
-                {/* Venue */}
-                {/* <p
-                  className="text-xs uppercase tracking-[0.2em] mb-4"
-                  style={{
-                    color: 'rgba(255,255,255,0.65)',
-                    animation: 'fade-in 0.8s ease-out 1s both',
-                    textShadow: '0 1px 8px rgba(0,0,0,0.4)',
-                  }}
-                >
-                  {WEDDING_CONFIG.couple.venue}
-                </p> */}
-
-                {/* Supporting line */}
-                <p
-                  className="text-sm md:text-base mb-6 font-light"
-                  style={{
-                    color: 'rgba(255,255,255,0.7)',
-                    animation: 'fade-in 0.8s ease-out 1.05s both',
-                    textShadow: '0 1px 6px rgba(0,0,0,0.3)',
-                    fontFamily: "'Montserrat', sans-serif",
-                  }}
-                >
-                  {WEDDING_CONFIG.couple.supportingMessage}
-                </p>
-
-                {/* ── Dual Event Timeline Indicator ── */}
-                {WEDDING_CONFIG.countdown.showDualEventTimeline && (
-                  <div
-                    className="hero-dual-timeline"
-                    style={{ animation: 'fade-up 0.8s ease-out 1.1s both' }}
-                  >
-                    <div className={`hero-timeline-event ${!engagementComplete ? 'active' : 'completed'}`}>
-                      <div className="hero-timeline-dot" />
-                      <span className="hero-timeline-label">
-                        {WEDDING_CONFIG.countdown.engagementTimelineLabel}
-                      </span>
-                      <span className="hero-timeline-date">
-                        {new Date(WEDDING_CONFIG.dates.engagement).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </span>
-                      {!engagementComplete && (
-                        <span className="hero-timeline-badge">Next</span>
-                      )}
-                      {engagementComplete && (
-                        <span className="hero-timeline-badge completed">Done</span>
-                      )}
-                    </div>
-                    <div className="hero-timeline-connector" />
-                    <div className={`hero-timeline-event ${engagementComplete ? 'active' : ''}`}>
-                      <div className="hero-timeline-dot wedding" />
-                      <span className="hero-timeline-label">
-                        {WEDDING_CONFIG.countdown.weddingTimelineLabel}
-                      </span>
-                      <span className="hero-timeline-date">
-                        {new Date(WEDDING_CONFIG.dates.wedding).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </span>
-                      {engagementComplete && (
-                        <span className="hero-timeline-badge">Next</span>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Sequential countdown: betrothal first, then wedding */}
-                {!showVideo && (
-                  <div style={{ animation: 'fade-up 0.9s ease-out 1.2s both' }}>
-                    {!engagementComplete ? (
-                      <CountdownTimer
-                        targetDate={engagementDate}
-                        label={WEDDING_CONFIG.countdown.engagementLabel}
-                        className="mb-4"
-                        premium
-                        onComplete={() => { setEngagementComplete(true); handleCountdownComplete('engagement'); }}
-                      />
-                    ) : (
-                      <CountdownTimer
-                        targetDate={weddingDate}
-                        label={WEDDING_CONFIG.countdown.weddingLabel}
-                        className="mb-4"
-                        premium
-                        onComplete={() => handleCountdownComplete('wedding')}
-                      />
-                    )}
-                  </div>
-                )}
               </div>
+            )}
 
             {/* CTA */}
             <button
               onClick={scrollToContent}
               className="btn-primary btn-primary-enhanced mt-8"
-              style={{ animation: 'fade-up 0.8s ease-out 1.5s both' }}
+              style={{ animation: 'fade-up 0.8s ease-out 1.1s both' }}
             >
               View Invitation ↓
             </button>
           </div>
-
-          {/* Scroll indicator */}
-          {/* <div
-            className="scroll-indicator"
-            onClick={scrollToContent}
-            aria-label="Scroll down"
-          >
-            <span className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem' }}>
-              scroll
-            </span>
-            <div className="scroll-mouse" />
-          </div> */}
         </section>
 
         {/* ══════════ SCRIPTURE BANNER ══════════ */}
@@ -454,9 +343,9 @@ const Index = () => {
               <span className="invitation-corner invitation-corner-br" aria-hidden="true">✦</span>
 
               {/* Header emblem */}
-              <div className="flex flex-col items-center mb-6" data-aos="fade-down" data-aos-delay="100">
+              <div className="flex flex-col items-center mb-1" data-aos="fade-down" data-aos-delay="100">
                 <div className="invitation-crest">
-                  <Heart size={24} fill="#4A7FC1" style={{ color: '#4A7FC1' }} />
+                  <Heart size={10} fill="#4A7FC1" style={{ color: '#4A7FC1' }} />
                 </div>
                 <div className="invitation-ornament-line" />
                 <p className="invitation-label">An Invitation From</p>

@@ -113,6 +113,8 @@ export const WEDDING_CONFIG = {
   media: {
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
     musicUrl: "/music/msuic1.mp3",
+    /** Hero background image */
+    heroBgImage: "/lovable-uploads/image.jpeg",
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -146,32 +148,60 @@ export const WEDDING_CONFIG = {
   gallery: {
     images: [
       {
-        src: "/lovable-uploads/Image (1).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Family photo at the engagement ceremony",
       },
       {
-        src: "/lovable-uploads/Image (2).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Nikhil and Sona in traditional attire",
       },
       {
-        src: "/lovable-uploads/Image (3).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Nikhil and Sona together",
       },
       {
-        src: "/lovable-uploads/Image (4).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Nikhil and Sona together",
       },
-      { src: "/lovable-uploads/Image (5).jpeg", alt: "Nikhil and Sona posing" },
+      { src: "/lovable-uploads/image.jpeg", alt: "Nikhil and Sona posing" },
       {
-        src: "/lovable-uploads/Image (6).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Nikhil and Sona outdoors",
       },
       {
-        src: "/lovable-uploads/Image (7).jpeg",
+        src: "/lovable-uploads/image.jpeg",
         alt: "Nikhil and Sona in an elegant setting",
       },
     ],
   },
+
+  // ─── Hero Corner Frame Images ───
+  heroCornerFrames: [
+    {
+      src: "/lovable-uploads/image.jpeg",
+      position: "top-[22%] left-14",
+      size: "w-28 h-28",
+      animation: "animate-wiggle",
+    },
+    {
+      src: "/lovable-uploads/image.jpeg",
+      position: "top-[22%] right-14",
+      size: "w-28 h-28",
+      animation: "animate-wiggle-delay",
+    },
+    {
+      src: "/lovable-uploads/image.jpeg",
+      position: "bottom-[24%] left-14",
+      size: "w-24 h-24",
+      animation: "animate-wiggle-delay-2",
+    },
+    {
+      src: "/lovable-uploads/image.jpeg",
+      position: "bottom-[24%] right-14",
+      size: "w-24 h-24",
+      animation: "animate-wiggle",
+    },
+  ],
 
   // ─── Feature Flags ───
   features: {
