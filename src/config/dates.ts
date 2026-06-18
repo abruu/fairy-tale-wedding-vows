@@ -41,14 +41,14 @@ export const WEDDING_CONFIG = {
       time: "11:00 AM",
       venue: "Saint George Orthodox Valiyapally, Ramamangalam",
       mapsUrl: "https://maps.app.goo.gl/qnau8AePiaWJiapz8",
-      receptionVenue: "Reception Venue",
+      receptionVenue: "",
       receptionMapsUrl: "",
     },
     wedding: {
       dateLabel: "Sunday, 12th July 2026",
       time: "11:00 AM",
-      venue: "St. Thomas Orthodox Church, Vadakkannanoor",
-      mapsUrl: "https://maps.app.goo.gl/A5Te7XJ2Q3rpmopG8, Amayanoor",
+      venue: "St. Thomas Orthodox Church, Amayanoor",
+      mapsUrl: "https://maps.app.goo.gl/A5Te7XJ2Q3rpmopG8 ",
       receptionVenue: "",
       receptionMapsUrl: "",
     },
@@ -78,6 +78,15 @@ export const WEDDING_CONFIG = {
         date: "December 31, 2025",
         content:
           "Our families came together for the official fixation, counting down to the new year and our new beginning.",
+      },
+      {
+        date: "July 5, 2026",
+        content: "Engagement ceremony celebrating our commitment.",
+      },
+      {
+        date: "July 12, 2026",
+        content:
+          "Holy Matrimony at St. Thomas Orthodox Church, Vadakkannanoor, Kerala. Beginning of our forever with God's blessings.",
       },
     ],
   },
