@@ -207,7 +207,7 @@ export const WEDDING_CONFIG = {
   ],
 
   // ─── Feature Flags ───
-  //test
+  //test1
   features: {
     autoPlayMusic: false,
     showFireworks: false,
