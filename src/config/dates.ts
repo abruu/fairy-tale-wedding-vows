@@ -2,75 +2,75 @@
 export const WEDDING_CONFIG = {
   // ─── Couple & Content ───
   couple: {
-    name1: "Nikhil",
-    name2: "Sona",
+    name1: "Alex",
+    name2: "Manju",
     /** Short display (hero heading) */
-    displayNames: "Nikhil & Sona",
+    displayNames: "Alex & Manju",
     /** Hero tagline above names */
     tagline: "Wedding Invitation",
     /** Primary wedding message */
-    weddingMessage: "We are getting married",
+    weddingMessage: "Beginning of Our Forever",
     /** Supporting sub-message */
     supportingMessage:
-      '"I have found the one whom my soul loves" — Song of Solomon 3:4',
+      '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate." — Matthew 19:6',
     /** Venue line shown under date */
-    venue: "St. Antony's Church · Arimbur",
+    venue: "St. Thomas Orthodox Church · Vadakkannanoor",
     // ─── Family / Invitation ───
-    groomParents: "Mrs. Sheeba Antony & (Late) Antony C. K.",
-    groomAddress: "Chiriyankandath House, Manakody, Thrissur",
-    groomHouseShort: "Chiriyankandath House",
-    brideParents: "Mrs. Sherly Wilson & Mr. Wilson C A",
-    brideAddress: "Chalakkal House, Thriprayar, Thrissur",
-    brideHouseShort: "Chalakkal House",
+    groomParents: "Mr. Kuriakose Chandy & Mrs. Smithamol Sunny",
+    groomAddress: "Kannothra Kalambukattu, Kottayam",
+    groomHouseShort: "Kannothra Kalambukattu",
+    brideParents: "Mr. Mathew John & Mrs. Molly Mathew",
+    brideAddress: "Panichiyil House, Kizhumury",
+    brideHouseShort: "Panichiyil House",
     invitationIntro:
-      "Cordially invite your esteemed presence with family on the auspicious occasion of the wedding of their son,",
-    sharingHappiness:
-      "Sharing the happiness: Averin, Adhaline & Amyra Ember Wilson",
+      "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
+    sharingHappiness: "Best Compliments by Miss Aleena Kuriakose",
   },
 
   // ─── Event Dates (ISO with timezone) ───
   dates: {
-    engagement: "2026-05-06T11:00:00+05:30", // 6th May 2026, 11:00 AM IST — St. Jude Church, Thriprayar
-    wedding: "2026-05-12T15:30:00+05:30", // 12th May 2026, 3:30 PM IST — St. Antony's Church, Arimbur
+    engagement: "2026-07-05T11:00:00+05:30", // 5th July 2026, 11:00 AM IST — Engagement ceremony
+    wedding: "2026-07-12T11:00:00+05:30", // 12th July 2026, 11:00 AM IST — St. Thomas Orthodox Church, Vadakkannanoor
   },
 
   // ─── Detailed Event Info ───
   events: {
     betrothal: {
-      dateLabel: "Wednesday, 6th May 2026",
+      dateLabel: "Saturday, 5th July 2026",
       time: "11:00 AM",
-      venue: "St. Jude Church, Thriprayar",
+      venue: "Engagement Ceremony",
       mapsUrl: "",
-      receptionVenue: "Zahras International Convention Centre, Chenthrapini",
+      receptionVenue: "Reception Venue",
       receptionMapsUrl: "",
     },
     wedding: {
-      dateLabel: "Tuesday, 12th May 2026",
-      time: "3:30 PM",
-      venue: "St. Antony's Church, Arimbur",
+      dateLabel: "Sunday, 12th July 2026",
+      time: "11:00 AM",
+      venue: "St. Thomas Orthodox Church, Vadakkannanoor, Kerala",
       mapsUrl: "",
-      receptionVenue: "Parish Hall, St. Antony's Church, Arimbur",
+      receptionVenue: "Wedding Reception",
       receptionMapsUrl: "",
     },
   },
 
   // ─── Scripture Banner ───
   scripture: {
-    quote: '"Let all that you do be done in love."',
-    reference: "1 Corinthians 16:14",
+    quote:
+      '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate."',
+    reference: "Matthew 19:6",
   },
 
   // ─── Our Story Items ───
   story: {
     items: [
       {
-        date: "May 6, 2026",
-        content: "Betrothal at St. Jude Church, Thriprayar.",
+        date: "July 5, 2026",
+        content: "Engagement ceremony celebrating our commitment.",
       },
       {
-        date: "May 12, 2026",
+        date: "July 12, 2026",
         content:
-          "Holy Matrimony at St. Antony's Church, Arimbur. A new forever begins.",
+          "Holy Matrimony at St. Thomas Orthodox Church, Vadakkannanoor, Kerala. Beginning of our forever with God's blessings.",
       },
     ],
   },
@@ -114,7 +114,7 @@ export const WEDDING_CONFIG = {
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
     musicUrl: "/music/msuic1.mp3",
     /** Hero background image */
-    heroBgImage: "/lovable-uploads/image.jpeg",
+    heroBgImage: "/lovable-uploads/Alan/IMG_0575.jpg",
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -131,46 +131,49 @@ export const WEDDING_CONFIG = {
     /** CTA text below play button */
     ctaText: "Tap to begin our story",
     /** Venue shown on intro screen (short form) */
-    venue: "St. Antony's Church · Arimbur",
+    venue: "St. Thomas Orthodox Church · Vadakkannanoor",
   },
 
   // ─── Preloader ───
   preloader: {
     /** Names shown on preloader screen */
-    names: "Nikhil & Sona",
+    names: "Alex & Manju",
     /** Scripture quote */
-    scriptureQuote: '"God has made everything beautiful in its time"',
+    scriptureQuote: '"What God has joined together, let not man separate"',
     /** Scripture reference */
-    scriptureRef: "Ecclesiastes 3:11",
+    scriptureRef: "Matthew 19:6",
   },
 
   // ─── Gallery ───
   gallery: {
     images: [
       {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Family photo at the engagement ceremony",
+        src: "/lovable-uploads/Alan/IMG_0575.jpg",
+        alt: "Alex and Manju wedding invitation",
       },
       {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Nikhil and Sona in traditional attire",
+        src: "/lovable-uploads/Alan/IMG_0568.jpg",
+        alt: "Alex and Manju together",
       },
       {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Nikhil and Sona together",
+        src: "/lovable-uploads/Alan/IMG_0569.jpg",
+        alt: "Alex and Manju in traditional attire",
       },
       {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Nikhil and Sona together",
-      },
-      { src: "/lovable-uploads/image.jpeg", alt: "Nikhil and Sona posing" },
-      {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Nikhil and Sona outdoors",
+        src: "/lovable-uploads/Alan/IMG_0570.jpg",
+        alt: "Alex and Manju celebrating",
       },
       {
-        src: "/lovable-uploads/image.jpeg",
-        alt: "Nikhil and Sona in an elegant setting",
+        src: "/lovable-uploads/Alan/IMG_0572.jpg",
+        alt: "Alex and Manju special moments",
+      },
+      {
+        src: "/lovable-uploads/Alan/IMG_0573.jpg",
+        alt: "Alex and Manju together",
+      },
+      {
+        src: "/lovable-uploads/Alan/IMG_0574.jpg",
+        alt: "Alex and Manju in an elegant setting",
       },
     ],
   },
@@ -178,25 +181,25 @@ export const WEDDING_CONFIG = {
   // ─── Hero Corner Frame Images ───
   heroCornerFrames: [
     {
-      src: "/lovable-uploads/image.jpeg",
+      src: "/lovable-uploads/Alan/IMG_0575.jpg",
       position: "top-[22%] left-14",
       size: "w-28 h-28",
       animation: "animate-wiggle",
     },
     {
-      src: "/lovable-uploads/image.jpeg",
+      src: "/lovable-uploads/Alan/IMG_0576.jpg",
       position: "top-[22%] right-14",
       size: "w-28 h-28",
       animation: "animate-wiggle-delay",
     },
     {
-      src: "/lovable-uploads/image.jpeg",
+      src: "/lovable-uploads/Alan/IMG_0568.jpg",
       position: "bottom-[24%] left-14",
       size: "w-24 h-24",
       animation: "animate-wiggle-delay-2",
     },
     {
-      src: "/lovable-uploads/image.jpeg",
+      src: "/lovable-uploads/Alan/IMG_0569.jpg",
       position: "bottom-[24%] right-14",
       size: "w-24 h-24",
       animation: "animate-wiggle",
