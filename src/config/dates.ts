@@ -24,8 +24,7 @@ export const WEDDING_CONFIG = {
     brideHouseShort: "Panichiyil House",
     invitationIntro:
       "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
-    sharingHappiness:
-      "Best Compliments by Miss Aleena Kuriakose & Maya Kuriakose",
+    sharingHappiness: "Best Compliments by Miss Aleena Kuriakose & Maya Mathew",
   },
 
   // ─── Event Dates (ISO with timezone) ───
