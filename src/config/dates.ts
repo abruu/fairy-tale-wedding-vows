@@ -36,7 +36,7 @@ export const WEDDING_CONFIG = {
   // ─── Detailed Event Info ───
   events: {
     betrothal: {
-      dateLabel: "Saturday, 5th July 2026",
+      dateLabel: "Sunday, 5th July 2026",
       time: "11:00 AM",
       venue: "Saint George Orthodox Valiyapally Parish Hall, Kizhumury",
       mapsUrl: "https://maps.app.goo.gl/qnau8AePiaWJiapz8",
@@ -133,7 +133,7 @@ export const WEDDING_CONFIG = {
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
     musicUrl: "/music/msuic1.mp3",
     /** Hero background image */
-    heroBgImage: "/lovable-uploads/Alan/IMG_0575.jpg",
+    heroBgImage: "/lovable-uploads/Alan/1.jpg",
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -167,31 +167,43 @@ export const WEDDING_CONFIG = {
   gallery: {
     images: [
       {
-        src: "/lovable-uploads/Alan/IMG_0575.jpg",
+        src: "/lovable-uploads/Alan/1.jpg",
         alt: "Alex and Mariyam wedding invitation",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0568.jpg",
+        src: "/lovable-uploads/Alan/2.jpg",
         alt: "Alex and Mariyam together",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0569.jpg",
+        src: "/lovable-uploads/Alan/3.jpg",
         alt: "Alex and Mariyam in traditional attire",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0570.jpg",
+        src: "/lovable-uploads/Alan/4.jpg",
         alt: "Alex and Mariyam celebrating",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0572.jpg",
+        src: "/lovable-uploads/Alan/5.jpg",
         alt: "Alex and Mariyam special moments",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0573.jpg",
+        src: "/lovable-uploads/Alan/6.jpg",
         alt: "Alex and Mariyam together",
       },
       {
-        src: "/lovable-uploads/Alan/IMG_0574.jpg",
+        src: "/lovable-uploads/Alan/8.jpg",
+        alt: "Alex and Mariyam in an elegant setting",
+      },
+      {
+        src: "/lovable-uploads/Alan/9.jpg",
+        alt: "Alex and Mariyam in an elegant setting",
+      },
+      {
+        src: "/lovable-uploads/Alan/10.jpg",
+        alt: "Alex and Mariyam in an elegant setting",
+      },
+      {
+        src: "/lovable-uploads/Alan/11.jpg",
         alt: "Alex and Mariyam in an elegant setting",
       },
     ],
@@ -200,30 +212,42 @@ export const WEDDING_CONFIG = {
   // ─── Hero Corner Frame Images ───
   heroCornerFrames: [
     {
-      src: "/lovable-uploads/Alan/IMG_0575.jpg",
+      src: "/lovable-uploads/Alan/2.jpg",
       position: "top-[22%] left-14",
       size: "w-28 h-28",
       animation: "animate-wiggle",
     },
     {
-      src: "/lovable-uploads/Alan/IMG_0576.jpg",
+      src: "/lovable-uploads/Alan/3.jpg",
       position: "top-[22%] right-14",
       size: "w-28 h-28",
       animation: "animate-wiggle-delay",
     },
     {
-      src: "/lovable-uploads/Alan/IMG_0568.jpg",
+      src: "/lovable-uploads/Alan/4.jpg",
       position: "bottom-[24%] left-14",
       size: "w-24 h-24",
       animation: "animate-wiggle-delay-2",
     },
     {
-      src: "/lovable-uploads/Alan/IMG_0569.jpg",
+      src: "/lovable-uploads/Alan/5.jpg",
       position: "bottom-[24%] right-14",
       size: "w-24 h-24",
       animation: "animate-wiggle",
     },
   ],
+
+  // ─── Email Configuration ───
+  email: {
+    /** Email addresses to receive wedding wishes (can be single email or array of emails) */
+    recipientEmails: ["alexkalambukattu@gmail.com"],
+    /** EmailJS configuration (free service) */
+    emailJS: {
+      serviceId: "service_qjht1ax", // Replace with your EmailJS service ID
+      templateId: "template_3xnyrgi", // Replace with your EmailJS template ID
+      publicKey: "06oig93wOq67ST0Sc", // Replace with your EmailJS public key
+    },
+  },
 
   // ─── Feature Flags ───
   //test1
