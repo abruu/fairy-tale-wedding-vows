@@ -38,7 +38,7 @@ export const WEDDING_CONFIG = {
     betrothal: {
       dateLabel: "Saturday, 5th July 2026",
       time: "11:00 AM",
-      venue: "Saint George Orthodox Valiyapally, Ramamangalam",
+      venue: "Saint George Orthodox Valiyapally Parish Hall, Kizhumury",
       mapsUrl: "https://maps.app.goo.gl/qnau8AePiaWJiapz8",
       receptionVenue: "",
       receptionMapsUrl: "",
@@ -64,19 +64,23 @@ export const WEDDING_CONFIG = {
   story: {
     items: [
       {
-        date: "January 18, 2023",
-        content:
-          "The day Alex took a leap of faith and asked Mariyam to be his forever.",
+        date: "January 20, 2022",
+        content: "The first meeting — where a beautiful friendship began.",
       },
       {
-        date: "January 19, 2023",
+        date: "January 18, 2023",
         content:
-          "With a happy heart and an easy 'Yes,' Mariyam made him the happiest man alive.",
+          "A special moment when friendship blossomed into something deeper with a heartfelt proposal.",
+      },
+      {
+        date: "February 14, 2023",
+        content:
+          "On Valentine's Day, the proposal was accepted, marking the beginning of a beautiful relationship.",
       },
       {
         date: "December 31, 2025",
         content:
-          "Our families came together for the official fixation, counting down to the new year and our new beginning.",
+          "A memorable milestone as both families met, bringing two families together and blessing the relationship.",
       },
       {
         date: "July 5, 2026",
