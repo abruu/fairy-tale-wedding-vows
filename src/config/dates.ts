@@ -20,8 +20,8 @@ export const WEDDING_CONFIG = {
     groomAddress: "Kannothra Kalambukattu, Kottayam",
     groomHouseShort: "Kannothra Kalambukattu",
     brideParents: "Mr. Mathew John & Mrs. Molly Mathew",
-    brideAddress: "Panichiyil House, Kizhumury",
-    brideHouseShort: "Panichiyil House",
+    brideAddress: "Panichiyil , Kizhumury",
+    brideHouseShort: "Panichiyil",
     invitationIntro:
       "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
     sharingHappiness: "Best Compliments by Miss Aleena Kuriakose & Maya Mathew",
