@@ -84,16 +84,7 @@ const Index = () => {
   // Check if wedding is complete
   useEffect(() => {
     const check = () => {
-      const weddingTime = new Date(weddingDate).getTime();
-      const now = Date.now();
-      console.log("Wedding check:", {
-        weddingDate,
-        weddingTime: new Date(weddingTime),
-        now: new Date(now),
-        isComplete: now > weddingTime,
-        daysUntil: Math.floor((weddingTime - now) / (1000 * 60 * 60 * 24)),
-      });
-      if (now > weddingTime) {
+      if (Date.now() > new Date(weddingDate).getTime()) {
         setWeddingComplete(true);
         setEngagementComplete(true);
       }
@@ -373,10 +364,6 @@ const Index = () => {
                     textAlign: "center",
                   }}
                 >
-                  {console.log("Hero render states:", {
-                    engagementComplete,
-                    weddingComplete,
-                  })}
                   {!engagementComplete ? (
                     /* ── Engagement countdown (before engagement) ── */
                     <CountdownTimer

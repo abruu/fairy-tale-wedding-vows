@@ -84,7 +84,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     minutes: 0,
     seconds: 0,
   });
-  const [isComplete, setIsComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState(() => {
+    const difference = new Date(targetDate).getTime() - Date.now();
+    return difference <= 0;
+  });
   const { ref: revealRef, style: revealStyle } =
     useScrollReveal<HTMLDivElement>({ animation: "fade-up" });
 
