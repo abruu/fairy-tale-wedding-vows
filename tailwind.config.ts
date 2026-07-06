@@ -156,6 +156,25 @@ export default {
           "0%": { opacity: "0", transform: "translateY(20px) scale(0.9)" },
           "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
+        "united-shimmer": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+        "sparkle-twinkle": {
+          "0%, 100%": { opacity: "0.3", transform: "scale(0.8) rotate(0deg)" },
+          "50%": { opacity: "1", transform: "scale(1.2) rotate(180deg)" },
+        },
+        "united-glow": {
+          "0%, 100%": {
+            textShadow:
+              "0 0 10px rgba(230,195,213,0.5), 0 0 20px rgba(168,201,230,0.3)",
+          },
+          "50%": {
+            textShadow:
+              "0 0 18px rgba(230,195,213,0.8), 0 0 36px rgba(168,201,230,0.6), 0 0 54px rgba(230,195,213,0.3)",
+          },
+        },
         "floating-drift": {
           "0%": {
             transform: "translateY(0) translateX(0) rotate(0deg) scale(1)",
@@ -202,6 +221,9 @@ export default {
         "scroll-dot": "scroll-dot 1.5s ease-in-out infinite",
         "countdown-entrance": "countdown-entrance 0.6s ease-out forwards",
         "floating-drift": "floating-drift 20s linear infinite",
+        "united-shimmer": "united-shimmer 3s ease-in-out infinite",
+        "sparkle-twinkle": "sparkle-twinkle 2s ease-in-out infinite",
+        "united-glow": "united-glow 2.5s ease-in-out infinite",
       },
       fontFamily: {
         serif: ["Playfair Display", "Georgia", "serif"],

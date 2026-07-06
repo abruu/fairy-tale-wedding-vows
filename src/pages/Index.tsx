@@ -17,6 +17,7 @@ import FloatingPetals from "@/components/FloatingPetals";
 import FloatingDecorations from "@/components/FloatingDecorations";
 import RSVPSection from "@/components/RSVPSection";
 import BirthdayFireworks from "@/components/BirthdayFireworks";
+import HeaderCountdown from "@/components/HeaderCountdown";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { WEDDING_CONFIG } from "@/config/dates";
@@ -33,6 +34,7 @@ const Index = () => {
   );
   const [showVideo, setShowVideo] = useState(WEDDING_CONFIG.features.showVideo);
   const [engagementComplete, setEngagementComplete] = useState(false);
+  const [weddingComplete, setWeddingComplete] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
@@ -79,6 +81,28 @@ const Index = () => {
     return () => clearInterval(iv);
   }, [engagementDate]);
 
+  // Check if wedding is complete
+  useEffect(() => {
+    const check = () => {
+      const weddingTime = new Date(weddingDate).getTime();
+      const now = Date.now();
+      console.log("Wedding check:", {
+        weddingDate,
+        weddingTime: new Date(weddingTime),
+        now: new Date(now),
+        isComplete: now > weddingTime,
+        daysUntil: Math.floor((weddingTime - now) / (1000 * 60 * 60 * 24)),
+      });
+      if (now > weddingTime) {
+        setWeddingComplete(true);
+        setEngagementComplete(true);
+      }
+    };
+    check();
+    const iv = setInterval(check, 60 * 1000);
+    return () => clearInterval(iv);
+  }, [weddingDate]);
+
   // Scroll handler: music on first scroll, back-to-top button
   useEffect(() => {
     const onScroll = () => {
@@ -109,6 +133,7 @@ const Index = () => {
   const handleCountdownComplete = (type: "engagement" | "wedding") => {
     if (!WEDDING_CONFIG.features.countdownTriggers.enabled) return;
     if (type === "wedding") {
+      setWeddingComplete(true);
       if (WEDDING_CONFIG.features.countdownTriggers.showFireworks) {
         setShowFireworks(true);
         setTimeout(
@@ -163,6 +188,14 @@ const Index = () => {
           startDelay={WEDDING_CONFIG.media.fireworks.startDelay}
         />
       )}
+
+      {/* Sticky header countdown — shows wedding countdown after engagement,
+          then "✨ United Forever ✨" after the wedding */}
+      <HeaderCountdown
+        targetDate={weddingDate}
+        engagementComplete={engagementComplete}
+        onWeddingComplete={() => handleCountdownComplete("wedding")}
+      />
 
       <div
         className="min-h-screen overflow-x-hidden"
@@ -326,7 +359,7 @@ const Index = () => {
               {weddingDateFormatted}
             </p>
 
-            {/* Countdown — frosted card, fully centered */}
+            {/* Countdown / United Forever — frosted card, fully centered */}
             {!showVideo && (
               <div style={{ animation: "fade-up 0.9s ease-out 0.8s both" }}>
                 <div
@@ -340,7 +373,12 @@ const Index = () => {
                     textAlign: "center",
                   }}
                 >
+                  {console.log("Hero render states:", {
+                    engagementComplete,
+                    weddingComplete,
+                  })}
                   {!engagementComplete ? (
+                    /* ── Engagement countdown (before engagement) ── */
                     <CountdownTimer
                       targetDate={engagementDate}
                       label={WEDDING_CONFIG.countdown.engagementLabel}
@@ -350,13 +388,133 @@ const Index = () => {
                         handleCountdownComplete("engagement");
                       }}
                     />
-                  ) : (
+                  ) : !weddingComplete ? (
+                    /* ── Wedding countdown (after engagement, before wedding) ── */
                     <CountdownTimer
                       targetDate={weddingDate}
                       label={WEDDING_CONFIG.countdown.weddingLabel}
                       premium
                       onComplete={() => handleCountdownComplete("wedding")}
                     />
+                  ) : (
+                    /* ── United Forever celebration (after wedding date) ── */
+                    <div
+                      className="flex flex-col items-center gap-4"
+                      style={{
+                        animation: "scale-in 0.8s ease-out both",
+                      }}
+                    >
+                      {/* Top ornament */}
+                      <div className="flex items-center justify-center gap-3">
+                        <div
+                          style={{
+                            width: 50,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(230,195,213,0.7))",
+                          }}
+                        />
+                        <Sparkles
+                          size={16}
+                          className="animate-sparkle-twinkle"
+                          style={{
+                            color: "#E6C3D5",
+                            filter:
+                              "drop-shadow(0 0 8px rgba(230,195,213,0.8))",
+                          }}
+                        />
+                        <div
+                          style={{
+                            width: 50,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, rgba(230,195,213,0.7), transparent)",
+                          }}
+                        />
+                      </div>
+
+                      {/* United Forever — gradient shimmer */}
+                      <p
+                        className="font-serif italic"
+                        style={{
+                          fontSize: "clamp(1.8rem, 5vw, 2.8rem)",
+                          letterSpacing: "0.1em",
+                          margin: 0,
+                          background:
+                            "linear-gradient(90deg, #E6C3D5 0%, #A8C9E6 25%, #ffffff 50%, #A8C9E6 75%, #E6C3D5 100%)",
+                          backgroundSize: "200% auto",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                          animation:
+                            "united-shimmer 3s ease-in-out infinite, united-glow 2.5s ease-in-out infinite",
+                        }}
+                      >
+                        United Forever
+                      </p>
+
+                      {/* Couple names with hearts */}
+                      <div className="flex items-center justify-center gap-3">
+                        <Heart
+                          size={14}
+                          fill="#E6C3D5"
+                          style={{
+                            color: "#E6C3D5",
+                            animation: "heartbeat 2.2s ease-in-out infinite",
+                          }}
+                        />
+                        <span
+                          className="font-serif italic"
+                          style={{
+                            fontSize: "clamp(1rem, 3vw, 1.4rem)",
+                            color: "rgba(255,255,255,0.95)",
+                            letterSpacing: "0.08em",
+                            textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+                          }}
+                        >
+                          Alex &amp; Mariyam
+                        </span>
+                        <Heart
+                          size={14}
+                          fill="#E6C3D5"
+                          style={{
+                            color: "#E6C3D5",
+                            animation:
+                              "heartbeat 2.2s ease-in-out infinite 1.1s",
+                          }}
+                        />
+                      </div>
+
+                      {/* Bottom ornament */}
+                      <div className="flex items-center justify-center gap-3">
+                        <div
+                          style={{
+                            width: 50,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(168,201,230,0.7))",
+                          }}
+                        />
+                        <Sparkles
+                          size={16}
+                          className="animate-sparkle-twinkle"
+                          style={{
+                            color: "#A8C9E6",
+                            filter:
+                              "drop-shadow(0 0 8px rgba(168,201,230,0.8))",
+                            animationDelay: "1s",
+                          }}
+                        />
+                        <div
+                          style={{
+                            width: 50,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, rgba(168,201,230,0.7), transparent)",
+                          }}
+                        />
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -801,12 +959,82 @@ const Index = () => {
                     className="mt-8 pt-6 text-center"
                     style={{ borderTop: "1px solid rgba(74,127,193,0.15)" }}
                   >
-                    <p
-                      className="font-serif italic text-base animate-glow-pulse"
-                      style={{ color: "#4A7FC1" }}
+                    <div
+                      className="flex flex-col items-center gap-2"
+                      style={{ animation: "fade-up 0.8s ease-out both" }}
                     >
-                      ✨ Betrothed ✨
-                    </p>
+                      <div className="flex items-center justify-center gap-2.5">
+                        <div
+                          style={{
+                            width: 28,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(74,127,193,0.4))",
+                          }}
+                        />
+                        <Sparkles
+                          size={12}
+                          className="animate-sparkle-twinkle"
+                          style={{
+                            color: "#4A7FC1",
+                            filter: "drop-shadow(0 0 4px rgba(74,127,193,0.4))",
+                          }}
+                        />
+                        <div
+                          style={{
+                            width: 28,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, rgba(74,127,193,0.4), transparent)",
+                          }}
+                        />
+                      </div>
+                      <p
+                        className="font-serif italic"
+                        style={{
+                          fontSize: "clamp(1.1rem, 3vw, 1.5rem)",
+                          letterSpacing: "0.1em",
+                          margin: 0,
+                          background:
+                            "linear-gradient(90deg, #4A7FC1 0%, #7BB8D6 25%, #4A7FC1 50%, #7BB8D6 75%, #4A7FC1 100%)",
+                          backgroundSize: "200% auto",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                          animation:
+                            "united-shimmer 3s ease-in-out infinite, united-glow 2.5s ease-in-out infinite",
+                        }}
+                      >
+                        Betrothed
+                      </p>
+                      <div className="flex items-center justify-center gap-2.5">
+                        <div
+                          style={{
+                            width: 28,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(74,127,193,0.4))",
+                          }}
+                        />
+                        <Sparkles
+                          size={12}
+                          className="animate-sparkle-twinkle"
+                          style={{
+                            color: "#4A7FC1",
+                            filter: "drop-shadow(0 0 4px rgba(74,127,193,0.4))",
+                            animationDelay: "1s",
+                          }}
+                        />
+                        <div
+                          style={{
+                            width: 28,
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, rgba(74,127,193,0.4), transparent)",
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
