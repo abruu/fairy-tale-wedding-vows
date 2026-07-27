@@ -2,54 +2,54 @@
 export const WEDDING_CONFIG = {
   // ─── Couple & Content ───
   couple: {
-    name1: "Alex",
-    name2: "Mariyam",
+    name1: "Sebin John",
+    name2: "Praveena Paul",
     /** Short display (hero heading) */
-    displayNames: "Alex & Mariyam",
+    displayNames: "Sebin & Praveena",
     /** Hero tagline above names */
     tagline: "Wedding Invitation",
     /** Primary wedding message */
-    weddingMessage: "Beginning of Our Forever",
+    weddingMessage: "We are getting married",
     /** Supporting sub-message */
     supportingMessage:
       '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate." — Matthew 19:6',
     /** Venue line shown under date */
-    venue: "St. Thomas Orthodox Church · Vadakkannanoor",
+    venue: "Pampady Dayara Church · Kottayam",
     // ─── Family / Invitation ───
-    groomParents: "Mr. Kuriakose Chandy & Mrs. Smithamol Sunny",
-    groomAddress: "Kannothra Kalambukattu, Kottayam",
-    groomHouseShort: "Kannothra Kalambukattu",
-    brideParents: "Mr. Mathew John & Mrs. Molly Mathew",
-    brideAddress: "Panichiyil , Kizhumury",
-    brideHouseShort: "Panichiyil",
+    groomParents: "Mr. P A John & Mrs. Gracy John",
+    groomAddress: "Pulickal House, Aruvikuzhy P O, Kottayam, Kerala Pin 686503",
+    groomHouseShort: "Pulickal House",
+    brideParents: "Mr. Paul P P & Mrs. Rosily Joy",
+    brideAddress: "Penattu House",
+    brideHouseShort: "Penattu House",
     invitationIntro:
       "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
-    sharingHappiness: "Best Compliments by Miss Aleena Kuriakose & Maya Mathew",
+    sharingHappiness: "Best Compliments by Fr. Thomas, Saniya & Abel",
   },
 
   // ─── Event Dates (ISO with timezone) ───
   dates: {
-    engagement: "2026-07-05T11:00:00+05:30", // 5th July 2026, 11:00 AM IST — Engagement ceremony
-    wedding: "2026-07-12T11:00:00+05:30", // 12th July 2026, 11:00 AM IST — St. Thomas Orthodox Church, Vadakkannanoor
+    engagement: "2026-08-17T12:00:00+05:30", // 17th Aug 2026, 12:00 PM IST — Engagement ceremony
+    wedding: "2026-08-23T11:30:00+05:30", // 23rd August 2026, 11:30 AM IST — Pampady Dayara Church, Kottayam
   },
 
   // ─── Detailed Event Info ───
   events: {
     betrothal: {
-      dateLabel: "Sunday, 5th July 2026",
-      time: "11:00 AM",
-      venue: "Saint George Orthodox Valiyapally Parish Hall, Kizhumury",
-      mapsUrl: "https://maps.app.goo.gl/qnau8AePiaWJiapz8",
+      dateLabel: "Monday, 17th August 2026",
+      time: "12:00 PM",
+      venue: "Mulanthuruthy Church Community Hall",
+      mapsUrl: "https://maps.app.goo.gl/caLcK3zZt9DuEbjFA?g_st=aw",
       receptionVenue: "",
       receptionMapsUrl: "",
     },
     wedding: {
-      dateLabel: "Sunday, 12th July 2026",
-      time: "11:00 AM",
-      venue: "St. Thomas Orthodox Church, Amayanoor",
-      mapsUrl: "https://maps.app.goo.gl/A5Te7XJ2Q3rpmopG8 ",
-      receptionVenue: "",
-      receptionMapsUrl: "",
+      dateLabel: "Sunday, 23rd August 2026",
+      time: "11:30 AM",
+      venue: "Pampady Dayara Church",
+      mapsUrl: "https://maps.app.goo.gl/qTyvU2wbLQBZxWp89?g_st=ic",
+      receptionVenue: "P. C. Yohannan Ramban Memorial Dhyana Mandiram",
+      receptionMapsUrl: "https://maps.app.goo.gl/5kyJgix7T5RRev9RA?g_st=ic",
     },
   },
 
@@ -64,32 +64,13 @@ export const WEDDING_CONFIG = {
   story: {
     items: [
       {
-        date: "January 20, 2022",
-        content: "The first meeting — where a beautiful friendship began.",
+        date: "August 17, 2026",
+        content: "Engagement ceremony at Mulanthuruthy Church Community Hall.",
       },
       {
-        date: "January 18, 2023",
+        date: "August 23, 2026",
         content:
-          "A special moment when friendship blossomed into something deeper with a heartfelt proposal.",
-      },
-      {
-        date: "February 14, 2023",
-        content:
-          "On Valentine's Day, the proposal was accepted, marking the beginning of a beautiful relationship.",
-      },
-      {
-        date: "December 31, 2025",
-        content:
-          "A memorable milestone as both families met, bringing two families together and blessing the relationship.",
-      },
-      {
-        date: "July 5, 2026",
-        content: "Engagement ceremony celebrating our commitment.",
-      },
-      {
-        date: "July 12, 2026",
-        content:
-          "Holy Matrimony at St. Thomas Orthodox Church, Vadakkannanoor, Kerala. Beginning of our forever with God's blessings.",
+          "Holy Matrimony at Pampady Dayara Church, followed by reception at P. C. Yohannan Ramban Memorial Dhyana Mandiram.",
       },
     ],
   },
@@ -133,7 +114,7 @@ export const WEDDING_CONFIG = {
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
     musicUrl: "/music/msuic1.mp3",
     /** Hero background image */
-    heroBgImage: "/lovable-uploads/Alan/1.jpg",
+    heroBgImage: "/Sebin/PHOTO-2026-07-27-11-40-50.jpg",
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -150,13 +131,13 @@ export const WEDDING_CONFIG = {
     /** CTA text below play button */
     ctaText: "Tap to begin our story",
     /** Venue shown on intro screen (short form) */
-    venue: "St. Thomas Orthodox Church · Vadakkannanoor",
+    venue: "Pampady Dayara Church · Kottayam",
   },
 
   // ─── Preloader ───
   preloader: {
     /** Names shown on preloader screen */
-    names: "Alex & Mariyam",
+    names: "Sebin & Praveena",
     /** Scripture quote */
     scriptureQuote: '"What God has joined together, let not man separate"',
     /** Scripture reference */
@@ -167,44 +148,36 @@ export const WEDDING_CONFIG = {
   gallery: {
     images: [
       {
-        src: "/lovable-uploads/Alan/1.jpg",
-        alt: "Alex and Mariyam wedding invitation",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-50.jpg",
+        alt: "Sebin and Praveena wedding invitation",
       },
       {
-        src: "/lovable-uploads/Alan/2.jpg",
-        alt: "Alex and Mariyam together",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0001.jpg",
+        alt: "Sebin and Praveena together",
       },
       {
-        src: "/lovable-uploads/Alan/3.jpg",
-        alt: "Alex and Mariyam in traditional attire",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0002.jpg",
+        alt: "Sebin and Praveena in traditional attire",
       },
       {
-        src: "/lovable-uploads/Alan/4.jpg",
-        alt: "Alex and Mariyam celebrating",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0003.jpg",
+        alt: "Sebin and Praveena celebrating",
       },
       {
-        src: "/lovable-uploads/Alan/5.jpg",
-        alt: "Alex and Mariyam special moments",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-51.jpg",
+        alt: "Sebin and Praveena special moments",
       },
       {
-        src: "/lovable-uploads/Alan/6.jpg",
-        alt: "Alex and Mariyam together",
+        src: "/Sebin/PHOTO-2026-07-27-11-40-52.jpg",
+        alt: "Sebin and Praveena together",
       },
       {
-        src: "/lovable-uploads/Alan/8.jpg",
-        alt: "Alex and Mariyam in an elegant setting",
+        src: "/Sebin/PHOTO-2026-07-27-11-41-59 0004.jpg",
+        alt: "Sebin and Praveena in an elegant setting",
       },
       {
-        src: "/lovable-uploads/Alan/9.jpg",
-        alt: "Alex and Mariyam in an elegant setting",
-      },
-      {
-        src: "/lovable-uploads/Alan/10.jpg",
-        alt: "Alex and Mariyam in an elegant setting",
-      },
-      {
-        src: "/lovable-uploads/Alan/11.jpg",
-        alt: "Alex and Mariyam in an elegant setting",
+        src: "/Sebin/PHOTO-2026-07-27-11-41-59.jpg",
+        alt: "Sebin and Praveena in an elegant setting",
       },
     ],
   },
@@ -212,25 +185,25 @@ export const WEDDING_CONFIG = {
   // ─── Hero Corner Frame Images ───
   heroCornerFrames: [
     {
-      src: "/lovable-uploads/Alan/2.jpg",
+      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0001.jpg",
       position: "top-[22%] left-14",
       size: "w-28 h-28",
       animation: "animate-wiggle",
     },
     {
-      src: "/lovable-uploads/Alan/3.jpg",
+      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0002.jpg",
       position: "top-[22%] right-14",
       size: "w-28 h-28",
       animation: "animate-wiggle-delay",
     },
     {
-      src: "/lovable-uploads/Alan/4.jpg",
+      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0003.jpg",
       position: "bottom-[24%] left-14",
       size: "w-24 h-24",
       animation: "animate-wiggle-delay-2",
     },
     {
-      src: "/lovable-uploads/Alan/5.jpg",
+      src: "/Sebin/PHOTO-2026-07-27-11-40-51.jpg",
       position: "bottom-[24%] right-14",
       size: "w-24 h-24",
       animation: "animate-wiggle",
@@ -240,7 +213,7 @@ export const WEDDING_CONFIG = {
   // ─── Email Configuration ───
   email: {
     /** Email addresses to receive wedding wishes (can be single email or array of emails) */
-    recipientEmails: ["alexkalambukattu@gmail.com"],
+    recipientEmails: ["sebinjohn1997@gmail.com"],
     /** EmailJS configuration (free service) */
     emailJS: {
       serviceId: "service_qjht1ax", // Replace with your EmailJS service ID
@@ -252,7 +225,7 @@ export const WEDDING_CONFIG = {
   // ─── Feature Flags ───
   //test1
   features: {
-    autoPlayMusic: false,
+    autoPlayMusic: true,
     showFireworks: false,
     showVideo: false,
     /** Enable parallax on hero section */

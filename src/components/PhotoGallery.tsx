@@ -1,9 +1,8 @@
-
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { ChevronLeft, ChevronRight, X, Expand } from 'lucide-react';
-import { ANIMATION_CONFIG } from '@/config/animations';
-import { useScrollReveal, staggerDelay } from '@/hooks/useScrollReveal';
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight, X, Expand } from "lucide-react";
+import { ANIMATION_CONFIG } from "@/config/animations";
+import { useScrollReveal, staggerDelay } from "@/hooks/useScrollReveal";
 
 interface GalleryImage {
   src: string;
@@ -35,26 +34,32 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
     setLightboxOpen(true);
   };
 
-  const prev = useCallback((e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    setCurrentIndex(i => (i === 0 ? images.length - 1 : i - 1));
-  }, [images.length]);
+  const prev = useCallback(
+    (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      setCurrentIndex((i) => (i === 0 ? images.length - 1 : i - 1));
+    },
+    [images.length],
+  );
 
-  const next = useCallback((e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    setCurrentIndex(i => (i === images.length - 1 ? 0 : i + 1));
-  }, [images.length]);
+  const next = useCallback(
+    (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      setCurrentIndex((i) => (i === images.length - 1 ? 0 : i + 1));
+    },
+    [images.length],
+  );
 
   // Keyboard navigation
   useEffect(() => {
     if (!lightboxOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft')  prev();
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'Escape')     setLightboxOpen(false);
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "Escape") setLightboxOpen(false);
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [lightboxOpen, prev, next]);
 
   // Horizontal auto-slide
@@ -64,7 +69,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
     if (!el) return;
 
     const speed = galleryCfg.autoSlide.speed;
-    const dir = galleryCfg.autoSlide.direction === 'left' ? 1 : -1;
+    const dir = galleryCfg.autoSlide.direction === "left" ? 1 : -1;
     let lastTime = performance.now();
 
     const tick = (now: number) => {
@@ -87,51 +92,64 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
     return () => cancelAnimationFrame(animFrameRef.current);
   }, [galleryCfg.autoSlide]);
 
-  // Cleanup resume timer
-  useEffect(() => {
-    return () => { if (resumeTimer.current) clearTimeout(resumeTimer.current); };
-  }, []);
-
   const handleMouseEnter = () => {
-    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current) isPaused.current = true;
+    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current)
+      isPaused.current = true;
   };
   const handleMouseLeave = () => {
-    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current) isPaused.current = false;
+    if (galleryCfg.autoSlide.pauseOnHover && !isDragging.current)
+      isPaused.current = false;
   };
 
-  // ── Manual drag / touch scroll ──
+  // ── Manual drag / touch scroll (window-level listeners to avoid setPointerCapture blocking clicks) ──
+  const handlePointerMove = useCallback((e: PointerEvent) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    const delta = dragStartX.current - e.clientX;
+    dragMovedPx.current = Math.abs(delta);
+    const maxScroll = scrollRef.current.scrollWidth / 2;
+    const newPos =
+      (((dragScrollStart.current + delta) % maxScroll) + maxScroll) % maxScroll;
+    scrollPos.current = newPos;
+    scrollRef.current.scrollLeft = newPos;
+  }, []);
+
+  const handlePointerUp = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    window.removeEventListener("pointermove", handlePointerMove);
+    window.removeEventListener("pointerup", handlePointerUp);
+    window.removeEventListener("pointercancel", handlePointerUp);
+    // Resume auto-scroll 1.5 s after the user releases
+    resumeTimer.current = setTimeout(() => {
+      isPaused.current = false;
+    }, 1500);
+  }, [handlePointerMove]);
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return;
     isDragging.current = true;
     dragMovedPx.current = 0;
     dragStartX.current = e.clientX;
     dragScrollStart.current = scrollPos.current;
-    scrollRef.current.setPointerCapture(e.pointerId);
     isPaused.current = true;
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
   };
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging.current || !scrollRef.current) return;
-    const delta = dragStartX.current - e.clientX;
-    dragMovedPx.current = Math.abs(delta);
-    const maxScroll = scrollRef.current.scrollWidth / 2;
-    const newPos = ((dragScrollStart.current + delta) % maxScroll + maxScroll) % maxScroll;
-    scrollPos.current = newPos;
-    scrollRef.current.scrollLeft = newPos;
-  };
-
-  const handlePointerUp = () => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    // Resume auto-scroll 1.5 s after the user releases
-    resumeTimer.current = setTimeout(() => {
-      isPaused.current = false;
-    }, 1500);
-  };
+  // Cleanup resume timer and window listeners on unmount
+  useEffect(() => {
+    return () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+    };
+  }, [handlePointerMove, handlePointerUp]);
 
   // Responsive grid: vary the aspect ratio for a more dynamic feel
-  const aspectRatios = ['3/4', '4/5', '3/4', '4/3', '3/4', '4/5', '3/4'];
+  const aspectRatios = ["3/4", "4/5", "3/4", "4/3", "3/4", "4/5", "3/4"];
 
   // Duplicate images for seamless loop
   const displayImages = galleryCfg.autoSlide.enabled
@@ -145,30 +163,35 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
         <div
           ref={scrollRef}
           className="gallery-autoslide"
-          style={{ cursor: 'grab' }}
+          style={{ cursor: "grab" }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
         >
           <div className="gallery-autoslide-track">
             {displayImages.map((image, index) => {
               const depthOffset = galleryCfg.parallaxDepth.enabled
-                ? (index % images.length) * galleryCfg.parallaxDepth.speedVariance
+                ? (index % images.length) *
+                  galleryCfg.parallaxDepth.speedVariance
                 : 0;
               return (
                 <div
                   key={`slide-${index}`}
                   className="gallery-autoslide-item gallery-item-enhanced"
-                  onClick={() => { if (dragMovedPx.current < 6) openLightbox(index % images.length); }}
+                  onClick={() => {
+                    if (dragMovedPx.current < 6)
+                      openLightbox(index % images.length);
+                  }}
                   role="button"
                   tabIndex={0}
                   aria-label={`View photo: ${image.alt}`}
-                  onKeyDown={e => e.key === 'Enter' && openLightbox(index % images.length)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && openLightbox(index % images.length)
+                  }
                   style={{
-                    transform: depthOffset ? `translateY(${depthOffset * 20}px)` : undefined,
+                    transform: depthOffset
+                      ? `translateY(${depthOffset * 20}px)`
+                      : undefined,
                   }}
                 >
                   <img
@@ -183,7 +206,10 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                   <div className="gallery-overlay">
                     <div
                       className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
-                      style={{ background: 'rgba(30,50,100,0.6)', backdropFilter: 'blur(6px)' }}
+                      style={{
+                        background: "rgba(30,50,100,0.6)",
+                        backdropFilter: "blur(6px)",
+                      }}
                     >
                       <Expand size={12} />
                       View Photo
@@ -213,12 +239,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent
           className="max-w-screen-lg w-full p-0 border-none"
-          style={{ background: 'rgba(10,5,5,0.95)', borderRadius: '1rem' }}
+          style={{ background: "rgba(10,5,5,0.95)", borderRadius: "1rem" }}
         >
+          <DialogTitle className="sr-only">Photo Gallery</DialogTitle>
           <div className="relative w-full flex items-center justify-center min-h-[60vh]">
             <button
               className="absolute top-3 right-3 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-              style={{ background: 'rgba(255,255,255,0.12)' }}
+              style={{ background: "rgba(255,255,255,0.12)" }}
               onClick={() => setLightboxOpen(false)}
               aria-label="Close"
             >
@@ -227,7 +254,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
 
             <button
               className="absolute left-3 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-              style={{ background: 'rgba(255,255,255,0.12)' }}
+              style={{ background: "rgba(255,255,255,0.12)" }}
               onClick={prev}
               aria-label="Previous photo"
             >
@@ -239,13 +266,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                 src={images[currentIndex].src}
                 alt={images[currentIndex].alt}
                 className="max-h-[80vh] max-w-full object-contain rounded-lg"
-                style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}
+                style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.5)" }}
               />
             </div>
 
             <button
               className="absolute right-3 top-1/2 -translate-y-1/2 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-              style={{ background: 'rgba(255,255,255,0.12)' }}
+              style={{ background: "rgba(255,255,255,0.12)" }}
               onClick={next}
               aria-label="Next photo"
             >
@@ -262,7 +289,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ images }) => {
                   style={{
                     width: i === currentIndex ? 20 : 6,
                     height: 6,
-                    background: i === currentIndex ? '#A8C9E6' : 'rgba(255,255,255,0.3)',
+                    background:
+                      i === currentIndex ? "#A8C9E6" : "rgba(255,255,255,0.3)",
                   }}
                 />
               ))}
@@ -282,7 +310,7 @@ const GalleryGridItem: React.FC<{
   onOpen: () => void;
 }> = ({ image, index, aspectRatio, onOpen }) => {
   const { ref, style } = useScrollReveal<HTMLDivElement>({
-    animation: 'scale-in',
+    animation: "scale-in",
     delay: staggerDelay(index),
   });
 
@@ -295,7 +323,7 @@ const GalleryGridItem: React.FC<{
       role="button"
       tabIndex={0}
       aria-label={`View photo: ${image.alt}`}
-      onKeyDown={e => e.key === 'Enter' && onOpen()}
+      onKeyDown={(e) => e.key === "Enter" && onOpen()}
     >
       <img
         src={image.src}
@@ -309,7 +337,10 @@ const GalleryGridItem: React.FC<{
       <div className="gallery-overlay">
         <div
           className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-xs font-medium"
-          style={{ background: 'rgba(30,50,100,0.6)', backdropFilter: 'blur(6px)' }}
+          style={{
+            background: "rgba(30,50,100,0.6)",
+            backdropFilter: "blur(6px)",
+          }}
         >
           <Expand size={12} />
           View Photo
