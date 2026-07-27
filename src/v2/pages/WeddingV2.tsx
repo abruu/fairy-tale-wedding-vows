@@ -1,30 +1,30 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { WEDDING_CONFIG } from '@/config/dates';
-import { useActiveSection } from '../hooks/useActiveSection';
-import { useScrollProgress } from '../hooks/useScrollProgress';
-import { Navigation } from '../components/layout/Navigation';
-import { MusicPlayerV2 } from '../components/layout/MusicPlayerV2';
-import { OpeningExperience } from '../components/sections/OpeningExperience';
-import { HeroSection } from '../components/sections/HeroSection';
-import { InvitationSection } from '../components/sections/InvitationSection';
-import { OurStorySection } from '../components/sections/OurStorySection';
-import { SpecialMomentsSection } from '../components/sections/SpecialMomentsSection';
-import { WeddingDetailsSection } from '../components/sections/WeddingDetailsSection';
-import { GallerySection } from '../components/sections/GallerySection';
-import { CountdownSection } from '../components/sections/CountdownSection';
-import { RSVPSection } from '../components/sections/RSVPSection';
-import { ThankYouSection } from '../components/sections/ThankYouSection';
-import { ArrowUp } from 'lucide-react';
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { WEDDING_CONFIG } from "@/config/dates";
+import { useActiveSection } from "../hooks/useActiveSection";
+import { useScrollProgress } from "../hooks/useScrollProgress";
+import { Navigation } from "../components/layout/Navigation";
+import { MusicPlayerV2 } from "../components/layout/MusicPlayerV2";
+import { OpeningExperience } from "../components/sections/OpeningExperience";
+import { HeroSection } from "../components/sections/HeroSection";
+import { InvitationSection } from "../components/sections/InvitationSection";
+import { OurStorySection } from "../components/sections/OurStorySection";
+import { SpecialMomentsSection } from "../components/sections/SpecialMomentsSection";
+import { WeddingDetailsSection } from "../components/sections/WeddingDetailsSection";
+import { GallerySection } from "../components/sections/GallerySection";
+import { CountdownSection } from "../components/sections/CountdownSection";
+import { RSVPSection } from "../components/sections/RSVPSection";
+import { ThankYouSection } from "../components/sections/ThankYouSection";
+import { ArrowUp } from "lucide-react";
 
 const NAV_ITEMS = [
-  { id: 'hero', label: 'Home' },
-  { id: 'invitation', label: 'Invitation' },
-  { id: 'story', label: 'Story' },
-  { id: 'moments', label: 'Moments' },
-  { id: 'details', label: 'Details' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'countdown', label: 'Countdown' },
-  { id: 'rsvp', label: 'RSVP' },
+  { id: "hero", label: "Home" },
+  { id: "invitation", label: "Invitation" },
+  { id: "story", label: "Story" },
+  { id: "moments", label: "Moments" },
+  { id: "details", label: "Details" },
+  { id: "gallery", label: "Gallery" },
+  { id: "countdown", label: "Countdown" },
+  { id: "rsvp", label: "RSVP" },
 ];
 
 const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
@@ -43,7 +43,7 @@ const WeddingV2: React.FC = () => {
   const handleNavigate = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
@@ -59,8 +59,8 @@ const WeddingV2: React.FC = () => {
     const onScroll = () => {
       setShowBackToTop(window.scrollY > 600);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Set document title
@@ -92,7 +92,7 @@ const WeddingV2: React.FC = () => {
 
       {/* Sections */}
       <main>
-        <HeroSection onEnter={() => handleNavigate('invitation')} />
+        <HeroSection onEnter={() => handleNavigate("invitation")} />
         <InvitationSection />
         <OurStorySection />
         <SpecialMomentsSection />
@@ -103,18 +103,16 @@ const WeddingV2: React.FC = () => {
         <ThankYouSection />
       </main>
 
-      {/* Music Player */}
-      {openingComplete && (
-        <MusicPlayerV2
-          autoPlay={WEDDING_CONFIG.features.autoPlayMusic}
-          forcePlayRef={forcePlayRef}
-        />
-      )}
+      {/* Music Player — always rendered so forcePlayRef is available during opening */}
+      <MusicPlayerV2
+        autoPlay={openingComplete && WEDDING_CONFIG.features.autoPlayMusic}
+        forcePlayRef={forcePlayRef}
+      />
 
       {/* Back to Top */}
       <button
-        className={`v2-back-to-top ${showBackToTop ? 'visible' : ''}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`v2-back-to-top ${showBackToTop ? "visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
       >
         <ArrowUp size={18} />

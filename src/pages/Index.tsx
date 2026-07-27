@@ -156,6 +156,31 @@ const Index = () => {
 
   const storyItems = WEDDING_CONFIG.story.items;
 
+  // Dynamic family data based on brideFirst flag
+  const brideFirst = WEDDING_CONFIG.couple.brideFirst;
+  const firstFamily = brideFirst
+    ? {
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+        houseShort: WEDDING_CONFIG.couple.brideHouseShort,
+      }
+    : {
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+        houseShort: WEDDING_CONFIG.couple.groomHouseShort,
+      };
+  const secondFamily = brideFirst
+    ? {
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+        houseShort: WEDDING_CONFIG.couple.groomHouseShort,
+      }
+    : {
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+        houseShort: WEDDING_CONFIG.couple.brideHouseShort,
+      };
+
   const weddingDateFormatted = new Date(
     WEDDING_CONFIG.dates.wedding,
   ).toLocaleDateString("en-GB", {
@@ -650,10 +675,10 @@ const Index = () => {
               >
                 <div className="invitation-family">
                   <p className="invitation-family-name">
-                    {WEDDING_CONFIG.couple.groomParents}
+                    {firstFamily.parents}
                   </p>
                   <p className="invitation-family-address">
-                    {WEDDING_CONFIG.couple.groomAddress}
+                    {firstFamily.address}
                   </p>
                 </div>
                 <div className="invitation-family-connector" aria-hidden="true">
@@ -663,10 +688,10 @@ const Index = () => {
                 </div>
                 <div className="invitation-family">
                   <p className="invitation-family-name">
-                    {WEDDING_CONFIG.couple.brideParents}
+                    {secondFamily.parents}
                   </p>
                   <p className="invitation-family-address">
-                    {WEDDING_CONFIG.couple.brideAddress}
+                    {secondFamily.address}
                   </p>
                 </div>
               </div>
@@ -693,9 +718,7 @@ const Index = () => {
                   <p className="invitation-name">
                     {WEDDING_CONFIG.couple.name1}
                   </p>
-                  <p className="invitation-house">
-                    {WEDDING_CONFIG.couple.groomHouseShort}
-                  </p>
+                  <p className="invitation-house">{firstFamily.houseShort}</p>
                 </div>
                 <div className="invitation-names-ampersand" aria-hidden="true">
                   <div className="invitation-amp-line" />
@@ -706,9 +729,7 @@ const Index = () => {
                   <p className="invitation-name">
                     {WEDDING_CONFIG.couple.name2}
                   </p>
-                  <p className="invitation-house">
-                    {WEDDING_CONFIG.couple.brideHouseShort}
-                  </p>
+                  <p className="invitation-house">{secondFamily.houseShort}</p>
                 </div>
               </div>
 
@@ -734,8 +755,21 @@ const Index = () => {
                 data-aos="fade-up"
                 data-aos-delay="350"
               >
-                {WEDDING_CONFIG.couple.sharingHappiness}
+                {brideFirst
+                  ? WEDDING_CONFIG.couple.brideSharingHappiness
+                  : WEDDING_CONFIG.couple.sharingHappiness}
               </p>
+              {WEDDING_CONFIG.couple.brideSharingHappiness && (
+                <p
+                  className="invitation-sharing"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                >
+                  {brideFirst
+                    ? WEDDING_CONFIG.couple.sharingHappiness
+                    : WEDDING_CONFIG.couple.brideSharingHappiness}
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -1322,8 +1356,20 @@ const Index = () => {
               className="text-sm leading-relaxed mb-2"
               style={{ color: "rgba(255,248,240,0.55)" }}
             >
-              {WEDDING_CONFIG.couple.sharingHappiness}
+              {brideFirst
+                ? WEDDING_CONFIG.couple.brideSharingHappiness
+                : WEDDING_CONFIG.couple.sharingHappiness}
             </p>
+            {WEDDING_CONFIG.couple.brideSharingHappiness && (
+              <p
+                className="text-sm leading-relaxed mb-2"
+                style={{ color: "rgba(255,248,240,0.55)" }}
+              >
+                {brideFirst
+                  ? WEDDING_CONFIG.couple.sharingHappiness
+                  : WEDDING_CONFIG.couple.brideSharingHappiness}
+              </p>
+            )}
             {/* <p className="font-medium text-base mb-8" style={{ color: '#A8C9E6' }}>Joel &amp; Megha</p> */}
 
             <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>

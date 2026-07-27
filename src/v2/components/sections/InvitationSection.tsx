@@ -13,6 +13,31 @@ export const InvitationSection: React.FC = () => {
   const { ref, revealed, className } = useReveal<HTMLDivElement>({
     type: "up",
   });
+  const brideFirst = WEDDING_CONFIG.couple.brideFirst;
+
+  // Dynamic family data based on brideFirst flag
+  const firstFamily = brideFirst
+    ? {
+        label: "Bride's Parents",
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+      }
+    : {
+        label: "Groom's Parents",
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+      };
+  const secondFamily = brideFirst
+    ? {
+        label: "Groom's Parents",
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+      }
+    : {
+        label: "Bride's Parents",
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+      };
   const {
     ref: ref2,
     revealed: revealed2,
@@ -112,10 +137,10 @@ export const InvitationSection: React.FC = () => {
               borderBottom: "1px solid rgba(201,169,110,0.08)",
             }}
           >
-            {/* Groom's family */}
+            {/* First family (bride or groom based on flag) */}
             <div style={{ textAlign: "center" }}>
               <p className="v2-eyebrow" style={{ marginBottom: "0.75rem" }}>
-                Groom's Parents
+                {firstFamily.label}
               </p>
               <p
                 style={{
@@ -127,7 +152,7 @@ export const InvitationSection: React.FC = () => {
                   marginBottom: "0.4rem",
                 }}
               >
-                {WEDDING_CONFIG.couple.groomParents}
+                {firstFamily.parents}
               </p>
               <p
                 style={{
@@ -137,7 +162,7 @@ export const InvitationSection: React.FC = () => {
                   letterSpacing: "0.05em",
                 }}
               >
-                {WEDDING_CONFIG.couple.groomAddress}
+                {firstFamily.address}
               </p>
             </div>
 
@@ -178,10 +203,10 @@ export const InvitationSection: React.FC = () => {
               />
             </div>
 
-            {/* Bride's family */}
+            {/* Second family (groom or bride based on flag) */}
             <div style={{ textAlign: "center" }}>
               <p className="v2-eyebrow" style={{ marginBottom: "0.75rem" }}>
-                Bride's Parents
+                {secondFamily.label}
               </p>
               <p
                 style={{
@@ -193,7 +218,7 @@ export const InvitationSection: React.FC = () => {
                   marginBottom: "0.4rem",
                 }}
               >
-                {WEDDING_CONFIG.couple.brideParents}
+                {secondFamily.parents}
               </p>
               <p
                 style={{
@@ -203,7 +228,7 @@ export const InvitationSection: React.FC = () => {
                   letterSpacing: "0.05em",
                 }}
               >
-                {WEDDING_CONFIG.couple.brideAddress}
+                {secondFamily.address}
               </p>
             </div>
           </div>
@@ -312,8 +337,25 @@ export const InvitationSection: React.FC = () => {
                 letterSpacing: "0.02em",
               }}
             >
-              {WEDDING_CONFIG.couple.sharingHappiness}
+              {brideFirst
+                ? WEDDING_CONFIG.couple.brideSharingHappiness
+                : WEDDING_CONFIG.couple.sharingHappiness}
             </p>
+            {WEDDING_CONFIG.couple.brideSharingHappiness && (
+              <p
+                style={{
+                  fontFamily: "var(--v2-font-display)",
+                  fontStyle: "italic",
+                  fontSize: "0.85rem",
+                  color: "rgba(44,44,44,0.5)",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {brideFirst
+                  ? WEDDING_CONFIG.couple.sharingHappiness
+                  : WEDDING_CONFIG.couple.brideSharingHappiness}
+              </p>
+            )}
           </div>
         </div>
       </div>
