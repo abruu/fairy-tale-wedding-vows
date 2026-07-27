@@ -17,13 +17,12 @@ interface NavigationProps {
 
 /**
  * Thin fixed-top blurred-dark nav bar with a gold-underline active
- * indicator and a cross-motif logo mark.
+ * indicator and a cross-motif logo mark. Always stays visible/sticky —
+ * never hides on scroll, only gains a stronger backdrop once scrolled.
  */
 export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { scrollDir, scrolled } = useScrollDirection(10);
-
-  const hidden = scrollDir === "down" && scrolled && !mobileOpen;
+  const { scrolled } = useScrollDirection(10);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -41,8 +40,8 @@ export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, on
     <motion.nav
       className={`v2-nav ${scrolled ? "scrolled" : ""} ${mobileOpen ? "open" : ""}`}
       aria-label="Main navigation"
-      animate={{ y: hidden ? -100 : 0, opacity: hidden ? 0 : 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      initial={{ y: 0, opacity: 1 }}
+      animate={{ y: 0, opacity: 1 }}
     >
       <CrossMotif size={16} className="v2-nav-logo" />
 

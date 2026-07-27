@@ -46,7 +46,7 @@ export const WEDDING_CONFIG = {
     brideHouseShort: "Penattu House",
     invitationIntro:
       "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
-    sharingHappiness: "Best Compliments by Fr. Thomas, Saniya & Abel",
+    sharingHappiness: "",
     brideSharingHappiness:
       "Best Compliments by Akhil, Priyanka, Christelle & Raheal",
   },
@@ -237,7 +237,7 @@ export const WEDDING_CONFIG = {
   // ─── Email Configuration ───
   email: {
     /** Email addresses to receive wedding wishes (can be single email or array of emails) */
-    recipientEmails: ["sebinjohn1997@gmail.com", "praveenapaul3498@gmail.com"],
+    recipientEmails: ["praveenapaul3498@gmail.com"],
     /** EmailJS configuration (free service) */
     emailJS: {
       serviceId: "service_qjht1ax", // Replace with your EmailJS service ID

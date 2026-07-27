@@ -1,23 +1,18 @@
-import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Lightbox } from "../shared/Lightbox";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 /**
- * Editorial gallery — fewer, bigger tiles with generous gutters (sparse
- * reads as more luxury than dense with only 8 source photos), plus a
- * single section-level parallax drift on the whole grid.
+ * Editorial gallery — a simple masonry grid, fewer/bigger tiles with
+ * generous gutters, click any tile to open the lightbox.
  */
 export const GallerySection: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const images = WEDDING_CONFIG.gallery.images;
-  const sectionRef = useRef<HTMLElement>(null);
-  const prefersReduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const gridY = useTransform(scrollYProgress, [0, 1], prefersReduced ? ["0%", "0%"] : ["-5%", "5%"]);
 
   const heights = ["380px", "300px", "440px", "340px", "400px", "320px", "420px", "340px"];
 
@@ -29,7 +24,6 @@ export const GallerySection: React.FC = () => {
   return (
     <section
       id="gallery"
-      ref={sectionRef}
       style={{
         position: "relative",
         background: "var(--v2-deep-charcoal)",
@@ -40,14 +34,11 @@ export const GallerySection: React.FC = () => {
       <div style={{ position: "relative", zIndex: 2, maxWidth: "72rem", margin: "0 auto" }}>
         <SectionHeader eyebrow="Our Gallery" title="Moments in Time" subtitle="Captured memories of our journey together" variant="dark" />
 
-        <motion.div
-          className="v2-gallery-masonry"
-          style={{ marginTop: "4rem", y: gridY }}
-        >
+        <div className="v2-gallery-masonry" style={{ marginTop: "4rem" }}>
           {images.map((img, i) => (
             <GalleryItem key={i} src={img.src} alt={img.alt} height={heights[i % heights.length]} index={i} onClick={() => openLightbox(i)} />
           ))}
-        </motion.div>
+        </div>
       </div>
 
       <Lightbox images={images} index={lightboxIndex} open={lightboxOpen} onClose={() => setLightboxOpen(false)} onNavigate={setLightboxIndex} />

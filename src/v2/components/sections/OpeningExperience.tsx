@@ -37,9 +37,11 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({
 }) => {
   const [phase, setPhase] = useState<Phase>("idle");
   const [isLoading, setIsLoading] = useState(false);
+  const [videoDim, setVideoDim] = useState(true);
   const triggeredRef = useRef(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stallTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dimTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prefersReduced = useReducedMotion();
 
   const triggerComplete = useCallback(() => {
@@ -80,6 +82,10 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({
           triggerComplete,
           VIDEO_STALL_TIMEOUT,
         );
+        dimTimerRef.current = setTimeout(
+          () => setVideoDim(false),
+          prefersReduced ? 0 : 1800,
+        );
       })
       .catch(() => {
         setIsLoading(false);
@@ -98,6 +104,7 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({
   useEffect(() => {
     return () => {
       if (stallTimerRef.current) clearTimeout(stallTimerRef.current);
+      if (dimTimerRef.current) clearTimeout(dimTimerRef.current);
     };
   }, []);
 
@@ -156,8 +163,8 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              opacity: isLoading ? 0 : 1,
-              transition: "opacity 0.6s ease",
+              opacity: isLoading ? 0 : videoDim ? 0.45 : 1,
+              transition: isLoading ? "opacity 0.6s ease" : "opacity 1.8s ease",
             }}
           >
             <source src="/video/openVideo.mp4" type="video/mp4" />

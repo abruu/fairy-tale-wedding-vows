@@ -10,7 +10,6 @@ type FormState = "idle" | "submitting" | "success" | "error";
 
 interface FormData {
   name: string;
-  email: string;
   message: string;
 }
 
@@ -20,17 +19,12 @@ interface FormData {
  */
 export const RSVPSection: React.FC = () => {
   const [formState, setFormState] = useState<FormState>("idle");
-  const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState<FormData>({ name: "", message: "" });
   const [errors, setErrors] = useState<Partial<FormData>>({});
 
   const validate = (): boolean => {
     const newErrors: Partial<FormData> = {};
     if (!formData.name.trim()) newErrors.name = "Your name is required";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
-    }
     if (!formData.message.trim()) newErrors.message = "Please share your wishes";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -44,7 +38,7 @@ export const RSVPSection: React.FC = () => {
     try {
       await sendWishEmail({ name: formData.name, message: formData.message });
       setFormState("success");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", message: "" });
     } catch {
       setFormState("error");
       setTimeout(() => setFormState("idle"), 3000);
@@ -89,7 +83,6 @@ export const RSVPSection: React.FC = () => {
                 className="v2-rsvp-form"
               >
                 <UnderlineField id="rsvp-name" label="Your Name" value={formData.name} onChange={handleChange("name")} placeholder="Enter your name" error={errors.name} />
-                <UnderlineField id="rsvp-email" label="Email Address" value={formData.email} onChange={handleChange("email")} placeholder="your@email.com" type="email" error={errors.email} />
                 <UnderlineField
                   id="rsvp-message"
                   label="Your Wishes"

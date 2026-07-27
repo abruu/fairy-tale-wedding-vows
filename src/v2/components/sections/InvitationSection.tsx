@@ -91,28 +91,34 @@ export const InvitationSection: React.FC = () => {
               {WEDDING_CONFIG.couple.name2}
             </h3>
 
-            <div style={{ marginTop: "2rem" }}>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "0.85rem",
-                  color: "rgba(234,228,216,0.5)",
-                }}
-              >
-                {brideFirst ? WEDDING_CONFIG.couple.brideSharingHappiness : WEDDING_CONFIG.couple.sharingHappiness}
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "0.85rem",
-                  color: "rgba(234,228,216,0.5)",
-                }}
-              >
-                {brideFirst ? WEDDING_CONFIG.couple.sharingHappiness : WEDDING_CONFIG.couple.brideSharingHappiness}
-              </p>
-            </div>
+            {(() => {
+              const lines = [
+                brideFirst ? WEDDING_CONFIG.couple.brideSharingHappiness : WEDDING_CONFIG.couple.sharingHappiness,
+                brideFirst ? WEDDING_CONFIG.couple.sharingHappiness : WEDDING_CONFIG.couple.brideSharingHappiness,
+              ].filter(Boolean);
+              if (lines.length === 0) return null;
+              return (
+                <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", margin: 0 }}>
+                    With Best Wishes
+                  </p>
+                  {lines.map((line, i) => (
+                    <p
+                      key={i}
+                      style={{
+                        fontFamily: "var(--v2-font-display)",
+                        fontStyle: "italic",
+                        fontSize: "0.85rem",
+                        color: "rgba(234,228,216,0.55)",
+                        margin: 0,
+                      }}
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              );
+            })()}
           </motion.div>
 
           {/* Narrow column: two family blocks */}

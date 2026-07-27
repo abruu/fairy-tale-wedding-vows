@@ -4,6 +4,7 @@ import { WEDDING_CONFIG } from "@/config/dates";
 import { MapPin, Clock } from "lucide-react";
 import { SectionHeader } from "../shared/SectionHeader";
 import { CrossMotif } from "../shared/CrossMotif";
+import { MiniCountdown } from "../shared/MiniCountdown";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 /**
@@ -37,7 +38,15 @@ export const WeddingDetailsSection: React.FC = () => {
             alignItems: "stretch",
           }}
         >
-          <EventTicket label="Betrothal" dateLabel={betrothal.dateLabel} time={betrothal.time} venue={betrothal.venue} mapsUrl={betrothal.mapsUrl} fromLeft />
+          <EventTicket
+            label="Betrothal"
+            dateLabel={betrothal.dateLabel}
+            time={betrothal.time}
+            venue={betrothal.venue}
+            mapsUrl={betrothal.mapsUrl}
+            targetDate={WEDDING_CONFIG.dates.engagement}
+            fromLeft
+          />
           <EventTicket
             label="Holy Matrimony"
             dateLabel={wedding.dateLabel}
@@ -46,6 +55,7 @@ export const WeddingDetailsSection: React.FC = () => {
             mapsUrl={wedding.mapsUrl}
             receptionVenue={wedding.receptionVenue}
             receptionMapsUrl={wedding.receptionMapsUrl}
+            targetDate={WEDDING_CONFIG.dates.wedding}
             featured
             fromLeft={false}
           />
@@ -69,11 +79,12 @@ interface EventTicketProps {
   mapsUrl: string;
   receptionVenue?: string;
   receptionMapsUrl?: string;
+  targetDate: string;
   featured?: boolean;
   fromLeft: boolean;
 }
 
-const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue, mapsUrl, receptionVenue, receptionMapsUrl, featured, fromLeft }) => {
+const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue, mapsUrl, receptionVenue, receptionMapsUrl, targetDate, featured, fromLeft }) => {
   const prefersReduced = useReducedMotion();
 
   return (
@@ -119,6 +130,10 @@ const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue
           <DetailRow icon={<Clock size={16} />} label="Time" value={time} />
           <DetailRow icon={<MapPin size={16} />} label="Venue" value={venue} />
           {receptionVenue && <DetailRow icon={<MapPin size={16} />} label="Reception" value={receptionVenue} />}
+        </div>
+
+        <div style={{ marginTop: "1.5rem", paddingTop: "1.25rem", borderTop: "1px solid var(--v2-line)" }}>
+          <MiniCountdown label="Counting Down" targetDate={targetDate} size="sm" completeText="It's Here! ✓" />
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.5rem", flexWrap: "wrap" }}>

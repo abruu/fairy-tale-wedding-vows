@@ -98,6 +98,34 @@ export const ThankYouSection: React.FC = () => {
           </h3>
         </div>
 
+        {/* Best wishes credit */}
+        {(() => {
+          const lines = [WEDDING_CONFIG.couple.brideSharingHappiness, WEDDING_CONFIG.couple.sharingHappiness].filter(Boolean);
+          if (lines.length === 0) return null;
+          return (
+            <div style={{ marginTop: '2.5rem' }}>
+              <p className="v2-eyebrow" style={{ color: 'var(--v2-gold-light)', marginBottom: '0.75rem' }}>
+                With Best Wishes
+              </p>
+              {lines.map((line, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontFamily: 'var(--v2-font-display)',
+                    fontStyle: 'italic',
+                    fontSize: '0.85rem',
+                    color: 'rgba(234,228,216,0.5)',
+                    margin: 0,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+          );
+        })()}
+
         {/* Bottom flourish */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginTop: '3rem' }}>
           <span style={{ color: 'rgba(198,161,91,0.2)', fontSize: '0.5rem' }}>✦</span>

@@ -610,6 +610,18 @@
   animation: v2-scale-in 0.8s ease-out both;
 }
 
+/* ─── Hero Scripture ─── */
+.v2-hero-scripture {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .v2-hero-scripture {
+    text-align: left;
+    max-width: 100% !important;
+  }
+}
+
 /* ─── Scroll Indicator ─── */
 .v2-scroll-indicator {
   position: absolute;
@@ -770,6 +782,100 @@
   text-transform: uppercase;
   color: rgba(198, 161, 91, 0.8);
   margin-top: 0.5rem;
+}
+
+/* ─── Mini Countdown (hero strip + venue cards) ─── */
+.v2-mini-countdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.v2-mini-countdown--md {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.v2-mini-countdown-label {
+  font-family: var(--v2-font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.v2-mini-countdown-complete {
+  font-family: var(--v2-font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+.v2-mini-countdown-units {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.v2-mini-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3.6rem;
+  padding: 0.6rem 0.5rem 0.5rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(198, 161, 91, 0.25);
+}
+
+.v2-mini-countdown--sm .v2-mini-countdown-unit {
+  min-width: 3.4rem;
+  padding: 0.55rem 0.45rem;
+}
+
+.v2-mini-countdown-value {
+  display: inline-block;
+  font-family: var(--v2-font-serif);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  line-height: 1.1;
+  color: var(--v2-ivory);
+}
+
+.v2-mini-countdown--sm .v2-mini-countdown-value {
+  font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+}
+
+.v2-mini-countdown-unit-label {
+  font-family: var(--v2-font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(234, 228, 216, 0.45);
+  margin-top: 0.2rem;
+}
+
+.v2-mini-countdown-sep {
+  color: rgba(198, 161, 91, 0.35);
+  font-family: var(--v2-font-serif);
+  font-size: 1.4rem;
+}
+
+.v2-hero-countdown-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 1.25rem;
+  background: rgba(13, 12, 11, 0.45);
+  border: 1px solid rgba(198, 161, 91, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  width: 100%;
+  max-width: 30rem;
+  margin-top: 2.25rem;
 }
 
 /* ─── Navigation ─── */
