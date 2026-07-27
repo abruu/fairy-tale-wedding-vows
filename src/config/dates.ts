@@ -51,7 +51,7 @@ export const WEDDING_CONFIG = {
       "Best Compliments by Akhil, Priyanka, Christelle & Raheal",
   },
 
-  // ─── Event Dates (ISO with timezone) ───
+  // ─── Event Dates (ISO with timezone) ───--
   dates: {
     engagement: "2026-08-17T12:00:00+05:30", // 17th Aug 2026, 12:00 PM IST — Engagement ceremony
     wedding: "2026-08-23T11:30:00+05:30", // 23rd August 2026, 11:30 AM IST — Pampady Dayara Church, Kottayam
