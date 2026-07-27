@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { useReveal } from "../../hooks/useReveal";
-import { useMouseParallax } from "../../hooks/useMouseParallax";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { FloatingOrnaments } from "../shared/FloatingOrnaments";
 
@@ -18,16 +17,32 @@ const formatDate = (iso: string) => {
   };
 };
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] } },
+};
+
 /**
- * Full-screen cinematic hero with layered typography, mouse parallax, and floating ornaments.
+ * Full-screen editorial hero — asymmetric bottom-left name block over a
+ * slow-drifting background image, with scroll-linked parallax depth
+ * (works on touch devices, unlike mouse-only parallax).
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
-  const { ref, revealed } = useReveal<HTMLElement>({
-    type: "blur",
-    once: true,
-  });
-  const mouseOffset = useMouseParallax(15);
+  const sectionRef = useRef<HTMLElement>(null);
   const prefersReduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", prefersReduced ? "0%" : "30%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 1 : 1.15]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", prefersReduced ? "0%" : "-15%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 1 : 0]);
 
   const weddingDate = useMemo(
     () => formatDate(WEDDING_CONFIG.dates.wedding),
@@ -35,237 +50,123 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
   );
   const heroImage = WEDDING_CONFIG.media.heroBgImage;
 
-  const parallaxStyle = (depth: number) => {
-    if (prefersReduced) return {};
-    return {
-      transform: `translate3d(${mouseOffset.x * depth}px, ${mouseOffset.y * depth}px, 0)`,
-      willChange: "transform" as const,
-    };
-  };
-
   return (
     <section
       id="hero"
-      ref={ref}
-      className={`v2-reveal-blur ${revealed ? "revealed" : ""}`}
+      ref={sectionRef}
       style={{
         position: "relative",
         minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: "flex-end",
         overflow: "hidden",
-        background: `linear-gradient(180deg, rgba(26,26,26,0.35) 0%, rgba(26,26,26,0.2) 40%, rgba(26,26,26,0.5) 100%), url(${heroImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center center",
-        backgroundAttachment: "scroll",
       }}
     >
-      {/* Dark overlay for text readability */}
+      {/* Parallax background layer */}
+      <motion.div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          y: bgY,
+          scale: bgScale,
+        }}
+      />
+
+      {/* Dark editorial overlay for readability */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: WEDDING_CONFIG.textOverlay.heroGradient }} />
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          background:
-            "radial-gradient(ellipse at center, transparent 0%, rgba(26,26,26,0.3) 70%, rgba(26,26,26,0.6) 100%)",
+          background: "radial-gradient(ellipse at bottom left, rgba(13,12,11,0.15) 0%, rgba(13,12,11,0.55) 60%, rgba(13,12,11,0.8) 100%)",
         }}
       />
 
-      {/* Floating ornaments */}
       <FloatingOrnaments count={6} variant="sparkles" />
 
-      {/* Content */}
-      <div
+      {/* Asymmetric content block — bottom-left third, magazine-cover style */}
+      <motion.div
+        variants={prefersReduced ? undefined : container}
+        initial={prefersReduced ? undefined : "hidden"}
+        animate={prefersReduced ? undefined : "show"}
         style={{
           position: "relative",
           zIndex: 2,
-          textAlign: "center",
-          padding: "2rem",
-          maxWidth: "90vw",
+          y: contentY,
+          opacity: contentOpacity,
+          width: "100%",
+          padding: "2rem clamp(1.5rem, 6vw, 5rem) clamp(3rem, 10vh, 6rem)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: "2rem",
+          flexWrap: "wrap",
         }}
       >
-        {/* Eyebrow */}
-        <p
-          className="v2-eyebrow"
-          style={{
-            color: "var(--v2-gold-light)",
-            marginBottom: "1.5rem",
-            ...parallaxStyle(0.5),
-          }}
-        >
-          {WEDDING_CONFIG.videoIntro.weddingOfLabel}
-        </p>
+        <div style={{ maxWidth: "36rem", textAlign: "left" }}>
+          <motion.p variants={item} className="v2-eyebrow" style={{ color: "var(--v2-gold-light)", marginBottom: "1.25rem" }}>
+            {WEDDING_CONFIG.couple.tagline}
+          </motion.p>
 
-        {/* Name 1 */}
-        <h1
-          className="v2-heading-xl"
-          style={{
-            fontStyle: "italic",
-            color: "var(--v2-ivory)",
-            textShadow: "0 4px 40px rgba(0,0,0,0.4)",
-            margin: 0,
-            ...parallaxStyle(1),
-          }}
-        >
-          {WEDDING_CONFIG.couple.name1}
-        </h1>
-
-        {/* Ampersand with decorative lines */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
-            margin: "0.5rem 0",
-            ...parallaxStyle(0.3),
-          }}
-        >
-          <div
-            style={{
-              width: 60,
-              height: 1,
-              background:
-                "linear-gradient(to right, transparent, rgba(201,169,110,0.5))",
-            }}
+          <motion.div
+            variants={item}
+            aria-hidden="true"
+            style={{ width: 1, height: "2.5rem", background: "linear-gradient(to bottom, var(--v2-gold), transparent)", marginBottom: "1.25rem" }}
           />
-          <span
-            style={{
-              fontFamily: "var(--v2-font-display)",
-              fontStyle: "italic",
-              fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
-              color: "var(--v2-gold)",
-            }}
+
+          <motion.h1
+            variants={item}
+            className="v2-heading-xl"
+            style={{ fontStyle: "italic", color: "var(--v2-ivory)", textShadow: WEDDING_CONFIG.textOverlay.nameShadow, margin: 0, lineHeight: 1 }}
           >
-            &amp;
-          </span>
-          <div
-            style={{
-              width: 60,
-              height: 1,
-              background:
-                "linear-gradient(to right, rgba(201,169,110,0.5), transparent)",
-            }}
-          />
-        </div>
+            {WEDDING_CONFIG.couple.name1}
+            <span style={{ fontFamily: "var(--v2-font-display)", color: "var(--v2-gold)", margin: "0 0.3em" }}>&amp;</span>
+            <br />
+            {WEDDING_CONFIG.couple.name2}
+          </motion.h1>
 
-        {/* Name 2 */}
-        <h1
-          className="v2-heading-xl"
-          style={{
-            fontStyle: "italic",
-            color: "var(--v2-ivory)",
-            textShadow: "0 4px 40px rgba(0,0,0,0.4)",
-            margin: 0,
-            ...parallaxStyle(1),
-          }}
-        >
-          {WEDDING_CONFIG.couple.name2}
-        </h1>
-
-        {/* Date */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
-            marginTop: "2.5rem",
-            ...parallaxStyle(0.6),
-          }}
-        >
-          <div
-            style={{
-              width: 40,
-              height: 1,
-              background: "rgba(201,169,110,0.3)",
-            }}
-          />
-          <div style={{ textAlign: "center" }}>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-sans)",
-                fontSize: "clamp(0.7rem, 2vw, 0.85rem)",
-                letterSpacing: "0.25em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,240,0.6)",
-                margin: 0,
-              }}
-            >
+          <motion.div variants={item} style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.75rem" }}>
+            <div style={{ width: 40, height: 1, background: "var(--v2-line)" }} />
+            <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "clamp(0.7rem, 2vw, 0.85rem)", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(234,228,216,0.75)", margin: 0 }}>
               {weddingDate.day} {weddingDate.month} {weddingDate.year}
             </p>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-sans)",
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,240,0.35)",
-                margin: "0.3rem 0 0",
-              }}
-            >
-              {WEDDING_CONFIG.videoIntro.venue}
-            </p>
-          </div>
-          <div
-            style={{
-              width: 40,
-              height: 1,
-              background: "rgba(201,169,110,0.3)",
-            }}
-          />
+          </motion.div>
+          <motion.p
+            variants={item}
+            style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(234,228,216,0.45)", margin: "0.4rem 0 0" }}
+          >
+            {WEDDING_CONFIG.couple.venue}
+          </motion.p>
         </div>
 
-        {/* Scripture */}
+        {/* Scripture reference — quiet permanent faith marker */}
         {WEDDING_CONFIG.scripture && (
-          <div
-            style={{
-              marginTop: "2rem",
-              ...parallaxStyle(0.4),
-            }}
-          >
+          <motion.div variants={item} style={{ textAlign: "right", maxWidth: "18rem" }}>
             <p
               style={{
                 fontFamily: "var(--v2-font-display)",
                 fontStyle: "italic",
-                fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
-                color: "rgba(255,255,240,0.5)",
-                maxWidth: "30rem",
-                margin: "0 auto",
+                fontSize: "clamp(0.8rem, 1.6vw, 1rem)",
+                color: "rgba(217,181,103,0.8)",
                 lineHeight: 1.6,
-              }}
-            >
-              {WEDDING_CONFIG.scripture.quote}
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-sans)",
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(201,169,110,0.5)",
-                marginTop: "0.5rem",
+                margin: 0,
               }}
             >
               {WEDDING_CONFIG.scripture.reference}
             </p>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <div className="v2-scroll-indicator" onClick={() => onEnter?.()}>
         <div className="v2-scroll-mouse" />
-        <span
-          style={{
-            fontFamily: "var(--v2-font-sans)",
-            fontSize: "0.55rem",
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            color: "rgba(201,169,110,0.5)",
-          }}
-        >
+        <span style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.55rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(198,161,91,0.6)" }}>
           Scroll
         </span>
       </div>

@@ -15,12 +15,12 @@ export const Ornament: React.FC<OrnamentProps> = ({
   size = 1,
 }) => {
   const color =
-    variant === 'gold' ? '#C9A96E'
-    : variant === 'rose-gold' ? '#B76E79'
+    variant === 'gold' ? '#C6A15B'
+    : variant === 'rose-gold' ? '#C98A7D'
     : 'rgba(255,255,255,0.6)';
   const lineColor =
-    variant === 'gold' ? 'rgba(201,169,110,0.4)'
-    : variant === 'rose-gold' ? 'rgba(183,110,121,0.4)'
+    variant === 'gold' ? 'rgba(198,161,91,0.4)'
+    : variant === 'rose-gold' ? 'rgba(201,138,125,0.4)'
     : 'rgba(255,255,255,0.3)';
 
   return (
@@ -40,8 +40,8 @@ export const Divider: React.FC<{ className?: string; variant?: 'gold' | 'rose-go
   variant = 'gold',
 }) => {
   const color =
-    variant === 'gold' ? '#C9A96E'
-    : variant === 'rose-gold' ? '#B76E79'
+    variant === 'gold' ? '#C6A15B'
+    : variant === 'rose-gold' ? '#C98A7D'
     : 'rgba(255,255,255,0.5)';
 
   return (
@@ -62,7 +62,7 @@ export const SectionDivider: React.FC<{
   fill?: string;
   flip?: boolean;
   className?: string;
-}> = ({ fill = '#FEFAF5', flip = false, className = '' }) => {
+}> = ({ fill = '#0D0C0B', flip = false, className = '' }) => {
   return (
     <div className={`v2-curve-divider ${className}`} style={{ transform: flip ? 'rotate(180deg)' : undefined }}>
       <svg viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
@@ -80,7 +80,7 @@ export const SectionDivider: React.FC<{
  */
 export const CornerFlourish: React.FC<{ position: 'tl' | 'tr' | 'bl' | 'br'; color?: string }> = ({
   position,
-  color = 'rgba(201,169,110,0.3)',
+  color = 'rgba(198,161,91,0.3)',
 }) => {
   const pos = {
     tl: { top: '1rem', left: '1rem' },
