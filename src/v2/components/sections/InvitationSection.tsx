@@ -1,364 +1,176 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { useReveal } from "../../hooks/useReveal";
 import { SectionHeader } from "../shared/SectionHeader";
-import { CornerFlourish } from "../shared/Ornament";
+import { CrossMotif } from "../shared/CrossMotif";
+import { FaithDivider } from "../shared/FaithDivider";
 import { FloatingOrnaments } from "../shared/FloatingOrnaments";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+
+const slideIn = (fromLeft: boolean) => ({
+  hidden: { opacity: 0, x: fromLeft ? -40 : 40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] } },
+});
 
 /**
- * Editorial-style family invitation section.
- * Two families presented side by side with elegant typography.
+ * Editorial invitation — asymmetric wide/narrow split (couple + intro vs.
+ * families), with the scripture/blessing line as the page's primary
+ * faith moment, flanked by the cross motif.
  */
 export const InvitationSection: React.FC = () => {
-  const { ref, revealed, className } = useReveal<HTMLDivElement>({
-    type: "up",
-  });
+  const prefersReduced = useReducedMotion();
   const brideFirst = WEDDING_CONFIG.couple.brideFirst;
 
-  // Dynamic family data based on brideFirst flag
   const firstFamily = brideFirst
-    ? {
-        label: "Bride's Parents",
-        parents: WEDDING_CONFIG.couple.brideParents,
-        address: WEDDING_CONFIG.couple.brideAddress,
-      }
-    : {
-        label: "Groom's Parents",
-        parents: WEDDING_CONFIG.couple.groomParents,
-        address: WEDDING_CONFIG.couple.groomAddress,
-      };
+    ? { label: "Bride's Parents", parents: WEDDING_CONFIG.couple.brideParents, address: WEDDING_CONFIG.couple.brideAddress }
+    : { label: "Groom's Parents", parents: WEDDING_CONFIG.couple.groomParents, address: WEDDING_CONFIG.couple.groomAddress };
   const secondFamily = brideFirst
-    ? {
-        label: "Groom's Parents",
-        parents: WEDDING_CONFIG.couple.groomParents,
-        address: WEDDING_CONFIG.couple.groomAddress,
-      }
-    : {
-        label: "Bride's Parents",
-        parents: WEDDING_CONFIG.couple.brideParents,
-        address: WEDDING_CONFIG.couple.brideAddress,
-      };
-  const {
-    ref: ref2,
-    revealed: revealed2,
-    className: className2,
-  } = useReveal<HTMLDivElement>({ type: "scale", delay: 200 });
-  const {
-    ref: ref3,
-    revealed: revealed3,
-    className: className3,
-  } = useReveal<HTMLDivElement>({ type: "up", delay: 400 });
+    ? { label: "Groom's Parents", parents: WEDDING_CONFIG.couple.groomParents, address: WEDDING_CONFIG.couple.groomAddress }
+    : { label: "Bride's Parents", parents: WEDDING_CONFIG.couple.brideParents, address: WEDDING_CONFIG.couple.brideAddress };
 
   return (
     <section
       id="invitation"
-      className="v2-bg-gradient-soft"
       style={{
         position: "relative",
-        padding: "6rem 1.5rem",
+        background: "var(--v2-ink)",
+        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
         overflow: "hidden",
       }}
     >
       <FloatingOrnaments count={4} variant="sparkles" />
 
-      {/* Watercolor accents */}
-      <div
-        className="v2-watercolor"
-        style={{
-          width: 300,
-          height: 300,
-          top: "5%",
-          left: "-5%",
-          background: "var(--v2-gold)",
-        }}
-      />
-      <div
-        className="v2-watercolor"
-        style={{
-          width: 250,
-          height: 250,
-          bottom: "5%",
-          right: "-5%",
-          background: "var(--v2-rose-gold)",
-        }}
-      />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "72rem", margin: "0 auto" }}>
+        <SectionHeader eyebrow="With Joy" title="Together with our families" variant="dark" />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "64rem",
-          margin: "0 auto",
-        }}
-      >
-        <SectionHeader
-          eyebrow="With Joy"
-          title="Together with their families"
-          subtitle={WEDDING_CONFIG.couple.invitationIntro}
-        />
-
-        {/* Invitation Card */}
+        {/* Asymmetric split: wide intro/names column · narrow families column */}
         <div
-          ref={ref2}
-          className={`v2-luxury-card ${className2} ${revealed2 ? "revealed" : ""}`}
           style={{
-            marginTop: "3rem",
-            padding: "clamp(2rem, 5vw, 4rem)",
-            position: "relative",
+            marginTop: "4rem",
+            display: "grid",
+            gridTemplateColumns: "1.4fr 1fr",
+            gap: "clamp(2rem, 5vw, 5rem)",
+            alignItems: "start",
           }}
+          className="v2-invitation-split"
         >
-          <CornerFlourish position="tl" />
-          <CornerFlourish position="tr" />
-          <CornerFlourish position="bl" />
-          <CornerFlourish position="br" />
-
-          {/* Inner border */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              inset: "12px",
-              border: "1px solid rgba(201,169,110,0.1)",
-              borderRadius: "1rem",
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Families */}
-          <div
-            className="v2-invitation-families"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto 1fr",
-              gap: "1.5rem",
-              alignItems: "center",
-              padding: "2rem 0",
-              borderTop: "1px solid rgba(201,169,110,0.08)",
-              borderBottom: "1px solid rgba(201,169,110,0.08)",
-            }}
-          >
-            {/* First family (bride or groom based on flag) */}
-            <div style={{ textAlign: "center" }}>
-              <p className="v2-eyebrow" style={{ marginBottom: "0.75rem" }}>
-                {firstFamily.label}
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-serif)",
-                  fontSize: "clamp(0.85rem, 2vw, 1.05rem)",
-                  fontWeight: 500,
-                  color: "var(--v2-charcoal)",
-                  lineHeight: 1.5,
-                  marginBottom: "0.4rem",
-                }}
-              >
-                {firstFamily.parents}
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-sans)",
-                  fontSize: "0.7rem",
-                  color: "rgba(44,44,44,0.5)",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {firstFamily.address}
-              </p>
-            </div>
-
-            {/* Connector */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "0.3rem",
-              }}
-            >
-              <div
-                style={{
-                  width: 1,
-                  height: 24,
-                  background:
-                    "linear-gradient(to bottom, transparent, rgba(201,169,110,0.3), transparent)",
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "1rem",
-                  color: "rgba(201,169,110,0.6)",
-                }}
-              >
-                &amp;
-              </span>
-              <div
-                style={{
-                  width: 1,
-                  height: 24,
-                  background:
-                    "linear-gradient(to bottom, transparent, rgba(201,169,110,0.3), transparent)",
-                }}
-              />
-            </div>
-
-            {/* Second family (groom or bride based on flag) */}
-            <div style={{ textAlign: "center" }}>
-              <p className="v2-eyebrow" style={{ marginBottom: "0.75rem" }}>
-                {secondFamily.label}
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-serif)",
-                  fontSize: "clamp(0.85rem, 2vw, 1.05rem)",
-                  fontWeight: 500,
-                  color: "var(--v2-charcoal)",
-                  lineHeight: 1.5,
-                  marginBottom: "0.4rem",
-                }}
-              >
-                {secondFamily.parents}
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-sans)",
-                  fontSize: "0.7rem",
-                  color: "rgba(44,44,44,0.5)",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                {secondFamily.address}
-              </p>
-            </div>
-          </div>
-
-          {/* Names block */}
-          <div
-            ref={ref}
-            className={`${className} ${revealed ? "revealed" : ""}`}
-            style={{ textAlign: "center", padding: "2.5rem 0 1rem" }}
+          {/* Wide column */}
+          <motion.div
+            initial={prefersReduced ? undefined : "hidden"}
+            whileInView={prefersReduced ? undefined : "show"}
+            viewport={{ once: true, amount: 0.3 }}
+            variants={slideIn(true)}
           >
             <p
               style={{
                 fontFamily: "var(--v2-font-sans)",
-                fontSize: "0.65rem",
+                fontSize: "0.7rem",
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color: "rgba(201,169,110,0.6)",
-                marginBottom: "1rem",
+                color: "rgba(198,161,91,0.7)",
+                marginBottom: "1.25rem",
               }}
             >
-              Request the pleasure of your company at the wedding of
+              {WEDDING_CONFIG.couple.invitationIntro}
             </p>
 
             <h3
               style={{
                 fontFamily: "var(--v2-font-serif)",
                 fontStyle: "italic",
-                fontSize: "clamp(2rem, 6vw, 3.5rem)",
+                fontSize: "clamp(2.25rem, 6vw, 4rem)",
                 fontWeight: 500,
-                color: "var(--v2-gold-dark)",
+                color: "var(--v2-ivory)",
                 lineHeight: 1.1,
                 margin: 0,
               }}
             >
               {WEDDING_CONFIG.couple.name1}
-            </h3>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-display)",
-                fontStyle: "italic",
-                fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-                color: "rgba(201,169,110,0.5)",
-                margin: "0.25rem 0",
-              }}
-            >
-              &amp;
-            </p>
-            <h3
-              style={{
-                fontFamily: "var(--v2-font-serif)",
-                fontStyle: "italic",
-                fontSize: "clamp(2rem, 6vw, 3.5rem)",
-                fontWeight: 500,
-                color: "var(--v2-gold-dark)",
-                lineHeight: 1.1,
-                margin: 0,
-              }}
-            >
+              <span style={{ color: "var(--v2-gold)", margin: "0 0.25em" }}>&amp;</span>
+              <br />
               {WEDDING_CONFIG.couple.name2}
             </h3>
-          </div>
 
-          {/* Sharing happiness */}
-          <div
-            ref={ref3}
-            className={`${className3} ${revealed3 ? "revealed" : ""}`}
-            style={{ textAlign: "center", marginTop: "1rem" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.8rem",
-                marginBottom: "0.75rem",
-              }}
-            >
-              <div
-                style={{
-                  width: 40,
-                  height: 1,
-                  background:
-                    "linear-gradient(to right, transparent, rgba(201,169,110,0.3))",
-                }}
-              />
-              <span
-                style={{ color: "rgba(201,169,110,0.4)", fontSize: "0.6rem" }}
-              >
-                ✦
-              </span>
-              <div
-                style={{
-                  width: 40,
-                  height: 1,
-                  background:
-                    "linear-gradient(to right, rgba(201,169,110,0.3), transparent)",
-                }}
-              />
-            </div>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-display)",
-                fontStyle: "italic",
-                fontSize: "0.85rem",
-                color: "rgba(44,44,44,0.5)",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {brideFirst
-                ? WEDDING_CONFIG.couple.brideSharingHappiness
-                : WEDDING_CONFIG.couple.sharingHappiness}
-            </p>
-            {WEDDING_CONFIG.couple.brideSharingHappiness && (
+            <div style={{ marginTop: "2rem" }}>
               <p
                 style={{
                   fontFamily: "var(--v2-font-display)",
                   fontStyle: "italic",
                   fontSize: "0.85rem",
-                  color: "rgba(44,44,44,0.5)",
-                  letterSpacing: "0.02em",
+                  color: "rgba(234,228,216,0.5)",
                 }}
               >
-                {brideFirst
-                  ? WEDDING_CONFIG.couple.sharingHappiness
-                  : WEDDING_CONFIG.couple.brideSharingHappiness}
+                {brideFirst ? WEDDING_CONFIG.couple.brideSharingHappiness : WEDDING_CONFIG.couple.sharingHappiness}
               </p>
-            )}
-          </div>
+              <p
+                style={{
+                  fontFamily: "var(--v2-font-display)",
+                  fontStyle: "italic",
+                  fontSize: "0.85rem",
+                  color: "rgba(234,228,216,0.5)",
+                }}
+              >
+                {brideFirst ? WEDDING_CONFIG.couple.sharingHappiness : WEDDING_CONFIG.couple.brideSharingHappiness}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Narrow column: two family blocks */}
+          <motion.div
+            initial={prefersReduced ? undefined : "hidden"}
+            whileInView={prefersReduced ? undefined : "show"}
+            viewport={{ once: true, amount: 0.3 }}
+            variants={slideIn(false)}
+            style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
+          >
+            {[firstFamily, secondFamily].map((family, i) => (
+              <div key={i} style={{ borderLeft: "1px solid var(--v2-line)", paddingLeft: "1.5rem" }}>
+                <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", marginBottom: "0.6rem" }}>
+                  {family.label}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "var(--v2-font-serif)",
+                    fontSize: "clamp(1rem, 2vw, 1.2rem)",
+                    fontWeight: 500,
+                    color: "var(--v2-ivory)",
+                    lineHeight: 1.4,
+                    marginBottom: "0.4rem",
+                  }}
+                >
+                  {family.parents}
+                </p>
+                <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.75rem", color: "rgba(234,228,216,0.5)", letterSpacing: "0.03em" }}>
+                  {family.address}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Scripture band — the primary faith moment */}
+        <FaithDivider tone="dark" />
+        <div style={{ textAlign: "center", maxWidth: "42rem", margin: "0 auto" }}>
+          <p
+            style={{
+              fontFamily: "var(--v2-font-display)",
+              fontStyle: "italic",
+              fontSize: "clamp(1.15rem, 2.6vw, 1.6rem)",
+              color: "var(--v2-sacred-gold)",
+              lineHeight: 1.6,
+              margin: 0,
+            }}
+          >
+            {WEDDING_CONFIG.couple.supportingMessage}
+          </p>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .v2-invitation-split { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 };

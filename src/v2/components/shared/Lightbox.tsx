@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface GalleryImage {
@@ -49,39 +50,58 @@ export const Lightbox: React.FC<LightboxProps> = ({
     };
   }, [open, prev, next, onClose]);
 
-  if (!open) return null;
-
   return (
-    <div className="v2-lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label="Photo gallery">
-      <button className="v2-lightbox-close" onClick={onClose} aria-label="Close gallery">
-        <X size={20} />
-      </button>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="v2-lightbox"
+          onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo gallery"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <button className="v2-lightbox-close" onClick={onClose} aria-label="Close gallery">
+            <X size={20} />
+          </button>
 
-      <button className="v2-lightbox-nav v2-lightbox-nav-left" onClick={prev} aria-label="Previous photo">
-        <ChevronLeft size={24} />
-      </button>
+          <button className="v2-lightbox-nav v2-lightbox-nav-left" onClick={prev} aria-label="Previous photo">
+            <ChevronLeft size={24} />
+          </button>
 
-      <img
-        src={images[index].src}
-        alt={images[index].alt}
-        className="v2-lightbox-img"
-        onClick={(e) => e.stopPropagation()}
-      />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={index}
+              src={images[index].src}
+              alt={images[index].alt}
+              className="v2-lightbox-img"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25 }}
+            />
+          </AnimatePresence>
 
-      <button className="v2-lightbox-nav v2-lightbox-nav-right" onClick={next} aria-label="Next photo">
-        <ChevronRight size={24} />
-      </button>
+          <button className="v2-lightbox-nav v2-lightbox-nav-right" onClick={next} aria-label="Next photo">
+            <ChevronRight size={24} />
+          </button>
 
-      <div className="v2-lightbox-dots">
-        {images.map((_, i) => (
-          <button
-            key={i}
-            className={`v2-lightbox-dot ${i === index ? 'active' : ''}`}
-            onClick={(e) => { e.stopPropagation(); onNavigate(i); }}
-            aria-label={`Go to photo ${i + 1}`}
-          />
-        ))}
-      </div>
-    </div>
+          <div className="v2-lightbox-dots">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                className={`v2-lightbox-dot ${i === index ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); onNavigate(i); }}
+                aria-label={`Go to photo ${i + 1}`}
+              />
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

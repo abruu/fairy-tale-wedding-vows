@@ -2,6 +2,7 @@ import React from 'react';
 import { WEDDING_CONFIG } from '@/config/dates';
 import { useReveal } from '../../hooks/useReveal';
 import { FloatingOrnaments } from '../shared/FloatingOrnaments';
+import { CrossMotif } from '../shared/CrossMotif';
 
 /**
  * Elegant closing section with thank you message and couple's names.
@@ -25,11 +26,11 @@ export const ThankYouSection: React.FC = () => {
         className={`${className} ${revealed ? 'revealed' : ''}`}
         style={{ position: 'relative', zIndex: 2, maxWidth: '40rem', margin: '0 auto' }}
       >
-        {/* Decorative top */}
+        {/* Faith bookend — mirrors the Opening watermark */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem', marginBottom: '2rem' }}>
-          <div style={{ width: 50, height: 1, background: 'linear-gradient(to right, transparent, rgba(201,169,110,0.4))' }} />
-          <span style={{ color: 'rgba(201,169,110,0.4)', fontSize: '0.7rem' }}>✦</span>
-          <div style={{ width: 50, height: 1, background: 'linear-gradient(to right, rgba(201,169,110,0.4), transparent)' }} />
+          <div style={{ width: 50, height: 1, background: 'linear-gradient(to right, transparent, var(--v2-line))' }} />
+          <CrossMotif size={20} />
+          <div style={{ width: 50, height: 1, background: 'linear-gradient(to right, var(--v2-line), transparent)' }} />
         </div>
 
         <p
@@ -46,7 +47,7 @@ export const ThankYouSection: React.FC = () => {
             fontSize: 'clamp(2rem, 6vw, 3.5rem)',
             fontWeight: 500,
             color: 'var(--v2-ivory)',
-            textShadow: '0 4px 40px rgba(201,169,110,0.15)',
+            textShadow: '0 4px 40px rgba(198,161,91,0.15)',
             margin: 0,
           }}
         >
@@ -74,7 +75,7 @@ export const ThankYouSection: React.FC = () => {
               fontSize: '0.65rem',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(201,169,110,0.5)',
+              color: 'rgba(198,161,91,0.5)',
               marginBottom: '0.75rem',
             }}
           >
@@ -99,9 +100,9 @@ export const ThankYouSection: React.FC = () => {
 
         {/* Bottom flourish */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginTop: '3rem' }}>
-          <span style={{ color: 'rgba(201,169,110,0.2)', fontSize: '0.5rem' }}>✦</span>
-          <span style={{ color: 'rgba(201,169,110,0.3)', fontSize: '0.7rem' }}>♥</span>
-          <span style={{ color: 'rgba(201,169,110,0.2)', fontSize: '0.5rem' }}>✦</span>
+          <span style={{ color: 'rgba(198,161,91,0.2)', fontSize: '0.5rem' }}>✦</span>
+          <span style={{ color: 'rgba(198,161,91,0.3)', fontSize: '0.7rem' }}>♥</span>
+          <span style={{ color: 'rgba(198,161,91,0.2)', fontSize: '0.5rem' }}>✦</span>
         </div>
 
         {/* Copyright */}

@@ -1,11 +1,13 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { useReveal } from "../../hooks/useReveal";
 import { SectionHeader } from "../shared/SectionHeader";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 /**
- * Journey path timeline with alternating left-right layout on desktop,
- * stacked on mobile. Interactive milestone dots.
+ * Editorial timeline — the rule sits offset from center (not centered),
+ * with alternating content either side, consistent with the asymmetric
+ * layout language used across the site.
  */
 export const OurStorySection: React.FC = () => {
   const items = WEDDING_CONFIG.story.items;
@@ -13,106 +15,84 @@ export const OurStorySection: React.FC = () => {
   return (
     <section
       id="story"
-      className="v2-bg-gradient-rose"
       style={{
         position: "relative",
-        padding: "6rem 1.5rem",
+        background: "var(--v2-deep-charcoal)",
+        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
         overflow: "hidden",
       }}
     >
-      {/* Watercolor accents */}
-      <div
-        className="v2-watercolor"
-        style={{
-          width: 300,
-          height: 300,
-          top: "10%",
-          right: "-5%",
-          background: "var(--v2-rose-gold)",
-        }}
-      />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "56rem", margin: "0 auto" }}>
+        <SectionHeader eyebrow="Our Journey" title="How it all began" subtitle="Every love story is beautiful, but ours is our favorite" variant="dark" />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "60rem",
-          margin: "0 auto",
-        }}
-      >
-        <SectionHeader
-          eyebrow="Our Journey"
-          title="How it all began"
-          subtitle="Every love story is beautiful, but ours is our favorite"
-        />
+        <div className="v2-story-timeline" style={{ position: "relative", marginTop: "4rem" }}>
+          <div
+            aria-hidden="true"
+            className="v2-story-line"
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: "clamp(1rem, 8vw, 30%)",
+              width: 1,
+              background: "linear-gradient(to bottom, transparent, var(--v2-gold) 10%, var(--v2-gold) 90%, transparent)",
+              opacity: 0.35,
+            }}
+          />
 
-        {/* Timeline */}
-        <div className="v2-timeline">
-          {/* Center line (desktop) / Left line (mobile) */}
-          <div className="v2-timeline-line" />
-
-          {items.map((item, i) => {
-            const isLeft = i % 2 === 0;
-            return (
-              <StoryItem
-                key={i}
-                date={item.date}
-                content={item.content}
-                index={i}
-                isLeft={isLeft}
-              />
-            );
-          })}
+          {items.map((story, i) => (
+            <StoryItem key={i} date={story.date} content={story.content} index={i} />
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-interface StoryItemProps {
-  date: string;
-  content: string;
-  index: number;
-  isLeft: boolean;
-}
-
-const StoryItem: React.FC<StoryItemProps> = ({
-  date,
-  content,
-  index,
-  isLeft,
-}) => {
-  const { ref, revealed, className } = useReveal<HTMLDivElement>({
-    type: isLeft ? "left" : "right",
-    delay: index * 80,
-  });
+const StoryItem: React.FC<{ date: string; content: string; index: number }> = ({ date, content, index }) => {
+  const prefersReduced = useReducedMotion();
 
   return (
-    <div
-      ref={ref}
-      className={`v2-timeline-item ${className} ${revealed ? "revealed" : ""} ${isLeft ? "v2-timeline-left" : "v2-timeline-right"}`}
+    <motion.div
+      initial={prefersReduced ? undefined : { opacity: 0, x: -24 }}
+      whileInView={prefersReduced ? undefined : { opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{
+        position: "relative",
+        paddingLeft: "clamp(2rem, 10vw, calc(30% + 2.5rem))",
+        marginBottom: "3rem",
+      }}
     >
-      {/* Timeline dot */}
-      <div className="v2-timeline-dot" />
-
-      {/* Content card */}
-      <div className="v2-timeline-card v2-luxury-card">
-        <p className="v2-eyebrow" style={{ marginBottom: "0.75rem" }}>
-          {date}
-        </p>
-        <p
-          style={{
-            fontFamily: "var(--v2-font-display)",
-            fontStyle: "italic",
-            fontSize: "clamp(0.95rem, 2vw, 1.1rem)",
-            color: "var(--v2-charcoal)",
-            lineHeight: 1.6,
-            opacity: 0.85,
-          }}
-        >
-          {content}
-        </p>
-      </div>
-    </div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "clamp(1rem, 8vw, 30%)",
+          top: "0.4rem",
+          transform: "translateX(-50%)",
+          width: 12,
+          height: 12,
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, var(--v2-gold), var(--v2-gold-light))",
+          boxShadow: "0 0 0 4px rgba(198,161,91,0.15)",
+        }}
+      />
+      <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", marginBottom: "0.6rem" }}>
+        {date}
+      </p>
+      <p
+        style={{
+          fontFamily: "var(--v2-font-display)",
+          fontStyle: "italic",
+          fontSize: "clamp(1.05rem, 2.2vw, 1.3rem)",
+          color: "rgba(234,228,216,0.85)",
+          lineHeight: 1.7,
+          maxWidth: "48ch",
+        }}
+      >
+        {content}
+      </p>
+    </motion.div>
   );
 };

@@ -1,32 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { useReveal } from "../../hooks/useReveal";
 import { SectionHeader } from "../shared/SectionHeader";
 import { Lightbox } from "../shared/Lightbox";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 /**
- * Masonry-style gallery with lightbox.
- * Images in varying heights with hover effects.
+ * Editorial gallery — fewer, bigger tiles with generous gutters (sparse
+ * reads as more luxury than dense with only 8 source photos), plus a
+ * single section-level parallax drift on the whole grid.
  */
 export const GallerySection: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const images = WEDDING_CONFIG.gallery.images;
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const gridY = useTransform(scrollYProgress, [0, 1], prefersReduced ? ["0%", "0%"] : ["-5%", "5%"]);
 
-  // Varying heights for masonry effect
-  const heights = [
-    "320px",
-    "260px",
-    "380px",
-    "300px",
-    "340px",
-    "280px",
-    "360px",
-    "290px",
-    "330px",
-    "270px",
-    "350px",
-  ];
+  const heights = ["380px", "300px", "440px", "340px", "400px", "320px", "420px", "340px"];
 
   const openLightbox = (idx: number) => {
     setLightboxIndex(idx);
@@ -36,56 +29,28 @@ export const GallerySection: React.FC = () => {
   return (
     <section
       id="gallery"
-      className="v2-bg-cream"
+      ref={sectionRef}
       style={{
         position: "relative",
-        padding: "6rem 1.5rem",
+        background: "var(--v2-deep-charcoal)",
+        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
         overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "72rem",
-          margin: "0 auto",
-        }}
-      >
-        <SectionHeader
-          eyebrow="Our Gallery"
-          title="Moments in Time"
-          subtitle="Captured memories of our journey together"
-        />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "72rem", margin: "0 auto" }}>
+        <SectionHeader eyebrow="Our Gallery" title="Moments in Time" subtitle="Captured memories of our journey together" variant="dark" />
 
-        {/* Masonry grid */}
-        <div
+        <motion.div
           className="v2-gallery-masonry"
-          style={{
-            marginTop: "3rem",
-            columns: "3",
-            columnGap: "1rem",
-          }}
+          style={{ marginTop: "4rem", y: gridY }}
         >
           {images.map((img, i) => (
-            <GalleryItem
-              key={i}
-              src={img.src}
-              alt={img.alt}
-              height={heights[i % heights.length]}
-              index={i}
-              onClick={() => openLightbox(i)}
-            />
+            <GalleryItem key={i} src={img.src} alt={img.alt} height={heights[i % heights.length]} index={i} onClick={() => openLightbox(i)} />
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      <Lightbox
-        images={images}
-        index={lightboxIndex}
-        open={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        onNavigate={setLightboxIndex}
-      />
+      <Lightbox images={images} index={lightboxIndex} open={lightboxOpen} onClose={() => setLightboxOpen(false)} onNavigate={setLightboxIndex} />
     </section>
   );
 };
@@ -98,43 +63,23 @@ interface GalleryItemProps {
   onClick: () => void;
 }
 
-const GalleryItem: React.FC<GalleryItemProps> = ({
-  src,
-  alt,
-  height,
-  index,
-  onClick,
-}) => {
-  const { ref, revealed, className } = useReveal<HTMLDivElement>({
-    type: "scale",
-    delay: (index % 3) * 100,
-  });
+const GalleryItem: React.FC<GalleryItemProps> = ({ src, alt, height, index, onClick }) => {
+  const prefersReduced = useReducedMotion();
 
   return (
-    <div
-      ref={ref}
-      className={`v2-gallery-item ${className} ${revealed ? "revealed" : ""}`}
+    <motion.div
+      className="v2-gallery-item"
       onClick={onClick}
-      style={{
-        breakInside: "avoid",
-        marginBottom: "1rem",
-        height,
-        cursor: "pointer",
-      }}
+      initial={prefersReduced ? undefined : { opacity: 0, scale: 0.94 }}
+      whileInView={prefersReduced ? undefined : { opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, delay: (index % 3) * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ breakInside: "avoid", marginBottom: "1.75rem", height, cursor: "pointer" }}
     >
       <img src={src} alt={alt} loading="lazy" />
       <div className="v2-gallery-overlay">
-        <span
-          style={{
-            color: "var(--v2-ivory)",
-            fontFamily: "var(--v2-font-display)",
-            fontStyle: "italic",
-            fontSize: "0.85rem",
-          }}
-        >
-          View
-        </span>
+        <span style={{ color: "var(--v2-ivory)", fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: "0.85rem" }}>View</span>
       </div>
-    </div>
+    </motion.div>
   );
 };

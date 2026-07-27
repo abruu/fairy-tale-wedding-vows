@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { useCountdown } from "../../hooks/useCountdown";
-import { useReveal } from "../../hooks/useReveal";
 import { SectionHeader } from "../shared/SectionHeader";
 import { FloatingOrnaments } from "../shared/FloatingOrnaments";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface CountdownSectionProps {
   onComplete?: () => void;
@@ -12,17 +13,12 @@ interface CountdownSectionProps {
 const fmt = (n: number) => String(n).padStart(2, "0");
 
 /**
- * Luxury glass card countdown on a dark cinematic background.
+ * Dark cinematic countdown with a flip-transition per digit and a
+ * scripture fragment as a quiet reminder of what's being counted down to.
  */
-export const CountdownSection: React.FC<CountdownSectionProps> = ({
-  onComplete,
-}) => {
-  const { timeLeft, setOnComplete } = useCountdown(
-    WEDDING_CONFIG.dates.wedding,
-  );
-  const { ref, revealed, className } = useReveal<HTMLDivElement>({
-    type: "scale",
-  });
+export const CountdownSection: React.FC<CountdownSectionProps> = ({ onComplete }) => {
+  const { timeLeft, setOnComplete } = useCountdown(WEDDING_CONFIG.dates.wedding);
+  const prefersReduced = useReducedMotion();
 
   const handleComplete = useCallback(() => {
     onComplete?.();
@@ -40,144 +36,100 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
   return (
     <section
       id="countdown"
-      className="v2-bg-gradient-dark"
       style={{
         position: "relative",
-        padding: "6rem 1.5rem",
+        background: "linear-gradient(180deg, var(--v2-deep-charcoal) 0%, var(--v2-ink) 50%, var(--v2-deep-charcoal) 100%)",
+        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
         overflow: "hidden",
       }}
     >
-      {/* Watercolor glows */}
-      <div
-        className="v2-watercolor"
-        style={{
-          width: 400,
-          height: 400,
-          top: "5%",
-          left: "10%",
-          background: "var(--v2-gold)",
-          opacity: 0.08,
-        }}
-      />
-      <div
-        className="v2-watercolor"
-        style={{
-          width: 350,
-          height: 350,
-          bottom: "5%",
-          right: "10%",
-          background: "var(--v2-rose-gold)",
-          opacity: 0.06,
-        }}
-      />
-
       <FloatingOrnaments count={5} variant="sparkles" />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "60rem",
-          margin: "0 auto",
-          textAlign: "center",
-        }}
-      >
+      <div style={{ position: "relative", zIndex: 2, maxWidth: "60rem", margin: "0 auto", textAlign: "center" }}>
         <SectionHeader
           eyebrow="Counting Down"
           title={timeLeft.isComplete ? "United Forever" : "The Wait Begins"}
-          subtitle={
-            timeLeft.isComplete
-              ? "Our forever starts now"
-              : "Every second brings us closer to forever"
-          }
-          variant="light"
+          subtitle={timeLeft.isComplete ? "Our forever starts now" : "Every second brings us closer to forever"}
+          variant="dark"
         />
 
-        {/* Countdown */}
-        <div
-          ref={ref}
-          className={`${className} ${revealed ? "revealed" : ""}`}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "0.75rem",
-            marginTop: "3rem",
-            flexWrap: "wrap",
-          }}
-        >
-          {timeLeft.isComplete ? (
-            <div style={{ textAlign: "center", padding: "2rem" }}>
-              <h3
-                style={{
-                  fontFamily: "var(--v2-font-serif)",
-                  fontStyle: "italic",
-                  fontSize: "clamp(2rem, 6vw, 4rem)",
-                  fontWeight: 500,
-                  background:
-                    "linear-gradient(135deg, var(--v2-gold-light) 0%, var(--v2-ivory) 50%, var(--v2-gold-light) 100%)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 20px rgba(201,169,110,0.4))",
-                  margin: 0,
-                }}
-              >
-                United Forever
-              </h3>
-              <p
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "1.1rem",
-                  color: "rgba(255,255,240,0.5)",
-                  marginTop: "1rem",
-                }}
-              >
-                {WEDDING_CONFIG.couple.displayNames}
-              </p>
-            </div>
-          ) : (
-            <>
-              {units.map((u, i) => (
-                <React.Fragment key={u.label}>
-                  <div className="v2-countdown-box">
-                    <span className="v2-countdown-number">{fmt(u.value)}</span>
-                    <span className="v2-countdown-label">{u.label}</span>
-                  </div>
-                  {i < units.length - 1 && (
-                    <span
-                      className="v2-countdown-separator"
-                      style={{
-                        fontFamily: "var(--v2-font-serif)",
-                        fontSize: "1.5rem",
-                        color: "rgba(201,169,110,0.4)",
-                        paddingBottom: "1.5rem",
-                      }}
-                    >
-                      :
-                    </span>
-                  )}
-                </React.Fragment>
-              ))}
-            </>
-          )}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.75rem", marginTop: "3rem", flexWrap: "wrap" }}>
+          <AnimatePresence mode="wait">
+            {timeLeft.isComplete ? (
+              <motion.div key="complete" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} style={{ textAlign: "center", padding: "2rem" }}>
+                <h3
+                  style={{
+                    fontFamily: "var(--v2-font-serif)",
+                    fontStyle: "italic",
+                    fontSize: "clamp(2rem, 6vw, 4rem)",
+                    fontWeight: 500,
+                    background: "linear-gradient(135deg, var(--v2-gold-light) 0%, var(--v2-ivory) 50%, var(--v2-gold-light) 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    filter: "drop-shadow(0 0 20px rgba(198,161,91,0.4))",
+                    margin: 0,
+                  }}
+                >
+                  United Forever
+                </h3>
+                <p style={{ fontFamily: "var(--v2-font-display)", fontStyle: "italic", fontSize: "1.1rem", color: "rgba(234,228,216,0.6)", marginTop: "1rem" }}>
+                  {WEDDING_CONFIG.couple.displayNames}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div key="counting" style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
+                {units.map((u, i) => (
+                  <React.Fragment key={u.label}>
+                    <div className="v2-countdown-box">
+                      <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.span
+                          key={u.value}
+                          className="v2-countdown-number"
+                          initial={prefersReduced ? undefined : { rotateX: 90, opacity: 0 }}
+                          animate={{ rotateX: 0, opacity: 1 }}
+                          exit={prefersReduced ? undefined : { rotateX: -90, opacity: 0 }}
+                          transition={{ duration: 0.4 }}
+                          style={{ display: "inline-block" }}
+                        >
+                          {fmt(u.value)}
+                        </motion.span>
+                      </AnimatePresence>
+                      <span className="v2-countdown-label">{u.label}</span>
+                    </div>
+                    {i < units.length - 1 && (
+                      <span className="v2-countdown-separator" style={{ fontFamily: "var(--v2-font-serif)", fontSize: "1.5rem", color: "rgba(198,161,91,0.4)", paddingBottom: "1.5rem" }}>
+                        :
+                      </span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Date reminder */}
         {!timeLeft.isComplete && (
+          <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.7rem", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(198,161,91,0.5)", marginTop: "2.5rem" }}>
+            {WEDDING_CONFIG.events.wedding.dateLabel} · {WEDDING_CONFIG.events.wedding.venue}
+          </p>
+        )}
+
+        {WEDDING_CONFIG.scripture && (
           <p
             style={{
-              fontFamily: "var(--v2-font-sans)",
-              fontSize: "0.7rem",
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "rgba(201,169,110,0.5)",
-              marginTop: "2.5rem",
+              fontFamily: "var(--v2-font-display)",
+              fontStyle: "italic",
+              fontSize: "0.85rem",
+              color: "var(--v2-sacred-gold)",
+              opacity: 0.7,
+              marginTop: "2rem",
+              maxWidth: "34rem",
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
-            {WEDDING_CONFIG.events.wedding.dateLabel} ·{" "}
-            {WEDDING_CONFIG.events.wedding.venue}
+            {WEDDING_CONFIG.scripture.quote}
           </p>
         )}
       </div>

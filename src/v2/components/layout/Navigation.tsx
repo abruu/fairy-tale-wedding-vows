@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useScrollDirection } from "../../hooks/useScrollDirection";
+import { CrossMotif } from "../shared/CrossMotif";
 
 interface NavItem {
   id: string;
@@ -14,25 +16,17 @@ interface NavigationProps {
 }
 
 /**
- * Floating glassmorphism navigation with auto-hide and mobile menu.
+ * Thin fixed-top blurred-dark nav bar with a gold-underline active
+ * indicator and a cross-motif logo mark.
  */
-export const Navigation: React.FC<NavigationProps> = ({
-  items,
-  activeSection,
-  onNavigate,
-}) => {
+export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { scrollDir, scrolled } = useScrollDirection(10);
 
-  // Hide nav on scroll down (after 300px), show on scroll up
   const hidden = scrollDir === "down" && scrolled && !mobileOpen;
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -44,11 +38,14 @@ export const Navigation: React.FC<NavigationProps> = ({
   };
 
   return (
-    <nav
-      className={`v2-nav ${scrolled ? "scrolled" : ""} ${hidden ? "hidden" : ""} ${mobileOpen ? "open" : ""}`}
+    <motion.nav
+      className={`v2-nav ${scrolled ? "scrolled" : ""} ${mobileOpen ? "open" : ""}`}
       aria-label="Main navigation"
+      animate={{ y: hidden ? -100 : 0, opacity: hidden ? 0 : 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      {/* Desktop links */}
+      <CrossMotif size={16} className="v2-nav-logo" />
+
       <div className="v2-nav-links">
         {items.map((item) => (
           <button
@@ -62,18 +59,10 @@ export const Navigation: React.FC<NavigationProps> = ({
         ))}
       </div>
 
-      {/* Mobile label + toggle */}
-      <span className="v2-nav-mobile-label">
-        {items.find((it) => it.id === activeSection)?.label || "Menu"}
-      </span>
-      <button
-        className="v2-nav-mobile-toggle"
-        onClick={() => setMobileOpen(!mobileOpen)}
-        aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        aria-expanded={mobileOpen}
-      >
+      <span className="v2-nav-mobile-label">{items.find((it) => it.id === activeSection)?.label || "Menu"}</span>
+      <button className="v2-nav-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
         {mobileOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
-    </nav>
+    </motion.nav>
   );
 };

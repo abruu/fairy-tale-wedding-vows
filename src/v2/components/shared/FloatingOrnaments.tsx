@@ -70,7 +70,7 @@ export const FloatingOrnaments: React.FC<FloatingOrnamentsProps> = ({
             opacity: p.opacity,
             animationDuration: p.duration,
             animationDelay: p.delay,
-            color: '#C9A96E',
+            color: '#C6A15B',
           }}
         >
           {p.emoji}

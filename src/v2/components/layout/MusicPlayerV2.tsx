@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { WEDDING_CONFIG } from '@/config/dates';
 
@@ -88,13 +89,14 @@ export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, 
 
   return (
     <div className="v2-music-player">
-      <button
+      <motion.button
         onClick={togglePlay}
         className="v2-music-btn"
         aria-label={isPlaying ? 'Pause music' : 'Play music'}
+        whileTap={{ scale: 0.88 }}
       >
         {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-      </button>
+      </motion.button>
 
       <div
         className="v2-music-wave"
@@ -121,7 +123,7 @@ export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, 
           background: 'none',
           border: 'none',
           cursor: 'pointer',
-          color: 'var(--v2-gold-dark)',
+          color: 'var(--v2-gold)',
           padding: '4px',
           opacity: 0.7,
           transition: 'opacity 0.2s',
