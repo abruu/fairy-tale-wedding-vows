@@ -203,6 +203,22 @@ export const WEDDING_CONFIG = {
         src: "/Sebin/PHOTO-2026-07-27-11-41-59.jpg",
         alt: "Sebin and Praveena in an elegant setting",
       },
+      {
+        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-19.jpg",
+        alt: "Sebin and Praveena cherished moment",
+      },
+      {
+        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-19 0005.jpg",
+        alt: "Sebin and Praveena beautiful memory",
+      },
+      {
+        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-20.jpg",
+        alt: "Sebin and Praveena lovely moment",
+      },
+      {
+        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-20 0006.jpg",
+        alt: "Sebin and Praveena special memory",
+      },
     ],
   },
 
