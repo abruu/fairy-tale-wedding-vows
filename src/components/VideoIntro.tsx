@@ -154,7 +154,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           />
           <p
             style={{
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Josefin Sans', sans-serif",
               fontSize: '0.65rem',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
@@ -183,7 +183,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── Top flourish ── */}
           <p
             style={{
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Josefin Sans', sans-serif",
               fontSize: '0.72rem',
               letterSpacing: '0.45em',
               textTransform: 'uppercase',
@@ -210,7 +210,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── "The Wedding of" ── */}
           <p
             style={{
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Josefin Sans', sans-serif",
               fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
@@ -225,7 +225,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── Names ── */}
           <h1
             style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "'EB Garamond', Georgia, serif",
               fontStyle: 'italic',
               fontSize: 'clamp(2rem, 10vw, 6rem)',
               color: '#A8C9E6',
@@ -244,7 +244,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── Ampersand ── */}
           <p
             style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "'EB Garamond', Georgia, serif",
               fontStyle: 'italic',
               fontSize: 'clamp(1.2rem, 4vw, 2rem)',
               color: 'rgba(74,127,193,0.7)',
@@ -257,7 +257,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
 
           <h1
             style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "'EB Garamond', Georgia, serif",
               fontStyle: 'italic',
               fontSize: 'clamp(2rem, 10vw, 6rem)',
               color: '#A8C9E6',
@@ -286,7 +286,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
             <div style={{ width: 30, height: 1, background: 'rgba(168,201,230,0.35)' }} />
             <p
               style={{
-                fontFamily: "'Montserrat', sans-serif",
+                fontFamily: "'Josefin Sans', sans-serif",
                 fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
                 letterSpacing: '0.25em',
                 color: 'rgba(255,255,255,0.5)',
@@ -300,7 +300,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── Venue ── */}
           <p
             style={{
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Josefin Sans', sans-serif",
               fontSize: '0.65rem',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
@@ -380,7 +380,7 @@ const VideoIntro: React.FC<VideoIntroProps> = ({ onComplete, onStart }) => {
           {/* ── CTA text ── */}
           <p
             style={{
-              fontFamily: "'Montserrat', sans-serif",
+              fontFamily: "'Josefin Sans', sans-serif",
               fontSize: '0.58rem',
               letterSpacing: '0.35em',
               textTransform: 'uppercase',

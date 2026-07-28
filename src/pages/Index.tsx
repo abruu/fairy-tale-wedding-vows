@@ -274,7 +274,7 @@ const Index = () => {
             {/* Names */}
             <h1
               style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
+                fontFamily: "'EB Garamond', Georgia, serif",
                 fontStyle: "italic",
                 fontSize: "clamp(3.2rem, 10vw, 7rem)",
                 lineHeight: 1,

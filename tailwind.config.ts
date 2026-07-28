@@ -226,8 +226,8 @@ export default {
         "united-glow": "united-glow 2.5s ease-in-out infinite",
       },
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Montserrat", "system-ui", "sans-serif"],
+        serif: ["EB Garamond", "Georgia", "serif"],
+        sans: ["Josefin Sans", "system-ui", "sans-serif"],
       },
     },
   },
