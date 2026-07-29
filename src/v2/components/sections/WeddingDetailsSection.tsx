@@ -78,6 +78,9 @@ export const WeddingDetailsSection: React.FC = () => {
         @media (max-width: 768px) {
           .v2-details-grid { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 420px) {
+          .v2-event-ticket { padding: 1.5rem !important; gap: 1.1rem !important; }
+        }
       `}</style>
     </section>
   );
@@ -118,6 +121,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
       whileInView={prefersReduced ? undefined : { opacity: 1, x: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="v2-event-ticket"
       style={{
         position: "relative",
         background: featured
@@ -129,6 +133,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
         display: "grid",
         gridTemplateColumns: "auto 1fr",
         gap: "1.75rem",
+        overflow: "hidden",
       }}
     >
       <div

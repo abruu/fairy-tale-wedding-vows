@@ -188,7 +188,10 @@ export const WEDDING_CONFIG = {
         src: "/Sebin/13.jpg",
         alt: "Sebin and Praveena together",
       },
-
+      {
+        src: "/Sebin/15.jpg",
+        alt: "Sebin and Praveena lovely moment",
+      },
       {
         src: "/Sebin/4.jpg",
         alt: "Sebin and Praveena celebrating",
@@ -206,13 +209,12 @@ export const WEDDING_CONFIG = {
         alt: "Sebin and Praveena in an elegant setting",
       },
       {
+        src: "/Sebin/8.jpg",
+        alt: "Sebin and Praveena in an elegant setting",
+      },
+      {
         src: "/Sebin/3.jpg",
         alt: "Sebin and Praveena cherished moment",
-      },
-
-      {
-        src: "/Sebin/15.jpg",
-        alt: "Sebin and Praveena lovely moment",
       },
 
       {
