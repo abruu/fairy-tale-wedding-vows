@@ -124,7 +124,7 @@ export const WEDDING_CONFIG = {
     /** Hero background image */
     heroBgImage: "/Sebin/1.jpg",
     /** OG / share image (absolute URL for social crawlers) */
-    ogImage: absoluteUrl("/Sebin/11.jpg"),
+    ogImage: absoluteUrl("/Sebin/17.jpg"),
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -200,6 +200,10 @@ export const WEDDING_CONFIG = {
       },
       {
         src: "/Sebin/10.jpg",
+        alt: "Sebin and Praveena special memory",
+      },
+      {
+        src: "/Sebin/17.jpg",
         alt: "Sebin and Praveena special memory",
       },
     ],
