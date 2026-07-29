@@ -670,6 +670,25 @@ const Index = () => {
                 {WEDDING_CONFIG.couple.invitationIntro}
               </p>
 
+              {/* Event dates heads-up */}
+              <div className="invitation-dates-headsup">
+                <div className="invitation-date-item">
+                  <span className="invitation-date-label">Betrothal</span>
+                  <span className="invitation-date-text">
+                    {WEDDING_CONFIG.events.betrothal.dateLabel}
+                  </span>
+                </div>
+                <span className="invitation-date-separator" aria-hidden="true">
+                  ✦
+                </span>
+                <div className="invitation-date-item">
+                  <span className="invitation-date-label">Wedding</span>
+                  <span className="invitation-date-text">
+                    {WEDDING_CONFIG.events.wedding.dateLabel}
+                  </span>
+                </div>
+              </div>
+
               {/* Couple names */}
               <div
                 className="invitation-names-block"
