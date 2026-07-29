@@ -114,9 +114,8 @@ const GalleryItem: React.FC<GalleryItemProps> = ({
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       style={{
-        breakInside: "avoid",
-        marginBottom: "1.75rem",
-        height,
+        gridRowEnd: `span ${Math.ceil((parseInt(height, 10) + 28) / (10 + 28))}`,
+        height: "100%",
         cursor: "pointer",
       }}
     >

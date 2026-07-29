@@ -1,5 +1,12 @@
 // Wedding event configuration — ALL content is driven from this config
 
+/** Deployed site URL — used for absolute URLs in OG tags, share links, etc. */
+export const SITE_URL = "https://praveenasebin.vercel.app";
+
+/** Build an absolute URL from a root-relative path (e.g. "/Sebin/1.jpg" → "https://sebinpraveena.vercel.app/Sebin/1.jpg") */
+export const absoluteUrl = (path: string) =>
+  `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+
 // ─── Canonical couple data ───
 const groomName = "Sebin John";
 const brideName = "Praveena Paul";
@@ -53,7 +60,7 @@ export const WEDDING_CONFIG = {
 
   // ─── Event Dates (ISO with timezone) ───--
   dates: {
-    engagement: "2026-08-17T12:00:00+05:30", // 17th Aug 2026, 12:00 PM IST — Engagement ceremony
+    engagement: "2026-08-17T11:30:00+05:30", // 17th Aug 2026, 11:30 AM IST — Engagement ceremony
     wedding: "2026-08-23T11:30:00+05:30", // 23rd August 2026, 11:30 AM IST — Pampady Dayara Church, Kottayam
   },
 
@@ -61,7 +68,7 @@ export const WEDDING_CONFIG = {
   events: {
     betrothal: {
       dateLabel: "Monday, 17th August 2026",
-      time: "12:00 PM",
+      time: "11:30 AM",
       venue: "Mulanthuruthy Church Community Hall",
       mapsUrl: "https://maps.app.goo.gl/caLcK3zZt9DuEbjFA?g_st=aw",
       receptionVenue: "",
@@ -138,7 +145,9 @@ export const WEDDING_CONFIG = {
     youtubeUrl: "https://www.youtube.com/embed/hkr1mwkigxY?autoplay=1",
     musicUrl: "/music/msuic1.mp3",
     /** Hero background image */
-    heroBgImage: "/Sebin/PHOTO-2026-07-27-11-40-50.jpg",
+    heroBgImage: "/Sebin/1.jpg",
+    /** OG / share image (absolute URL for social crawlers) */
+    ogImage: absoluteUrl("/Sebin/17.jpg"),
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -172,51 +181,42 @@ export const WEDDING_CONFIG = {
   gallery: {
     images: [
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-50.jpg",
+        src: "/Sebin/16.jpg",
         alt: "Sebin and Praveena wedding invitation",
       },
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0001.jpg",
+        src: "/Sebin/13.jpg",
         alt: "Sebin and Praveena together",
       },
+
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0002.jpg",
-        alt: "Sebin and Praveena in traditional attire",
-      },
-      {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-51 0003.jpg",
+        src: "/Sebin/4.jpg",
         alt: "Sebin and Praveena celebrating",
       },
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-51.jpg",
+        src: "/Sebin/1.jpg",
         alt: "Sebin and Praveena special moments",
       },
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-40-52.jpg",
-        alt: "Sebin and Praveena together",
-      },
-      {
-        src: "/Sebin/PHOTO-2026-07-27-11-41-59 0004.jpg",
+        src: "/Sebin/5.jpg",
         alt: "Sebin and Praveena in an elegant setting",
       },
       {
-        src: "/Sebin/PHOTO-2026-07-27-11-41-59.jpg",
+        src: "/Sebin/2.jpg",
         alt: "Sebin and Praveena in an elegant setting",
       },
       {
-        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-19.jpg",
+        src: "/Sebin/3.jpg",
         alt: "Sebin and Praveena cherished moment",
       },
+
       {
-        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-19 0005.jpg",
-        alt: "Sebin and Praveena beautiful memory",
-      },
-      {
-        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-20.jpg",
+        src: "/Sebin/15.jpg",
         alt: "Sebin and Praveena lovely moment",
       },
+
       {
-        src: "/lovable-uploads/Alan/PHOTO-2026-07-27-21-02-20 0006.jpg",
+        src: "/Sebin/17.jpg",
         alt: "Sebin and Praveena special memory",
       },
     ],
@@ -225,25 +225,25 @@ export const WEDDING_CONFIG = {
   // ─── Hero Corner Frame Images ───
   heroCornerFrames: [
     {
-      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0001.jpg",
+      src: "/Sebin/2.jpg",
       position: "top-[22%] left-14",
       size: "w-28 h-28",
       animation: "animate-wiggle",
     },
     {
-      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0002.jpg",
+      src: "/Sebin/3.jpg",
       position: "top-[22%] right-14",
       size: "w-28 h-28",
       animation: "animate-wiggle-delay",
     },
     {
-      src: "/Sebin/PHOTO-2026-07-27-11-40-51 0003.jpg",
+      src: "/Sebin/4.jpg",
       position: "bottom-[24%] left-14",
       size: "w-24 h-24",
       animation: "animate-wiggle-delay-2",
     },
     {
-      src: "/Sebin/PHOTO-2026-07-27-11-40-51.jpg",
+      src: "/Sebin/5.jpg",
       position: "bottom-[24%] right-14",
       size: "w-24 h-24",
       animation: "animate-wiggle",

@@ -25,8 +25,20 @@ export const WeddingDetailsSection: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "68rem", margin: "0 auto" }}>
-        <SectionHeader eyebrow="Join Us" title="Wedding Celebrations" subtitle="We invite you to be part of our journey as we celebrate our union" variant="dark" />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "68rem",
+          margin: "0 auto",
+        }}
+      >
+        <SectionHeader
+          eyebrow="Join Us"
+          title="Wedding Celebrations"
+          subtitle="We invite you to be part of our journey as we celebrate our union"
+          variant="dark"
+        />
 
         <div
           className="v2-details-grid"
@@ -84,18 +96,33 @@ interface EventTicketProps {
   fromLeft: boolean;
 }
 
-const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue, mapsUrl, receptionVenue, receptionMapsUrl, targetDate, featured, fromLeft }) => {
+const EventTicket: React.FC<EventTicketProps> = ({
+  label,
+  dateLabel,
+  time,
+  venue,
+  mapsUrl,
+  receptionVenue,
+  receptionMapsUrl,
+  targetDate,
+  featured,
+  fromLeft,
+}) => {
   const prefersReduced = useReducedMotion();
 
   return (
     <motion.div
-      initial={prefersReduced ? undefined : { opacity: 0, x: fromLeft ? -30 : 30 }}
+      initial={
+        prefersReduced ? undefined : { opacity: 0, x: fromLeft ? -30 : 30 }
+      }
       whileInView={prefersReduced ? undefined : { opacity: 1, x: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
       style={{
         position: "relative",
-        background: featured ? "var(--v2-deep-charcoal)" : "rgba(255,255,255,0.02)",
+        background: featured
+          ? "var(--v2-deep-charcoal)"
+          : "rgba(255,255,255,0.02)",
         border: `1px solid ${featured ? "rgba(198,161,91,0.35)" : "var(--v2-line)"}`,
         borderRadius: "1.25rem",
         padding: "clamp(1.75rem, 3vw, 2.75rem)",
@@ -104,10 +131,24 @@ const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue
         gap: "1.75rem",
       }}
     >
-      <div aria-hidden="true" style={{ width: 1, background: "linear-gradient(to bottom, transparent, var(--v2-gold), transparent)" }} />
+      <div
+        aria-hidden="true"
+        style={{
+          width: 1,
+          background:
+            "linear-gradient(to bottom, transparent, var(--v2-gold), transparent)",
+        }}
+      />
 
       <div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginBottom: "0.75rem",
+          }}
+        >
           <CrossMotif size={14} />
           <span className="v2-eyebrow" style={{ color: "var(--v2-gold)" }}>
             {label}
@@ -117,7 +158,9 @@ const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue
         <h3
           style={{
             fontFamily: "var(--v2-font-serif)",
-            fontSize: featured ? "clamp(1.5rem, 3.2vw, 2rem)" : "clamp(1.2rem, 2.6vw, 1.5rem)",
+            fontSize: featured
+              ? "clamp(1.5rem, 3.2vw, 2rem)"
+              : "clamp(1.2rem, 2.6vw, 1.5rem)",
             fontWeight: 500,
             color: "var(--v2-ivory)",
             marginBottom: "1.25rem",
@@ -126,24 +169,62 @@ const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue
           {dateLabel}
         </h3>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}
+        >
           <DetailRow icon={<Clock size={16} />} label="Time" value={time} />
           <DetailRow icon={<MapPin size={16} />} label="Venue" value={venue} />
-          {receptionVenue && <DetailRow icon={<MapPin size={16} />} label="Reception" value={receptionVenue} />}
+          {receptionVenue && (
+            <DetailRow
+              icon={<MapPin size={16} />}
+              label="Reception"
+              value={receptionVenue}
+            />
+          )}
         </div>
 
-        <div style={{ marginTop: "1.5rem", paddingTop: "1.25rem", borderTop: "1px solid var(--v2-line)" }}>
-          <MiniCountdown label="Counting Down" targetDate={targetDate} size="sm" completeText="It's Here! ✓" />
+        <div
+          style={{
+            marginTop: "1.5rem",
+            paddingTop: "1.25rem",
+            borderTop: "1px solid var(--v2-line)",
+          }}
+        >
+          <MiniCountdown
+            label="Counting Down"
+            targetDate={targetDate}
+            size="sm"
+            completeText="It's Here! ✓"
+          />
         </div>
 
-        <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "0.75rem",
+            marginTop: "1.5rem",
+            flexWrap: "wrap",
+          }}
+        >
           {mapsUrl && (
-            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="v2-btn v2-btn-outline" style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="v2-btn v2-btn-outline"
+              style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}
+            >
               View on Map
             </a>
           )}
           {receptionMapsUrl && (
-            <a href={receptionMapsUrl} target="_blank" rel="noopener noreferrer" className="v2-btn v2-btn-outline" style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}>
+            <a
+              href={receptionMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="v2-btn v2-btn-outline"
+              style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}
+            >
               Reception Map
             </a>
           )}
@@ -153,14 +234,52 @@ const EventTicket: React.FC<EventTicketProps> = ({ label, dateLabel, time, venue
   );
 };
 
-const DetailRow: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
+const DetailRow: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}> = ({ icon, label, value }) => (
   <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-    <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(198,161,91,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--v2-gold)", flexShrink: 0 }}>
+    <div
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: "50%",
+        background: "rgba(198,161,91,0.1)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--v2-gold)",
+        flexShrink: 0,
+      }}
+    >
       {icon}
     </div>
     <div>
-      <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(234,228,216,0.4)", margin: 0 }}>{label}</p>
-      <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.9rem", fontWeight: 300, color: "rgba(234,228,216,0.9)", margin: "0.2rem 0 0", lineHeight: 1.5 }}>{value}</p>
+      <p
+        style={{
+          fontFamily: "var(--v2-font-sans)",
+          fontSize: "0.6rem",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "rgba(234,228,216,0.4)",
+          margin: 0,
+        }}
+      >
+        {label}
+      </p>
+      <p
+        style={{
+          fontFamily: "var(--v2-font-sans)",
+          fontSize: "0.9rem",
+          fontWeight: 300,
+          color: "rgba(234,228,216,0.9)",
+          margin: "0.2rem 0 0",
+          lineHeight: 1.5,
+        }}
+      >
+        {value}
+      </p>
     </div>
   </div>
 );

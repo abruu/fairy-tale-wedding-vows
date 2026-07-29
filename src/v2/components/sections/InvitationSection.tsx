@@ -9,7 +9,11 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 const slideIn = (fromLeft: boolean) => ({
   hidden: { opacity: 0, x: fromLeft ? -40 : 40 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] } },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
 });
 
 /**
@@ -22,11 +26,27 @@ export const InvitationSection: React.FC = () => {
   const brideFirst = WEDDING_CONFIG.couple.brideFirst;
 
   const firstFamily = brideFirst
-    ? { label: "Bride's Parents", parents: WEDDING_CONFIG.couple.brideParents, address: WEDDING_CONFIG.couple.brideAddress }
-    : { label: "Groom's Parents", parents: WEDDING_CONFIG.couple.groomParents, address: WEDDING_CONFIG.couple.groomAddress };
+    ? {
+        label: "Bride's Parents",
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+      }
+    : {
+        label: "Groom's Parents",
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+      };
   const secondFamily = brideFirst
-    ? { label: "Groom's Parents", parents: WEDDING_CONFIG.couple.groomParents, address: WEDDING_CONFIG.couple.groomAddress }
-    : { label: "Bride's Parents", parents: WEDDING_CONFIG.couple.brideParents, address: WEDDING_CONFIG.couple.brideAddress };
+    ? {
+        label: "Groom's Parents",
+        parents: WEDDING_CONFIG.couple.groomParents,
+        address: WEDDING_CONFIG.couple.groomAddress,
+      }
+    : {
+        label: "Bride's Parents",
+        parents: WEDDING_CONFIG.couple.brideParents,
+        address: WEDDING_CONFIG.couple.brideAddress,
+      };
 
   return (
     <section
@@ -40,8 +60,19 @@ export const InvitationSection: React.FC = () => {
     >
       <FloatingOrnaments count={4} variant="sparkles" />
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "72rem", margin: "0 auto" }}>
-        <SectionHeader eyebrow="With Joy" title="Together with our families" variant="dark" />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "72rem",
+          margin: "0 auto",
+        }}
+      >
+        <SectionHeader
+          eyebrow="With Joy"
+          title="Together with our families"
+          variant="dark"
+        />
 
         {/* Asymmetric split: wide intro/names column · narrow families column */}
         <div
@@ -86,20 +117,36 @@ export const InvitationSection: React.FC = () => {
               }}
             >
               {WEDDING_CONFIG.couple.name1}
-              <span style={{ color: "var(--v2-gold)", margin: "0 0.25em" }}>&amp;</span>
+              <span style={{ color: "var(--v2-gold)", margin: "0 0.25em" }}>
+                &amp;
+              </span>
               <br />
               {WEDDING_CONFIG.couple.name2}
             </h3>
 
             {(() => {
               const lines = [
-                brideFirst ? WEDDING_CONFIG.couple.brideSharingHappiness : WEDDING_CONFIG.couple.sharingHappiness,
-                brideFirst ? WEDDING_CONFIG.couple.sharingHappiness : WEDDING_CONFIG.couple.brideSharingHappiness,
+                brideFirst
+                  ? WEDDING_CONFIG.couple.brideSharingHappiness
+                  : WEDDING_CONFIG.couple.sharingHappiness,
+                brideFirst
+                  ? WEDDING_CONFIG.couple.sharingHappiness
+                  : WEDDING_CONFIG.couple.brideSharingHappiness,
               ].filter(Boolean);
               if (lines.length === 0) return null;
               return (
-                <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                  <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", margin: 0 }}>
+                <div
+                  style={{
+                    marginTop: "2rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.6rem",
+                  }}
+                >
+                  <p
+                    className="v2-eyebrow"
+                    style={{ color: "var(--v2-gold)", margin: 0 }}
+                  >
                     With Best Wishes
                   </p>
                   {lines.map((line, i) => (
@@ -130,8 +177,17 @@ export const InvitationSection: React.FC = () => {
             style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
           >
             {[firstFamily, secondFamily].map((family, i) => (
-              <div key={i} style={{ borderLeft: "1px solid var(--v2-line)", paddingLeft: "1.5rem" }}>
-                <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", marginBottom: "0.6rem" }}>
+              <div
+                key={i}
+                style={{
+                  borderLeft: "1px solid var(--v2-line)",
+                  paddingLeft: "1.5rem",
+                }}
+              >
+                <p
+                  className="v2-eyebrow"
+                  style={{ color: "var(--v2-gold)", marginBottom: "0.6rem" }}
+                >
                   {family.label}
                 </p>
                 <p
@@ -146,7 +202,14 @@ export const InvitationSection: React.FC = () => {
                 >
                   {family.parents}
                 </p>
-                <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.75rem", color: "rgba(234,228,216,0.5)", letterSpacing: "0.03em" }}>
+                <p
+                  style={{
+                    fontFamily: "var(--v2-font-sans)",
+                    fontSize: "0.75rem",
+                    color: "rgba(234,228,216,0.5)",
+                    letterSpacing: "0.03em",
+                  }}
+                >
                   {family.address}
                 </p>
               </div>
@@ -156,7 +219,9 @@ export const InvitationSection: React.FC = () => {
 
         {/* Scripture band — the primary faith moment */}
         <FaithDivider tone="dark" />
-        <div style={{ textAlign: "center", maxWidth: "42rem", margin: "0 auto" }}>
+        <div
+          style={{ textAlign: "center", maxWidth: "42rem", margin: "0 auto" }}
+        >
           <p
             style={{
               fontFamily: "var(--v2-font-display)",
@@ -169,6 +234,85 @@ export const InvitationSection: React.FC = () => {
           >
             {WEDDING_CONFIG.couple.supportingMessage}
           </p>
+
+          {/* Event dates, repeated under the scripture for visibility */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "1.5rem",
+              flexWrap: "wrap",
+              marginTop: "2.5rem",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "0.2rem",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--v2-font-sans)",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: "rgba(198,161,91,0.6)",
+                }}
+              >
+                Betrothal
+              </span>
+              <span
+                style={{
+                  fontFamily: "var(--v2-font-display)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(0.8rem, 1.6vw, 0.95rem)",
+                  color: "var(--v2-ivory)",
+                }}
+              >
+                {WEDDING_CONFIG.events.betrothal.dateLabel}
+              </span>
+            </div>
+            <span
+              style={{ color: "rgba(198,161,91,0.4)", fontSize: "0.7rem" }}
+              aria-hidden="true"
+            >
+              ✦
+            </span>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "0.2rem",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--v2-font-sans)",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: "rgba(198,161,91,0.6)",
+                }}
+              >
+                Wedding
+              </span>
+              <span
+                style={{
+                  fontFamily: "var(--v2-font-display)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(0.8rem, 1.6vw, 0.95rem)",
+                  color: "var(--v2-ivory)",
+                }}
+              >
+                {WEDDING_CONFIG.events.wedding.dateLabel}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
