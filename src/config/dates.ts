@@ -193,10 +193,7 @@ export const WEDDING_CONFIG = {
         src: "/Sebin/9.jpg",
         alt: "Sebin and Praveena cherished moment",
       },
-      {
-        src: "/Sebin/9.jpg",
-        alt: "Sebin and Praveena beautiful memory",
-      },
+
       {
         src: "/Sebin/11.jpg",
         alt: "Sebin and Praveena lovely moment",
