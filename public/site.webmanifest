@@ -1,0 +1,27 @@
+{
+  "name": "Abrin & Elsa",
+  "short_name": "Abrin & Elsa",
+  "description": "Celebrate the wedding of Abrin & Elsa on 02 January 2027.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7efe3",
+  "theme_color": "#f7efe3",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
