@@ -85,7 +85,7 @@ export const comingSoonConfig = {
 
   // ─── Mini game ───
   quiz: {
-    title: "How Well Do You Know Abrin & Elsa?",
+    title: "How Well Do You Know Abrin & Elsa? ",
     questions: [
       {
         question: 'Who said "I love you" first?',
