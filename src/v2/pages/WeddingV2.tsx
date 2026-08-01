@@ -15,6 +15,8 @@ import { CountdownSection } from "../components/sections/CountdownSection";
 import { RSVPSection } from "../components/sections/RSVPSection";
 import { ThankYouSection } from "../components/sections/ThankYouSection";
 import { ArrowUp } from "lucide-react";
+// Styles travel with the page now that it is lazily routed at /v2
+import "../styles/v2.css";
 
 const NAV_ITEMS = [
   { id: "hero", label: "Home" },

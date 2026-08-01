@@ -4,8 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-import WeddingV2 from "./v2/pages/WeddingV2";
-import "./v2/styles/v2.css";
+import WeddingComingSoon from "./coming-soon/pages/WeddingComingSoon";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +16,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<WeddingV2 />} />
+            <Route path="/" element={<WeddingComingSoon />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

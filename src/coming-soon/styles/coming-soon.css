@@ -1,0 +1,1522 @@
+/* ============================================================
+   Abrin & Elsa — Coming Soon
+   Self-contained styles. Nothing here leaks outside `.cs-root`
+   except the scroll lock helper on <html>/<body>.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Parisienne&display=swap");
+
+/* ── Scroll lock: the experience is exactly one screen ───────── */
+html.cs-lock,
+html.cs-lock body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+  margin: 0;
+  /* iOS Safari rubber-band guard */
+  position: relative;
+  touch-action: manipulation;
+  /* Matches the page so a collapsing mobile browser bar never flashes
+     the app's default background under the fixed layer. */
+  background: #fdfaf5;
+}
+
+/* ── Palette & fluid scale ──────────────────────────────────── */
+.cs-root {
+  /* Warm ivory → champagne → soft beige */
+  --ivory: #fdfaf5;
+  --cream: #f7efe3;
+  --champagne: #f0e2cd;
+  --beige: #e6d7c0;
+  --gold: #b79657;
+  --gold-soft: #cbb083;
+  --blush: #e9d3cd;
+  --ink: #3a332c;
+  --ink-soft: #6b6055;
+  --ink-faint: #9a8d7f;
+
+  /* Fluid type scale — every value shrinks with BOTH axes so the
+     composition genuinely fits instead of being clipped. */
+  --u: min(1vh, 0.72vw); /* generic scaling unit */
+  --gap: clamp(0.3rem, 1.35vh, 1.05rem);
+  --name-size: clamp(2.35rem, min(12.5vw, 11.5vh), 8.5rem);
+  --amp-size: calc(var(--name-size) * 0.44);
+  --label-size: clamp(0.58rem, min(2.7vw, 1.6vh), 0.85rem);
+  /* Supporting copy is part of the design, not a caption:
+     ~15-18px on phones, 18-22px on desktop, still shrinking when short. */
+  --tagline-size: clamp(0.94rem, min(4.1vw, 2.4vh), 1.375rem);
+  --date-size: clamp(1.05rem, min(5.4vw, 3.2vh), 2.1rem);
+  --count-num: clamp(1.2rem, min(6.3vw, 4.5vh), 2.7rem);
+  --count-label: clamp(0.46rem, min(2.2vw, 1.3vh), 0.7rem);
+  --body-size: clamp(0.88rem, min(3.8vw, 2.15vh), 1.2rem);
+  --micro-size: clamp(0.72rem, min(3vw, 1.7vh), 0.95rem);
+
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: "Jost", "Montserrat", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  isolation: isolate;
+}
+
+.cs-root *,
+.cs-root *::before,
+.cs-root *::after {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   Background: gradient wash, glow, grain, botanicals, petals
+   ============================================================ */
+.cs-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Parallax layers. `useParallax` writes --mx/--my (-0.5…0.5) on .cs-root;
+   each layer multiplies them by its own --depth, so one listener drives all
+   of them. Without a fine pointer, .cs-layer--auto drifts on its own. */
+.cs-layer {
+  position: absolute;
+  inset: -6%;
+  transform: translate3d(
+    calc(var(--mx, 0) * var(--depth, 0) * 1px),
+    calc(var(--my, 0) * var(--depth, 0) * 1px),
+    0
+  );
+  transition: transform 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+/* `translate` is a separate property, so auto-drift composes with the
+   pointer-driven `transform` above instead of overwriting it. */
+.cs-layer--auto {
+  animation: cs-layer-drift 44s ease-in-out infinite alternate;
+}
+@keyframes cs-layer-drift {
+  from {
+    translate: -0.8% -0.5%;
+  }
+  to {
+    translate: 0.8% 0.6%;
+  }
+}
+
+.cs-bg__wash {
+  background:
+    radial-gradient(
+      42% 38% at 22% 18%,
+      rgba(240, 226, 205, 0.85) 0%,
+      rgba(240, 226, 205, 0) 70%
+    ),
+    radial-gradient(
+      48% 42% at 82% 82%,
+      rgba(233, 211, 205, 0.6) 0%,
+      rgba(233, 211, 205, 0) 72%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(253, 250, 245, 0.55) 0%,
+      rgba(248, 241, 230, 0.4) 45%,
+      rgba(243, 232, 216, 0.55) 100%
+    );
+  animation: cs-drift 34s ease-in-out infinite alternate;
+}
+
+@keyframes cs-drift {
+  from {
+    background-position: 0% 0%, 100% 100%, 0% 0%;
+  }
+  to {
+    background-position: 8% 6%, 92% 94%, 0% 0%;
+  }
+}
+
+.cs-bg__glow {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(120vh, 130vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 252, 246, 0.95) 0%,
+    rgba(255, 250, 240, 0.4) 42%,
+    rgba(255, 250, 240, 0) 68%
+  );
+  animation: cs-breathe 12s ease-in-out infinite;
+}
+
+@keyframes cs-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+/* ── The couple photo ────────────────────────────────────────
+   Clearly visible, but veiled enough that the names always win.
+   The veil is strongest in the middle of the screen, where the
+   typography sits, and lets the photo read at the edges. */
+.cs-bg__photo {
+  --photo-opacity: 0.92;
+}
+.cs-bg__photo picture,
+.cs-bg__photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  opacity: var(--photo-opacity);
+}
+.cs-bg__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      58% 46% at 50% 46%,
+      rgba(253, 250, 245, 0.42) 0%,
+      rgba(252, 246, 236, 0.26) 55%,
+      rgba(250, 243, 232, 0.1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(253, 250, 245, 0.34) 0%,
+      rgba(253, 248, 240, 0.12) 38%,
+      rgba(250, 242, 230, 0.3) 100%
+    );
+}
+
+/* Subtle paper grain */
+.cs-bg__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Botanical silhouettes — soft depth behind the content, edges only */
+.cs-bg__sil {
+  position: absolute;
+  width: clamp(150px, 40vmin, 460px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.14;
+  filter: blur(1.5px);
+}
+.cs-bg__sil--tl {
+  top: -7%;
+  left: -8%;
+}
+.cs-bg__sil--br {
+  bottom: -8%;
+  right: -8%;
+  transform: scale(-1, -1);
+}
+
+/* Blurred foreground leaves — the closest, most out-of-focus layer */
+.cs-bg__leaf {
+  position: absolute;
+  width: clamp(200px, 44vmin, 520px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.1;
+  filter: blur(7px);
+}
+.cs-bg__leaf--l {
+  bottom: -18%;
+  left: -14%;
+  rotate: 14deg;
+}
+.cs-bg__leaf--r {
+  top: -18%;
+  right: -14%;
+  rotate: -166deg;
+}
+
+/* Slow floating petals / dust */
+.cs-petal {
+  position: absolute;
+  top: -8%;
+  width: var(--size, 10px);
+  height: calc(var(--size, 10px) * 0.72);
+  border-radius: 60% 40% 55% 45% / 55% 60% 40% 45%;
+  background: linear-gradient(
+    135deg,
+    rgba(233, 211, 205, 0.9),
+    rgba(240, 226, 205, 0.55)
+  );
+  opacity: 0;
+  animation: cs-fall var(--dur, 26s) linear var(--delay, 0s) infinite;
+}
+.cs-petal--dust {
+  border-radius: 50%;
+  height: var(--size, 10px);
+  background: rgba(183, 150, 87, 0.5);
+}
+
+@keyframes cs-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  8% {
+    opacity: var(--peak, 0.7);
+  }
+  50% {
+    transform: translate3d(var(--drift, 30px), 55vh, 0) rotate(180deg);
+  }
+  92% {
+    opacity: var(--peak, 0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--drift, 30px) * -0.6), 112vh, 0)
+      rotate(360deg);
+  }
+}
+
+/* ============================================================
+   Invitation frame — hairline border, travelling shimmer, corner art
+   ============================================================ */
+.cs-frame {
+  position: absolute;
+  inset: clamp(7px, 1.5vmin, 20px);
+  z-index: 1;
+  pointer-events: none;
+  border: 1px solid rgba(183, 150, 87, 0.26);
+  border-radius: clamp(5px, 1vmin, 14px);
+  overflow: hidden;
+}
+.cs-frame__shimmer {
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 68%,
+    rgba(255, 255, 255, 0.55) 80%,
+    transparent 90%
+  );
+  mix-blend-mode: overlay;
+  animation: cs-spin 26s linear infinite;
+}
+@keyframes cs-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+.cs-frame__corner {
+  position: absolute;
+  width: clamp(58px, 13vmin, 150px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.32;
+}
+.cs-frame__corner--tl {
+  top: -1px;
+  left: -1px;
+}
+.cs-frame__corner--tr {
+  top: -1px;
+  right: -1px;
+}
+.cs-frame__corner--bl {
+  bottom: -1px;
+  left: -1px;
+}
+.cs-frame__corner--br {
+  bottom: -1px;
+  right: -1px;
+}
+
+/* ============================================================
+   Pointer glow + sparkles
+   ============================================================ */
+.cs-magic {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.cs-magic__glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 320px;
+  height: 320px;
+  margin: -160px 0 0 -160px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(240, 226, 205, 0.5) 0%,
+    rgba(233, 211, 205, 0.22) 45%,
+    rgba(240, 226, 205, 0) 70%
+  );
+}
+.cs-magic__spark {
+  position: absolute;
+  font-size: var(--spark-size, 10px);
+  line-height: 1;
+  color: var(--gold-soft);
+  animation: cs-spark 0.9s ease-out forwards;
+}
+@keyframes cs-spark {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--spark-drift, 0px)),
+        calc(-50% - 30px)
+      )
+      scale(1);
+  }
+}
+
+/* ============================================================
+   Hero layout — the whole page, one screen
+   ============================================================ */
+.cs-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(120vh, 96vw);
+  height: min(92vh, 88vw);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(253, 250, 245, 0.82) 0%,
+    rgba(253, 249, 242, 0.6) 46%,
+    rgba(253, 249, 242, 0.18) 74%,
+    rgba(253, 249, 242, 0) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+.cs-hero {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--gap);
+  padding:
+    calc(clamp(0.75rem, 3vh, 2.25rem) + env(safe-area-inset-top, 0px))
+    calc(clamp(1rem, 5vw, 3rem) + env(safe-area-inset-right, 0px))
+    calc(clamp(2.75rem, 7vh, 3.5rem) + env(safe-area-inset-bottom, 0px))
+    calc(clamp(1rem, 5vw, 3rem) + env(safe-area-inset-left, 0px));
+}
+
+/* ── Save the date label ─────────────────────────────────────── */
+.cs-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  font-size: var(--label-size);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  white-space: nowrap;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+.cs-eyebrow::before,
+.cs-eyebrow::after {
+  content: "";
+  width: clamp(1.5rem, 7vw, 4.5rem);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(183, 150, 87, 0) 0%,
+    rgba(183, 150, 87, 0.6) 100%
+  );
+}
+.cs-eyebrow::after {
+  background: linear-gradient(
+    270deg,
+    rgba(183, 150, 87, 0) 0%,
+    rgba(183, 150, 87, 0.6) 100%
+  );
+}
+
+/* ── Couple names ────────────────────────────────────────────── */
+.cs-names {
+  position: relative; /* anchors the whisper line below the names */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.35rem, 1.8vw, 1.4rem);
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: var(--name-size);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin: 0;
+  text-shadow: 0 1px 18px rgba(255, 253, 248, 0.9);
+}
+
+.cs-names__name {
+  display: inline-flex;
+}
+/* One slow light sweep across each name once it has settled */
+.cs-names__name--sheen {
+  position: relative;
+}
+.cs-names__name--sheen::after {
+  content: "";
+  position: absolute;
+  inset: -0.12em -0.3em;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 58%
+  );
+  mix-blend-mode: overlay;
+  opacity: 0;
+  animation: cs-sheen-sweep 1.8s ease-out var(--sheen, 2s) 1 forwards;
+}
+@keyframes cs-sheen-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-45%);
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(45%);
+  }
+}
+.cs-names__char {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+@media (hover: hover) {
+  .cs-names__name:hover .cs-names__char {
+    transform: translateY(-0.055em);
+  }
+  .cs-names__name:hover .cs-names__char:nth-child(even) {
+    transform: translateY(0.045em);
+  }
+}
+
+/* Interactive heart / ampersand */
+.cs-heart__slot {
+  display: inline-flex;
+  align-items: center;
+}
+.cs-heart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0.15em 0.2em;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--gold);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: var(--amp-size);
+  line-height: 1;
+  border-radius: 999px;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.35s ease,
+    filter 0.35s ease;
+  animation: cs-heartbeat 3.6s ease-in-out infinite;
+}
+.cs-heart svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+.cs-heart:hover,
+.cs-heart:focus-visible {
+  transform: scale(1.16);
+  color: #c07f76;
+  filter: drop-shadow(0 0 12px rgba(192, 127, 118, 0.35));
+}
+.cs-heart:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.6);
+  outline-offset: 4px;
+}
+.cs-heart:active {
+  transform: scale(0.94);
+}
+
+@keyframes cs-heartbeat {
+  0%,
+  100% {
+    scale: 1;
+  }
+  10% {
+    scale: 1.09;
+  }
+  20% {
+    scale: 1;
+  }
+  30% {
+    scale: 1.05;
+  }
+  40% {
+    scale: 1;
+  }
+}
+
+/* Whisper after the heart is tapped — absolute, so nothing reflows */
+.cs-whisper {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.06em);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: "Parisienne", "Cormorant Garamond", cursive;
+  font-size: var(--micro-size);
+  line-height: 1.2;
+  color: #c07f76;
+  pointer-events: none;
+  /* Matches the 3.2s the whisper stays mounted */
+  animation: cs-whisper 3.2s ease forwards;
+}
+@keyframes cs-whisper {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  18%,
+  70% {
+    opacity: 0.95;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+}
+
+/* Easter-egg particles */
+.cs-egg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.cs-egg__bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: var(--bit-size, 14px);
+  line-height: 1;
+  color: var(--bit-color, #c07f76);
+  animation: cs-burst var(--bit-dur, 1.3s) cubic-bezier(0.16, 0.84, 0.44, 1)
+    var(--bit-delay, 0s) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes cs-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--bit-x, 0px)),
+        calc(-50% + var(--bit-y, -60px))
+      )
+      scale(var(--bit-scale, 1)) rotate(var(--bit-rot, 90deg));
+  }
+}
+
+/* ── Tagline ─────────────────────────────────────────────────── */
+.cs-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: var(--tagline-size);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 30ch;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+@media (min-width: 700px) {
+  .cs-tagline {
+    max-width: 46ch;
+  }
+}
+
+/* ── Date ────────────────────────────────────────────────────── */
+.cs-date {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2.2vw, 1.1rem);
+  font-size: var(--date-size);
+  font-weight: 300;
+  letter-spacing: 0.24em;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+.cs-date::before,
+.cs-date::after {
+  content: "";
+  width: clamp(1.1rem, 5vw, 3rem);
+  height: 1px;
+  background: rgba(183, 150, 87, 0.55);
+}
+.cs-date__value {
+  transition:
+    text-shadow 0.5s ease,
+    color 0.5s ease;
+}
+.cs-date:hover .cs-date__value {
+  color: #6f5a2e;
+  text-shadow: 0 0 18px rgba(214, 178, 110, 0.55);
+}
+
+/* ── Countdown ───────────────────────────────────────────────── */
+.cs-countdown {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(0.45rem, 2.6vw, 1.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.1rem, 0.5vh, 0.35rem);
+  position: relative;
+  min-width: clamp(2.1rem, 11vw, 4.25rem);
+}
+.cs-countdown__unit + .cs-countdown__unit::before {
+  content: "";
+  position: absolute;
+  left: calc(clamp(0.45rem, 2.6vw, 1.75rem) / -2);
+  top: 12%;
+  height: 52%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(183, 150, 87, 0) 0%,
+    rgba(183, 150, 87, 0.45) 50%,
+    rgba(183, 150, 87, 0) 100%
+  );
+}
+.cs-countdown__num {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: var(--count-num);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  animation: cs-tick 0.55s ease;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+@keyframes cs-tick {
+  from {
+    opacity: 0.35;
+    transform: translateY(0.08em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cs-countdown__label {
+  font-size: var(--count-label);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.cs-countdown--done {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: var(--date-size);
+  color: var(--gold);
+}
+
+/* ── Closing copy ────────────────────────────────────────────── */
+.cs-closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--gap) * 0.45);
+}
+.cs-closing__main {
+  font-family: "Parisienne", "Cormorant Garamond", cursive;
+  font-size: calc(var(--body-size) * 1.5);
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+.cs-closing__sub {
+  font-size: var(--micro-size);
+  font-weight: 300;
+  letter-spacing: 0.09em;
+  color: var(--ink-faint);
+  margin: 0;
+  max-width: 34ch;
+  text-shadow: 0 1px 14px rgba(255, 253, 248, 0.85);
+}
+
+/* ── Game CTA ────────────────────────────────────────────────── */
+.cs-cta-slot {
+  display: inline-flex;
+}
+.cs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: calc(var(--gap) * 0.35);
+  padding: clamp(0.4rem, 1.1vh, 0.62rem) clamp(0.85rem, 3.4vw, 1.5rem);
+  border: 1px solid rgba(183, 150, 87, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(6px);
+  color: var(--ink);
+  font-size: var(--micro-size);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.cs-cta:hover,
+.cs-cta:focus-visible {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(183, 150, 87, 0.75);
+  box-shadow: 0 6px 26px -12px rgba(183, 150, 87, 0.75);
+  transform: translateY(-1px);
+}
+.cs-cta:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.7);
+  outline-offset: 3px;
+}
+.cs-cta__heart {
+  color: #c07f76;
+  font-size: 1.1em;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cs-cta:hover .cs-cta__heart,
+.cs-cta:focus-visible .cs-cta__heart {
+  transform: scale(1.22) translateY(-1px);
+}
+.cs-cta:hover,
+.cs-cta:focus-visible {
+  scale: 1.015;
+}
+
+/* ============================================================
+   Music control
+   ============================================================ */
+.cs-music {
+  position: absolute;
+  z-index: 2;
+  left: calc(clamp(0.85rem, 3vw, 2rem) + env(safe-area-inset-left, 0px));
+  bottom: calc(clamp(0.85rem, 3vh, 2rem) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.cs-music__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: clamp(0.34rem, 1vh, 0.5rem) clamp(0.6rem, 2.4vw, 0.95rem);
+  border: 1px solid rgba(183, 150, 87, 0.32);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  color: var(--ink-soft);
+  font-size: var(--micro-size);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+.cs-music__btn:hover,
+.cs-music__btn:focus-visible {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(183, 150, 87, 0.6);
+  color: var(--ink);
+}
+.cs-music__btn:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.7);
+  outline-offset: 3px;
+}
+.cs-music__label {
+  white-space: nowrap;
+}
+/* Only the very narrowest phones drop to an icon-only control */
+@media (max-width: 340px) {
+  .cs-music__label {
+    display: none;
+  }
+}
+
+/* Equalizer */
+.cs-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.9em;
+}
+.cs-eq span {
+  width: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+/* Idle: reads as a small static equalizer rather than a row of dots */
+.cs-eq span:nth-child(1) {
+  height: 45%;
+}
+.cs-eq span:nth-child(2) {
+  height: 80%;
+}
+.cs-eq span:nth-child(3) {
+  height: 58%;
+}
+.cs-eq span:nth-child(4) {
+  height: 92%;
+}
+.cs-eq--on span {
+  animation: cs-eq 1s ease-in-out infinite;
+}
+.cs-eq--on span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.cs-eq--on span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+.cs-eq--on span:nth-child(4) {
+  animation-delay: 0.54s;
+}
+@keyframes cs-eq {
+  0%,
+  100% {
+    height: 28%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+/* First-play romantic whisper */
+.cs-music__hint {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 0.65rem);
+  max-width: min(62vw, 20rem);
+  padding: 0.5em 0.85em;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(183, 150, 87, 0.28);
+  backdrop-filter: blur(8px);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: var(--micro-size);
+  color: var(--ink-soft);
+  text-align: left;
+  animation: cs-hint 5.5s ease forwards;
+}
+@keyframes cs-hint {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  12%,
+  78% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* ============================================================
+   Opening gate — one tap opens the invitation and starts the song
+   ============================================================ */
+.cs-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: calc(clamp(1rem, 4vh, 2.5rem) + env(safe-area-inset-top, 0px))
+    clamp(1.25rem, 6vw, 3rem)
+    calc(clamp(1rem, 4vh, 2.5rem) + env(safe-area-inset-bottom, 0px));
+  cursor: pointer;
+  background:
+    radial-gradient(
+      70% 58% at 50% 46%,
+      rgba(253, 250, 245, 0.94) 0%,
+      rgba(250, 244, 234, 0.9) 52%,
+      rgba(246, 238, 225, 0.94) 100%
+    );
+  backdrop-filter: blur(7px);
+  animation: cs-fade 0.6s ease;
+}
+.cs-gate--leaving {
+  animation: cs-gate-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+@keyframes cs-gate-out {
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0);
+    transform: scale(1.03);
+  }
+}
+
+.cs-gate__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 2vh, 1.15rem);
+}
+
+.cs-gate__eyebrow {
+  margin: 0;
+  font-size: var(--label-size);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+  animation: cs-rise 0.8s ease 0.05s both;
+}
+
+.cs-gate__names {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.4rem, 1.6vw, 0.9rem);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.9rem, min(9vw, 7.5vh), 4rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink);
+  animation: cs-rise 0.9s ease 0.16s both;
+}
+.cs-gate__amp {
+  color: var(--gold);
+  font-size: 0.7em;
+}
+
+.cs-gate__date {
+  margin: 0;
+  font-size: var(--micro-size);
+  letter-spacing: 0.32em;
+  color: var(--ink-faint);
+  animation: cs-rise 0.9s ease 0.28s both;
+}
+
+.cs-gate__btn {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+  margin-top: clamp(0.5rem, 2.5vh, 1.5rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  animation: cs-rise 0.9s ease 0.42s both;
+}
+.cs-gate__ring {
+  width: clamp(58px, 13vmin, 92px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(183, 150, 87, 0.5);
+  border-radius: 50%;
+  transition:
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+.cs-gate__ring::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: clamp(58px, 13vmin, 92px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(183, 150, 87, 0.4);
+  animation: cs-gate-pulse 2.8s ease-out infinite;
+}
+@keyframes cs-gate-pulse {
+  0% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.45);
+  }
+}
+.cs-gate__heart {
+  position: absolute;
+  top: clamp(14px, 3.2vmin, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(1.4rem, 5vmin, 2.2rem);
+  line-height: 1;
+  color: #c07f76;
+  animation: cs-heartbeat 3.4s ease-in-out infinite;
+}
+.cs-gate__label {
+  font-size: var(--micro-size);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.4s ease;
+}
+.cs-gate__btn:hover .cs-gate__ring,
+.cs-gate__btn:focus-visible .cs-gate__ring {
+  transform: scale(1.06);
+  border-color: var(--gold);
+  box-shadow: 0 0 30px -8px rgba(183, 150, 87, 0.65);
+}
+.cs-gate__btn:hover .cs-gate__label,
+.cs-gate__btn:focus-visible .cs-gate__label {
+  color: var(--ink);
+}
+.cs-gate__btn:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.7);
+  outline-offset: 8px;
+  border-radius: 18px;
+}
+
+.cs-gate__note {
+  margin: clamp(0.35rem, 1.5vh, 0.9rem) 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: var(--micro-size);
+  color: var(--ink-faint);
+  animation: cs-rise 0.9s ease 0.56s both;
+}
+
+/* ============================================================
+   Quiz modal
+   ============================================================ */
+.cs-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: calc(clamp(0.75rem, 3vh, 2rem) + env(safe-area-inset-top, 0px))
+    clamp(0.9rem, 4vw, 2rem)
+    calc(clamp(0.75rem, 3vh, 2rem) + env(safe-area-inset-bottom, 0px));
+  background: rgba(58, 51, 44, 0.42);
+  backdrop-filter: blur(10px);
+  animation: cs-fade 0.35s ease;
+}
+@keyframes cs-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cs-card {
+  position: relative;
+  width: min(30rem, 100%);
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.55rem, 1.8vh, 1.2rem);
+  padding: clamp(1.1rem, 4vh, 2.25rem) clamp(1rem, 5vw, 2.25rem);
+  border-radius: clamp(14px, 2vw, 22px);
+  border: 1px solid rgba(183, 150, 87, 0.32);
+  background: linear-gradient(165deg, #fdfaf5 0%, #f6ecdd 100%);
+  box-shadow: 0 30px 80px -30px rgba(58, 51, 44, 0.5);
+  text-align: center;
+  animation: cs-pop 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+@keyframes cs-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cs-card__close {
+  position: absolute;
+  top: clamp(0.4rem, 1.4vh, 0.85rem);
+  right: clamp(0.4rem, 1.4vw, 0.85rem);
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    background 0.3s ease;
+}
+.cs-card__close:hover,
+.cs-card__close:focus-visible {
+  color: var(--ink);
+  background: rgba(183, 150, 87, 0.12);
+}
+
+.cs-card__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.05rem, min(5.4vw, 3vh), 1.7rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
+  padding: 0 1.5rem;
+}
+
+.cs-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  font-size: var(--count-label);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.cs-progress__dots {
+  display: flex;
+  gap: 5px;
+}
+.cs-progress__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(183, 150, 87, 0.28);
+  transition: background 0.4s ease;
+}
+.cs-progress__dot--on {
+  background: var(--gold);
+}
+
+.cs-q {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.7vh, 1.05rem);
+  animation: cs-slide 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+@keyframes cs-slide {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cs-q__text {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.95rem, min(4.6vw, 2.6vh), 1.4rem);
+  font-style: italic;
+  color: var(--ink);
+  margin: 0;
+}
+.cs-q__options {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1.2vh, 0.65rem);
+}
+.cs-option {
+  padding: clamp(0.5rem, 1.5vh, 0.8rem) 1rem;
+  border: 1px solid rgba(183, 150, 87, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  font-size: var(--body-size);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.cs-option:hover,
+.cs-option:focus-visible {
+  background: #fff;
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+.cs-option:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.7);
+  outline-offset: 3px;
+}
+.cs-option--picked {
+  background: var(--champagne);
+  border-color: var(--gold);
+}
+
+.cs-result {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.6vh, 1rem);
+  animation: cs-slide 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.cs-result__score {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.9rem, min(11vw, 7vh), 3.4rem);
+  line-height: 1;
+  color: var(--gold);
+}
+.cs-result__score small {
+  font-size: 0.42em;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+}
+.cs-result__text {
+  font-size: var(--body-size);
+  color: var(--ink-soft);
+  margin: 0;
+}
+.cs-result__actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cs-btn {
+  padding: clamp(0.45rem, 1.3vh, 0.7rem) clamp(1rem, 4vw, 1.6rem);
+  border-radius: 999px;
+  font-size: var(--micro-size);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+.cs-btn--primary {
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #fffdf8;
+}
+.cs-btn--primary:hover {
+  background: #a5853f;
+  border-color: #a5853f;
+}
+.cs-btn--ghost {
+  border: 1px solid rgba(183, 150, 87, 0.4);
+  background: transparent;
+  color: var(--ink-soft);
+}
+.cs-btn--ghost:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.cs-btn:focus-visible {
+  outline: 1px solid rgba(183, 150, 87, 0.7);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   Cinematic entrance
+   ============================================================ */
+.cs-reveal {
+  opacity: 0;
+  animation: cs-rise 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes cs-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.7rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cs-reveal--letter {
+  display: inline-block;
+  opacity: 0;
+  animation: cs-letter 0.95s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes cs-letter {
+  from {
+    opacity: 0;
+    transform: translateY(0.28em) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* ============================================================
+   Orientation / small-height refinements
+   ============================================================ */
+
+/* Very short viewports (landscape phones, short laptops) */
+@media (max-height: 520px) {
+  .cs-root {
+    --gap: clamp(0.2rem, 0.9vh, 0.5rem);
+    --name-size: clamp(1.9rem, min(9vw, 15vh), 4.5rem);
+  }
+  .cs-closing__sub,
+  .cs-bg__leaf {
+    display: none;
+  }
+  .cs-frame__corner {
+    width: clamp(46px, 16vmin, 90px);
+  }
+}
+
+/* Landscape phones: tighten further and pull decoration back */
+@media (orientation: landscape) and (max-height: 460px) {
+  .cs-tagline {
+    max-width: 46ch;
+  }
+  .cs-eyebrow::before,
+  .cs-eyebrow::after {
+    width: clamp(1rem, 4vw, 2rem);
+  }
+}
+
+/* Roomy screens: let the names carry more presence, keep lines unbroken */
+@media (min-width: 900px) and (min-height: 700px) {
+  .cs-root {
+    --gap: clamp(0.75rem, 2vh, 1.4rem);
+    --name-size: clamp(4rem, min(11vw, 15vh), 9.5rem);
+  }
+  .cs-tagline {
+    max-width: 52ch;
+  }
+  .cs-closing__sub {
+    max-width: 48ch;
+  }
+}
+
+/* Mobile: lighter decoration, calmer motion */
+@media (max-width: 640px) {
+  .cs-bg__photo {
+    --photo-opacity: 0.86;
+  }
+  .cs-bg__photo img {
+    object-position: center 12%;
+  }
+  .cs-bg__sil {
+    opacity: 0.11;
+    width: clamp(120px, 34vmin, 220px);
+  }
+  .cs-frame__corner {
+    opacity: 0.26;
+  }
+  .cs-bg__wash {
+    animation-duration: 48s;
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .cs-root *,
+  .cs-root *::before,
+  .cs-root *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+  .cs-reveal,
+  .cs-reveal--letter {
+    opacity: 1;
+    animation: none;
+  }
+  .cs-petal,
+  .cs-bg__grain,
+  .cs-frame__shimmer,
+  .cs-magic,
+  .cs-names__name--sheen::after {
+    display: none;
+  }
+  .cs-layer {
+    transform: none;
+  }
+  /* The heart still answers a tap - just without particles or movement */
+  .cs-whisper {
+    animation: none;
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
