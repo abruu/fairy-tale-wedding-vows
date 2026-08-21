@@ -835,7 +835,7 @@ const Index = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Betrothal card */}
-              <div
+              {/* <div
                 className="wedding-card wedding-card-enhanced p-8"
                 data-aos="fade-right"
                 data-aos-delay="100"
@@ -944,7 +944,6 @@ const Index = () => {
                   </div>
                 </div>
 
-                {/* Betrothal countdown */}
                 {!engagementComplete && (
                   <div
                     className="mt-8 pt-6"
@@ -1043,7 +1042,7 @@ const Index = () => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
 
               {/* Wedding card */}
               <div
