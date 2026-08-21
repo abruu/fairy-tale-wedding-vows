@@ -50,7 +50,7 @@ export const WeddingDetailsSection: React.FC = () => {
             alignItems: "stretch",
           }}
         >
-          <EventTicket
+          {/* <EventTicket
             label="Betrothal"
             dateLabel={betrothal.dateLabel}
             time={betrothal.time}
@@ -58,7 +58,7 @@ export const WeddingDetailsSection: React.FC = () => {
             mapsUrl={betrothal.mapsUrl}
             targetDate={WEDDING_CONFIG.dates.engagement}
             fromLeft
-          />
+          /> */}
           <EventTicket
             label="Holy Matrimony"
             dateLabel={wedding.dateLabel}
