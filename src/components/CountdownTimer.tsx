@@ -188,7 +188,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
           </p>
 
           {/* Heart + sparkle row */}
-          <div className="flex items-center justify-center gap-2">
+          {/* <div className="flex items-center justify-center gap-2">
             <Heart
               size={12}
               fill={premium ? "#E6C3D5" : "#4A7FC1"}
@@ -215,7 +215,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
                 animation: "heartbeat 2.2s ease-in-out infinite 1.1s",
               }}
             />
-          </div>
+          </div> */}
 
           {/* Bottom ornament line with sparkle */}
           <div className="flex items-center justify-center gap-3">
