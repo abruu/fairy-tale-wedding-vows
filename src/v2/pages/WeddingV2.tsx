@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { WEDDING_CONFIG } from "@/config/dates";
+import { WEDDING_CONFIG, isPostWedding } from "@/config/dates";
 import { useActiveSection } from "../hooks/useActiveSection";
 import { useScrollProgress } from "../hooks/useScrollProgress";
 import { Navigation } from "../components/layout/Navigation";
 import { MusicPlayerV2 } from "../components/layout/MusicPlayerV2";
 import { OpeningExperience } from "../components/sections/OpeningExperience";
 import { HeroSection } from "../components/sections/HeroSection";
+import { PostWeddingHero } from "../components/sections/PostWeddingHero";
 import { InvitationSection } from "../components/sections/InvitationSection";
 import { OurStorySection } from "../components/sections/OurStorySection";
 import { SpecialMomentsSection } from "../components/sections/SpecialMomentsSection";
@@ -15,6 +16,7 @@ import { CountdownSection } from "../components/sections/CountdownSection";
 import { RSVPSection } from "../components/sections/RSVPSection";
 import { ThankYouSection } from "../components/sections/ThankYouSection";
 import { ArrowUp } from "lucide-react";
+import { useSmoothScroll } from "../hooks/useSmoothScroll";
 // Styles travel with the page now that it is lazily routed at /v2
 import "../styles/v2.css";
 
@@ -36,18 +38,28 @@ const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
  * Storytelling flow: Opening → Hero → Invitation → Story → Moments → Details → Gallery → Countdown → RSVP → Thank You
  */
 const WeddingV2: React.FC = () => {
-  const [openingComplete, setOpeningComplete] = useState(false);
+  const lenisRef = useSmoothScroll();
+  // Once the wedding has passed the envelope intro is skipped entirely and
+  // the hero becomes the looping thank-you video.
+  const [postWedding] = useState(isPostWedding);
+  const [openingComplete, setOpeningComplete] = useState(postWedding);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const activeSection = useActiveSection(SECTION_IDS);
   const { progress } = useScrollProgress();
   const forcePlayRef = useRef<(() => void) | null>(null);
 
-  const handleNavigate = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
+  const handleNavigate = useCallback(
+    (id: string) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(el, { offset: 0 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [lenisRef],
+  );
 
   const handleOpeningComplete = useCallback(() => {
     setOpeningComplete(true);
@@ -75,8 +87,8 @@ const WeddingV2: React.FC = () => {
       {/* Scroll progress bar */}
       <div className="v2-scroll-progress" style={{ width: `${progress}%` }} />
 
-      {/* Opening Experience */}
-      {!openingComplete && (
+      {/* Opening Experience — never shown once the wedding is over */}
+      {!postWedding && !openingComplete && (
         <OpeningExperience
           onComplete={handleOpeningComplete}
           onStart={handleOpeningStart}
@@ -94,7 +106,11 @@ const WeddingV2: React.FC = () => {
 
       {/* Sections */}
       <main>
-        <HeroSection onEnter={() => handleNavigate("invitation")} />
+        {postWedding ? (
+          <PostWeddingHero onEnter={() => handleNavigate("invitation")} />
+        ) : (
+          <HeroSection onEnter={() => handleNavigate("invitation")} />
+        )}
         <InvitationSection />
         <OurStorySection />
         <SpecialMomentsSection />
@@ -114,7 +130,13 @@ const WeddingV2: React.FC = () => {
       {/* Back to Top */}
       <button
         className={`v2-back-to-top ${showBackToTop ? "visible" : ""}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={() => {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(0);
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }}
         aria-label="Back to top"
       >
         <ArrowUp size={18} />

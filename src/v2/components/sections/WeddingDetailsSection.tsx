@@ -6,6 +6,7 @@ import { SectionHeader } from "../shared/SectionHeader";
 import { CrossMotif } from "../shared/CrossMotif";
 import { MiniCountdown } from "../shared/MiniCountdown";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { DURATION, EASE_OUT, fadeRise, motionVariants } from "../../lib/motion";
 
 /**
  * Wedding celebrations — two asymmetric "ticket stub" cards; the wedding
@@ -115,12 +116,17 @@ const EventTicket: React.FC<EventTicketProps> = ({
 
   return (
     <motion.div
-      initial={
-        prefersReduced ? undefined : { opacity: 0, x: fromLeft ? -30 : 30 }
-      }
-      whileInView={prefersReduced ? undefined : { opacity: 1, x: 0 }}
+      variants={motionVariants(prefersReduced, {
+        hidden: { opacity: 0, x: fromLeft ? -30 : 30 },
+        show: {
+          opacity: 1,
+          x: 0,
+          transition: { duration: DURATION.slow, ease: EASE_OUT, staggerChildren: 0.08, delayChildren: 0.15 },
+        },
+      })}
+      initial="hidden"
+      whileInView="show"
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="v2-event-ticket"
       style={{
         position: "relative",
@@ -177,13 +183,14 @@ const EventTicket: React.FC<EventTicketProps> = ({
         <div
           style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}
         >
-          <DetailRow icon={<Clock size={16} />} label="Time" value={time} />
-          <DetailRow icon={<MapPin size={16} />} label="Venue" value={venue} />
+          <DetailRow icon={<Clock size={16} />} label="Time" value={time} prefersReduced={prefersReduced} />
+          <DetailRow icon={<MapPin size={16} />} label="Venue" value={venue} prefersReduced={prefersReduced} />
           {receptionVenue && (
             <DetailRow
               icon={<MapPin size={16} />}
               label="Reception"
               value={receptionVenue}
+              prefersReduced={prefersReduced}
             />
           )}
         </div>
@@ -239,12 +246,17 @@ const EventTicket: React.FC<EventTicketProps> = ({
   );
 };
 
+/** A staggered child of the ticket card — rows arrive one after another. */
 const DetailRow: React.FC<{
   icon: React.ReactNode;
   label: string;
   value: string;
-}> = ({ icon, label, value }) => (
-  <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+  prefersReduced: boolean;
+}> = ({ icon, label, value, prefersReduced }) => (
+  <motion.div
+    variants={motionVariants(prefersReduced, fadeRise)}
+    style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}
+  >
     <div
       style={{
         width: 28,
@@ -286,5 +298,5 @@ const DetailRow: React.FC<{
         {value}
       </p>
     </div>
-  </div>
+  </motion.div>
 );

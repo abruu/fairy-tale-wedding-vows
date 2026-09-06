@@ -4,16 +4,18 @@ import { CrossMotif } from './CrossMotif';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 /**
- * Recurring section-transition beat: a gold hairline that draws in on
+ * Recurring section-transition beat: an emerald hairline that draws in on
  * scroll with the cross motif centered — the site's faith touchpoint
- * repeated between major sections.
+ * repeated between major sections. The cross itself stays sacred gold,
+ * which the design system reserves for faith iconography.
  */
 export const FaithDivider: React.FC<{ className?: string; tone?: 'dark' | 'light' }> = ({
   className = '',
   tone = 'dark',
 }) => {
   const prefersReduced = useReducedMotion();
-  const lineColor = tone === 'dark' ? 'var(--v2-line)' : 'var(--v2-line-dark)';
+  const lineColor =
+    tone === 'dark' ? 'var(--v2-divider-accent)' : 'var(--v2-heading-accent-on-light)';
 
   return (
     <div

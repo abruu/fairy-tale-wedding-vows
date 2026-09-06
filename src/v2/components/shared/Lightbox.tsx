@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { DURATION, EASE_IN_OUT, EASE_OUT } from '../../lib/motion';
 
 interface GalleryImage {
   src: string;
@@ -59,10 +60,10 @@ export const Lightbox: React.FC<LightboxProps> = ({
           role="dialog"
           aria-modal="true"
           aria-label="Photo gallery"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, scale: 0.99 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.99 }}
+          transition={{ duration: DURATION.fast, ease: EASE_IN_OUT }}
         >
           <button className="v2-lightbox-close" onClick={onClose} aria-label="Close gallery">
             <X size={20} />
@@ -82,7 +83,7 @@ export const Lightbox: React.FC<LightboxProps> = ({
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: DURATION.fast, ease: EASE_OUT }}
             />
           </AnimatePresence>
 

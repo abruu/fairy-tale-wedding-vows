@@ -126,7 +126,7 @@ export const ThankYouSection: React.FC = () => {
           );
         })()}
 
-        {/* Bottom flourish */}
+        {/* Bottom flourish — the countdown lives in the Hero only */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginTop: '3rem' }}>
           <span style={{ color: 'rgba(198,161,91,0.2)', fontSize: '0.5rem' }}>✦</span>
           <span style={{ color: 'rgba(198,161,91,0.3)', fontSize: '0.7rem' }}>♥</span>

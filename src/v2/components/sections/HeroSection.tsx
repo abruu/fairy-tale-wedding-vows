@@ -52,6 +52,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
     () => formatDate(WEDDING_CONFIG.dates.wedding),
     [],
   );
+  const engagementDate = useMemo(
+    () => formatDate(WEDDING_CONFIG.dates.engagement),
+    [],
+  );
   const heroImage = WEDDING_CONFIG.media.heroBgImage;
   const { timeLeft: betrothalTimeLeft } = useCountdown(WEDDING_CONFIG.dates.engagement);
 
@@ -182,7 +186,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
 
         {/* Single active countdown — betrothal counts down first; once that date
             arrives it automatically switches over to the wedding countdown. */}
-        <motion.div variants={itemV} className="v2-hero-countdown-strip">
+        {/* Betrothal counts down first, then this automatically becomes the
+            wedding countdown and the strip lifts to a highlighted state. */}
+        <motion.div
+          variants={itemV}
+          className={`v2-hero-countdown-strip ${betrothalTimeLeft.isComplete ? "is-primary" : ""}`}
+        >
           <AnimatePresence mode="wait">
             {betrothalTimeLeft.isComplete ? (
               <motion.div
@@ -198,6 +207,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
                   accent="var(--v2-gold-light)"
                   completeText="United Forever"
                 />
+                <p
+                  style={{
+                    fontFamily: "var(--v2-font-sans)",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "rgba(234,228,216,0.5)",
+                    margin: "0.6rem 0 0",
+                  }}
+                >
+                  {WEDDING_CONFIG.countdown.pastEngagementLabel} · {engagementDate.day} {engagementDate.month} {engagementDate.year}
+                </p>
               </motion.div>
             ) : (
               <motion.div
@@ -216,6 +237,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Secondary CTA — deliberately quieter than the names/countdown */}
+          <motion.button
+            variants={itemV}
+            className="v2-btn v2-btn-quiet"
+            onClick={() => onEnter?.()}
+            whileHover={prefersReduced ? undefined : { y: -2 }}
+            whileTap={prefersReduced ? undefined : { scale: 0.97 }}
+            transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ marginTop: "1.5rem" }}
+          >
+            View Invitation
+          </motion.button>
         </motion.div>
       </motion.div>
 

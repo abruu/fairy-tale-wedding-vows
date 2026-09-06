@@ -22,6 +22,9 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
   const { timeLeft, setOnComplete } = useCountdown(
     WEDDING_CONFIG.dates.wedding,
   );
+  const { timeLeft: betrothalTimeLeft } = useCountdown(
+    WEDDING_CONFIG.dates.engagement,
+  );
   const prefersReduced = useReducedMotion();
 
   const handleComplete = useCallback(() => {
@@ -69,6 +72,21 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
           }
           variant="dark"
         />
+
+        {betrothalTimeLeft.isComplete && !timeLeft.isComplete && (
+          <p
+            style={{
+              fontFamily: "var(--v2-font-sans)",
+              fontSize: "0.65rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "rgba(198,161,91,0.6)",
+              marginTop: "0.75rem",
+            }}
+          >
+            {WEDDING_CONFIG.countdown.pastEngagementLabel} · {WEDDING_CONFIG.events.betrothal.dateLabel}
+          </p>
+        )}
 
         <div
           style={{

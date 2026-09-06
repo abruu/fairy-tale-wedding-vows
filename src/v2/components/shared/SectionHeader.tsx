@@ -21,12 +21,15 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   // 'dark' = section sits on the dark canvas (light text); 'light' = the warm-light photo-spread band (dark ink text)
   const textColor = variant === 'dark' ? 'var(--v2-charcoal)' : 'var(--v2-charcoal-text)';
   const subColor = variant === 'dark' ? 'rgba(234,228,216,0.7)' : 'rgba(28,26,22,0.65)';
-  const goldColor = variant === 'dark' ? 'var(--v2-gold-light)' : 'var(--v2-gold-dark)';
+  // Emerald accent carries the eyebrow + divider; the deep value only has
+  // enough contrast on the light band, so the dark canvas gets the bright tint.
+  const accentColor =
+    variant === 'dark' ? 'var(--v2-heading-accent)' : 'var(--v2-heading-accent-on-light)';
 
   return (
     <div className={`text-center ${className}`}>
       {eyebrow && (
-        <p className="v2-eyebrow mb-4" style={{ color: goldColor }}>
+        <p className="v2-eyebrow mb-4" style={{ color: accentColor }}>
           {eyebrow}
         </p>
       )}
@@ -34,11 +37,11 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {title}
       </h2>
       <div className="flex items-center justify-center gap-3 mt-4 mb-4">
-        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, transparent, ${goldColor})` }} />
-        <svg width="10" height="10" viewBox="0 0 24 24" fill={goldColor} aria-hidden="true">
+        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, transparent, ${accentColor})` }} />
+        <svg width="10" height="10" viewBox="0 0 24 24" fill={accentColor} aria-hidden="true">
           <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.94 3.68 2 6.5 2c1.87 0 3.715.99 4.925 2.525A6.05 6.05 0 0 1 16.5 2C19.32 2 22 3.94 22 7.191c0 4.105-5.37 8.863-11 14.402z" />
         </svg>
-        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, ${goldColor}, transparent)` }} />
+        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, ${accentColor}, transparent)` }} />
       </div>
       {subtitle && (
         <p className="v2-body-italic max-w-md mx-auto" style={{ color: subColor }}>
