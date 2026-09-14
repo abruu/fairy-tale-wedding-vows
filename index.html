@@ -23,9 +23,17 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts are requested from the app stylesheet; warm the connections early -->
+    <!-- Fonts: loaded as <link> tags (not CSS @import, which forces an extra
+         blocking round-trip before the browser even discovers the font
+         request) so the HTML preloader can fetch them in parallel with
+         everything else. Combines the families/weights every page's
+         stylesheet needs (index.css, coming-soon.css, v2.css). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&family=Josefin+Sans:wght@200;300;400;500;600&family=Jost:wght@300;400;500&family=Parisienne&display=swap"
+    />
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="%WEDDING_NAMES%" />

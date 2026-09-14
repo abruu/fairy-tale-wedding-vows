@@ -17,6 +17,15 @@ type Phase = "start" | "playing";
 const POSTER_FALLBACK_MS = 3000;
 const SKIP_DELAY_MS = 1000;
 const MOBILE_BREAKPOINT = 767;
+/**
+ * Absolute upper bound from the Start tap, cleared only by `triggerComplete`
+ * itself (never by `playing`). Playback can start and then stall mid-way —
+ * a slow connection re-buffering, the tab losing focus, iOS pausing a
+ * silently-failed autoplay — after which no further `timeupdate`/`ended`
+ * event ever arrives. Without this, that stall left visitors stuck on the
+ * intro forever instead of reaching the site.
+ */
+const HARD_CEILING_MS = 9000;
 
 const container = {
   hidden: {},
@@ -38,8 +47,8 @@ const formatDate = (iso: string) =>
  * replays in full on every load; nothing is remembered.
  *
  * The reveal has exactly one owner: `triggerComplete`, guarded by
- * `revealedRef` so whichever of the three possible causes (the 4s cue, the
- * video ending, an error/stall) happens first wins and the rest no-op. It
+ * `revealedRef` so whichever cause happens first (the 4s cue, the video
+ * ending, an error, or the hard ceiling) wins and the rest no-op. It
  * runs a glow-of-light bloom, then fades the whole scene out — no curtain
  * wipe — to uncover the Hero, which is already mounted beneath this fixed
  * overlay.
@@ -56,11 +65,13 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
   const glowRef = useRef<HTMLDivElement>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const skipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hardCeilingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prefersReduced = useReducedMotion();
 
   const clearTimers = useCallback(() => {
     if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
     if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
+    if (hardCeilingTimerRef.current) clearTimeout(hardCeilingTimerRef.current);
   }, []);
 
   /** The single entry point to the reveal. Safe to call from any trigger. */
@@ -108,6 +119,13 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
       console.warn("[intro] video did not start within 3s — skipping to hero");
       triggerComplete();
     }, POSTER_FALLBACK_MS);
+    // Not cleared by `playing` — guards against playback starting then
+    // stalling (buffering, backgrounded tab) with no further event ever
+    // reaching handleTimeUpdate/onEnded.
+    hardCeilingTimerRef.current = setTimeout(() => {
+      console.warn("[intro] hard ceiling reached — forcing reveal");
+      triggerComplete();
+    }, HARD_CEILING_MS);
 
     void playPromise?.catch((err: unknown) => {
       console.warn("[intro] video play() rejected:", err);

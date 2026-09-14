@@ -4,7 +4,7 @@
    except the scroll lock helper on <html>/<body>.
    ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Parisienne&display=swap");
+/* Fonts: loaded via <link> in index.html, not @import — see that file for why. */
 
 /* ── Scroll lock: the experience is exactly one screen ───────── */
 html.cs-lock,
@@ -915,21 +915,25 @@ html.cs-lock body {
 }
 .cs-eq span {
   width: 2px;
+  height: 100%;
   background: var(--gold);
   border-radius: 1px;
+  /* transform, not height — height animates the layout box every frame,
+     transform is compositor-only. */
+  transform-origin: bottom;
 }
 /* Idle: reads as a small static equalizer rather than a row of dots */
 .cs-eq span:nth-child(1) {
-  height: 45%;
+  transform: scaleY(0.45);
 }
 .cs-eq span:nth-child(2) {
-  height: 80%;
+  transform: scaleY(0.8);
 }
 .cs-eq span:nth-child(3) {
-  height: 58%;
+  transform: scaleY(0.58);
 }
 .cs-eq span:nth-child(4) {
-  height: 92%;
+  transform: scaleY(0.92);
 }
 .cs-eq--on span {
   animation: cs-eq 1s ease-in-out infinite;
@@ -946,10 +950,10 @@ html.cs-lock body {
 @keyframes cs-eq {
   0%,
   100% {
-    height: 28%;
+    transform: scaleY(0.28);
   }
   50% {
-    height: 100%;
+    transform: scaleY(1);
   }
 }
 
@@ -1411,15 +1415,19 @@ html.cs-lock body {
   animation-delay: var(--d, 0s);
 }
 @keyframes cs-letter {
+  /* No `filter: blur()` here on purpose — this reveal fires once per letter
+     of the couple's names, all staggered within the same ~1s window right
+     after the entry tap. Blur forces its own compositor layer per element;
+     with ~10 letters animating at once that stacks into a visible stutter
+     at the single moment visitors are most likely to notice it. Opacity +
+     transform give the same soft rise without the compositing cost. */
   from {
     opacity: 0;
     transform: translateY(0.28em) scale(0.96);
-    filter: blur(6px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: blur(0);
   }
 }
 
@@ -1481,6 +1489,14 @@ html.cs-lock body {
   }
   .cs-frame__corner {
     opacity: 0.26;
+  }
+  /* Both are full-viewport backdrop-filters — the priciest kind on a phone
+     GPU. Lighter radius keeps the frosted look without the full cost. */
+  .cs-gate {
+    backdrop-filter: blur(3px);
+  }
+  .cs-modal {
+    backdrop-filter: blur(4px);
   }
   .cs-bg__wash {
     animation-duration: 48s;

@@ -8,12 +8,14 @@ const WAVE_DELAYS = ['0s', '0.15s', '0.3s', '0.45s', '0.3s'];
 interface MusicPlayerV2Props {
   autoPlay?: boolean;
   forcePlayRef?: React.MutableRefObject<(() => void) | null>;
+  /** Current page scroll position — used to keep the player clear of the Hero's CTA. */
+  scrollY?: number;
 }
 
 /**
  * Elegant floating music player with glassmorphism and gold accents.
  */
-export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, forcePlayRef }) => {
+export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, forcePlayRef, scrollY = 0 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
@@ -87,8 +89,13 @@ export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, 
     setIsMuted(!isMuted);
   };
 
+  // The Hero's "View Invitation" CTA sits directly under this fixed corner
+  // widget on short/mobile viewports — hidden until scrolled past it rather
+  // than fighting for the same pixels.
+  const pastHero = scrollY > (typeof window !== 'undefined' ? window.innerHeight * 0.85 : 600);
+
   return (
-    <div className="v2-music-player">
+    <div className={`v2-music-player ${pastHero ? '' : 'v2-music-player--hidden'}`}>
       <motion.button
         onClick={togglePlay}
         className="v2-music-btn"

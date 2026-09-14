@@ -3,7 +3,7 @@
    Deep Charcoal · Ink · Antique Gold · Emerald Accent · Sacred Gold
    ═══════════════════════════════════════════════════════════════ */
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Josefin+Sans:wght@200;300;400;500;600&display=swap");
+/* Fonts: loaded via <link> in index.html, not @import — see that file for why. */
 
 /* ─── Design Tokens ─── */
 :root {
@@ -1376,6 +1376,15 @@
   transition: all 0.3s ease;
 }
 
+/* Held back until the visitor scrolls past the Hero — see MusicPlayerV2's
+   `pastHero` check. Its fixed bottom-right corner is exactly where the
+   Hero's "View Invitation" CTA lands on short/mobile viewports. */
+.v2-music-player--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+}
+
 .v2-music-btn {
   width: 40px;
   height: 40px;
@@ -1432,6 +1441,26 @@
   }
 }
 
+/* ─── Mobile perf: lighter backdrop-filter on fixed chrome ───
+   backdrop-filter on a fixed-position element forces the browser to
+   resample whatever scrolls beneath it on every single frame — one of the
+   biggest drivers of scroll jank on mid-range phones. Each background below
+   is already near-opaque, so a lighter blur radius costs far less while
+   reading almost identically. */
+@media (max-width: 768px) {
+  .v2-nav {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .v2-back-to-top {
+    backdrop-filter: blur(6px);
+  }
+  .v2-music-player {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 /* ─── Lightbox ─── */
 .v2-lightbox {
   position: fixed;
@@ -1440,8 +1469,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Near-opaque already — backdrop-filter would add cost for no visible gain. */
   background: rgba(13, 12, 11, 0.95);
-  backdrop-filter: blur(8px);
   animation: v2-fade-in 0.3s ease;
 }
 

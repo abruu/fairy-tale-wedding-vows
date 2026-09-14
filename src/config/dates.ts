@@ -159,8 +159,8 @@ export const WEDDING_CONFIG = {
   media: {
     youtubeUrl: "", // TODO: fill in real video URL if used
     musicUrl: "/music/msuic1.mp3",
-    /** Hero background image */
-    heroBgImage: "/abrinelsa/abrinelsa.jpg", // TODO: replace with a real hero photo once gallery assets are ready
+    /** Hero background image — webp: same photo as abrinelsa.jpg at ~40% the size */
+    heroBgImage: "/abrinelsa/abrinelsa.webp", // TODO: replace with a real hero photo once gallery assets are ready
     /** OG / share image (absolute URL for social crawlers) */
     ogImage: absoluteUrl("/og-abrin-elsa.jpg"),
     /** Intro sequence video (desktop) */

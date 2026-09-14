@@ -45,7 +45,7 @@ const WeddingV2: React.FC = () => {
   const [openingComplete, setOpeningComplete] = useState(postWedding);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const activeSection = useActiveSection(SECTION_IDS);
-  const { progress } = useScrollProgress();
+  const { progress, scrollY } = useScrollProgress();
   const forcePlayRef = useRef<(() => void) | null>(null);
 
   const handleNavigate = useCallback(
@@ -125,6 +125,7 @@ const WeddingV2: React.FC = () => {
       <MusicPlayerV2
         autoPlay={openingComplete && WEDDING_CONFIG.features.autoPlayMusic}
         forcePlayRef={forcePlayRef}
+        scrollY={scrollY}
       />
 
       {/* Back to Top */}
