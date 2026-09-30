@@ -1114,6 +1114,25 @@
   color: var(--ivory);
 }
 .v2-intro.is-start { cursor: pointer; }
+/* The slow push-in animates this wrapper, never the <video> element itself —
+   animating a video's own transform makes some browsers (notably iOS Safari)
+   recomposite its decoded frames out of step with the CSS animation, which
+   shows up as a visible wiggle/jitter. A plain div doesn't have that problem. */
+.v2-intro-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  /* a slow, barely-there push-in gives the still doors a cinematic pulse of life */
+  animation: v2-intro-kenburns 24s ease-in-out infinite alternate;
+}
+@keyframes v2-intro-kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
+}
 .v2-intro-video {
   position: absolute;
   inset: 0;
@@ -1122,12 +1141,6 @@
   object-fit: cover;
   /* the doors sit a little above centre in the portrait clip */
   object-position: 50% 45%;
-  /* a slow, barely-there push-in gives the still doors a cinematic pulse of life */
-  animation: v2-intro-kenburns 24s ease-in-out infinite alternate;
-}
-@keyframes v2-intro-kenburns {
-  from { transform: scale(1); }
-  to { transform: scale(1.07); }
 }
 /* Dark bands top and bottom so the names and button read over the bright temple,
    plus a soft vertical vignette that pulls focus toward the centre */
@@ -1161,20 +1174,6 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 250, 235, 0.97) 0%, rgba(242, 200, 110, 0.6) 35%, rgba(201, 162, 39, 0) 70%);
   pointer-events: none;
-}
-
-/* Ambient jasmine petals — reuses the site's existing drift keyframes (see
-   .v2-petal), just with their own z-index so they sit behind the text panel. */
-.v2-intro-petal {
-  position: absolute;
-  z-index: 1;
-  opacity: 0.75;
-  pointer-events: none;
-  animation-name: v2-petal-drift;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
 .v2-intro-content {
@@ -1287,5 +1286,5 @@
 }
 .v2-intro-skip:hover { background: var(--marigold); color: var(--text); }
 @media (prefers-reduced-motion: reduce) {
-  .v2-intro-cta, .v2-intro-video, .v2-intro-petal { animation: none; }
+  .v2-intro-cta, .v2-intro-media { animation: none; }
 }

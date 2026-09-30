@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, DoorOpen, Volume2 } from "lucide-react";
-import { WEDDING_CONFIG, asset } from "@/config/dates";
+import { WEDDING_CONFIG } from "@/config/dates";
 import { T, useLang } from "../../lib/i18n";
 import { couplePeople } from "../../lib/couple";
 import { formatDate } from "../../lib/format";
@@ -25,16 +25,6 @@ const SKIP_DELAY_MS = 1000;
  * without this a visitor could be stuck on the doors forever.
  */
 const HARD_CEILING_MS = (WEDDING_CONFIG.intro.revealAtSeconds + 3) * 1000;
-
-/** Gentle floating jasmine petals — purely decorative, CSS-driven (no scroll link). */
-const PETALS = [
-  { top: "10%", left: "12%", size: 22, delay: "-1s", duration: "11s" },
-  { top: "18%", left: "82%", size: 16, delay: "-4s", duration: "9s" },
-  { top: "62%", left: "6%", size: 18, delay: "-7s", duration: "13s" },
-  { top: "70%", left: "90%", size: 24, delay: "-2.5s", duration: "10s" },
-  { top: "40%", left: "94%", size: 14, delay: "-6s", duration: "12s" },
-  { top: "85%", left: "40%", size: 18, delay: "-3.5s", duration: "8.5s" },
-];
 
 /**
  * Opening screen: the temple-door video's first frame with the couple's names
@@ -136,44 +126,29 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
         if (revealedRef.current) onComplete();
       }}
     >
-      {/* `muted`: the clip has no soundtrack of its own — Ullam-Paadum plays alongside it.
-          nudging currentTime paints the first frame while paused */}
-      <video
-        ref={videoRef}
-        className="v2-intro-video"
-        src={WEDDING_CONFIG.intro.video}
-        muted
-        playsInline
-        preload="auto"
-        onLoadedMetadata={(e) => {
-          e.currentTarget.currentTime = 0.01;
-        }}
-        onPlaying={() => startFallbackRef.current && clearTimeout(startFallbackRef.current)}
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={reveal}
-        onError={reveal}
-      />
+      {/* The push-in zoom animates this wrapper, not the <video> itself — see
+          the CSS comment on .v2-intro-media for why that avoids a wiggle. */}
+      <div className="v2-intro-media" aria-hidden="true">
+        {/* `muted`: the clip has no soundtrack of its own — Ullam-Paadum plays alongside it.
+            nudging currentTime paints the first frame while paused */}
+        <video
+          ref={videoRef}
+          className="v2-intro-video"
+          src={WEDDING_CONFIG.intro.video}
+          muted
+          playsInline
+          preload="auto"
+          onLoadedMetadata={(e) => {
+            e.currentTarget.currentTime = 0.01;
+          }}
+          onPlaying={() => startFallbackRef.current && clearTimeout(startFallbackRef.current)}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={reveal}
+          onError={reveal}
+        />
+      </div>
       <div className="v2-intro-shade" aria-hidden="true" />
       <div className="v2-intro-vignette" aria-hidden="true" />
-
-      {/* Ambient jasmine petals drifting behind the text — pure CSS, no scroll link */}
-      {PETALS.map((p, i) => (
-        <img
-          key={i}
-          className="v2-intro-petal"
-          src={asset("jasmine-petals")}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          style={{
-            top: p.top,
-            left: p.left,
-            width: p.size,
-            animationDelay: p.delay,
-            animationDuration: p.duration,
-          }}
-        />
-      ))}
 
       {/* Warm light blooming out of the open doors at the reveal */}
       <motion.div
