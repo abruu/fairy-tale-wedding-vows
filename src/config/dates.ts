@@ -263,7 +263,7 @@ export const WEDDING_CONFIG = {
       src: "/photos/gallery-4.webp",
       alt: "Amal and Arya hugging in the meadow",
     },
-    { src: "/photos/gallery-5.webp", alt: "Amal and Arya, candid moments" },
+    { src: "/photos/gallery-5.webp", alt: "Amal and Arya, candid  moments" },
     { src: "/photos/gallery-6.webp", alt: "Amal and Arya among the trees" },
     {
       src: "/photos/gallery-7.webp",
