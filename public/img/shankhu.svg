@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+<!-- Placeholder art: replace with shankhu.png (500x400, transparent) -->
+<path d="M60,210 C60,110 200,40 330,60 C420,74 470,140 460,190 C450,250 380,300 290,320 C200,340 120,330 80,290 C66,270 60,240 60,210 Z" fill="#FFF8E7" stroke="#9C7A16" stroke-width="8"/>
+<path d="M330,60 C360,110 360,170 330,210 C300,250 240,260 200,240" stroke="#E8D3A9" stroke-width="14" fill="none"/>
+<path d="M420,110 C455,95 480,100 490,120 C470,130 450,140 440,160 Z" fill="#E8D3A9" stroke="#9C7A16" stroke-width="6"/>
+<path d="M100,250 Q200,300 310,280" stroke="#E8D3A9" stroke-width="8" fill="none"/>
+<path d="M80,290 C40,310 20,340 30,370 C70,360 100,330 120,318 Z" fill="#E8D3A9" stroke="#9C7A16" stroke-width="6"/>
+<path d="M150,120 C200,95 260,90 300,100" stroke="#C9A227" stroke-width="10" fill="none" stroke-linecap="round"/>
+<circle cx="160" cy="180" r="12" fill="#C8102E"/><circle cx="200" cy="170" r="8" fill="#C9A227"/><circle cx="125" cy="195" r="8" fill="#C9A227"/>
+</svg>

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useScrollDirection } from "../../hooks/useScrollDirection";
-import { CrossMotif } from "../shared/CrossMotif";
+import { useLang } from "../../lib/i18n";
+import { couplePeople } from "../../lib/couple";
+import type { TranslationKey } from "../../lib/translations";
+import { LanguageToggle } from "./LanguageToggle";
 
-interface NavItem {
+export interface NavItem {
   id: string;
-  label: string;
+  label: TranslationKey;
 }
 
 interface NavigationProps {
@@ -16,19 +18,22 @@ interface NavigationProps {
 }
 
 /**
- * Thin fixed-top blurred-dark nav bar with a gold-underline active
- * indicator and a cross-motif logo mark. Always stays visible/sticky —
- * never hides on scroll, only gains a stronger backdrop once scrolled.
+ * Sticky minimal nav: the couple's initials on the left, section links (collapsing
+ * to a hamburger panel under 1200px) and the language switch on the right.
+ * Transparent over the hero, gains an ivory backdrop once scrolled.
  */
 export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { scrolled } = useScrollDirection(10);
+  const { t } = useLang();
+  // Initials monogram ("A&A") keeps the bar compact on phones in both languages
+  const [first, second] = couplePeople("en");
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
   const handleNavClick = (id: string) => {
@@ -37,31 +42,50 @@ export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, on
   };
 
   return (
-    <motion.nav
-      className={`v2-nav ${scrolled ? "scrolled" : ""} ${mobileOpen ? "open" : ""}`}
-      aria-label="Main navigation"
-      initial={{ y: 0, opacity: 1 }}
-      animate={{ y: 0, opacity: 1 }}
-    >
-      <CrossMotif size={16} className="v2-nav-logo" />
-
-      <div className="v2-nav-links">
-        {items.map((item) => (
-          <button
-            key={item.id}
-            className={`v2-nav-link ${activeSection === item.id ? "active" : ""}`}
-            onClick={() => handleNavClick(item.id)}
-            aria-current={activeSection === item.id ? "true" : undefined}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
-      <span className="v2-nav-mobile-label">{items.find((it) => it.id === activeSection)?.label || "Menu"}</span>
-      <button className="v2-nav-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen}>
-        {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+    <nav className={`v2-nav ${scrolled || mobileOpen ? "scrolled" : ""}`} aria-label="Main navigation">
+      <button
+        type="button"
+        className="v2-nav-brand"
+        lang="en"
+        aria-label={`${first.nameEn} & ${second.nameEn} · ${t("a11y.home")}`}
+        onClick={() => handleNavClick(items[0].id)}
+      >
+        {first.nameEn[0]}
+        <span className="v2-nav-amp">&amp;</span>
+        {second.nameEn[0]}
       </button>
-    </motion.nav>
+
+      <ul id="v2-nav-links" className={`v2-nav-links ${mobileOpen ? "open" : ""}`}>
+        {items.map((item) => (
+          <li key={item.id}>
+            <a
+              href={`#${item.id}`}
+              className={`v2-nav-link ${activeSection === item.id ? "active" : ""}`}
+              aria-current={activeSection === item.id ? "location" : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick(item.id);
+              }}
+            >
+              {t(item.label)}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div className="v2-nav-actions">
+        <LanguageToggle />
+        <button
+          type="button"
+          className="v2-nav-toggle"
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-label={mobileOpen ? t("a11y.closeMenu") : t("a11y.openMenu")}
+          aria-expanded={mobileOpen}
+          aria-controls="v2-nav-links"
+        >
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+    </nav>
   );
 };

@@ -1,33 +1,18 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { Expand } from "lucide-react";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { SectionHeader } from "../shared/SectionHeader";
+import { useLang } from "../../lib/i18n";
 import { Lightbox } from "../shared/Lightbox";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { Px } from "../shared/Px";
+import { Reveal } from "../shared/Reveal";
+import { SectionHeader } from "../shared/SectionHeader";
 
-/**
- * Editorial gallery — a simple masonry grid, fewer/bigger tiles with
- * generous gutters, click any tile to open the lightbox.
- */
+/** Responsive square grid (2 → 3 → 4 columns), lazy-loaded, opens the lightbox. */
 export const GallerySection: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const images = WEDDING_CONFIG.gallery.images;
-
-  const heights = [
-    "380px",
-    "300px",
-    "440px",
-    "340px",
-    "400px",
-    "320px",
-    "420px",
-    "340px",
-    "360px",
-    "300px",
-    "400px",
-    "340px",
-  ];
+  const { t } = useLang();
+  const images = WEDDING_CONFIG.gallery;
 
   const openLightbox = (idx: number) => {
     setLightboxIndex(idx);
@@ -35,42 +20,36 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section
-      id="gallery"
-      style={{
-        position: "relative",
-        background: "var(--v2-deep-charcoal)",
-        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "72rem",
-          margin: "0 auto",
-        }}
-      >
-        <SectionHeader
-          eyebrow="Our Gallery"
-          title="Moments in Time"
-          subtitle="Captured memories of our journey together"
-          variant="dark"
-        />
+    <section id="gallery" className="v2-section v2-bg-sandal" aria-labelledby="gallery-title">
+      <Px name="mural-corner" speed={0} className="v2-mural v2-mural--tl" />
+      <Px name="mural-corner" speed={0} flip="x" className="v2-mural v2-mural--tr" />
+      <Px name="mural-corner" speed={0} flip="y" className="v2-mural v2-mural--bl" />
+      <Px name="mural-corner" speed={0} flip="xy" className="v2-mural v2-mural--br" />
+      <Px name="chirathu" speed={0.1} className="v2-gallery-diya v2-gallery-diya--left" />
+      <Px name="chirathu" speed={0.1} flip="x" className="v2-gallery-diya v2-gallery-diya--right" />
 
-        <div className="v2-gallery-masonry" style={{ marginTop: "4rem" }}>
+      <div className="v2-container">
+        <SectionHeader id="gallery-title" eyebrow="gallery.eyebrow" title="gallery.title" />
+
+        <ul className="v2-gallery-grid">
           {images.map((img, i) => (
-            <GalleryItem
-              key={i}
-              src={img.src}
-              alt={img.alt}
-              height={heights[i % heights.length]}
-              index={i}
-              onClick={() => openLightbox(i)}
-            />
+            <li key={img.src}>
+              <Reveal delay={(i % 4) * 0.06}>
+                <button
+                  type="button"
+                  className="v2-gallery-item"
+                  onClick={() => openLightbox(i)}
+                  aria-label={`${t("gallery.open")}: ${img.alt}`}
+                >
+                  <img src={img.src} alt="" loading="lazy" decoding="async" width={480} height={600} />
+                  <span className="v2-gallery-overlay" aria-hidden="true">
+                    <Expand size={20} />
+                  </span>
+                </button>
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       <Lightbox
@@ -81,57 +60,5 @@ export const GallerySection: React.FC = () => {
         onNavigate={setLightboxIndex}
       />
     </section>
-  );
-};
-
-interface GalleryItemProps {
-  src: string;
-  alt: string;
-  height: string;
-  index: number;
-  onClick: () => void;
-}
-
-const GalleryItem: React.FC<GalleryItemProps> = ({
-  src,
-  alt,
-  height,
-  index,
-  onClick,
-}) => {
-  const prefersReduced = useReducedMotion();
-
-  return (
-    <motion.div
-      className="v2-gallery-item"
-      onClick={onClick}
-      initial={prefersReduced ? undefined : { opacity: 0, scale: 0.94 }}
-      whileInView={prefersReduced ? undefined : { opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{
-        duration: 0.7,
-        delay: (index % 3) * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-      style={{
-        gridRowEnd: `span ${Math.ceil((parseInt(height, 10) + 28) / (10 + 28))}`,
-        height: "100%",
-        cursor: "pointer",
-      }}
-    >
-      <img src={src} alt={alt} loading="lazy" />
-      <div className="v2-gallery-overlay">
-        <span
-          style={{
-            color: "var(--v2-ivory)",
-            fontFamily: "var(--v2-font-display)",
-            fontStyle: "italic",
-            fontSize: "0.85rem",
-          }}
-        >
-          View
-        </span>
-      </div>
-    </motion.div>
   );
 };

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+<!-- Placeholder art: replace with jasmine-petals.png (400x400, transparent) -->
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(0 200 200)"/>
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(60 200 200)"/>
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(120 200 200)"/>
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(180 200 200)"/>
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(240 200 200)"/>
+<ellipse cx="200" cy="112" rx="46" ry="92" fill="#FFFFFF" stroke="#E8D3A9" stroke-width="6" transform="rotate(300 200 200)"/>
+<circle cx="200" cy="200" r="40" fill="#F2A900"/>
+<circle cx="200" cy="200" r="18" fill="#9C7A16"/>
+</svg>

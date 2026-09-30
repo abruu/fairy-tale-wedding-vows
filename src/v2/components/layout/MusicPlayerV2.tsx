@@ -1,143 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
-import { WEDDING_CONFIG } from '@/config/dates';
-
-const WAVE_DELAYS = ['0s', '0.15s', '0.3s', '0.45s', '0.3s'];
+import React from "react";
+import { Music, Pause, VolumeX } from "lucide-react";
+import { useLang } from "../../lib/i18n";
+import type { BackgroundMusic } from "../../hooks/useBackgroundMusic";
 
 interface MusicPlayerV2Props {
-  autoPlay?: boolean;
-  forcePlayRef?: React.MutableRefObject<(() => void) | null>;
-  /** Current page scroll position — used to keep the player clear of the Hero's CTA. */
-  scrollY?: number;
+  music: BackgroundMusic;
 }
 
 /**
- * Elegant floating music player with glassmorphism and gold accents.
+ * Background-music toggle. The song itself (see useBackgroundMusic) may
+ * already be playing by the time this mounts — it's started in the same tap
+ * that opens the intro video — so this is a pause/resume control, not the
+ * thing that first requests the file.
  */
-export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, forcePlayRef, scrollY = 0 }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [audioLoaded, setAudioLoaded] = useState(false);
-  const [autoplayFailed, setAutoplayFailed] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ music }) => {
+  const { status, toggle } = music;
+  const { t } = useLang();
 
-  const audioSrc = WEDDING_CONFIG.media.musicUrl;
-
-  useEffect(() => {
-    const audio = new Audio(audioSrc);
-    audio.loop = true;
-    audio.preload = 'auto';
-    audio.oncanplaythrough = () => setAudioLoaded(true);
-    audioRef.current = audio;
-    return () => {
-      audio.pause();
-      audio.src = '';
-    };
-  }, [audioSrc]);
-
-  useEffect(() => {
-    if (!audioRef.current || !autoPlay || !audioLoaded) return;
-    audioRef.current.play()
-      .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
-      .catch(() => { setIsPlaying(false); setAutoplayFailed(true); });
-  }, [autoPlay, audioLoaded]);
-
-  useEffect(() => {
-    if (!forcePlayRef) return;
-    forcePlayRef.current = () => {
-      if (!audioRef.current) return;
-      audioRef.current.play()
-        .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
-        .catch(() => { setAutoplayFailed(true); });
-    };
-    return () => { if (forcePlayRef) forcePlayRef.current = null; };
-  }, [forcePlayRef, audioLoaded]);
-
-  useEffect(() => {
-    const retry = () => {
-      if (!audioRef.current || !autoPlay || !autoplayFailed) return;
-      audioRef.current.play()
-        .then(() => { setIsPlaying(true); setAutoplayFailed(false); })
-        .catch(() => {});
-    };
-    document.addEventListener('click', retry);
-    document.addEventListener('keydown', retry);
-    document.addEventListener('touchstart', retry);
-    return () => {
-      document.removeEventListener('click', retry);
-      document.removeEventListener('keydown', retry);
-      document.removeEventListener('touchstart', retry);
-    };
-  }, [autoPlay, autoplayFailed]);
-
-  const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    }
-  };
-
-  const toggleMute = () => {
-    if (!audioRef.current) return;
-    audioRef.current.muted = !isMuted;
-    setIsMuted(!isMuted);
-  };
-
-  // The Hero's "View Invitation" CTA sits directly under this fixed corner
-  // widget on short/mobile viewports — hidden until scrolled past it rather
-  // than fighting for the same pixels.
-  const pastHero = scrollY > (typeof window !== 'undefined' ? window.innerHeight * 0.85 : 600);
+  const label =
+    status === "playing" ? t("music.pause") : status === "unavailable" ? t("music.unavailable") : t("music.play");
 
   return (
-    <div className={`v2-music-player ${pastHero ? '' : 'v2-music-player--hidden'}`}>
-      <motion.button
-        onClick={togglePlay}
-        className="v2-music-btn"
-        aria-label={isPlaying ? 'Pause music' : 'Play music'}
-        whileTap={{ scale: 0.88 }}
-      >
-        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-      </motion.button>
-
-      <div
-        className="v2-music-wave"
-        style={{ opacity: isPlaying ? 1 : 0, transition: 'opacity 0.3s' }}
-        aria-hidden="true"
-      >
-        {WAVE_DELAYS.map((delay, i) => (
-          <div
-            key={i}
-            className="v2-music-wave-bar"
-            style={{
-              height: '100%',
-              animationDelay: delay,
-              animationPlayState: isPlaying ? 'running' : 'paused',
-            }}
-          />
-        ))}
-      </div>
-
-      <button
-        onClick={toggleMute}
-        aria-label={isMuted ? 'Unmute' : 'Mute'}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          color: 'var(--v2-gold)',
-          padding: '4px',
-          opacity: 0.7,
-          transition: 'opacity 0.2s',
-        }}
-      >
-        {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-      </button>
-    </div>
+    <button
+      type="button"
+      className={`v2-fab v2-music-btn ${status}`}
+      onClick={toggle}
+      aria-label={label}
+      aria-pressed={status === "playing"}
+      aria-disabled={status === "unavailable"}
+      title={label}
+    >
+      {status === "playing" ? <Pause size={18} /> : status === "unavailable" ? <VolumeX size={18} /> : <Music size={18} />}
+      {status === "playing" && <span className="v2-music-ring" aria-hidden="true" />}
+    </button>
   );
 };

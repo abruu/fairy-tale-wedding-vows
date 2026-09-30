@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+<!-- Placeholder art: replace with elephant-nettipattam.png (800x800, transparent) -->
+<path d="M180,250 C40,260 30,520 170,560 C230,575 260,480 250,380 Z" fill="#5E1621"/>
+<path d="M620,250 C760,260 770,520 630,560 C570,575 540,480 550,380 Z" fill="#5E1621"/>
+<path d="M400,120 C560,120 620,260 600,380 C590,470 520,520 470,560 L460,760 C460,790 420,800 400,780 L370,760 C390,720 380,640 340,560 C280,520 210,470 200,380 C180,260 240,120 400,120 Z" fill="#7B1E2B"/>
+<path d="M330,560 C300,640 250,660 230,650 C270,630 290,590 300,540 Z" fill="#FFF8E7"/>
+<path d="M470,560 C500,640 550,660 570,650 C530,630 510,590 500,540 Z" fill="#FFF8E7"/>
+<path d="M290,150 L510,150 C520,300 480,470 400,600 C320,470 280,300 290,150 Z" fill="#C9A227" stroke="#C8102E" stroke-width="10"/>
+<circle cx="320.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="352.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="384.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="416.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="448.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="480.0" cy="185" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="328.5" cy="225" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="364.2" cy="225" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="400.0" cy="225" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="435.8" cy="225" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="471.5" cy="225" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="337.0" cy="265" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="368.5" cy="265" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="400.0" cy="265" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="431.5" cy="265" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="463.0" cy="265" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="345.5" cy="305" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="381.8" cy="305" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="418.2" cy="305" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="454.5" cy="305" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="354.0" cy="345" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="384.7" cy="345" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="415.3" cy="345" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="446.0" cy="345" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="362.5" cy="385" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="400.0" cy="385" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="437.5" cy="385" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="371.0" cy="425" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="429.0" cy="425" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="379.5" cy="465" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="420.5" cy="465" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="400.0" cy="505" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<circle cx="400.0" cy="545" r="12" fill="#E8C75A" stroke="#9C7A16" stroke-width="3"/>
+<path d="M340,140 Q400,90 460,140 Q400,120 340,140 Z" fill="#E8C75A"/>
+<line x1="300" y1="150" x2="300" y2="110" stroke="#9C7A16" stroke-width="4"/><circle cx="300" cy="104" r="10" fill="#C8102E"/>
+<line x1="350" y1="150" x2="350" y2="110" stroke="#9C7A16" stroke-width="4"/><circle cx="350" cy="104" r="10" fill="#C8102E"/>
+<line x1="400" y1="150" x2="400" y2="110" stroke="#9C7A16" stroke-width="4"/><circle cx="400" cy="104" r="10" fill="#C8102E"/>
+<line x1="450" y1="150" x2="450" y2="110" stroke="#9C7A16" stroke-width="4"/><circle cx="450" cy="104" r="10" fill="#C8102E"/>
+<line x1="500" y1="150" x2="500" y2="110" stroke="#9C7A16" stroke-width="4"/><circle cx="500" cy="104" r="10" fill="#C8102E"/>
+</svg>

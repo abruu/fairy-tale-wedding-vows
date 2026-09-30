@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 900" width="400" height="900">
+<!-- Placeholder art: replace with thookku-vilakku.png (400x900, transparent) -->
+<ellipse cx="200" cy="14" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="44" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="74" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="104" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="134" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="164" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="194" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="224" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="254" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<ellipse cx="200" cy="284" rx="9" ry="15" fill="none" stroke="#9C7A16" stroke-width="5"/>
+<path d="M200,300 L120,380 L280,380 Z" fill="#C9A227"/>
+<path d="M200,280 C225,300 225,320 200,330 C175,320 175,300 200,280 Z" fill="#E8C75A"/>
+<line x1="130" y1="380" x2="95" y2="600" stroke="#9C7A16" stroke-width="4"/>
+<line x1="200" y1="380" x2="200" y2="600" stroke="#9C7A16" stroke-width="4"/>
+<line x1="270" y1="380" x2="305" y2="600" stroke="#9C7A16" stroke-width="4"/>
+<path d="M80,600 Q200,700 320,600 Z" fill="#C9A227"/>
+<ellipse cx="200" cy="600" rx="120" ry="16" fill="#9C7A16"/>
+<path d="M110,544.0 C126.0,568.0 122.8,587.2 110,592 C97.2,587.2 94.0,568.0 110,544.0 Z" fill="#F2A900"/><path d="M110,564.8 C116.4,577.6 114.8,588.0 110,590.4 C105.2,588.0 103.6,577.6 110,564.8 Z" fill="#FFF8E7"/>
+<path d="M155,544.0 C171.0,568.0 167.8,587.2 155,592 C142.2,587.2 139.0,568.0 155,544.0 Z" fill="#F2A900"/><path d="M155,564.8 C161.4,577.6 159.8,588.0 155,590.4 C150.2,588.0 148.6,577.6 155,564.8 Z" fill="#FFF8E7"/>
+<path d="M200,544.0 C216.0,568.0 212.8,587.2 200,592 C187.2,587.2 184.0,568.0 200,544.0 Z" fill="#F2A900"/><path d="M200,564.8 C206.4,577.6 204.8,588.0 200,590.4 C195.2,588.0 193.6,577.6 200,564.8 Z" fill="#FFF8E7"/>
+<path d="M245,544.0 C261.0,568.0 257.8,587.2 245,592 C232.2,587.2 229.0,568.0 245,544.0 Z" fill="#F2A900"/><path d="M245,564.8 C251.4,577.6 249.8,588.0 245,590.4 C240.2,588.0 238.6,577.6 245,564.8 Z" fill="#FFF8E7"/>
+<path d="M290,544.0 C306.0,568.0 302.8,587.2 290,592 C277.2,587.2 274.0,568.0 290,544.0 Z" fill="#F2A900"/><path d="M290,564.8 C296.4,577.6 294.8,588.0 290,590.4 C285.2,588.0 283.6,577.6 290,564.8 Z" fill="#FFF8E7"/>
+<path d="M200,670 L200,760" stroke="#9C7A16" stroke-width="6"/><path d="M180,760 L220,760 L200,800 Z" fill="#C9A227"/>
+<circle cx="120" cy="690" r="7" fill="#7B1E2B"/>
+<circle cx="160" cy="704" r="7" fill="#7B1E2B"/>
+<circle cx="200" cy="690" r="7" fill="#7B1E2B"/>
+<circle cx="240" cy="704" r="7" fill="#7B1E2B"/>
+<circle cx="280" cy="690" r="7" fill="#7B1E2B"/>
+</svg>

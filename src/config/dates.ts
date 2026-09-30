@@ -1,287 +1,322 @@
-// Wedding event configuration — ALL content is driven from this config
+// Wedding configuration — ALL couple details for the site live in this
+// one file. Every field ending in `_en` / `_ml` is shown when that language is
+// active (English / Malayalam). UI labels live in src/v2/lib/translations.ts.
 
-/** Deployed site URL — used for absolute URLs in OG tags, share links, etc. */
-export const SITE_URL = "https://www.abrinelsa.in";
+// ─── Decorative art ───
+/**
+ * File extension of every decorative layer in /public/img. The placeholders
+ * are SVG; once the real transparent PNGs are dropped into /public/img with
+ * the same base names, change this one value to "png".
+ */
+export const ASSET_EXT: "svg" | "png" = "svg";
 
-/** Build an absolute URL from a root-relative path (e.g. "/abrinelsa/1.jpg" → "https://www.abrinelsa.in/abrinelsa/1.jpg") */
+export type AssetName =
+  | "gopuram"
+  | "nilavilakku"
+  | "marigold-garland"
+  | "coconut-fronds"
+  | "jasmine-petals"
+  | "kasavu-border"
+  | "elephant-nettipattam"
+  | "lotus"
+  | "mural-corner"
+  | "peacock-feather"
+  | "flute"
+  | "temple-bell"
+  | "thookku-vilakku"
+  | "nirapara"
+  | "shankhu"
+  | "chirathu"
+  | "kolam"
+  | "vettila";
+
+/** asset("nilavilakku") → "/img/nilavilakku.svg" (or .png, per ASSET_EXT) */
+export const asset = (name: AssetName) => `/img/${name}.${ASSET_EXT}`;
+
+/**
+ * Deployed site URL (no trailing slash). Link previews need absolute URLs, so
+ * the share image only shows on WhatsApp/Facebook once this is the real domain.
+ */
+export const SITE_URL = "https://www.example.com"; // TODO: your domain
+
+/** Build an absolute URL from a root-relative path. */
 export const absoluteUrl = (path: string) =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
-// ─── Canonical couple data ───
-const groomName = "Abrin"; // TODO: fill in full name
-const brideName = "Elsa"; // TODO: fill in full name
-/** Set to true to show bride's side first (bride-side website), false for groom first */
-const brideFirst = true;
-
-const firstPerson = brideFirst ? brideName : groomName;
-const secondPerson = brideFirst ? groomName : brideName;
-const firstShort = brideFirst
-  ? brideName.split(" ")[0]
-  : groomName.split(" ")[0];
-const secondShort = brideFirst
-  ? groomName.split(" ")[0]
-  : brideName.split(" ")[0];
-
 export const WEDDING_CONFIG = {
-  // ─── Couple & Content ───
+  // ─── Couple ───
+  // *Name = short name used in the hero/nav; *FullName = shown on the profile cards.
+  // Leave a field "" to hide that row (e.g. nakshatram, native place).
   couple: {
-    /** Canonical names (always groom then bride regardless of display order) */
-    groomName,
-    brideName,
-    /** Flag: true = bride's side shown first */
-    brideFirst,
-    /** Display names (computed from brideFirst flag) */
-    name1: firstPerson,
-    name2: secondPerson,
-    /** Short display (hero heading) */
-    displayNames: `${firstShort} & ${secondShort}`,
-    /** Hero tagline above names */
-    tagline: "Wedding Invitation",
-    /** Primary wedding message */
-    weddingMessage: "We are getting married",
-    /** Supporting sub-message */
-    supportingMessage:
-      '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate." — Matthew 19:6',
-    /** Venue line shown under date */
-    venue: "TODO: venue name · city", // TODO: fill in real wedding venue
-    // ─── Family / Invitation ───
-    groomParents: "TODO: groom's parents", // TODO: fill in
-    groomAddress: "TODO: groom's house address", // TODO: fill in
-    groomHouseShort: "TODO: House Name",
-    brideParents: "TODO: bride's parents", // TODO: fill in
-    brideAddress: "TODO: bride's house address", // TODO: fill in
-    brideHouseShort: "TODO: House Name",
-    invitationIntro:
-      "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
-    sharingHappiness: "",
-    brideSharingHappiness: "",
+    /** true = bride shown first everywhere (bride-side website), false = groom first */
+    brideFirst: false,
+    brideName_en: "Arya",
+    brideName_ml: "ആര്യ",
+    brideFullName_en: "Arya Vasudevan",
+    brideFullName_ml: "ആര്യ വാസുദേവൻ",
+    groomName_en: "Amal",
+    groomName_ml: "അമൽ",
+    groomFullName_en: "Amal Somasundaran",
+    groomFullName_ml: "അമൽ സോമസുന്ദരൻ",
+    brideNakshatram_en: "", // TODO: e.g. "Rohini"
+    brideNakshatram_ml: "", // TODO: e.g. "രോഹിണി"
+    groomNakshatram_en: "", // TODO
+    groomNakshatram_ml: "", // TODO
+    brideParents_en: "D/o Sri. Vasudevan Namboothiri & Smt. Sreekala C N",
+    brideParents_ml:
+      "ശ്രീ. വാസുദേവൻ നമ്പൂതിരിയുടെയും ശ്രീമതി. സി. എൻ. ശ്രീകലയുടെയും മകൾ",
+    groomParents_en: "S/o Sri. Somasundaran Koyyodan & Smt. Sudha Bindu",
+    groomParents_ml:
+      "ശ്രീ. സോമസുന്ദരൻ കൊയ്യോടന്റെയും ശ്രീമതി. സുധ ബിന്ദുവിന്റെയും മകൻ",
+    brideTharavad_en: "Thalavannattu Illam",
+    brideTharavad_ml: "തലവണ്ണാട്ട് ഇല്ലം",
+    groomTharavad_en: "Koyyodan House",
+    groomTharavad_ml: "കൊയ്യോടൻ വീട്",
+    brideNativePlace_en: "", // TODO: e.g. "Guruvayur, Thrissur"
+    brideNativePlace_ml: "", // TODO
+    groomNativePlace_en: "", // TODO: e.g. "Kannur"
+    groomNativePlace_ml: "", // TODO
+    /** Portrait photos (4:5). Replace with real .jpg/.webp files in /public. */
+    bridePhoto: "/photos/bride.webp",
+    groomPhoto: "/photos/groom.webp",
   },
 
-  // ─── Event Dates (ISO with timezone) ───--
-  dates: {
-    engagement: "2027-01-02T00:00:00+05:30", // TODO: set real engagement/betrothal date & time
-    wedding: "2027-01-02T00:00:00+05:30", // 2nd Jan 2027 — matches comingSoonConfig.weddingDate; update venue/time below
-  },
+  // ─── Wedding day ───
+  /** Wedding date, ISO yyyy-mm-dd */
+  weddingDate: "2026-11-15",
+  /** Muhurtham start / end, 24-hour hh:mm in `timezone` */
+  muhurthamTime: "10:30",
+  muhurthamEndTime: "11:00", // TODO: confirm end of the muhurtham window (only used as the calendar-invite end time)
+  /** UTC offset of the times above (India = +05:30) */
+  timezone: "+05:30",
+  /** Malayalam-calendar (Kollavarsham) date of the wedding */
+  malayalamDate_ml: "തുലാം 29, 1202", // TODO: verify against your panchangam / muhurtham letter
+  malayalamDate_en: "Thulam 29, 1202 ME",
 
-  // ─── Detailed Event Info ───
-  events: {
-    betrothal: {
-      dateLabel: "TODO: e.g. Saturday, 2nd January 2027", // TODO: fill in
-      time: "TODO: e.g. 11:30 AM",
-      venue: "TODO: betrothal venue",
-      mapsUrl: "",
-      receptionVenue: "",
-      receptionMapsUrl: "",
-    },
-    wedding: {
-      dateLabel: "TODO: e.g. Saturday, 2nd January 2027", // TODO: fill in
-      time: "TODO: e.g. 11:30 AM",
-      venue: "TODO: wedding venue",
-      mapsUrl: "",
-      receptionVenue: "TODO: reception venue",
-      receptionMapsUrl: "",
-    },
-  },
-
-  // ─── Post-Wedding Mode ───
-  // Once `activeFrom` passes, the site stops showing the envelope intro
-  // entirely and opens straight onto a looping celebration video with a
-  // thank-you message in place of the usual hero.
-  postWedding: {
-    /** ISO with offset — the moment the site flips into post-wedding mode. */
-    activeFrom: "2027-01-03T00:00:00+05:30",
-    /** Plays muted on loop, full-viewport. */
-    video: "/video/post-wedding.mp4",
-    eyebrow: "With all our love",
-    heading: "We're Married",
-    message:
-      "Thank you to every single person who stood with us, prayed for us and celebrated this day alongside us. We carry your love with us into this new life together.",
-  },
-
-  // ─── Scripture Banner ───
-  scripture: {
-    quote:
-      '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate."',
-    reference: "Matthew 19:6",
-  },
-
-  // ─── Our Story Items ───
-  story: {
-    items: [
-      {
-        date: "TODO: date", // TODO: fill in real story milestones
-        content: "TODO: engagement ceremony details.",
-      },
-      {
-        date: "January 2, 2027",
-        content: "TODO: wedding ceremony and reception details.",
-      },
-    ],
-  },
-
-  // ─── Countdown Behaviour ───
-  countdown: {
-    /** Style: "premium" | "minimal" */
-    style: "premium" as "premium" | "minimal",
-    /** Labels for countdown */
-    engagementLabel: "Countdown to Betrothal",
-    weddingLabel: "Countdown to Our Wedding",
-    /** Show dual-event timeline indicator on hero */
-    showDualEventTimeline: true,
-    /** Engagement event label in timeline */
-    engagementTimelineLabel: "Betrothal",
-    /** Wedding event label in timeline */
-    weddingTimelineLabel: "Wedding",
-    /** Shown in place of a live counter once the betrothal date has passed */
-    pastEngagementLabel: "Engaged",
-  },
-
-  // ─── Text Overlay / Visibility ───
-  textOverlay: {
-    /** Hero overlay gradient — strengthened for readability */
-    heroGradient:
-      "linear-gradient(to bottom, rgba(10,5,5,0.65) 0%, rgba(10,5,5,0.35) 35%, rgba(10,5,5,0.50) 65%, rgba(10,5,5,0.75) 100%)",
-    /** Glass effect behind hero text block */
-    heroGlass: {
-      enabled: false,
-      background: "rgba(10, 5, 5, 0.30)",
-      blur: 12, // px
-      borderRadius: 24, // px
-      border: "1px solid rgba(230,203,168,0.15)",
-    },
-    /** Text shadow for hero text */
-    textShadow: "0 2px 24px rgba(0,0,0,0.6), 0 4px 48px rgba(0,0,0,0.35)",
-    /** Name-specific stronger shadow */
-    nameShadow: "0 2px 28px rgba(0,0,0,0.65), 0 6px 52px rgba(0,0,0,0.4)",
-  },
-
-  // ─── Media Configuration ───
-  media: {
-    youtubeUrl: "", // TODO: fill in real video URL if used
-    musicUrl: "/music/msuic1.mp3",
-    /** Hero background image — webp: same photo as abrinelsa.jpg at ~40% the size */
-    heroBgImage: "/abrinelsa/abrinelsa.webp", // TODO: replace with a real hero photo once gallery assets are ready
-    /** OG / share image (absolute URL for social crawlers) */
-    ogImage: absoluteUrl("/og-abrin-elsa.jpg"),
-    /** Intro sequence video (desktop) */
-    introVideoDesktop: "/video/opening_envlop.mp4",
-    /**
-     * TODO: currently reusing the desktop cut (8.5 MB). Replace with a real
-     * shorter/lower-res vertical export for mobile viewports once available.
-     */
-    introVideoMobile: "/video/opening_envlop.mp4",
-    /**
-     * Seconds into the intro at which the curtain reveal fires — set to the
-     * beat where the envelope finishes opening. The reveal does not wait for
-     * the video to end.
-     */
-    introRevealAtSeconds: 4,
-    fireworks: {
-      duration: 50000,
-      intensity: 7,
-      startDelay: 500,
-    },
-  },
-
-  // ─── Video Intro Screen ───
-  videoIntro: {
-    /** Top flourish line */
-    topFlourish: "You are invited to witness",
-    /** "The Wedding of" label */
-    weddingOfLabel: "The Wedding of",
-    /** CTA text below play button */
-    ctaText: "Tap to begin our story",
-    /** Venue shown on intro screen (short form) */
-    venue: "TODO: venue name · city", // TODO: fill in
-  },
-
-  // ─── Preloader ───
-  preloader: {
-    /** Names shown on preloader screen */
-    names: `${firstShort} & ${secondShort}`,
-    /** Scripture quote */
-    scriptureQuote: '"What God has joined together, let not man separate"',
-    /** Scripture reference */
-    scriptureRef: "Matthew 19:6",
-  },
-
-  // ─── Gallery ───
-  // TODO: only one couple photo exists under /public/abrinelsa today (abrinelsa.jpg).
-  // Add real gallery photos to /public/abrinelsa and list them here.
-  gallery: {
-    images: [
-      {
-        src: "/abrinelsa/abrinelsa.jpg",
-        alt: "Abrin and Elsa",
-      },
-    ],
-  },
-
-  // ─── Hero Corner Frame Images ───
-  // TODO: replace with real gallery photos once available (currently reusing the one couple photo)
-  heroCornerFrames: [
+  // ─── Events timeline (shown top-to-bottom in this order) ───
+  // date: ISO yyyy-mm-dd · time/endTime: 24-hour hh:mm (endTime "" = no end shown)
+  // timeLabel_en/_ml: optional text shown instead of a clock time (e.g. "Right after the muhurtham")
+  // mapUrl: optional "Map" link on the card · highlight: gold-accented card
+  // hidden: true keeps an event in the config but off the page until its details are known
+  events: [
     {
-      src: "/abrinelsa/abrinelsa.jpg",
-      position: "top-[22%] left-14",
-      size: "w-28 h-28",
-      animation: "animate-wiggle",
+      name_en: "Nischayam",
+      name_ml: "നിശ്ചയം",
+      date: "2026-09-01", // TODO
+      time: "11:00",
+      endTime: "",
+      venue: "", // TODO
+      mapUrl: "",
+      note_en: "The families formally fix the wedding.",
+      note_ml: "ഇരു കുടുംബങ്ങളും ചേർന്ന് വിവാഹം ഉറപ്പിക്കുന്ന ചടങ്ങ്.",
+      highlight: false,
+      hidden: true,
     },
     {
-      src: "/abrinelsa/abrinelsa.jpg",
-      position: "top-[22%] right-14",
-      size: "w-28 h-28",
-      animation: "animate-wiggle-delay",
+      name_en: "Mehendi & Haldi",
+      name_ml: "മൈലാഞ്ചി & ഹൽദി",
+      date: "2026-11-13", // TODO
+      time: "16:00",
+      endTime: "",
+      venue: "", // TODO
+      mapUrl: "",
+      note_en: "An afternoon of henna, turmeric and music with close family.",
+      note_ml: "അടുത്ത ബന്ധുക്കളോടൊപ്പം മൈലാഞ്ചിയിടലും മഞ്ഞൾ ചടങ്ങും പാട്ടും.",
+      highlight: false,
+      hidden: true,
     },
     {
-      src: "/abrinelsa/abrinelsa.jpg",
-      position: "bottom-[24%] left-14",
-      size: "w-24 h-24",
-      animation: "animate-wiggle-delay-2",
+      name_en: "Sangeet",
+      name_ml: "സംഗീത്",
+      date: "2026-11-14", // TODO
+      time: "19:00",
+      endTime: "",
+      venue: "", // TODO
+      mapUrl: "",
+      note_en: "Songs, dance and dinner.",
+      note_ml: "പാട്ടും നൃത്തവും അത്താഴവുമായി ഒരു രാവ്.",
+      highlight: false,
+      hidden: true,
     },
     {
-      src: "/abrinelsa/abrinelsa.jpg",
-      position: "bottom-[24%] right-14",
-      size: "w-24 h-24",
-      animation: "animate-wiggle",
+      name_en: "Muhurtham",
+      name_ml: "മുഹൂർത്തം",
+      date: "2026-11-15",
+      time: "10:30",
+      endTime: "",
+      venue: "Guruvayoor Temple, East Nada",
+      mapUrl: "https://maps.app.goo.gl/RQZej9afcmoRWqnSA",
+      note_en: "The auspicious moment. Please be seated by 10:00 AM.",
+      note_ml: "ശുഭമുഹൂർത്തം. രാവിലെ 10 മണിക്കു മുൻപായി എത്തിച്ചേരുമല്ലോ.",
+      highlight: true,
+      hidden: false,
+    },
+    {
+      name_en: "Thali Kettu (Mangalyadharanam)",
+      name_ml: "താലികെട്ട് (മാംഗല്യധാരണം)",
+      date: "2026-11-15",
+      time: "10:30",
+      endTime: "",
+      venue: "Guruvayoor Temple",
+      mapUrl: "",
+      note_en: "The groom ties the thali around the bride's neck.",
+      note_ml: "വരൻ വധുവിന്റെ കഴുത്തിൽ താലി ചാർത്തുന്നു.",
+      highlight: true,
+      hidden: true, // part of the muhurtham — explained in the Muhurtham section
+    },
+    {
+      name_en: "Pudava Kodukkal",
+      name_ml: "പുടവ കൊടുക്കൽ",
+      date: "2026-11-15",
+      time: "10:30",
+      endTime: "",
+      venue: "Guruvayoor Temple",
+      mapUrl: "",
+      note_en: "The groom presents the bride with the wedding pudava.",
+      note_ml: "വരൻ വധുവിന് പുടവ നൽകുന്നു.",
+      highlight: false,
+      hidden: true, // part of the muhurtham — explained in the Muhurtham section
+    },
+    {
+      name_en: "Kanyadanam",
+      name_ml: "കന്യാദാനം",
+      date: "2026-11-15",
+      time: "10:30",
+      endTime: "",
+      venue: "Guruvayoor Temple",
+      mapUrl: "",
+      note_en: "The bride's father places her hand in the groom's.",
+      note_ml: "വധുവിന്റെ പിതാവ് മകളുടെ കൈ വരന്റെ കൈകളിൽ ഏൽപ്പിക്കുന്നു.",
+      highlight: false,
+      hidden: true, // part of the muhurtham — explained in the Muhurtham section
+    },
+    {
+      name_en: "Kalyana Sadya",
+      name_ml: "കല്യാണ സദ്യ",
+      date: "2026-11-15",
+      time: "",
+      endTime: "",
+      timeLabel_en: "Right after the muhurtham",
+      timeLabel_ml: "മുഹൂർത്തം കഴിഞ്ഞ ഉടൻ",
+      // Same spot as the muhurtham — the sadya follows right there
+      venue: "Guruvayoor Temple, East Nada",
+      mapUrl: "https://maps.app.goo.gl/hvDYzCNLv92uqcMu6",
+      note_en: "A traditional feast served on the tender banana leaf.",
+      note_ml: "തൂശനിലയിൽ വിളമ്പുന്ന തനിനാടൻ സദ്യ.",
+      highlight: false,
+      hidden: false,
+    },
+    {
+      name_en: "Reception",
+      name_ml: "വിവാഹ സൽക്കാരം",
+      date: "2026-11-16",
+      time: "17:00",
+      endTime: "21:00",
+      venue:
+        "Dhanalakshmi Convention Centre (Sadhoo Kalyana Mandapam), Thana, Kannur",
+      mapUrl: "https://maps.app.goo.gl/JdMvnBcZuvkvHNux9",
+      note_en: "An evening with family and friends, music and dinner.",
+      note_ml: "ബന്ധുമിത്രാദികളോടൊപ്പം സംഗീതവും അത്താഴവുമായി ഒരു സായാഹ്നം.",
+      highlight: false,
+      hidden: false,
+    },
+    {
+      name_en: "Griha Pravesham",
+      name_ml: "ഗൃഹപ്രവേശം",
+      date: "2026-11-15", // TODO
+      time: "18:00",
+      endTime: "",
+      venue: "", // TODO: e.g. "Koyyodan House"
+      mapUrl: "",
+      note_en: "The bride enters her new home carrying a lit nilavilakku.",
+      note_ml:
+        "കത്തിച്ച നിലവിളക്കുമായി വധു വരന്റെ വീട്ടിലേക്ക് വലതുകാൽ വെച്ച് കയറുന്നു.",
+      highlight: false,
+      hidden: true,
     },
   ],
 
-  // ─── Email Configuration ───
+  // ─── Wedding venue (used for the "Add to Calendar" invite) ───
+  venue: {
+    name_en: "Guruvayoor Temple",
+    name_ml: "ഗുരുവായൂർ ക്ഷേത്രം",
+    address: "East Nada, Guruvayur, Thrissur, Kerala 680101",
+  },
+
+  // ─── Opening video (plays on the first tap, then reveals the site) ───
+  intro: {
+    /** Portrait video works best — it's cropped to fill the screen */
+    video: "/video/opener.mp4",
+    /** Second at which the site is revealed (the video is 8s; cut short at 5s, before the doors fully open) */
+    revealAtSeconds: 5,
+  },
+
+  // ─── Gallery ───
+  gallery: [
+    { src: "/photos/gallery-1.webp", alt: "Amal and Arya, close embrace" },
+    {
+      src: "/photos/gallery-2.webp",
+      alt: "Amal and Arya walking hand in hand",
+    },
+    { src: "/photos/gallery-3.webp", alt: "Amal and Arya laughing together" },
+    {
+      src: "/photos/gallery-4.webp",
+      alt: "Amal and Arya hugging in the meadow",
+    },
+    { src: "/photos/gallery-5.webp", alt: "Amal and Arya, candid moments" },
+    { src: "/photos/gallery-6.webp", alt: "Amal and Arya among the trees" },
+    {
+      src: "/photos/gallery-7.webp",
+      alt: "Amal and Arya, black and white moments",
+    },
+    {
+      src: "/photos/gallery-8.webp",
+      alt: "Amal and Arya dancing in the hills",
+    },
+    { src: "/photos/gallery-9.webp", alt: "Arya by the lake at golden hour" },
+  ],
+
+  // ─── Live stream ───
+  /** Link the "Watch live" button opens. Leave "" to show a "link coming soon" note. */
+  liveStreamUrl: "https://www.youtube.com/@your-channel/live", // TODO
+  /** Optional embeddable player (e.g. https://www.youtube.com/embed/VIDEO_ID). "" = button only. */
+  liveStreamEmbedUrl: "",
+
+  // ─── RSVP (name + message, delivered by EmailJS — https://www.emailjs.com) ───
+  // Template variables sent: from_name, message, couple_names, wedding_date,
+  // to_email, reply_to (same names as the previous site's template).
   email: {
-    /** Email addresses to receive wedding wishes (can be single email or array of emails) */
-    recipientEmails: [""], // TODO: fill in recipient email for RSVP/wishes
-    /** EmailJS configuration (free service) */
+    /** Where RSVPs go — one address or several. Used as {{to_email}} in the template. */
+    recipientEmails: ["abrin1999@gmail.com"], // TODO: e.g. ["amal@example.com", "arya@example.com"]
     emailJS: {
-      serviceId: "service_qjht1ax", // Replace with your EmailJS service ID
-      templateId: "template_3xnyrgi", // Replace with your EmailJS template ID
-      publicKey: "06oig93wOq67ST0Sc", // Replace with your EmailJS public key
+      serviceId: "service_qjht1ax",
+      templateId: "template_3xnyrgi",
+      publicKey: "06oig93wOq67ST0Sc",
     },
   },
 
-  // ─── Feature Flags ───
-  //test1
-  features: {
-    autoPlayMusic: true,
-    showFireworks: false,
-    showVideo: false,
-    /** Enable parallax on hero section */
-    heroParallax: true,
-    /** Enable floating decorations */
-    floatingDecorations: true,
+  // ─── Footer / contact ───
+  hashtag: "#AmalWedsArya", // TODO: your hashtag
+  contactPhone: "+91 98765 43210", // TODO: family contact number
 
-    countdownTriggers: {
-      enabled: true,
-      showFireworks: true,
-      showVideo: true,
-      fireworksDuration: 60000,
-    },
+  // ─── Background music ───
+  // Starts the instant the opening video is tapped (same gesture, so the
+  // browser allows sound), then keeps playing under the site — the nav's
+  // music button (MusicPlayerV2) can pause/resume it from there.
+  audioUrl: "/audio/ullam-paadum.mp3",
+
+  // ─── Sharing / SEO (baked into index.html at build time by vite.config.ts) ───
+  seo: {
+    title: "Amal & Arya · Wedding · 15 November 2026",
+    description:
+      "Join us for the wedding of Amal & Arya at Guruvayoor Temple on Sunday, 15 November 2026. Muhurtham at 10:30 AM. Reception on 16 November at Dhanalakshmi Convention Centre, Kannur.",
+    /** 1200×630 share card shown by WhatsApp/Facebook/iMessage/X link previews */
+    ogImage: "/img/og-image.jpg",
   },
 };
 
-/**
- * True once the wedding is behind us. Drives the whole post-wedding switch:
- * the intro is skipped and the hero becomes the looping thank-you video.
- * Evaluated per call rather than cached, so a long-lived tab flips over too.
- */
-export const isPostWedding = () =>
-  Date.now() >= new Date(WEDDING_CONFIG.postWedding.activeFrom).getTime();
+export type WeddingEvent = (typeof WEDDING_CONFIG.events)[number];
+
+/** Muhurtham start/end as full ISO timestamps — the countdown + .ics targets. */
+export const MUHURTHAM_START = `${WEDDING_CONFIG.weddingDate}T${WEDDING_CONFIG.muhurthamTime}:00${WEDDING_CONFIG.timezone}`;
+export const MUHURTHAM_END = `${WEDDING_CONFIG.weddingDate}T${WEDDING_CONFIG.muhurthamEndTime}:00${WEDDING_CONFIG.timezone}`;

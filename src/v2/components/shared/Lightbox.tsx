@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { DURATION, EASE_IN_OUT, EASE_OUT } from '../../lib/motion';
@@ -26,6 +26,8 @@ export const Lightbox: React.FC<LightboxProps> = ({
   onClose,
   onNavigate,
 }) => {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
   const prev = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     onNavigate(index === 0 ? images.length - 1 : index - 1);
@@ -51,6 +53,14 @@ export const Lightbox: React.FC<LightboxProps> = ({
     };
   }, [open, prev, next, onClose]);
 
+  // Move focus into the dialog and hand it back to the opening tile on close.
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    return () => opener?.focus({ preventScroll: true });
+  }, [open]);
+
   return (
     <AnimatePresence>
       {open && (
@@ -60,12 +70,14 @@ export const Lightbox: React.FC<LightboxProps> = ({
           role="dialog"
           aria-modal="true"
           aria-label="Photo gallery"
+          // Lenis would otherwise keep scrolling the page behind the overlay
+          data-lenis-prevent
           initial={{ opacity: 0, scale: 0.99 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: DURATION.fast, ease: EASE_IN_OUT }}
         >
-          <button className="v2-lightbox-close" onClick={onClose} aria-label="Close gallery">
+          <button ref={closeRef} className="v2-lightbox-close" onClick={onClose} aria-label="Close gallery">
             <X size={20} />
           </button>
 

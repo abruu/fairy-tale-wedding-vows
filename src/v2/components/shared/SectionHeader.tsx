@@ -1,53 +1,53 @@
-import React from 'react';
+import React from "react";
+import { T } from "../../lib/i18n";
+import type { TranslationKey } from "../../lib/translations";
 
 interface SectionHeaderProps {
-  eyebrow?: string;
-  title: string;
-  subtitle?: string;
-  variant?: 'dark' | 'light';
+  eyebrow?: TranslationKey;
+  /** Omit for a lighter header: the eyebrow then becomes the section's <h2> */
+  title?: TranslationKey;
+  subtitle?: TranslationKey;
+  /** 'light' = ivory/sandal background, 'dark' = maroon/green background */
+  tone?: "light" | "dark";
+  id?: string;
   className?: string;
 }
 
 /**
- * Consistent section header with eyebrow, title, and subtitle.
+ * Consistent section header: small eyebrow, serif title, gold lamp-flame
+ * divider and an optional subtitle. `id` goes on the <h2> so the section can
+ * reference it with aria-labelledby.
  */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
   eyebrow,
   title,
   subtitle,
-  variant = 'dark',
-  className = '',
-}) => {
-  // 'dark' = section sits on the dark canvas (light text); 'light' = the warm-light photo-spread band (dark ink text)
-  const textColor = variant === 'dark' ? 'var(--v2-charcoal)' : 'var(--v2-charcoal-text)';
-  const subColor = variant === 'dark' ? 'rgba(234,228,216,0.7)' : 'rgba(28,26,22,0.65)';
-  // Emerald accent carries the eyebrow + divider; the deep value only has
-  // enough contrast on the light band, so the dark canvas gets the bright tint.
-  const accentColor =
-    variant === 'dark' ? 'var(--v2-heading-accent)' : 'var(--v2-heading-accent-on-light)';
-
-  return (
-    <div className={`text-center ${className}`}>
-      {eyebrow && (
-        <p className="v2-eyebrow mb-4" style={{ color: accentColor }}>
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="v2-heading-lg" style={{ color: textColor }}>
-        {title}
-      </h2>
-      <div className="flex items-center justify-center gap-3 mt-4 mb-4">
-        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, transparent, ${accentColor})` }} />
-        <svg width="10" height="10" viewBox="0 0 24 24" fill={accentColor} aria-hidden="true">
-          <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.94 3.68 2 6.5 2c1.87 0 3.715.99 4.925 2.525A6.05 6.05 0 0 1 16.5 2C19.32 2 22 3.94 22 7.191c0 4.105-5.37 8.863-11 14.402z" />
-        </svg>
-        <div style={{ height: 1, width: 50, background: `linear-gradient(to right, ${accentColor}, transparent)` }} />
-      </div>
-      {subtitle && (
-        <p className="v2-body-italic max-w-md mx-auto" style={{ color: subColor }}>
-          {subtitle}
-        </p>
-      )}
+  tone = "light",
+  id,
+  className = "",
+}) => (
+  <header className={`v2-section-header v2-section-header--${tone} ${className}`}>
+    {title ? (
+      <>
+        {eyebrow && <T k={eyebrow} as="p" className="v2-eyebrow" />}
+        <h2 id={id} className="v2-heading">
+          <T k={title} />
+        </h2>
+      </>
+    ) : (
+      eyebrow && (
+        <h2 id={id} className="v2-eyebrow v2-eyebrow--heading">
+          <T k={eyebrow} />
+        </h2>
+      )
+    )}
+    <div className="v2-flame-divider" aria-hidden="true">
+      <span />
+      <svg width="14" height="20" viewBox="0 0 14 20">
+        <path d="M7 0C9 5 13 8 13 13a6 6 0 0 1-12 0C1 8 5 5 7 0z" fill="currentColor" />
+      </svg>
+      <span />
     </div>
-  );
-};
+    {subtitle && <T k={subtitle} as="p" className="v2-subtitle" />}
+  </header>
+);

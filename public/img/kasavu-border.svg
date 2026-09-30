@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 80" width="1600" height="80">
+<!-- Placeholder art: replace with kasavu-border.png (1600x80, transparent) -->
+<rect width="1600" height="80" fill="#FFF8E7"/>
+<rect y="18" width="1600" height="44" fill="#C9A227"/>
+<rect y="22" width="1600" height="3" fill="#E8C75A"/>
+<rect y="55" width="1600" height="3" fill="#E8C75A"/>
+<rect y="10" width="1600" height="3" fill="#7B1E2B"/>
+<rect y="67" width="1600" height="3" fill="#7B1E2B"/>
+<polygon points="20.0,28.0 32.0,40.0 20.0,52.0 8.0,40.0" fill="#9C7A16"/>
+<circle cx="20" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="0" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="60.0,28.0 72.0,40.0 60.0,52.0 48.0,40.0" fill="#9C7A16"/>
+<circle cx="60" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="40" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="100.0,28.0 112.0,40.0 100.0,52.0 88.0,40.0" fill="#9C7A16"/>
+<circle cx="100" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="80" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="140.0,28.0 152.0,40.0 140.0,52.0 128.0,40.0" fill="#9C7A16"/>
+<circle cx="140" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="120" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="180.0,28.0 192.0,40.0 180.0,52.0 168.0,40.0" fill="#9C7A16"/>
+<circle cx="180" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="160" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="220.0,28.0 232.0,40.0 220.0,52.0 208.0,40.0" fill="#9C7A16"/>
+<circle cx="220" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="200" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="260.0,28.0 272.0,40.0 260.0,52.0 248.0,40.0" fill="#9C7A16"/>
+<circle cx="260" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="240" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="300.0,28.0 312.0,40.0 300.0,52.0 288.0,40.0" fill="#9C7A16"/>
+<circle cx="300" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="280" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="340.0,28.0 352.0,40.0 340.0,52.0 328.0,40.0" fill="#9C7A16"/>
+<circle cx="340" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="320" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="380.0,28.0 392.0,40.0 380.0,52.0 368.0,40.0" fill="#9C7A16"/>
+<circle cx="380" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="360" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="420.0,28.0 432.0,40.0 420.0,52.0 408.0,40.0" fill="#9C7A16"/>
+<circle cx="420" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="400" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="460.0,28.0 472.0,40.0 460.0,52.0 448.0,40.0" fill="#9C7A16"/>
+<circle cx="460" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="440" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="500.0,28.0 512.0,40.0 500.0,52.0 488.0,40.0" fill="#9C7A16"/>
+<circle cx="500" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="480" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="540.0,28.0 552.0,40.0 540.0,52.0 528.0,40.0" fill="#9C7A16"/>
+<circle cx="540" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="520" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="580.0,28.0 592.0,40.0 580.0,52.0 568.0,40.0" fill="#9C7A16"/>
+<circle cx="580" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="560" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="620.0,28.0 632.0,40.0 620.0,52.0 608.0,40.0" fill="#9C7A16"/>
+<circle cx="620" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="600" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="660.0,28.0 672.0,40.0 660.0,52.0 648.0,40.0" fill="#9C7A16"/>
+<circle cx="660" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="640" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="700.0,28.0 712.0,40.0 700.0,52.0 688.0,40.0" fill="#9C7A16"/>
+<circle cx="700" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="680" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="740.0,28.0 752.0,40.0 740.0,52.0 728.0,40.0" fill="#9C7A16"/>
+<circle cx="740" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="720" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="780.0,28.0 792.0,40.0 780.0,52.0 768.0,40.0" fill="#9C7A16"/>
+<circle cx="780" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="760" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="820.0,28.0 832.0,40.0 820.0,52.0 808.0,40.0" fill="#9C7A16"/>
+<circle cx="820" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="800" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="860.0,28.0 872.0,40.0 860.0,52.0 848.0,40.0" fill="#9C7A16"/>
+<circle cx="860" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="840" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="900.0,28.0 912.0,40.0 900.0,52.0 888.0,40.0" fill="#9C7A16"/>
+<circle cx="900" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="880" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="940.0,28.0 952.0,40.0 940.0,52.0 928.0,40.0" fill="#9C7A16"/>
+<circle cx="940" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="920" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="980.0,28.0 992.0,40.0 980.0,52.0 968.0,40.0" fill="#9C7A16"/>
+<circle cx="980" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="960" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1020.0,28.0 1032.0,40.0 1020.0,52.0 1008.0,40.0" fill="#9C7A16"/>
+<circle cx="1020" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1000" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1060.0,28.0 1072.0,40.0 1060.0,52.0 1048.0,40.0" fill="#9C7A16"/>
+<circle cx="1060" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1040" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1100.0,28.0 1112.0,40.0 1100.0,52.0 1088.0,40.0" fill="#9C7A16"/>
+<circle cx="1100" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1080" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1140.0,28.0 1152.0,40.0 1140.0,52.0 1128.0,40.0" fill="#9C7A16"/>
+<circle cx="1140" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1120" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1180.0,28.0 1192.0,40.0 1180.0,52.0 1168.0,40.0" fill="#9C7A16"/>
+<circle cx="1180" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1160" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1220.0,28.0 1232.0,40.0 1220.0,52.0 1208.0,40.0" fill="#9C7A16"/>
+<circle cx="1220" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1200" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1260.0,28.0 1272.0,40.0 1260.0,52.0 1248.0,40.0" fill="#9C7A16"/>
+<circle cx="1260" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1240" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1300.0,28.0 1312.0,40.0 1300.0,52.0 1288.0,40.0" fill="#9C7A16"/>
+<circle cx="1300" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1280" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1340.0,28.0 1352.0,40.0 1340.0,52.0 1328.0,40.0" fill="#9C7A16"/>
+<circle cx="1340" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1320" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1380.0,28.0 1392.0,40.0 1380.0,52.0 1368.0,40.0" fill="#9C7A16"/>
+<circle cx="1380" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1360" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1420.0,28.0 1432.0,40.0 1420.0,52.0 1408.0,40.0" fill="#9C7A16"/>
+<circle cx="1420" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1400" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1460.0,28.0 1472.0,40.0 1460.0,52.0 1448.0,40.0" fill="#9C7A16"/>
+<circle cx="1460" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1440" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1500.0,28.0 1512.0,40.0 1500.0,52.0 1488.0,40.0" fill="#9C7A16"/>
+<circle cx="1500" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1480" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1540.0,28.0 1552.0,40.0 1540.0,52.0 1528.0,40.0" fill="#9C7A16"/>
+<circle cx="1540" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1520" cy="40" r="2.5" fill="#E8C75A"/>
+<polygon points="1580.0,28.0 1592.0,40.0 1580.0,52.0 1568.0,40.0" fill="#9C7A16"/>
+<circle cx="1580" cy="40" r="3.5" fill="#FFF8E7"/>
+<circle cx="1560" cy="40" r="2.5" fill="#E8C75A"/>
+</svg>

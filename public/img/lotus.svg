@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+<!-- Placeholder art: replace with lotus.png (500x500, transparent) -->
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#5E1621" stroke="#C9A227" stroke-width="5" transform="rotate(-70 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#5E1621" stroke="#C9A227" stroke-width="5" transform="rotate(70 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#7B1E2B" stroke="#C9A227" stroke-width="5" transform="rotate(-46 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#7B1E2B" stroke="#C9A227" stroke-width="5" transform="rotate(46 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#B03A4C" stroke="#C9A227" stroke-width="5" transform="rotate(-22 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#B03A4C" stroke="#C9A227" stroke-width="5" transform="rotate(22 250 390)"/>
+<path d="M250,390 C200,330 195,220 250,120 C305,220 300,330 250,390 Z" fill="#C95468" stroke="#C9A227" stroke-width="5" transform="rotate(0 250 390)"/>
+<ellipse cx="250" cy="400" rx="150" ry="22" fill="#2E6B4A"/>
+<circle cx="250" cy="330" r="16" fill="#C9A227"/>
+</svg>

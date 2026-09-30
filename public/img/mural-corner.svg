@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<!-- Placeholder art: replace with mural-corner.png (600x600, transparent) -->
+<path d="M0,0 H600 V56 H56 V600 H0 Z" fill="#7B1E2B"/>
+<path d="M0,0 H600 V14 H14 V600 H0 Z" fill="#C9A227"/>
+<path d="M70,70 H600 V80 H80 V600 H70 Z" fill="#C9A227"/>
+<circle cx="110" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="110" r="11" fill="#F2A900"/>
+<path d="M92,80 Q110,118 128,80 Z" fill="#2E6B4A"/><path d="M80,92 Q118,110 80,128 Z" fill="#2E6B4A"/>
+<circle cx="165" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="165" r="11" fill="#F2A900"/>
+<path d="M147,80 Q165,118 183,80 Z" fill="#2E6B4A"/><path d="M80,147 Q118,165 80,183 Z" fill="#2E6B4A"/>
+<circle cx="220" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="220" r="11" fill="#F2A900"/>
+<path d="M202,80 Q220,118 238,80 Z" fill="#2E6B4A"/><path d="M80,202 Q118,220 80,238 Z" fill="#2E6B4A"/>
+<circle cx="275" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="275" r="11" fill="#F2A900"/>
+<path d="M257,80 Q275,118 293,80 Z" fill="#2E6B4A"/><path d="M80,257 Q118,275 80,293 Z" fill="#2E6B4A"/>
+<circle cx="330" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="330" r="11" fill="#F2A900"/>
+<path d="M312,80 Q330,118 348,80 Z" fill="#2E6B4A"/><path d="M80,312 Q118,330 80,348 Z" fill="#2E6B4A"/>
+<circle cx="385" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="385" r="11" fill="#F2A900"/>
+<path d="M367,80 Q385,118 403,80 Z" fill="#2E6B4A"/><path d="M80,367 Q118,385 80,403 Z" fill="#2E6B4A"/>
+<circle cx="440" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="440" r="11" fill="#F2A900"/>
+<path d="M422,80 Q440,118 458,80 Z" fill="#2E6B4A"/><path d="M80,422 Q118,440 80,458 Z" fill="#2E6B4A"/>
+<circle cx="495" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="495" r="11" fill="#F2A900"/>
+<path d="M477,80 Q495,118 513,80 Z" fill="#2E6B4A"/><path d="M80,477 Q118,495 80,513 Z" fill="#2E6B4A"/>
+<circle cx="550" cy="35" r="11" fill="#F2A900"/><circle cx="35" cy="550" r="11" fill="#F2A900"/>
+<path d="M532,80 Q550,118 568,80 Z" fill="#2E6B4A"/><path d="M80,532 Q118,550 80,568 Z" fill="#2E6B4A"/>
+<circle cx="150" cy="150" r="70" fill="#C9A227"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(0 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(30 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(60 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(90 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(120 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(150 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(180 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(210 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(240 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(270 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(300 150 150)"/>
+<ellipse cx="150" cy="95" rx="12" ry="30" fill="#C8102E" transform="rotate(330 150 150)"/>
+<circle cx="150" cy="150" r="32" fill="#F2A900"/><circle cx="150" cy="150" r="14" fill="#7B1E2B"/>
+<path d="M210,150 C280,120 330,170 400,140" stroke="#2E6B4A" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M150,210 C120,280 170,330 140,400" stroke="#2E6B4A" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>

@@ -2,25 +2,34 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { comingSoonConfig } from "./src/coming-soon/config";
+import { MUHURTHAM_START, SITE_URL, WEDDING_CONFIG, absoluteUrl } from "./src/config/dates";
 
-const { seo, groom, bride, displayDate, copy } = comingSoonConfig;
+// Everything below is injected into index.html at build time, so link
+// previews (WhatsApp, Facebook, X…) show the couple without running any JS.
+const { couple, seo, venue, weddingDate } = WEDDING_CONFIG;
+const [first, second] = couple.brideFirst
+  ? [couple.brideName_en, couple.groomName_en]
+  : [couple.groomName_en, couple.brideName_en];
 
-const siteUrl = seo.siteUrl.replace(/\/$/, "");
-const absolute = (p: string) =>
-  !p || /^https?:\/\//.test(p) ? p : `${siteUrl}${p.startsWith("/") ? p : `/${p}`}`;
+const siteUrl = SITE_URL.replace(/\/$/, "");
+const names = `${first} & ${second}`;
+const ogImage = seo.ogImage ? absoluteUrl(seo.ogImage) : "";
+const displayDate = new Date(`${weddingDate}T12:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
-const names = `${groom} & ${bride}`;
-const ogImage = absolute(seo.ogImage);
-
-/** Schema.org Event — only facts we actually have (no invented venue/address). */
+/** Schema.org Event — only facts that are in the config. */
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Event",
   name: `Wedding of ${names}`,
-  startDate: seo.isoDate,
+  startDate: MUHURTHAM_START,
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  location: { "@type": "Place", name: venue.name_en, address: venue.address },
   description: seo.description,
   url: siteUrl,
   ...(ogImage ? { image: [ogImage] } : {}),
@@ -31,17 +40,16 @@ const tokens: Record<string, string> = {
   "%WEDDING_DESCRIPTION%": seo.description,
   "%WEDDING_NAMES%": names,
   "%WEDDING_DISPLAY_DATE%": displayDate,
-  "%WEDDING_TAGLINE%": copy.tagline,
   "%WEDDING_SITE_URL%": siteUrl,
   // href attributes use the underscore form: Vite parses URL attributes and
   // chokes on "%WE…" as an invalid percent-escape.
   __WEDDING_SITE_URL__: siteUrl,
   "%WEDDING_OG_IMAGE%": ogImage,
-  "%WEDDING_OG_W%": String(seo.ogImageWidth),
-  "%WEDDING_OG_H%": String(seo.ogImageHeight),
-  "%WEDDING_THEME_COLOR%": seo.themeColor,
-  "%WEDDING_LOCALE%": seo.locale,
-  "%WEDDING_TWITTER_CARD%": seo.twitterCard,
+  "%WEDDING_OG_W%": "1200",
+  "%WEDDING_OG_H%": "630",
+  "%WEDDING_THEME_COLOR%": "#7B1E2B",
+  "%WEDDING_LOCALE%": "en_IN",
+  "%WEDDING_TWITTER_CARD%": "summary_large_image",
   "%WEDDING_JSON_LD%": jsonLd,
 };
 

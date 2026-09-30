@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" width="300" height="220">
+<!-- Placeholder art: replace with chirathu.png (300x220, transparent) -->
+<path d="M30,140 C60,210 240,210 270,140 C240,160 60,160 30,140 Z" fill="#8E3B1B"/>
+<path d="M30,140 C60,110 240,110 270,140 C240,160 60,160 30,140 Z" fill="#B5562B"/>
+<path d="M230,128 C255,118 285,110 295,112 C288,126 265,138 244,146 Z" fill="#B5562B"/>
+<ellipse cx="150" cy="140" rx="100" ry="14" fill="#5A2410"/>
+<path d="M150,148 Q200,165 250,150" stroke="#F2A900" stroke-width="4" fill="none" opacity="0.8"/>
+<path d="M282,32.0 C308.0,71.0 302.8,102.2 282,110 C261.2,102.2 256.0,71.0 282,32.0 Z" fill="#F2A900"/><path d="M282,65.8 C292.4,86.6 289.8,103.5 282,107.4 C274.2,103.5 271.6,86.6 282,65.8 Z" fill="#FFF8E7"/>
+</svg>
