@@ -1,6 +1,6 @@
 import React from "react";
-import { ChevronDown } from "lucide-react";
-import { MUHURTHAM_START, WEDDING_CONFIG } from "@/config/dates";
+import { ChevronDown, Heart } from "lucide-react";
+import { isWeddingOver, MUHURTHAM_START, WEDDING_CONFIG } from "@/config/dates";
 import { useCountdown } from "../../hooks/useCountdown";
 import { T, useLang } from "../../lib/i18n";
 import { couplePeople } from "../../lib/couple";
@@ -33,11 +33,17 @@ interface HeroSectionProps {
 /**
  * Ivory → maroon hero: Ganapathi invocation, names in both scripts, the
  * Gregorian + Kollavarsham dates and a live countdown to the muhurtham.
+ * Once every celebration (through the reception) is behind us, the
+ * countdown card swaps for a "We're Married!" status instead.
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
   const { lang } = useLang();
   const [first, second] = couplePeople(lang);
+  // useCountdown's interval keeps ticking every second even after isComplete,
+  // so this stays fresh — no separate timer needed to catch the moment
+  // isWeddingOver() itself flips over.
   const { timeLeft } = useCountdown(MUHURTHAM_START);
+  const weddingOver = timeLeft.isComplete && isWeddingOver();
 
   return (
     <section id="home" className="v2-section v2-hero" aria-labelledby="hero-title">
@@ -87,7 +93,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
         </div>
 
         <div className="v2-countdown" role="timer" aria-live="off">
-          {timeLeft.isComplete ? (
+          {weddingOver ? (
+            <div className="v2-countdown-married">
+              <Heart size={26} className="v2-married-icon" fill="currentColor" aria-hidden="true" />
+              <T k="hero.marriedTitle" as="p" className="v2-married-title" />
+              <T k="hero.marriedSubtitle" as="p" className="v2-married-subtitle" />
+            </div>
+          ) : timeLeft.isComplete ? (
             <T k="hero.countdownDone" as="p" className="v2-countdown-done" />
           ) : (
             <>

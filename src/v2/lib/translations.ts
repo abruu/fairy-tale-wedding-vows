@@ -27,6 +27,8 @@ export const translations = {
     "hero.eyebrow": "Together with their families",
     "hero.countdownLabel": "Until the Muhurtham",
     "hero.countdownDone": "The auspicious moment has arrived",
+    "hero.marriedTitle": "We're Married!",
+    "hero.marriedSubtitle": "Thank you for all your love and blessings",
     "hero.scroll": "Scroll",
 
     "countdown.days": "Days",
@@ -111,6 +113,8 @@ export const translations = {
     "hero.eyebrow": "ഇരു കുടുംബങ്ങളുടെയും അനുഗ്രഹത്തോടെ",
     "hero.countdownLabel": "മുഹൂർത്തത്തിന് ഇനി",
     "hero.countdownDone": "ശുഭമുഹൂർത്തം വന്നെത്തി",
+    "hero.marriedTitle": "ഞങ്ങൾ വിവാഹിതരായി!",
+    "hero.marriedSubtitle": "നിങ്ങളുടെ സ്നേഹത്തിനും അനുഗ്രഹത്തിനും നന്ദി",
     "hero.scroll": "താഴേക്ക്",
 
     "countdown.days": "ദിവസം",

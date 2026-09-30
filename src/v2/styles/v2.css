@@ -586,6 +586,13 @@
 .v2-countdown-unit { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sandal); }
 .v2-countdown-unit:lang(ml) { font-size: 0.78rem; line-height: 1.4; }
 .v2-countdown-done { padding: 0.75rem; font-size: 1.4rem; color: var(--marigold); }
+/* Post-wedding status: replaces the countdown once isWeddingOver() flips */
+.v2-countdown-married { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 0.6rem 0.5rem 0.85rem; }
+.v2-married-icon { color: var(--marigold); }
+.v2-married-title { font-size: clamp(1.6rem, 5vw, 2.2rem); font-weight: 700; color: var(--marigold); }
+.v2-married-title:lang(ml) { font-size: clamp(1.35rem, 4.2vw, 1.9rem); }
+.v2-married-subtitle { font-size: 1rem; color: var(--sandal); }
+.v2-married-subtitle:lang(ml) { font-size: 0.92rem; }
 
 .v2-scroll-cue {
   position: absolute;

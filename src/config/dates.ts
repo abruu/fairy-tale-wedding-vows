@@ -92,6 +92,13 @@ export const WEDDING_CONFIG = {
   /** Malayalam-calendar (Kollavarsham) date of the wedding */
   malayalamDate_ml: "തുലാം 29, 1202", // TODO: verify against your panchangam / muhurtham letter
   malayalamDate_en: "Thulam 29, 1202 ME",
+  /**
+   * Once every celebration is behind this moment, the hero swaps its
+   * countdown for a "We're Married!" status instead. Set to match the
+   * Reception's date + endTime in events[] below.
+   */
+  celebrationsEndDate: "2026-11-16",
+  celebrationsEndTime: "21:00",
 
   // ─── Events timeline (shown top-to-bottom in this order) ───
   // date: ISO yyyy-mm-dd · time/endTime: 24-hour hh:mm (endTime "" = no end shown)
@@ -320,3 +327,13 @@ export type WeddingEvent = (typeof WEDDING_CONFIG.events)[number];
 /** Muhurtham start/end as full ISO timestamps — the countdown + .ics targets. */
 export const MUHURTHAM_START = `${WEDDING_CONFIG.weddingDate}T${WEDDING_CONFIG.muhurthamTime}:00${WEDDING_CONFIG.timezone}`;
 export const MUHURTHAM_END = `${WEDDING_CONFIG.weddingDate}T${WEDDING_CONFIG.muhurthamEndTime}:00${WEDDING_CONFIG.timezone}`;
+
+/** The moment every celebration (through the reception) is behind us. */
+export const CELEBRATIONS_END = `${WEDDING_CONFIG.celebrationsEndDate}T${WEDDING_CONFIG.celebrationsEndTime}:00${WEDDING_CONFIG.timezone}`;
+
+/**
+ * True once the whole wedding is behind us — flips the hero from the
+ * muhurtham countdown to a "We're Married!" status. Evaluated per call
+ * rather than cached, so a tab left open across that moment flips over too.
+ */
+export const isWeddingOver = () => Date.now() >= new Date(CELEBRATIONS_END).getTime();
