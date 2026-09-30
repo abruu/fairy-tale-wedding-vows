@@ -83,7 +83,6 @@ export const translations = {
     "rsvp.messageRequired": "Please enter a message",
     "rsvp.sendAnother": "Send another message",
 
-    "footer.blessing": "Shubham Astu · May all be auspicious",
     "footer.withLove": "With love, the families of",
 
     "music.play": "Play background music",
@@ -169,7 +168,6 @@ export const translations = {
     "rsvp.messageRequired": "ദയവായി ഒരു സന്ദേശം നൽകുക",
     "rsvp.sendAnother": "മറ്റൊരു സന്ദേശം അയയ്ക്കുക",
 
-    "footer.blessing": "ശുഭമസ്തു",
     "footer.withLove": "സ്നേഹപൂർവ്വം,",
 
     "music.play": "പശ്ചാത്തല സംഗീതം കേൾക്കുക",

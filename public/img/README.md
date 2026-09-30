@@ -51,7 +51,7 @@ use `ASSET_EXT`. Portrait (4:5) photos suit the gallery tiles best.
 ## Other files
 
 - `/public/video/opener.mp4` is the opening temple-door video (portrait,
-  720 × 1280, 8 s). The site is revealed at `intro.revealAtSeconds` (5 s) in
+  720 × 1280, 8 s). The site is revealed at `intro.revealAtSeconds` (4 s) in
   `src/config/dates.ts`; keep a replacement under ~7 MB so it starts quickly
   on mobile data.
 

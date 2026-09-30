@@ -206,7 +206,7 @@ export const WEDDING_CONFIG = {
       timeLabel_en: "Right after the muhurtham",
       timeLabel_ml: "മുഹൂർത്തം കഴിഞ്ഞ ഉടൻ",
       // Same spot as the muhurtham — the sadya follows right there
-      venue: "Guruvayoor Temple, East Nada",
+      venue: "Sagar Tourist Home",
       mapUrl: "https://maps.app.goo.gl/hvDYzCNLv92uqcMu6",
       note_en: "A traditional feast served on the tender banana leaf.",
       note_ml: "തൂശനിലയിൽ വിളമ്പുന്ന തനിനാടൻ സദ്യ.",
@@ -254,8 +254,8 @@ export const WEDDING_CONFIG = {
   intro: {
     /** Portrait video works best — it's cropped to fill the screen */
     video: "/video/opener.mp4",
-    /** Second at which the site is revealed (the video is 8s; cut short at 5s, before the doors fully open) */
-    revealAtSeconds: 5,
+    /** Second at which the site is revealed (the video is 8s; cut short at 4s, before the doors fully open) */
+    revealAtSeconds: 4,
   },
 
   // ─── Gallery ───
@@ -294,7 +294,7 @@ export const WEDDING_CONFIG = {
   // to_email, reply_to (same names as the previous site's template).
   email: {
     /** Where RSVPs go — one address or several. Used as {{to_email}} in the template. */
-    recipientEmails: ["abrin1999@gmail.com"], // TODO: e.g. ["amal@example.com", "arya@example.com"]
+    recipientEmails: ["aryavasudevan2000@gmail.com,amalkoyyodan21@gmail.com"], // TODO: e.g. ["amal@example.com", "arya@example.com"]
     emailJS: {
       serviceId: "service_qjht1ax",
       templateId: "template_3xnyrgi",
@@ -336,4 +336,5 @@ export const CELEBRATIONS_END = `${WEDDING_CONFIG.celebrationsEndDate}T${WEDDING
  * muhurtham countdown to a "We're Married!" status. Evaluated per call
  * rather than cached, so a tab left open across that moment flips over too.
  */
-export const isWeddingOver = () => Date.now() >= new Date(CELEBRATIONS_END).getTime();
+export const isWeddingOver = () =>
+  Date.now() >= new Date(CELEBRATIONS_END).getTime();

@@ -24,10 +24,6 @@ export const FooterSection: React.FC = () => {
             shadow (see .v2-footer-text in v2.css) so it stays legible no
             matter how busy the decorative art behind it gets. */}
         <div className="v2-container v2-center v2-footer-text">
-          <p className="v2-footer-blessing" lang="ml">
-            ശുഭമസ്തു
-          </p>
-          {lang === "en" && <T k="footer.blessing" as="p" className="v2-footer-blessing-en" />}
           <p className="v2-footer-love" lang={lang}>
             <T k="footer.withLove" /> {first.name} &amp; {second.name}
           </p>

@@ -1030,9 +1030,7 @@
    over the kolam art behind it, whatever that art's own colours turn out to be
    once the SVG placeholder is swapped for a real PNG. */
 .v2-footer-text p { text-shadow: 0 1px 3px rgba(10, 26, 19, 0.55), 0 2px 14px rgba(10, 26, 19, 0.35); }
-.v2-footer-blessing { font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; color: var(--gold-light); line-height: 1.5 !important; }
-.v2-footer-blessing-en { font-style: italic; font-size: 1.15rem; color: var(--sandal); }
-.v2-footer-love { margin-top: 1.25rem !important; font-size: 1.3rem; font-weight: 600; }
+.v2-footer-love { font-size: 1.3rem; font-weight: 600; }
 .v2-footer-love:lang(ml) { font-size: 1.1rem; }
 .v2-footer-date { font-size: 1.05rem; color: var(--sandal); }
 .v2-footer-date:lang(ml), .v2-footer-date :lang(ml) { font-size: 0.95rem; }
