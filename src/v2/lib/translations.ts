@@ -50,7 +50,8 @@ export const translations = {
     "events.eyebrow": "The Celebrations",
     "events.title": "Wedding Events",
     "events.subtitle": "The ceremony and the celebrations around it",
-    "events.map": "Location",
+    "events.map": "Google Maps",
+    "events.appleMap": "Apple Maps",
 
     "muhurtham.eyebrow": "The Muhurtham",
     "muhurtham.note": "Please be seated 30 minutes before the Muhurtham.",
@@ -128,7 +129,8 @@ export const translations = {
     "events.eyebrow": "ആഘോഷങ്ങൾ",
     "events.title": "വിവാഹ ചടങ്ങുകൾ",
     "events.subtitle": "വിവാഹ ചടങ്ങും അനുബന്ധ ആഘോഷങ്ങളും",
-    "events.map": "ലൊക്കേഷൻ",
+    "events.map": "Google Maps",
+    "events.appleMap": "Apple Maps",
 
     "muhurtham.eyebrow": "മുഹൂർത്തം",
     "muhurtham.note": "മുഹൂർത്തത്തിന് 30 മിനിറ്റ് മുൻപ് ഇരിപ്പിടങ്ങളിൽ എത്തിച്ചേരണം.",

@@ -10,21 +10,18 @@ import { Px } from "../shared/Px";
 import { Reveal } from "../shared/Reveal";
 import { SectionHeader } from "../shared/SectionHeader";
 
-/** Opens the phone's calendar app (or downloads a .ics on desktop) with the muhurtham in it. */
+/** Opens the phone's calendar app (Google Calendar on Android/desktop) with the muhurtham in it. */
 function addMuhurthamToCalendar() {
   const [a, b] = couplePeople("en");
   const { venue, weddingDate } = WEDDING_CONFIG;
-  addToCalendar(
-    {
-      start: MUHURTHAM_START,
-      end: MUHURTHAM_END,
-      title: `Muhurtham · ${a.nameEn} & ${b.nameEn}`,
-      description: translations.en["events.subtitle"],
-      location: `${venue.name_en}, ${venue.address}`,
-      uid: `muhurtham-${weddingDate}-${a.nameEn}-${b.nameEn}@wedding`.toLowerCase().replace(/\s+/g, ""),
-    },
-    "muhurtham.ics",
-  );
+  addToCalendar({
+    start: MUHURTHAM_START,
+    end: MUHURTHAM_END,
+    title: `Muhurtham · ${a.nameEn} & ${b.nameEn}`,
+    description: translations.en["events.subtitle"],
+    location: `${venue.name_en}, ${venue.address}`,
+    uid: `muhurtham-${weddingDate}-${a.nameEn}-${b.nameEn}@wedding`.toLowerCase().replace(/\s+/g, ""),
+  });
 }
 
 /** Emerald highlight: the Muhurtham time in large champagne serif. */

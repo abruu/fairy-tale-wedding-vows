@@ -1,4 +1,4 @@
-/** Builds and downloads a single-event .ics file (Apple/Google/Outlook all accept it). */
+/** Builds a single-event .ics file and links to Google Calendar (Apple/Google/Outlook all accept it). */
 
 interface IcsEvent {
   /** Full ISO timestamps with offset, e.g. 2027-08-28T10:30:00+05:30 */
@@ -72,34 +72,26 @@ const isAndroid = () => /Android/i.test(navigator.userAgent);
 /**
  * Adds the event to the visitor's calendar:
  *  - iPhone / iPad: opens the .ics in Safari, which shows Apple's "Add to Calendar" sheet
+ *    (Apple Calendar has no web link, so this is its only no-download route)
  *  - Android: opens a Google Calendar link, which hands over to the Calendar app
- *  - desktop: downloads the .ics file (Apple / Google / Outlook all accept it)
+ *  - desktop: opens Google Calendar's "new event" page in a new tab
  */
-export function addToCalendar(e: IcsEvent, filename: string) {
-  if (isAndroid()) {
-    const q = new URLSearchParams({
-      action: "TEMPLATE",
-      text: e.title,
-      dates: `${toGoogleDate(e.start)}/${toGoogleDate(e.end)}`,
-      details: e.description,
-      location: e.location,
-    });
-    window.location.href = `https://calendar.google.com/calendar/render?${q.toString()}`;
+export function addToCalendar(e: IcsEvent) {
+  if (isIOS()) {
+    const url = URL.createObjectURL(new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" }));
+    window.location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
     return;
   }
 
-  const blob = new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  if (isIOS()) {
-    window.location.href = url;
-  } else {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-  // Give the browser a moment to start before revoking.
-  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  const q = new URLSearchParams({
+    action: "TEMPLATE",
+    text: e.title,
+    dates: `${toGoogleDate(e.start)}/${toGoogleDate(e.end)}`,
+    details: e.description,
+    location: e.location,
+  });
+  const url = `https://calendar.google.com/calendar/render?${q.toString()}`;
+  if (isAndroid()) window.location.href = url;
+  else window.open(url, "_blank", "noopener");
 }

@@ -60,6 +60,16 @@ export const EventsSection: React.FC = () => {
                             {t("events.map")}
                             <ExternalLink size={12} aria-hidden="true" />
                           </a>
+                          {" · "}
+                          <a
+                            className="v2-timeline-map"
+                            href={`https://maps.apple.com/?q=${encodeURIComponent(ev.venue)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {t("events.appleMap")}
+                            <ExternalLink size={12} aria-hidden="true" />
+                          </a>
                         </>
                       )}
                     </span>
