@@ -48,7 +48,8 @@ interface HeroSectionProps {
 
 /**
  * Emerald hero: monogram, the couple's names, the date, the Muhurtham time
- * and a live countdown. Once every celebration (through the reception) is
+ * and a live countdown. Once `ready`, everything enters in sequence (see the
+ * "HERO ENTRANCE" block in v2.css) and then settles into gentle ambient motion. Once every celebration (through the reception) is
  * behind us, the countdown swaps for a "We're Married!" status instead.
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({ ready, onEnter }) => {
@@ -71,10 +72,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ ready, onEnter }) => {
 
   const a = first.name;
   const b = second.name;
-  const startB = lang === "en" ? 0.5 + (a.length + 2) * 0.09 : 1.1;
+  const startB = lang === "en" ? 0.75 + (a.length + 2) * 0.09 : 1.3;
 
   return (
-    <section id="home" className="v2-section v2-hero" aria-labelledby="hero-title">
+    <section id="home" className={`v2-section v2-hero ${ready ? "is-ready" : ""}`} aria-labelledby="hero-title">
       {/* Parallax layers, back to front */}
       <Px name="eucalyptus-branch-left" speed={0.15} eager className="v2-hero-branch v2-hero-branch--left" />
       <Px name="eucalyptus-branch-right" speed={0.25} eager className="v2-hero-branch v2-hero-branch--right" />
@@ -87,7 +88,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ ready, onEnter }) => {
 
         <h1 id="hero-title" className="v2-hero-names" aria-label={`${a} & ${b}`}>
           <span aria-hidden="true" className={play || played ? "is-on" : ""}>
-            <AnimatedName text={a} lang={lang} play={play} start={0.3} />
+            <AnimatedName text={a} lang={lang} play={play} start={0.55} />
             <span className="v2-amp v2-ch" data-play={play} style={{ animationDelay: `${(startB - 0.35).toFixed(2)}s` }}>
               &amp;
             </span>
@@ -119,7 +120,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ ready, onEnter }) => {
               <div className="v2-countdown-grid">
                 {UNITS.map((u) => (
                   <div key={u.key} className="v2-countdown-cell">
-                    <span className="v2-countdown-num">{String(timeLeft[u.key]).padStart(2, "0")}</span>
+                    {/* keyed by value so each change replays the tick animation */}
+                    <span key={timeLeft[u.key]} className="v2-countdown-num">
+                      {String(timeLeft[u.key]).padStart(2, "0")}
+                    </span>
                     <T k={u.label} className="v2-countdown-unit" />
                   </div>
                 ))}

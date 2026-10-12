@@ -528,6 +528,19 @@
 .v2-name { display: inline-block; white-space: nowrap; }
 .v2-ch { display: inline-block; }
 .v2-amp { font-weight: 300; color: var(--champagne); }
+/* Hero ampersand: a slow champagne sheen travelling across it */
+.v2-hero .v2-amp {
+  background: linear-gradient(110deg, var(--champagne) 35%, #F1DFB4 50%, var(--champagne) 65%) 0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: v2-amp-shine 6s ease-in-out 3s infinite;
+}
+.v2-hero .v2-amp[data-play="true"] { animation: v2-ch-in 0.9s ease-out both, v2-amp-shine 6s ease-in-out 3s infinite; }
+@keyframes v2-amp-shine {
+  0% { background-position: 100% 0; }
+  60%, 100% { background-position: -50% 0; }
+}
 /* Names wait (invisible) behind the opening screen, then fade in once */
 .v2-hero-inner:not(.is-ready) .v2-ch { opacity: 0; }
 .v2-ch[data-play="true"] { animation: v2-ch-in 0.9s ease-out both; }
@@ -556,8 +569,18 @@
 .v2-countdown {
   margin-top: 2.25rem;
   width: min(100%, 30rem);
+  position: relative;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(184, 152, 90, 0.45);
+}
+/* Top rule as a pseudo-element so it can grow in from the centre */
+.v2-countdown::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(184, 152, 90, 0.45);
 }
 .v2-countdown-label {
   font-size: 0.7rem;
@@ -1010,6 +1033,85 @@
 .v2-footer-date { margin-top: 0.25rem !important; font-size: 0.75rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ivory-soft); }
 .v2-footer-date:lang(ml) { font-size: 0.95rem; }
 .v2-footer-hashtag { margin-top: 1.5rem !important; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.26em; color: var(--champagne-light); }
+
+/* ═══ HERO ENTRANCE ═══
+   Plays once the opening card starts lifting (section gets .is-ready), so
+   the hero assembles itself as it's uncovered, then settles into ambient
+   motion. Keyframes animate the individual translate/scale/rotate
+   properties so they compose with the parallax engine's inline transform,
+   and fade from 0 to each layer's own opacity (no `to` step). */
+.v2-hero:not(.is-ready) :is(.px, .v2-hero-monogram, .v2-hero-eyebrow, .v2-hero-line, .v2-hero-date,
+  .v2-hero-muhurtham, .v2-countdown, .v2-scroll-cue) { visibility: hidden; }
+
+.v2-hero.is-ready .v2-hero-monogram { animation: v2-mono-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
+.v2-hero.is-ready .v2-hero-eyebrow { animation: v2-track-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both; }
+.v2-hero.is-ready .v2-hero-line { animation: v2-line-in 1s cubic-bezier(0.22, 1, 0.36, 1) 1.25s both; }
+.v2-hero.is-ready .v2-hero-date { animation: v2-rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s both; }
+.v2-hero.is-ready .v2-hero-muhurtham { animation: v2-rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.55s both; }
+.v2-hero.is-ready .v2-countdown::before { animation: v2-line-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 1.7s both; }
+.v2-hero.is-ready :is(.v2-countdown-label, .v2-countdown-done, .v2-countdown-married) { animation: v2-rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.85s both; }
+.v2-hero.is-ready .v2-countdown-cell { animation: v2-rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.v2-hero.is-ready .v2-countdown-cell:nth-child(1) { animation-delay: 1.95s; }
+.v2-hero.is-ready .v2-countdown-cell:nth-child(2) { animation-delay: 2.05s; }
+.v2-hero.is-ready .v2-countdown-cell:nth-child(3) { animation-delay: 2.15s; }
+.v2-hero.is-ready .v2-countdown-cell:nth-child(4) { animation-delay: 2.25s; }
+.v2-hero.is-ready .v2-scroll-cue { animation: v2-fade-in 1.2s ease 2.6s both; }
+
+/* Decorative layers: branches slide in from the edges and then sway; the
+   dust fades up and twinkles; the petals drift */
+.v2-hero.is-ready .v2-hero-branch--left {
+  transform-origin: 0 0;
+  animation: v2-from-left 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both, v2-sway 9s ease-in-out 1.9s infinite alternate;
+}
+.v2-hero.is-ready .v2-hero-branch--right {
+  transform-origin: 100% 100%;
+  animation: v2-from-right 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both, v2-sway 10s ease-in-out 2.1s infinite alternate-reverse;
+}
+.v2-hero.is-ready .v2-hero-dust { animation: v2-fade-in 2.2s ease 0.4s both, v2-twinkle 4.5s ease-in-out 2.6s infinite alternate; }
+.v2-hero.is-ready .v2-hero-petals { animation: v2-fade-in 1.8s ease 0.7s both, v2-drift 11s ease-in-out 2.5s infinite alternate; }
+
+/* A slow breathing glow behind the names */
+.v2-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(120vmin, 900px);
+  height: min(120vmin, 900px);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 152, 90, 0.16), transparent 62%);
+  pointer-events: none;
+  opacity: 0;
+}
+.v2-hero.is-ready::before { animation: v2-fade-in 2s ease 0.3s forwards, v2-breathe 7s ease-in-out 2.3s infinite alternate; }
+
+/* Countdown digits tick in from above on every change */
+.v2-hero.is-ready .v2-countdown-num { display: inline-block; animation: v2-tick 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Nav and music button settle in once the opening card is gone */
+.v2-nav { animation: v2-nav-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.v2-music-btn { animation: v2-fade-in 0.8s ease 0.3s both; }
+
+@keyframes v2-fade-in { from { opacity: 0; } }
+@keyframes v2-rise-in { from { opacity: 0; translate: 0 18px; } }
+@keyframes v2-mono-in { from { opacity: 0; scale: 0.6; rotate: -90deg; } }
+@keyframes v2-track-in { from { opacity: 0; letter-spacing: 0.9em; } }
+@keyframes v2-line-in { from { opacity: 0; scale: 0 1; } }
+@keyframes v2-from-left { from { opacity: 0; translate: -70px -20px; } }
+@keyframes v2-from-right { from { opacity: 0; translate: 70px 20px; } }
+@keyframes v2-sway { from { rotate: -1.5deg; } to { rotate: 1.5deg; } }
+@keyframes v2-twinkle { from { filter: brightness(1); } to { filter: brightness(1.45); } }
+@keyframes v2-drift { from { translate: 0 0; } to { translate: -12px 26px; } }
+@keyframes v2-breathe { from { opacity: 1; scale: 0.94; } to { opacity: 0.6; scale: 1.06; } }
+@keyframes v2-tick { from { opacity: 0; translate: 0 -40%; } }
+@keyframes v2-nav-in { from { opacity: 0; translate: 0 -100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero *, .v2-hero::before, .v2-nav, .v2-music-btn { animation: none !important; }
+  .v2-hero::before { opacity: 1; }
+  .v2-hero .v2-amp { color: var(--champagne); background: none; }
+}
 
 /* ═══ Reduced motion ═══ */
 @media (prefers-reduced-motion: reduce) {
