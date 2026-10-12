@@ -6,6 +6,8 @@ import { couplePeople } from "../../lib/couple";
 import { formatDate } from "../../lib/format";
 
 interface OpeningExperienceProps {
+  /** Starts the background song. Called synchronously inside the tap, so the browser allows sound. */
+  onStart: () => void;
   /** Called as the card starts lifting away (the hero begins animating in) */
   onOpening: () => void;
   /** Called once the overlay is fully out of the way */
@@ -72,7 +74,7 @@ const outlinePath = (a: Arch) => {
  * whole card slides up like a turned page to uncover the hero (already
  * mounted underneath). Reduced-motion visitors never mount this — see WeddingV2.
  */
-export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onOpening, onComplete }) => {
+export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, onOpening, onComplete }) => {
   const [opening, setOpening] = useState(false);
   const [arch, setArch] = useState<Arch | null>(null);
   const archRef = useRef<HTMLDivElement>(null);
@@ -116,9 +118,12 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onOpening,
 
   const open = useCallback(() => {
     if (opening) return;
+    // Must run synchronously in the tap handler (no await before it) or the
+    // browser blocks audible playback.
+    onStart();
     setOpening(true);
     window.setTimeout(onOpening, T_LIFT * 1000);
-  }, [opening, onOpening]);
+  }, [opening, onStart, onOpening]);
 
   // English names arrive letter by letter; Malayalam as whole words, since
   // splitting its conjuncts would break the shaping.

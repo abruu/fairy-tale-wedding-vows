@@ -224,11 +224,11 @@ export const WEDDING_CONFIG = {
   // ─── Footer ───
   hashtag: "#AmalWedsArya", // TODO: your hashtag
 
-  // ─── Background music (optional) ───
-  // Off by default: visitors start it with the music button (MusicPlayerV2).
-  // Placeholder path — drop a soft instrumental track at this location. Until
-  // the file exists the button simply shows "unavailable".
-  audioUrl: "/audio/soft-instrumental.mp3",
+  // ─── Background music ───
+  // Starts the instant "Tap to open" is pressed (browsers only allow sound
+  // that begins inside a tap), then keeps playing under the site — the music
+  // button (MusicPlayerV2) can pause/resume it from there.
+  audioUrl: "/audio/ullam-paadum.mp3",
 
   // ─── Sharing / SEO (baked into index.html at build time by vite.config.ts) ───
   seo: {

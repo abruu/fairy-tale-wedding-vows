@@ -39,7 +39,8 @@ const WeddingPage: React.FC = () => {
   const lenisRef = useSmoothScroll();
   const rootRef = useRef<HTMLDivElement>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  // Optional music — off until the visitor presses the music button.
+  // Shared with OpeningExperience so the song it starts on tap survives the
+  // hand-off to the music button instead of being restarted.
   const music = useBackgroundMusic();
   // The opening screen shows once per visit, over the already-mounted page.
   // Reduced-motion visitors skip it entirely.
@@ -96,7 +97,7 @@ const WeddingPage: React.FC = () => {
         {t("a11y.skip")}
       </a>
 
-      {!introDone && <OpeningExperience onOpening={handleIntroOpening} onComplete={handleIntroComplete} />}
+      {!introDone && <OpeningExperience onStart={music.play} onOpening={handleIntroOpening} onComplete={handleIntroComplete} />}
 
       {introDone && <Navigation items={NAV_ITEMS} activeSection={activeSection} onNavigate={handleNavigate} onHome={() => handleNavigate("home")} />}
 
