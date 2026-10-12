@@ -109,7 +109,8 @@ export const WEDDING_CONFIG = {
       venue: "", // TODO
       mapUrl: "",
       note_en: "An afternoon of henna and music with close family.",
-      note_ml: "അടുത്ത ബന്ധുക്കളോടൊപ്പം മൈലാഞ്ചിയും പാട്ടുമായി ഒരു ഉച്ചതിരിഞ്ഞ്.",
+      note_ml:
+        "അടുത്ത ബന്ധുക്കളോടൊപ്പം മൈലാഞ്ചിയും പാട്ടുമായി ഒരു ഉച്ചതിരിഞ്ഞ്.",
       highlight: false,
       hidden: true,
     },
@@ -135,7 +136,8 @@ export const WEDDING_CONFIG = {
       venue: "Guruvayoor, Thrissur", // TODO: full venue name
       mapUrl: "https://maps.app.goo.gl/RQZej9afcmoRWqnSA",
       note_en: "The wedding ceremony. Please be seated by 10:00 AM.",
-      note_ml: "വിവാഹ ചടങ്ങ്. രാവിലെ 10 മണിക്കു മുൻപായി ഇരിപ്പിടങ്ങളിൽ എത്തിച്ചേരണം.",
+      note_ml:
+        "വിവാഹ ചടങ്ങ്. രാവിലെ 10 മണിക്കു മുൻപായി ഇരിപ്പിടങ്ങളിൽ എത്തിച്ചേരണം.",
       highlight: true,
       hidden: false,
     },
@@ -192,20 +194,65 @@ export const WEDDING_CONFIG = {
   // ─── Opening screen ───
   intro: {
     /** Portrait photo shown in the arch window on the opening screen (portrait works best) */
-    photo: "/photos/gallery-1.webp",
+    photo: "/photos/intro.webp",
   },
 
   // ─── Gallery (width/height = the image's real pixel size, so the masonry grid doesn't shift while loading) ───
   gallery: [
-    { src: "/photos/gallery-1.webp", w: 960, h: 1200, alt: "Amal and Arya, close embrace" },
-    { src: "/photos/gallery-2.webp", w: 960, h: 1200, alt: "Amal and Arya walking hand in hand" },
-    { src: "/photos/gallery-3.webp", w: 800, h: 1200, alt: "Amal and Arya laughing together" },
-    { src: "/photos/gallery-4.webp", w: 588, h: 1200, alt: "Amal and Arya hugging in the meadow" },
-    { src: "/photos/gallery-5.webp", w: 960, h: 1200, alt: "Amal and Arya, candid moments" },
-    { src: "/photos/gallery-6.webp", w: 1080, h: 810, alt: "Amal and Arya among the trees" },
-    { src: "/photos/gallery-7.webp", w: 840, h: 1049, alt: "Amal and Arya, black and white moments" },
-    { src: "/photos/gallery-8.webp", w: 700, h: 1052, alt: "Amal and Arya dancing in the hills" },
-    { src: "/photos/gallery-9.webp", w: 834, h: 556, alt: "Arya by the lake at golden hour" },
+    {
+      src: "/photos/gallery-1.webp",
+      w: 960,
+      h: 1200,
+      alt: "Amal and Arya, close embrace",
+    },
+    {
+      src: "/photos/gallery-2.webp",
+      w: 960,
+      h: 1200,
+      alt: "Amal and Arya walking hand in hand",
+    },
+    {
+      src: "/photos/gallery-3.webp",
+      w: 800,
+      h: 1200,
+      alt: "Amal and Arya laughing together",
+    },
+    {
+      src: "/photos/gallery-4.webp",
+      w: 588,
+      h: 1200,
+      alt: "Amal and Arya hugging in the meadow",
+    },
+    {
+      src: "/photos/gallery-5.webp",
+      w: 960,
+      h: 1200,
+      alt: "Amal and Arya, candid moments",
+    },
+    {
+      src: "/photos/gallery-6.webp",
+      w: 1080,
+      h: 810,
+      alt: "Amal and Arya among the trees",
+    },
+    {
+      src: "/photos/gallery-7.webp",
+      w: 840,
+      h: 1049,
+      alt: "Amal and Arya, black and white moments",
+    },
+    {
+      src: "/photos/gallery-8.webp",
+      w: 700,
+      h: 1052,
+      alt: "Amal and Arya dancing in the hills",
+    },
+    {
+      src: "/photos/gallery-9.webp",
+      w: 834,
+      h: 556,
+      alt: "Arya by the lake at golden hour",
+    },
   ],
 
   // ─── Wishes form (name + message, delivered by EmailJS — https://www.emailjs.com) ───
@@ -228,7 +275,7 @@ export const WEDDING_CONFIG = {
   // Starts the instant "Tap to open" is pressed (browsers only allow sound
   // that begins inside a tap), then keeps playing under the site — the music
   // button (MusicPlayerV2) can pause/resume it from there.
-  audioUrl: "/audio/ullam-paadum.mp3",
+  audioUrl: "/audio/ullam.mp3",
 
   // ─── Sharing / SEO (baked into index.html at build time by vite.config.ts) ───
   seo: {
