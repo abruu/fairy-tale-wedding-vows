@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { buildIcs } from "./src/v2/lib/calendar";
 import { componentTagger } from "lovable-tagger";
-import { MUHURTHAM_START, SITE_URL, WEDDING_CONFIG, absoluteUrl } from "./src/config/dates";
+import { MUHURTHAM_END, MUHURTHAM_START, SITE_URL, WEDDING_CONFIG, absoluteUrl } from "./src/config/dates";
 
 // Everything below is injected into index.html at build time, so link
 // previews (WhatsApp, Facebook, X…) show the couple without running any JS.
@@ -53,6 +54,17 @@ const tokens: Record<string, string> = {
   "%WEDDING_JSON_LD%": jsonLd,
 };
 
+/** The muhurtham invite as a real file at /muhurtham.ics — iOS Safari only opens its
+ *  "Add to Calendar" sheet for a served URL, not for a blob: download. */
+const muhurthamIcs = buildIcs({
+  start: MUHURTHAM_START,
+  end: MUHURTHAM_END,
+  title: `Muhurtham · ${names}`,
+  description: `Wedding of ${names}`,
+  location: `${venue.name_en}, ${venue.address}`,
+  uid: `muhurtham-${weddingDate}@wedding`,
+});
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
@@ -62,6 +74,18 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === "development" && componentTagger(),
+    {
+      name: "wedding-ics",
+      configureServer(server) {
+        server.middlewares.use("/muhurtham.ics", (_req, res) => {
+          res.setHeader("Content-Type", "text/calendar; charset=utf-8");
+          res.end(muhurthamIcs);
+        });
+      },
+      generateBundle() {
+        this.emitFile({ type: "asset", fileName: "muhurtham.ics", source: muhurthamIcs });
+      },
+    },
     {
       name: "wedding-html-inject",
       transformIndexHtml(html: string) {

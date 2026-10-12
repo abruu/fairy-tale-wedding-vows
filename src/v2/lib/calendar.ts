@@ -100,15 +100,15 @@ function androidIntentUrl(e: IcsEvent) {
 
 /**
  * Adds the event to the visitor's calendar:
- *  - iPhone / iPad: opens the .ics in Safari, which shows Apple's "Add to Calendar" sheet
+ *  - iPhone / iPad: opens /muhurtham.ics in Safari, which shows Apple's "Add to Calendar" sheet
  *  - Android: opens the Calendar app's new-event screen (Save to keep it)
  *  - desktop: opens Google Calendar's "new event" page in a new tab
  */
 export function addToCalendar(e: IcsEvent) {
   if (isIOS()) {
-    const url = URL.createObjectURL(new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" }));
-    window.location.href = url;
-    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    // A real served URL (see the wedding-ics plugin in vite.config.ts) — Safari shows the
+    // "Add to Calendar" sheet for it, whereas a blob: URL would just download.
+    window.location.href = "/muhurtham.ics";
   } else if (isAndroid()) {
     window.location.href = androidIntentUrl(e);
   } else {
