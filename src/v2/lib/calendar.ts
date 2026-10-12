@@ -69,21 +69,8 @@ const isIOS = () =>
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = () => /Android/i.test(navigator.userAgent);
 
-/**
- * Adds the event to the visitor's calendar:
- *  - iPhone / iPad: opens the .ics in Safari, which shows Apple's "Add to Calendar" sheet
- *    (Apple Calendar has no web link, so this is its only no-download route)
- *  - Android: opens a Google Calendar link, which hands over to the Calendar app
- *  - desktop: opens Google Calendar's "new event" page in a new tab
- */
-export function addToCalendar(e: IcsEvent) {
-  if (isIOS()) {
-    const url = URL.createObjectURL(new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" }));
-    window.location.href = url;
-    setTimeout(() => URL.revokeObjectURL(url), 10000);
-    return;
-  }
-
+/** Google Calendar web link: the desktop route, and the fallback when no calendar app handles the intent. */
+function googleCalendarUrl(e: IcsEvent) {
   const q = new URLSearchParams({
     action: "TEMPLATE",
     text: e.title,
@@ -91,7 +78,40 @@ export function addToCalendar(e: IcsEvent) {
     details: e.description,
     location: e.location,
   });
-  const url = `https://calendar.google.com/calendar/render?${q.toString()}`;
-  if (isAndroid()) window.location.href = url;
-  else window.open(url, "_blank", "noopener");
+  return `https://calendar.google.com/calendar/render?${q.toString()}`;
+}
+
+/**
+ * Android calendar-insert intent (Chrome supports it): opens the phone's own Calendar app
+ * on a pre-filled new-event screen, one tap from Save. Falls back to the Google Calendar page.
+ */
+function androidIntentUrl(e: IcsEvent) {
+  const enc = encodeURIComponent;
+  return (
+    "intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/event;" +
+    `S.title=${enc(e.title)};` +
+    `S.description=${enc(e.description)};` +
+    `S.eventLocation=${enc(e.location)};` +
+    `l.beginTime=${new Date(e.start).getTime()};` +
+    `l.endTime=${new Date(e.end).getTime()};` +
+    `S.browser_fallback_url=${enc(googleCalendarUrl(e))};end`
+  );
+}
+
+/**
+ * Adds the event to the visitor's calendar:
+ *  - iPhone / iPad: opens the .ics in Safari, which shows Apple's "Add to Calendar" sheet
+ *  - Android: opens the Calendar app's new-event screen (Save to keep it)
+ *  - desktop: opens Google Calendar's "new event" page in a new tab
+ */
+export function addToCalendar(e: IcsEvent) {
+  if (isIOS()) {
+    const url = URL.createObjectURL(new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" }));
+    window.location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  } else if (isAndroid()) {
+    window.location.href = androidIntentUrl(e);
+  } else {
+    window.open(googleCalendarUrl(e), "_blank", "noopener");
+  }
 }
