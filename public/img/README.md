@@ -1,6 +1,7 @@
 # Decorative art for the wedding site
 
-Every file here is a **flat SVG placeholder**. Replace each one with a real
+Every file here is a **flat SVG placeholder** (leaf sprigs, petals, circles and
+specks) so the site looks finished today. Replace each one with a real
 transparent PNG that has the **same base name**, then change one line in
 `src/config/dates.ts`:
 
@@ -8,59 +9,31 @@ transparent PNG that has the **same base name**, then change one line in
 export const ASSET_EXT: "svg" | "png" = "png";
 ```
 
-All layers, the kasavu dividers and the footer/couple borders read their path
-through `asset()` in that file, so nothing else needs editing.
+All layers read their path through `asset()` in that file, so nothing else
+needs editing.
 
 ## Export guidelines
 
 - Transparent background (PNG-24 with alpha)
 - Export at **2x** the size you expect it to display (sizes below are already 2x)
-- **Under 300 KB each.** Run them through TinyPNG / Squoosh / `pngquant`
-- Keep the subject anchored the way the placeholder is (e.g. fronds grow out of
-  the bottom-left corner; the code mirrors them for the right side)
+- **Under 250 KB each.** Run them through TinyPNG / Squoosh / `pngquant`
+- Keep the subject anchored the way the placeholder is (e.g. the eucalyptus
+  branch enters from the top-left corner)
+- Palette: sage greens, blush, champagne gold — nothing bright or saturated
 
-| File | Size (px) | Used in | Notes |
+| File | Size (px) | Used in (parallax speed) | Notes |
 |---|---|---|---|
-| `gopuram.png` | 1600 × 600 | Hero (back layer) | Temple gopuram silhouette, sits on the bottom edge |
-| `nilavilakku.png` | 600 × 900 | Hero sides, Footer | Brass lamp, lit wicks |
-| `marigold-garland.png` | 1600 × 300 | Hero top, RSVP top | Hangs from the top edge (thoranam) |
-| `coconut-fronds.png` | 900 × 900 | Hero bottom corners | Anchored bottom-left; mirrored in code |
-| `jasmine-petals.png` | 400 × 400 | Hero, Blessings | A single flower/petal; shown 5–8 times at different sizes |
-| `kasavu-border.png` | 1600 × 80 | Between every section, Couple, Footer | **Must tile horizontally** (gold zari on cream) |
-| `elephant-nettipattam.png` | 800 × 800 | Events (sides, low opacity) | Caparisoned elephant head |
-| `lotus.png` | 500 × 500 | Events | Lotus bloom |
-| `mural-corner.png` | 600 × 600 | Gallery (four corners) | Kerala-mural corner ornament, drawn for the **top-left**; mirrored in code |
-| `peacock-feather.png` | 400 × 900 | Invitation, RSVP | Mayilpeeli, quill at the bottom |
-| `flute.png` | 1000 × 220 | RSVP | Bamboo flute (odakuzhal) with tassel |
-| `temple-bell.png` | 300 × 700 | Events (top corners) | Chain at the top edge — swings from the top |
-| `thookku-vilakku.png` | 400 × 900 | Invitation (top corners) | Hanging brass lamp, chain at the top edge |
-| `nirapara.png` | 600 × 600 | Bride & Groom | Para filled with paddy and a coconut flower |
-| `shankhu.png` | 500 × 400 | Events | Conch |
-| `chirathu.png` | 300 × 220 | Gallery | Small clay oil lamp, lit |
-| `kolam.png` | 600 × 600 | Bride & Groom, Footer | Radial kolam — rotates on scroll, so keep it centred and symmetric |
-| `vettila.png` | 500 × 400 | Events | Betel leaves with areca nut |
+| `eucalyptus-branch-left.png` | 900 × 1200 | Hero (0.15), Feast | Enters from the top-left, droops down-right |
+| `eucalyptus-branch-right.png` | 900 × 1200 | Hero (0.25) | Mirror of the left branch |
+| `olive-branch.png` | 800 × 1000 | Our Story (0.20), RSVP (0.20) | Slim leaves along a gentle arc |
+| `peony-cluster.png` | 800 × 800 | Bride & Groom (0.25), Gallery corners (0.15) | Blush peonies with a few leaves |
+| `botanical-sprig.png` | 600 × 900 | Events (0.20, low opacity), Venue (0.20) | Single upright stem with alternating leaves |
+| `herb-sprig.png` | 500 × 700 | Feast (0.35) | Small paired leaflets |
+| `gold-dust.png` | 1600 × 900 | Hero (0.40), Events, Muhurtham (0.40), Footer | Scattered champagne specks; stretches to cover its section |
+| `soft-petals.png` | 600 × 900 | Hero (0.55, rotates), Our Story, RSVP | Loose blush petals |
+| `gold-line-arch.png` | 900 × 1200 | Bride & Groom (0.10), Venue (0.10) | Thin nested arch outlines |
+| `gold-rings-glow.png` | 1200 × 1200 | Muhurtham (0.15) | Soft radial glow with abstract concentric circles — centred |
 
-## Photos
-
-Real photos live in `/public/photos` (bride/groom portraits cropped from the
-pre-wedding shoot, plus `gallery-1…9.webp`), generated from the originals in
-`/public/amal& arya`. They are referenced from `couple.bridePhoto`,
-`couple.groomPhoto` and the `gallery` list in `src/config/dates.ts` and don't
-use `ASSET_EXT`. Portrait (4:5) photos suit the gallery tiles best.
-
-## Other files
-
-- `/public/video/opener.mp4` is the opening temple-door video (portrait,
-  720 × 1280, 8 s). The site is revealed at `intro.revealAtSeconds` (4 s) in
-  `src/config/dates.ts`; keep a replacement under ~7 MB so it starts quickly
-  on mobile data.
-
-- `og-image.jpg` is the 1200 × 630 link-preview card — what WhatsApp,
-  Facebook, iMessage and X show when someone shares the site's link. It's
-  referenced by `seo.ogImage` in `src/config/dates.ts`. To replace it, crop
-  your new art to a 1.91:1 (1200 × 630) landscape — most sharing surfaces
-  centre-crop to that ratio, so keep the couple's names/monogram near the
-  middle rather than at the very top or bottom edge.
-- Background music is read from `audioUrl` in the config (default
-  `/audio/nadaswaram.mp3`, i.e. `public/audio/nadaswaram.mp3`). Until that file
-  exists, the music button shows "Music unavailable" when pressed.
+`og-image.jpg` (1200 × 630) is the link-preview card shown by WhatsApp /
+Facebook / iMessage; it is baked into the page at build time (see `seo.ogImage`
+in `src/config/dates.ts`).

@@ -7,50 +7,54 @@ import { useBackgroundMusic } from "../hooks/useBackgroundMusic";
 import { LanguageProvider, useLang } from "../lib/i18n";
 import { Navigation, type NavItem } from "../components/layout/Navigation";
 import { MusicPlayerV2 } from "../components/layout/MusicPlayerV2";
-import { KasavuDivider } from "../components/shared/KasavuDivider";
+import { SectionDivider } from "../components/shared/SectionDivider";
 import { OpeningExperience } from "../components/sections/OpeningExperience";
 import { HeroSection } from "../components/sections/HeroSection";
-import { BlessingsSection } from "../components/sections/BlessingsSection";
+import { StorySection } from "../components/sections/StorySection";
 import { CoupleSection } from "../components/sections/CoupleSection";
 import { EventsSection } from "../components/sections/EventsSection";
+import { MuhurthamSection } from "../components/sections/MuhurthamSection";
 import { GallerySection } from "../components/sections/GallerySection";
 import { RSVPSection } from "../components/sections/RSVPSection";
 import { FooterSection } from "../components/sections/FooterSection";
 import "../styles/v2.css";
 
 const NAV_ITEMS: NavItem[] = [
-  { id: "home", label: "nav.home" },
-  { id: "blessings", label: "nav.blessings" },
+  { id: "story", label: "nav.story" },
   { id: "couple", label: "nav.couple" },
   { id: "events", label: "nav.events" },
   { id: "gallery", label: "nav.gallery" },
   { id: "rsvp", label: "nav.rsvp" },
 ];
 
-const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
+// Every section the nav should react to — the hero and the Muhurtham band have no link of their own.
+const SECTION_IDS = ["home", "story", "couple", "events", "muhurtham", "gallery", "rsvp"];
 
 /**
- * Kerala Hindu wedding site (the home page, "/").
- * Opening video → Hero → Invitation → Bride & Groom → Events → Gallery →
- * Live stream + RSVP → Footer, with a kasavu strip between bands.
+ * The wedding site (the home page, "/"). Opening screen → Hero → Our Story →
+ * Bride & Groom → Events → Muhurtham → Gallery →
+ * Live stream + RSVP → Footer, with a thin diamond rule between bands.
  */
 const WeddingPage: React.FC = () => {
   const lenisRef = useSmoothScroll();
   const rootRef = useRef<HTMLDivElement>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  // Shared with OpeningExperience so the song it starts on tap survives the
-  // hand-off to the nav's music button instead of being restarted or fought
-  // over by two separate <audio> instances.
+  // Optional music — off until the visitor presses the music button.
   const music = useBackgroundMusic();
-  // The opening video runs once per visit, over the already-mounted page.
-  // Reduced-motion visitors skip it entirely (and never download the video).
+  // The opening screen shows once per visit, over the already-mounted page.
+  // Reduced-motion visitors skip it entirely.
   const [introDone, setIntroDone] = useState(
     () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false,
   );
+  // Flips as the opening panels start to part, so the hero names animate in
+  // while they're being uncovered rather than after the overlay is gone.
+  const [heroReady, setHeroReady] = useState(introDone);
+  const handleIntroOpening = useCallback(() => setHeroReady(true), []);
   const handleIntroComplete = useCallback(() => {
     // Always open on the hero: Lenis keeps its own scroll target, so reset it too
     lenisRef.current?.scrollTo(0, { immediate: true, force: true });
     window.scrollTo(0, 0);
+    setHeroReady(true);
     setIntroDone(true);
   }, [lenisRef]);
 
@@ -92,21 +96,23 @@ const WeddingPage: React.FC = () => {
         {t("a11y.skip")}
       </a>
 
-      {!introDone && <OpeningExperience onComplete={handleIntroComplete} onStart={music.play} />}
+      {!introDone && <OpeningExperience onOpening={handleIntroOpening} onComplete={handleIntroComplete} />}
 
-      {introDone && <Navigation items={NAV_ITEMS} activeSection={activeSection} onNavigate={handleNavigate} />}
+      {introDone && <Navigation items={NAV_ITEMS} activeSection={activeSection} onNavigate={handleNavigate} onHome={() => handleNavigate("home")} />}
 
       <main id="main-content" tabIndex={-1}>
-        <HeroSection onEnter={() => handleNavigate("blessings")} />
-        <KasavuDivider />
-        <BlessingsSection />
-        <KasavuDivider />
+        <HeroSection ready={heroReady} onEnter={() => handleNavigate("story")} />
+        <SectionDivider />
+        <StorySection />
+        <SectionDivider />
         <CoupleSection />
-        <KasavuDivider />
+        <SectionDivider />
         <EventsSection />
-        <KasavuDivider />
+        <SectionDivider />
+        <MuhurthamSection />
+        <SectionDivider />
         <GallerySection />
-        <KasavuDivider />
+        <SectionDivider />
         <RSVPSection />
       </main>
 

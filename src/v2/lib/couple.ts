@@ -13,10 +13,8 @@ export interface Person {
   /** Full name (profile card) */
   fullNameEn: string;
   fullNameMl: string;
-  nakshatram: string;
   parents: string;
-  tharavad: string;
-  nativePlace: string;
+  hometown: string;
   photo: string;
 }
 
@@ -29,10 +27,8 @@ function person(role: Role, lang: Lang): Person {
     nameMl: pick(c, `${role}Name`, "ml"),
     fullNameEn: pick(c, `${role}FullName`, "en") || pick(c, `${role}Name`, "en"),
     fullNameMl: pick(c, `${role}FullName`, "ml") || pick(c, `${role}Name`, "ml"),
-    nakshatram: pick(c, `${role}Nakshatram`, lang),
     parents: pick(c, `${role}Parents`, lang),
-    tharavad: pick(c, `${role}Tharavad`, lang),
-    nativePlace: pick(c, `${role}NativePlace`, lang),
+    hometown: pick(c, `${role}Hometown`, lang),
     photo: role === "bride" ? c.bridePhoto : c.groomPhoto,
   };
 }

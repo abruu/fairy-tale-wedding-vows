@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { motion, type TargetAndTransition, type Variants } from "framer-motion";
-import { fadeRise, motionVariants } from "../../lib/motion";
+import { motionVariants, revealRise } from "../../lib/motion";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface RevealProps {
@@ -10,11 +10,11 @@ interface RevealProps {
   delay?: number;
 }
 
-/** Fades + rises its children in the first time they scroll into view. */
+/** Fades + rises its children (24px, 600ms) the first time they scroll into view. Opacity-only under reduced motion. */
 export const Reveal: React.FC<RevealProps> = ({ children, className, delay = 0 }) => {
   const prefersReduced = useReducedMotion();
   const variants = useMemo<Variants>(() => {
-    const base = motionVariants(prefersReduced, fadeRise);
+    const base = motionVariants(prefersReduced, revealRise);
     if (!delay) return base;
     // A variant's own transition wins over the `transition` prop, so the delay goes in here.
     const show = base.show as TargetAndTransition;

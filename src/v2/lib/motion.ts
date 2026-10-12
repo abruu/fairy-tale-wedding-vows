@@ -35,6 +35,16 @@ export const fadeRise: Variants = {
   },
 };
 
+/** Scroll reveal: 24px rise and fade over 600ms (see shared/Reveal). */
+export const revealRise: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 /** Opacity paired with a slight scale — for overlays and focal moments. */
 export const fadeScale: Variants = {
   hidden: { opacity: 0, scale: 0.98 },

@@ -7,7 +7,7 @@ import { Px } from "../shared/Px";
 import { Reveal } from "../shared/Reveal";
 import { SectionHeader } from "../shared/SectionHeader";
 
-/** Responsive square grid (2 → 3 → 4 columns), lazy-loaded, opens the lightbox. */
+/** Masonry grid (2 → 3 columns), lazy-loaded, opens the lightbox. */
 export const GallerySection: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -20,13 +20,9 @@ export const GallerySection: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="v2-section v2-bg-sandal" aria-labelledby="gallery-title">
-      <Px name="mural-corner" speed={0} className="v2-mural v2-mural--tl" />
-      <Px name="mural-corner" speed={0} flip="x" className="v2-mural v2-mural--tr" />
-      <Px name="mural-corner" speed={0} flip="y" className="v2-mural v2-mural--bl" />
-      <Px name="mural-corner" speed={0} flip="xy" className="v2-mural v2-mural--br" />
-      <Px name="chirathu" speed={0.1} className="v2-gallery-diya v2-gallery-diya--left" />
-      <Px name="chirathu" speed={0.1} flip="x" className="v2-gallery-diya v2-gallery-diya--right" />
+    <section id="gallery" className="v2-section v2-bg-blush" aria-labelledby="gallery-title">
+      <Px name="peony-cluster" speed={0.15} className="v2-gallery-peony v2-gallery-peony--tl" />
+      <Px name="peony-cluster" speed={0.15} flip="xy" className="v2-gallery-peony v2-gallery-peony--br" />
 
       <div className="v2-container">
         <SectionHeader id="gallery-title" eyebrow="gallery.eyebrow" title="gallery.title" />
@@ -34,16 +30,24 @@ export const GallerySection: React.FC = () => {
         <ul className="v2-gallery-grid">
           {images.map((img, i) => (
             <li key={img.src}>
-              <Reveal delay={(i % 4) * 0.06}>
+              <Reveal>
                 <button
                   type="button"
                   className="v2-gallery-item"
                   onClick={() => openLightbox(i)}
                   aria-label={`${t("gallery.open")}: ${img.alt}`}
                 >
-                  <img src={img.src} alt="" loading="lazy" decoding="async" width={480} height={600} />
+                  <img
+                    src={img.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={img.w}
+                    height={img.h}
+                    style={{ aspectRatio: `${img.w} / ${img.h}` }}
+                  />
                   <span className="v2-gallery-overlay" aria-hidden="true">
-                    <Expand size={20} />
+                    <Expand size={18} />
                   </span>
                 </button>
               </Reveal>

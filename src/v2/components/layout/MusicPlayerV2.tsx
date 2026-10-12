@@ -8,10 +8,8 @@ interface MusicPlayerV2Props {
 }
 
 /**
- * Background-music toggle. The song itself (see useBackgroundMusic) may
- * already be playing by the time this mounts — it's started in the same tap
- * that opens the intro video — so this is a pause/resume control, not the
- * thing that first requests the file.
+ * Optional background-music toggle. Music is off by default: the file is only
+ * requested when a visitor presses play (see useBackgroundMusic).
  */
 export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ music }) => {
   const { status, toggle } = music;

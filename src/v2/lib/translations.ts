@@ -1,6 +1,6 @@
 /**
  * Every UI string on the site, in English and Malayalam. Couple-specific
- * details (names, events, venue…) live in src/config/dates.ts instead.
+ * details (names, events, venue, menu…) live in src/config/dates.ts instead.
  * Keys are referenced from components as <T k="section.key" /> or t("section.key").
  */
 export const translations = {
@@ -10,25 +10,24 @@ export const translations = {
     "a11y.openMenu": "Open menu",
     "a11y.closeMenu": "Close menu",
     "a11y.language": "Choose language",
-    "a11y.home": "Back to the top of the invitation",
+    "a11y.home": "Back to the top of the page",
 
     "intro.eyebrow": "The wedding of",
     "intro.open": "Tap to open",
-    "intro.soundNote": "Best enjoyed with sound on",
-    "intro.skip": "Skip",
+    "intro.saveTheDate": "Save the date",
 
-    "nav.home": "Home",
-    "nav.blessings": "Invitation",
+    "nav.story": "Our Story",
     "nav.couple": "Bride & Groom",
     "nav.events": "Events",
     "nav.gallery": "Gallery",
-    "nav.rsvp": "RSVP",
+    "nav.rsvp": "Wishes",
 
-    "hero.eyebrow": "Together with their families",
+    "hero.eyebrow": "We're getting married",
+    "hero.muhurtham": "The Muhurtham is at",
     "hero.countdownLabel": "Until the Muhurtham",
-    "hero.countdownDone": "The auspicious moment has arrived",
+    "hero.countdownDone": "The big moment has arrived",
     "hero.marriedTitle": "We're Married!",
-    "hero.marriedSubtitle": "Thank you for all your love and blessings",
+    "hero.marriedSubtitle": "Thank you for celebrating with us",
     "hero.scroll": "Scroll",
 
     "countdown.days": "Days",
@@ -36,25 +35,25 @@ export const translations = {
     "countdown.minutes": "Minutes",
     "countdown.seconds": "Seconds",
 
-    "blessings.eyebrow": "Shubha Vivaham",
-    "blessings.title": "You are warmly invited",
-    "blessings.body":
-      "By the grace of God and the blessings of our elders, we are delighted to share that the wedding of our children has been fixed. We warmly request you and your family to join us on this auspicious day and bless the couple.",
+    "story.eyebrow": "Welcome",
+    "story.title": "Our Story",
+    "story.body":
+      "We are so happy to share the beginning of our married life with you. Come celebrate with us — your presence is the best gift we could ask for.",
 
     "couple.eyebrow": "The Bride & Groom",
-    "couple.title": "Two families, one blessing",
+    "couple.title": "Two families, one celebration",
     "couple.bride": "Bride",
     "couple.groom": "Groom",
-    "couple.nakshatram": "Nakshatram",
     "couple.parents": "Parents",
-    "couple.tharavad": "Family home",
-    "couple.nativePlace": "Native place",
+    "couple.hometown": "Hometown",
 
-    "events.eyebrow": "Ceremonies",
+    "events.eyebrow": "The Celebrations",
     "events.title": "Wedding Events",
-    "events.subtitle": "The muhurtham and the celebrations around it",
+    "events.subtitle": "The ceremony and the celebrations around it",
     "events.map": "Location",
 
+    "muhurtham.eyebrow": "The Muhurtham",
+    "muhurtham.note": "Please be seated 30 minutes before the Muhurtham.",
     "muhurtham.addToCalendar": "Add to Calendar",
 
 
@@ -63,27 +62,21 @@ export const translations = {
     "gallery.title": "Moments",
     "gallery.open": "Open photo",
 
-    "live.eyebrow": "Watch Live",
-    "live.title": "Can't be there in person?",
-    "live.body": "Join us online. The muhurtham will be streamed live.",
-    "live.button": "Watch the Live Stream",
-    "live.soon": "The live stream link will appear here closer to the wedding day.",
-    "live.playerTitle": "Wedding live stream",
 
-    "rsvp.eyebrow": "RSVP",
-    "rsvp.title": "Send us your wishes",
+    "rsvp.eyebrow": "Wishes",
+    "rsvp.title": "Send your wishes",
     "rsvp.name": "Your name",
-    "rsvp.message": "Message for the couple",
-    "rsvp.submit": "Send",
+    "rsvp.message": "Your wishes for the couple",
+    "rsvp.submit": "Send wishes",
     "rsvp.sending": "Sending…",
-    "rsvp.success": "Thank you! Your message has reached us.",
+    "rsvp.success": "Thank you for your lovely wishes! They mean the world to us, and we can't wait to celebrate with you.",
     "rsvp.error": "Sorry, that didn't go through. Please try again in a moment.",
-    "rsvp.notConfigured": "Online messages aren't open yet. Please check back soon.",
+    "rsvp.notConfigured": "Online wishes aren't open yet. Please check back soon.",
     "rsvp.nameRequired": "Please enter your name",
-    "rsvp.messageRequired": "Please enter a message",
+    "rsvp.messageRequired": "Please write a few words for us",
     "rsvp.sendAnother": "Send another message",
 
-    "footer.withLove": "With love, the families of",
+    "footer.thanks": "Thank you for being part of our story",
 
     "music.play": "Play background music",
     "music.pause": "Pause background music",
@@ -95,25 +88,24 @@ export const translations = {
     "a11y.openMenu": "മെനു തുറക്കുക",
     "a11y.closeMenu": "മെനു അടയ്ക്കുക",
     "a11y.language": "ഭാഷ തിരഞ്ഞെടുക്കുക",
-    "a11y.home": "ക്ഷണക്കത്തിന്റെ തുടക്കത്തിലേക്ക്",
+    "a11y.home": "പേജിന്റെ തുടക്കത്തിലേക്ക്",
 
-    "intro.eyebrow": "ശുഭവിവാഹം",
+    "intro.eyebrow": "വിവാഹം",
     "intro.open": "തുറക്കാൻ തൊടുക",
-    "intro.soundNote": "ശബ്‌ദത്തോടെ ആസ്വദിക്കൂ",
-    "intro.skip": "ഒഴിവാക്കുക",
+    "intro.saveTheDate": "ഈ ദിനം ഓർത്തുവെക്കൂ",
 
-    "nav.home": "ആമുഖം",
-    "nav.blessings": "ക്ഷണം",
+    "nav.story": "ഞങ്ങളുടെ കഥ",
     "nav.couple": "വധൂവരന്മാർ",
     "nav.events": "ചടങ്ങുകൾ",
     "nav.gallery": "ചിത്രങ്ങൾ",
-    "nav.rsvp": "മറുപടി",
+    "nav.rsvp": "ആശംസകൾ",
 
-    "hero.eyebrow": "ഇരു കുടുംബങ്ങളുടെയും അനുഗ്രഹത്തോടെ",
+    "hero.eyebrow": "ഞങ്ങൾ വിവാഹിതരാകുന്നു",
+    "hero.muhurtham": "മുഹൂർത്തം",
     "hero.countdownLabel": "മുഹൂർത്തത്തിന് ഇനി",
-    "hero.countdownDone": "ശുഭമുഹൂർത്തം വന്നെത്തി",
+    "hero.countdownDone": "ആ വലിയ നിമിഷം വന്നെത്തി",
     "hero.marriedTitle": "ഞങ്ങൾ വിവാഹിതരായി!",
-    "hero.marriedSubtitle": "നിങ്ങളുടെ സ്നേഹത്തിനും അനുഗ്രഹത്തിനും നന്ദി",
+    "hero.marriedSubtitle": "ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി",
     "hero.scroll": "താഴേക്ക്",
 
     "countdown.days": "ദിവസം",
@@ -121,25 +113,25 @@ export const translations = {
     "countdown.minutes": "മിനിറ്റ്",
     "countdown.seconds": "സെക്കൻഡ്",
 
-    "blessings.eyebrow": "ശുഭവിവാഹം",
-    "blessings.title": "സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു",
-    "blessings.body":
-      "ഈശ്വരാനുഗ്രഹത്താലും ഗുരുജനങ്ങളുടെ ആശീർവാദത്താലും ഞങ്ങളുടെ മക്കളുടെ വിവാഹം നിശ്ചയിച്ചിരിക്കുന്ന വിവരം സന്തോഷപൂർവ്വം അറിയിക്കുന്നു. ഈ മംഗളകർമ്മത്തിൽ സകുടുംബം പങ്കെടുത്ത് നവദമ്പതികളെ അനുഗ്രഹിക്കണമെന്ന് സ്നേഹപൂർവ്വം അഭ്യർത്ഥിക്കുന്നു.",
+    "story.eyebrow": "സ്വാഗതം",
+    "story.title": "ഞങ്ങളുടെ കഥ",
+    "story.body":
+      "ഞങ്ങളുടെ ദാമ്പത്യജീവിതത്തിന്റെ തുടക്കം നിങ്ങളോടൊപ്പം പങ്കിടുന്നതിൽ ഞങ്ങൾക്ക് ഏറെ സന്തോഷമുണ്ട്. ഞങ്ങളോടൊപ്പം ആഘോഷിക്കാൻ വരൂ — നിങ്ങളുടെ സാന്നിധ്യമാണ് ഞങ്ങൾക്കുള്ള ഏറ്റവും വലിയ സമ്മാനം.",
 
     "couple.eyebrow": "വധൂവരന്മാർ",
-    "couple.title": "രണ്ടു കുടുംബങ്ങൾ, ഒരു മനസ്സ്",
+    "couple.title": "രണ്ടു കുടുംബങ്ങൾ, ഒരു ആഘോഷം",
     "couple.bride": "വധു",
     "couple.groom": "വരൻ",
-    "couple.nakshatram": "നക്ഷത്രം",
     "couple.parents": "മാതാപിതാക്കൾ",
-    "couple.tharavad": "തറവാട്",
-    "couple.nativePlace": "സ്വദേശം",
+    "couple.hometown": "സ്വദേശം",
 
-    "events.eyebrow": "ചടങ്ങുകൾ",
+    "events.eyebrow": "ആഘോഷങ്ങൾ",
     "events.title": "വിവാഹ ചടങ്ങുകൾ",
-    "events.subtitle": "മുഹൂർത്തവും അനുബന്ധ ആഘോഷങ്ങളും",
+    "events.subtitle": "വിവാഹ ചടങ്ങും അനുബന്ധ ആഘോഷങ്ങളും",
     "events.map": "ലൊക്കേഷൻ",
 
+    "muhurtham.eyebrow": "മുഹൂർത്തം",
+    "muhurtham.note": "മുഹൂർത്തത്തിന് 30 മിനിറ്റ് മുൻപ് ഇരിപ്പിടങ്ങളിൽ എത്തിച്ചേരണം.",
     "muhurtham.addToCalendar": "കലണ്ടറിൽ ചേർക്കുക",
 
 
@@ -148,27 +140,21 @@ export const translations = {
     "gallery.title": "മധുര നിമിഷങ്ങൾ",
     "gallery.open": "ചിത്രം വലുതായി കാണുക",
 
-    "live.eyebrow": "തത്സമയം",
-    "live.title": "നേരിട്ട് എത്താൻ കഴിയാത്തവർക്ക്",
-    "live.body": "മുഹൂർത്തം ഓൺലൈനായി തത്സമയം കാണാം.",
-    "live.button": "തത്സമയ സംപ്രേഷണം കാണുക",
-    "live.soon": "തത്സമയ സംപ്രേഷണത്തിന്റെ ലിങ്ക് വിവാഹദിനത്തോടടുത്ത് ഇവിടെ ലഭ്യമാകും.",
-    "live.playerTitle": "വിവാഹ തത്സമയ സംപ്രേഷണം",
 
-    "rsvp.eyebrow": "മറുപടി",
-    "rsvp.title": "നിങ്ങളുടെ ആശംസകൾ അയയ്ക്കൂ",
+    "rsvp.eyebrow": "ആശംസകൾ",
+    "rsvp.title": "ആശംസകൾ അയയ്ക്കൂ",
     "rsvp.name": "താങ്കളുടെ പേര്",
-    "rsvp.message": "നവദമ്പതികൾക്കുള്ള ആശംസ",
-    "rsvp.submit": "അയയ്ക്കുക",
+    "rsvp.message": "നവദമ്പതികൾക്കുള്ള നിങ്ങളുടെ ആശംസ",
+    "rsvp.submit": "ആശംസ അയയ്ക്കുക",
     "rsvp.sending": "അയയ്ക്കുന്നു…",
-    "rsvp.success": "നന്ദി! താങ്കളുടെ സന്ദേശം ഞങ്ങൾക്ക് ലഭിച്ചു.",
-    "rsvp.error": "ക്ഷമിക്കണം, സന്ദേശം അയയ്ക്കാൻ കഴിഞ്ഞില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
-    "rsvp.notConfigured": "ഓൺലൈൻ സന്ദേശം ഇതുവരെ തുറന്നിട്ടില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
+    "rsvp.success": "നിങ്ങളുടെ സ്നേഹനിർഭരമായ ആശംസകൾക്ക് നന്ദി! ഇതു ഞങ്ങൾക്ക് ഏറെ വിലപ്പെട്ടതാണ്, നിങ്ങളോടൊപ്പം ആഘോഷിക്കാൻ ഞങ്ങൾ കാത്തിരിക്കുന്നു.",
+    "rsvp.error": "ക്ഷമിക്കണം, അയയ്ക്കാൻ കഴിഞ്ഞില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
+    "rsvp.notConfigured": "ഓൺലൈൻ ആശംസകൾ ഇതുവരെ തുറന്നിട്ടില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
     "rsvp.nameRequired": "ദയവായി പേര് നൽകുക",
-    "rsvp.messageRequired": "ദയവായി ഒരു സന്ദേശം നൽകുക",
+    "rsvp.messageRequired": "ദയവായി ഏതാനും വാക്കുകൾ എഴുതുക",
     "rsvp.sendAnother": "മറ്റൊരു സന്ദേശം അയയ്ക്കുക",
 
-    "footer.withLove": "സ്നേഹപൂർവ്വം,",
+    "footer.thanks": "ഞങ്ങളുടെ കഥയുടെ ഭാഗമായതിന് നന്ദി",
 
     "music.play": "പശ്ചാത്തല സംഗീതം കേൾക്കുക",
     "music.pause": "പശ്ചാത്തല സംഗീതം നിർത്തുക",

@@ -11,9 +11,9 @@ export interface RsvpData {
 export type RsvpResult = "ok" | "error" | "not-configured";
 
 /**
- * Sends the RSVP through EmailJS using WEDDING_CONFIG.email. The template
- * variables match the previous site's template, so the existing EmailJS
- * template keeps working unchanged.
+ * Sends the wishes message through EmailJS using WEDDING_CONFIG.email. The
+ * template variables match the previous site's template, so the existing
+ * EmailJS template keeps working unchanged.
  */
 export async function submitRsvp(data: RsvpData): Promise<RsvpResult> {
   const { serviceId, templateId, publicKey } = WEDDING_CONFIG.email.emailJS;
@@ -30,7 +30,7 @@ export async function submitRsvp(data: RsvpData): Promise<RsvpResult> {
         to_email: recipients,
         reply_to: recipients,
         from_name: data.name,
-        message: data.message || "No message provided",
+        message: data.message,
         couple_names: `${a.nameEn} & ${b.nameEn}`,
         wedding_date: `${formatDate(WEDDING_CONFIG.weddingDate, "en")}, ${formatTime(WEDDING_CONFIG.muhurthamTime, "en")}`,
       },

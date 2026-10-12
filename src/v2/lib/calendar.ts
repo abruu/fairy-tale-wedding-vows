@@ -60,15 +60,46 @@ export function buildIcs(e: IcsEvent): string {
     .join("\r\n");
 }
 
-export function downloadIcs(e: IcsEvent, filename: string) {
+/** Date → 20270828T050000Z (Google Calendar's date format) */
+const toGoogleDate = toIcsUtc;
+
+const isIOS = () =>
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  // iPadOS reports itself as a Mac with a touch screen
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = () => /Android/i.test(navigator.userAgent);
+
+/**
+ * Adds the event to the visitor's calendar:
+ *  - iPhone / iPad: opens the .ics in Safari, which shows Apple's "Add to Calendar" sheet
+ *  - Android: opens a Google Calendar link, which hands over to the Calendar app
+ *  - desktop: downloads the .ics file (Apple / Google / Outlook all accept it)
+ */
+export function addToCalendar(e: IcsEvent, filename: string) {
+  if (isAndroid()) {
+    const q = new URLSearchParams({
+      action: "TEMPLATE",
+      text: e.title,
+      dates: `${toGoogleDate(e.start)}/${toGoogleDate(e.end)}`,
+      details: e.description,
+      location: e.location,
+    });
+    window.location.href = `https://calendar.google.com/calendar/render?${q.toString()}`;
+    return;
+  }
+
   const blob = new Blob([buildIcs(e)], { type: "text/calendar;charset=utf-8" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  // Give Safari a moment to start the download before revoking.
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  if (isIOS()) {
+    window.location.href = url;
+  } else {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+  // Give the browser a moment to start before revoking.
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
 }

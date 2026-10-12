@@ -1,11 +1,11 @@
 {
   "name": "Amal & Arya · Wedding",
   "short_name": "Amal & Arya",
-  "description": "The wedding of Amal & Arya at Guruvayoor Temple on 15 November 2026.",
+  "description": "The wedding of Amal & Arya on 15 November 2026.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF8E7",
-  "theme_color": "#7B1E2B",
+  "background_color": "#FAF6EF",
+  "theme_color": "#1E3A32",
   "icons": [
     {
       "src": "/icon-192.png",

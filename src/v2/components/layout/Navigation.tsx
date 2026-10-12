@@ -4,6 +4,7 @@ import { useScrollDirection } from "../../hooks/useScrollDirection";
 import { useLang } from "../../lib/i18n";
 import { couplePeople } from "../../lib/couple";
 import type { TranslationKey } from "../../lib/translations";
+import { Monogram } from "../shared/Monogram";
 import { LanguageToggle } from "./LanguageToggle";
 
 export interface NavItem {
@@ -15,18 +16,20 @@ interface NavigationProps {
   items: NavItem[];
   activeSection: string;
   onNavigate: (id: string) => void;
+  /** Monogram click — back to the top */
+  onHome: () => void;
 }
 
 /**
- * Sticky minimal nav: the couple's initials on the left, section links (collapsing
+ * Sticky minimal nav: the couple's monogram on the left, section links (collapsing
  * to a hamburger panel under 1200px) and the language switch on the right.
- * Transparent over the hero, gains an ivory backdrop once scrolled.
+ * Transparent with light text over the emerald hero, gains an ivory backdrop
+ * (and dark text) once scrolled.
  */
-export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate }) => {
+export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate, onHome }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { scrolled } = useScrollDirection(10);
   const { t } = useLang();
-  // Initials monogram ("A&A") keeps the bar compact on phones in both languages
   const [first, second] = couplePeople("en");
 
   useEffect(() => {
@@ -48,11 +51,12 @@ export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, on
         className="v2-nav-brand"
         lang="en"
         aria-label={`${first.nameEn} & ${second.nameEn} · ${t("a11y.home")}`}
-        onClick={() => handleNavClick(items[0].id)}
+        onClick={() => {
+          onHome();
+          setMobileOpen(false);
+        }}
       >
-        {first.nameEn[0]}
-        <span className="v2-nav-amp">&amp;</span>
-        {second.nameEn[0]}
+        <Monogram size={40} />
       </button>
 
       <ul id="v2-nav-links" className={`v2-nav-links ${mobileOpen ? "open" : ""}`}>

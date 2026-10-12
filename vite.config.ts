@@ -47,7 +47,7 @@ const tokens: Record<string, string> = {
   "%WEDDING_OG_IMAGE%": ogImage,
   "%WEDDING_OG_W%": "1200",
   "%WEDDING_OG_H%": "630",
-  "%WEDDING_THEME_COLOR%": "#7B1E2B",
+  "%WEDDING_THEME_COLOR%": "#1E3A32",
   "%WEDDING_LOCALE%": "en_IN",
   "%WEDDING_TWITTER_CARD%": "summary_large_image",
   "%WEDDING_JSON_LD%": jsonLd,
