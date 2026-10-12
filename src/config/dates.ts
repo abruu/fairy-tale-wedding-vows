@@ -162,7 +162,7 @@ export const WEDDING_CONFIG = {
       endTime: "",
       timeLabel_en: "Right after the muhurtham",
       timeLabel_ml: "മുഹൂർത്തം കഴിഞ്ഞ ഉടൻ",
-      venue: "Sagar Tourist Home",
+      venue: "Parvathy Kalyana Mandapam",
       mapUrl: "https://maps.app.goo.gl/hvDYzCNLv92uqcMu6",
       note_en: "A traditional Kerala feast, served right after the ceremony.",
       note_ml: "ചടങ്ങിനു ശേഷം വിളമ്പുന്ന തനി കേരളീയ സദ്യ.",
