@@ -9,13 +9,11 @@ export interface Person {
   /** Short name (hero, nav) */
   name: string;
   nameEn: string;
-  nameMl: string;
+  nameHi: string;
   /** Full name (profile card) */
   fullNameEn: string;
-  fullNameMl: string;
+  fullNameHi: string;
   parents: string;
-  hometown: string;
-  photo: string;
 }
 
 function person(role: Role, lang: Lang): Person {
@@ -24,12 +22,10 @@ function person(role: Role, lang: Lang): Person {
     role,
     name: pick(c, `${role}Name`, lang),
     nameEn: pick(c, `${role}Name`, "en"),
-    nameMl: pick(c, `${role}Name`, "ml"),
+    nameHi: pick(c, `${role}Name`, "hi"),
     fullNameEn: pick(c, `${role}FullName`, "en") || pick(c, `${role}Name`, "en"),
-    fullNameMl: pick(c, `${role}FullName`, "ml") || pick(c, `${role}Name`, "ml"),
+    fullNameHi: pick(c, `${role}FullName`, "hi") || pick(c, `${role}Name`, "hi"),
     parents: pick(c, `${role}Parents`, lang),
-    hometown: pick(c, `${role}Hometown`, lang),
-    photo: role === "bride" ? c.bridePhoto : c.groomPhoto,
   };
 }
 

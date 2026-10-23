@@ -6,16 +6,16 @@ import { formatDate } from "../../lib/format";
 import { Monogram } from "../shared/Monogram";
 import { Px } from "../shared/Px";
 
-/** Emerald closing band: thank-you line, names, hashtag, contact and monogram. */
+/** Burgundy closing band: thank-you line, names, hashtag, contact and monogram. */
 export const FooterSection: React.FC = () => {
   const { lang } = useLang();
   const [first, second] = couplePeople(lang);
-  const { hashtag, weddingDate } = WEDDING_CONFIG;
+  const { hashtag, engagement } = WEDDING_CONFIG;
 
   return (
     <footer className="v2-footer">
       {/* <section> so the parallax engine treats the footer like every other band */}
-      <section className="v2-section v2-bg-emerald">
+      <section className="v2-section v2-bg-burgundy">
         <Px name="gold-dust" speed={0.3} className="v2-footer-dust" />
 
         <div className="v2-container v2-center v2-footer-text">
@@ -25,7 +25,7 @@ export const FooterSection: React.FC = () => {
             {first.name} &amp; {second.name}
           </p>
           <p className="v2-footer-date" lang={lang}>
-            {formatDate(weddingDate, lang, false)}
+            {formatDate(engagement.date, lang, false)}
           </p>
           {hashtag && <p className="v2-footer-hashtag">{hashtag}</p>}
         </div>

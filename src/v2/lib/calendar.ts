@@ -1,7 +1,7 @@
 /** Builds a single-event .ics file and links to Google Calendar (Apple/Google/Outlook all accept it). */
 
 interface IcsEvent {
-  /** Full ISO timestamps with offset, e.g. 2027-08-28T10:30:00+05:30 */
+  /** Full ISO timestamps with offset, e.g. 2026-12-06T11:00:00+05:30 */
   start: string;
   end: string;
   title: string;
@@ -37,7 +37,7 @@ export function buildIcs(e: IcsEvent): string {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Wedding//Muhurtham//EN",
+    "PRODID:-//Engagement//Invitation//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
@@ -100,15 +100,15 @@ function androidIntentUrl(e: IcsEvent) {
 
 /**
  * Adds the event to the visitor's calendar:
- *  - iPhone / iPad: opens /muhurtham.ics in Safari, which shows Apple's "Add to Calendar" sheet
+ *  - iPhone / iPad: opens /engagement.ics in Safari, which shows Apple's "Add to Calendar" sheet
  *  - Android: opens the Calendar app's new-event screen (Save to keep it)
  *  - desktop: opens Google Calendar's "new event" page in a new tab
  */
 export function addToCalendar(e: IcsEvent) {
   if (isIOS()) {
-    // A real served URL (see the wedding-ics plugin in vite.config.ts) — Safari shows the
+    // A real served URL (see the engagement-ics plugin in vite.config.ts) — Safari shows the
     // "Add to Calendar" sheet for it, whereas a blob: URL would just download.
-    window.location.href = "/muhurtham.ics";
+    window.location.href = "/engagement.ics";
   } else if (isAndroid()) {
     window.location.href = androidIntentUrl(e);
   } else {

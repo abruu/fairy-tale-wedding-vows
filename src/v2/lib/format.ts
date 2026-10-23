@@ -1,9 +1,9 @@
 import type { Lang } from "./translations";
 
-// en-GB gives "Sunday 15 November 2026" (en-IN inserts a stray comma before the year)
-const LOCALE: Record<Lang, string> = { en: "en-GB", ml: "ml-IN" };
+// en-GB gives "Sunday 6 December 2026" (en-IN inserts a stray comma before the year)
+const LOCALE: Record<Lang, string> = { en: "en-GB", hi: "hi-IN" };
 
-/** "2027-08-28" → "Saturday, 28 August 2027" / "2027, ഓഗസ്റ്റ് 28, ശനിയാഴ്‌ച" */
+/** "2027-08-28" → "Saturday, 28 August 2027" / "शनिवार, 28 अगस्त 2027" */
 export function formatDate(isoDate: string, lang: Lang, withWeekday = true): string {
   // Noon UTC keeps the calendar day stable in every viewer's timezone.
   const d = new Date(`${isoDate}T12:00:00Z`);
@@ -17,7 +17,7 @@ export function formatDate(isoDate: string, lang: Lang, withWeekday = true): str
 }
 
 /**
- * "10:30" → "10:30 AM" / "രാവിലെ 10:30". Times are wall-clock at the venue,
+ * "10:30" → "10:30 AM" / "सुबह 10:30". Times are wall-clock at the venue,
  * so they are formatted as written rather than converted to the viewer's zone.
  */
 export function formatTime(hhmm: string, lang: Lang): string {
@@ -26,11 +26,11 @@ export function formatTime(hhmm: string, lang: Lang): string {
   const mm = String(m).padStart(2, "0");
   if (lang === "en") return `${h12}:${mm} ${h < 12 ? "AM" : "PM"}`;
   const period =
-    h >= 4 && h < 12 ? "രാവിലെ" : h >= 12 && h < 15 ? "ഉച്ചയ്ക്ക്" : h >= 15 && h < 19 ? "വൈകുന്നേരം" : "രാത്രി";
+    h >= 4 && h < 12 ? "सुबह" : h >= 12 && h < 16 ? "दोपहर" : h >= 16 && h < 19 ? "शाम" : "रात";
   return `${period} ${h12}:${mm}`;
 }
 
-/** "10:30"–"11:15" → "10:30 – 11:15 AM" / "രാവിലെ 10:30 – 11:15" (period shown once when shared). */
+/** "10:30"–"11:15" → "10:30 – 11:15 AM" / "सुबह 10:30 – 11:15" (period shown once when shared). */
 export function formatTimeRange(start: string, end: string, lang: Lang): string {
   const a = formatTime(start, lang);
   const b = formatTime(end, lang);

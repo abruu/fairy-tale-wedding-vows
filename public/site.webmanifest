@@ -1,11 +1,11 @@
 {
-  "name": "Amal & Arya · Wedding",
-  "short_name": "Amal & Arya",
-  "description": "The wedding of Amal & Arya on 15 November 2026.",
+  "name": "Monika & Dhirender · Engagement",
+  "short_name": "Monika & Dhirender",
+  "description": "The engagement of Monika & Dhirender.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FAF6EF",
-  "theme_color": "#1E3A32",
+  "theme_color": "#6B1F2E",
   "icons": [
     {
       "src": "/icon-192.png",

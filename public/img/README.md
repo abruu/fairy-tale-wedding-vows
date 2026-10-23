@@ -19,7 +19,7 @@ needs editing.
 - **Under 250 KB each.** Run them through TinyPNG / Squoosh / `pngquant`
 - Keep the subject anchored the way the placeholder is (e.g. the eucalyptus
   branch enters from the top-left corner)
-- Palette: sage greens, blush, champagne gold — nothing bright or saturated
+- Palette: wine and rose (the leaf sprigs), blush, champagne gold — nothing bright or saturated
 
 | File | Size (px) | Used in (parallax speed) | Notes |
 |---|---|---|---|

@@ -6,7 +6,7 @@ const STORAGE_KEY = "wedding-lang";
 function readStoredLang(): Lang {
   try {
     const v = window.localStorage.getItem(STORAGE_KEY);
-    return v === "ml" ? "ml" : "en";
+    return v === "hi" ? "hi" : "en";
   } catch {
     return "en";
   }
@@ -21,10 +21,10 @@ interface LangContextValue {
 const LangContext = createContext<LangContextValue | null>(null);
 
 /**
- * English / Malayalam switch for the site. Defaults to English and
+ * English / Hindi switch for the site. Defaults to English and
  * remembers the visitor's choice in localStorage (which can throw in private
  * mode, so every access is guarded). Also keeps <html lang> in sync so screen
- * readers and the :lang(ml) font rules follow the active language.
+ * readers and the :lang(hi) font rules follow the active language.
  */
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLangState] = useState<Lang>(readStoredLang);
@@ -77,8 +77,8 @@ export const T: React.FC<TProps> = ({ k, as: Tag = "span", className }) => {
 };
 
 /**
- * Reads a bilingual config field: pick(couple, "brideName", "ml") returns
- * couple.brideName_ml, falling back to the English value.
+ * Reads a bilingual config field: pick(couple, "brideName", "hi") returns
+ * couple.brideName_hi, falling back to the English value.
  */
 export function pick(obj: object, key: string, lang: Lang): string {
   const rec = obj as Record<string, unknown>;

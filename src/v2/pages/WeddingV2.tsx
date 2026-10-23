@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import { WEDDING_CONFIG } from "@/config/dates";
 import { useActiveSection } from "../hooks/useActiveSection";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 import { useParallax } from "../hooks/useParallax";
@@ -12,9 +13,7 @@ import { OpeningExperience } from "../components/sections/OpeningExperience";
 import { HeroSection } from "../components/sections/HeroSection";
 import { StorySection } from "../components/sections/StorySection";
 import { CoupleSection } from "../components/sections/CoupleSection";
-import { EventsSection } from "../components/sections/EventsSection";
-import { MuhurthamSection } from "../components/sections/MuhurthamSection";
-import { GallerySection } from "../components/sections/GallerySection";
+import { EngagementSection } from "../components/sections/EngagementSection";
 import { RSVPSection } from "../components/sections/RSVPSection";
 import { FooterSection } from "../components/sections/FooterSection";
 import "../styles/v2.css";
@@ -22,18 +21,16 @@ import "../styles/v2.css";
 const NAV_ITEMS: NavItem[] = [
   { id: "story", label: "nav.story" },
   { id: "couple", label: "nav.couple" },
-  { id: "events", label: "nav.events" },
-  { id: "gallery", label: "nav.gallery" },
+  { id: "engagement", label: "nav.engagement" },
   { id: "rsvp", label: "nav.rsvp" },
 ];
 
-// Every section the nav should react to — the hero and the Muhurtham band have no link of their own.
-const SECTION_IDS = ["home", "story", "couple", "events", "muhurtham", "gallery", "rsvp"];
+// Every section the nav should react to — the hero has no link of its own.
+const SECTION_IDS = ["home", "story", "couple", "engagement", "rsvp"];
 
 /**
- * The wedding site (the home page, "/"). Opening screen → Hero → Our Story →
- * Bride & Groom → Events → Muhurtham → Gallery →
- * Live stream + RSVP → Footer, with a thin diamond rule between bands.
+ * The engagement invitation (the home page, "/"). Opening screen → Hero → Invitation →
+ * Bride & Groom → Engagement details → Wishes → Footer, with a thin diamond rule between bands.
  */
 const WeddingPage: React.FC = () => {
   const lenisRef = useSmoothScroll();
@@ -108,18 +105,14 @@ const WeddingPage: React.FC = () => {
         <SectionDivider />
         <CoupleSection />
         <SectionDivider />
-        <EventsSection />
-        <SectionDivider />
-        <MuhurthamSection />
-        <SectionDivider />
-        <GallerySection />
+        <EngagementSection />
         <SectionDivider />
         <RSVPSection />
       </main>
 
       <FooterSection />
 
-      {introDone && <MusicPlayerV2 music={music} />}
+      {introDone && WEDDING_CONFIG.audioUrl && <MusicPlayerV2 music={music} />}
 
       <button
         type="button"

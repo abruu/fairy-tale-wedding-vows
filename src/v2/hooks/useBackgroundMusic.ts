@@ -36,7 +36,7 @@ export function useBackgroundMusic(): BackgroundMusic {
   );
 
   const play = useCallback(() => {
-    if (status === "unavailable") return;
+    if (status === "unavailable" || !WEDDING_CONFIG.audioUrl) return;
     if (!audioRef.current) {
       const audio = new Audio(WEDDING_CONFIG.audioUrl);
       audio.loop = true;

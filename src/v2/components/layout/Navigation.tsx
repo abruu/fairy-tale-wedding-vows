@@ -23,7 +23,7 @@ interface NavigationProps {
 /**
  * Sticky minimal nav: the couple's monogram on the left, section links (collapsing
  * to a hamburger panel under 1200px) and the language switch on the right.
- * Transparent with light text over the emerald hero, gains an ivory backdrop
+ * Transparent with light text over the burgundy hero, gains an ivory backdrop
  * (and dark text) once scrolled.
  */
 export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate, onHome }) => {

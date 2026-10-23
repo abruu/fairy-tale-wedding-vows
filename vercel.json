@@ -7,7 +7,7 @@
   ],
   "headers": [
     {
-      "source": "/muhurtham.ics",
+      "source": "/engagement.ics",
       "headers": [
         {
           "key": "Content-Type",
@@ -15,7 +15,7 @@
         },
         {
           "key": "Content-Disposition",
-          "value": "inline; filename=muhurtham.ics"
+          "value": "inline; filename=engagement.ics"
         }
       ]
     }

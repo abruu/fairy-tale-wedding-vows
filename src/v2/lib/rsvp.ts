@@ -20,6 +20,7 @@ export async function submitRsvp(data: RsvpData): Promise<RsvpResult> {
   if (!serviceId || !templateId || !publicKey) return "not-configured";
 
   const recipients = WEDDING_CONFIG.email.recipientEmails.filter(Boolean).join(", ");
+  if (!recipients) return "not-configured";
   const [a, b] = couplePeople("en");
 
   try {
@@ -32,7 +33,7 @@ export async function submitRsvp(data: RsvpData): Promise<RsvpResult> {
         from_name: data.name,
         message: data.message,
         couple_names: `${a.nameEn} & ${b.nameEn}`,
-        wedding_date: `${formatDate(WEDDING_CONFIG.weddingDate, "en")}, ${formatTime(WEDDING_CONFIG.muhurthamTime, "en")}`,
+        wedding_date: `${formatDate(WEDDING_CONFIG.engagement.date, "en")}, ${formatTime(WEDDING_CONFIG.engagement.time, "en")}`,
       },
       { publicKey },
     );

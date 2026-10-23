@@ -3,11 +3,13 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { buildIcs } from "./src/v2/lib/calendar";
 import { componentTagger } from "lovable-tagger";
-import { MUHURTHAM_END, MUHURTHAM_START, SITE_URL, WEDDING_CONFIG, absoluteUrl } from "./src/config/dates";
+import { ENGAGEMENT_END, ENGAGEMENT_START, SITE_URL, WEDDING_CONFIG, absoluteUrl } from "./src/config/dates";
+import { formatDate, formatTime } from "./src/v2/lib/format";
 
 // Everything below is injected into index.html at build time, so link
 // previews (WhatsApp, Facebook, X…) show the couple without running any JS.
-const { couple, seo, venue, weddingDate } = WEDDING_CONFIG;
+const { couple, seo, engagement } = WEDDING_CONFIG;
+const { venue } = engagement;
 const [first, second] = couple.brideFirst
   ? [couple.brideName_en, couple.groomName_en]
   : [couple.groomName_en, couple.brideName_en];
@@ -15,30 +17,28 @@ const [first, second] = couple.brideFirst
 const siteUrl = SITE_URL.replace(/\/$/, "");
 const names = `${first} & ${second}`;
 const ogImage = seo.ogImage ? absoluteUrl(seo.ogImage) : "";
-const displayDate = new Date(`${weddingDate}T12:00:00Z`).toLocaleDateString("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
+const displayDate = formatDate(engagement.date, "en", false);
+const fullDate = formatDate(engagement.date, "en");
+const title = `${names} · Engagement · ${displayDate}`;
+const description = `Join us for the engagement of ${names} on ${fullDate} at ${formatTime(engagement.time, "en")}, ${venue.name_en}, Bengaluru.`;
 
 /** Schema.org Event — only facts that are in the config. */
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Event",
-  name: `Wedding of ${names}`,
-  startDate: MUHURTHAM_START,
+  name: `Engagement of ${names}`,
+  startDate: ENGAGEMENT_START,
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-  location: { "@type": "Place", name: venue.name_en, address: venue.address },
-  description: seo.description,
+  location: { "@type": "Place", name: venue.name_en, address: venue.address_en },
+  description,
   url: siteUrl,
   ...(ogImage ? { image: [ogImage] } : {}),
 });
 
 const tokens: Record<string, string> = {
-  "%WEDDING_TITLE%": seo.title,
-  "%WEDDING_DESCRIPTION%": seo.description,
+  "%WEDDING_TITLE%": title,
+  "%WEDDING_DESCRIPTION%": description,
   "%WEDDING_NAMES%": names,
   "%WEDDING_DISPLAY_DATE%": displayDate,
   "%WEDDING_SITE_URL%": siteUrl,
@@ -48,21 +48,21 @@ const tokens: Record<string, string> = {
   "%WEDDING_OG_IMAGE%": ogImage,
   "%WEDDING_OG_W%": "1200",
   "%WEDDING_OG_H%": "630",
-  "%WEDDING_THEME_COLOR%": "#1E3A32",
+  "%WEDDING_THEME_COLOR%": "#6B1F2E",
   "%WEDDING_LOCALE%": "en_IN",
   "%WEDDING_TWITTER_CARD%": "summary_large_image",
   "%WEDDING_JSON_LD%": jsonLd,
 };
 
-/** The muhurtham invite as a real file at /muhurtham.ics — iOS Safari only opens its
+/** The engagement invite as a real file at /engagement.ics — iOS Safari only opens its
  *  "Add to Calendar" sheet for a served URL, not for a blob: download. */
-const muhurthamIcs = buildIcs({
-  start: MUHURTHAM_START,
-  end: MUHURTHAM_END,
-  title: `Muhurtham · ${names}`,
-  description: `Wedding of ${names}`,
-  location: `${venue.name_en}, ${venue.address}`,
-  uid: `muhurtham-${weddingDate}@wedding`,
+const engagementIcs = buildIcs({
+  start: ENGAGEMENT_START,
+  end: ENGAGEMENT_END,
+  title: `Engagement · ${names}`,
+  description: `Engagement of ${names}`,
+  location: `${venue.name_en}, ${venue.address_en}`,
+  uid: `engagement-${engagement.date}@invitation`,
 });
 
 // https://vitejs.dev/config/
@@ -75,15 +75,15 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     {
-      name: "wedding-ics",
+      name: "engagement-ics",
       configureServer(server) {
-        server.middlewares.use("/muhurtham.ics", (_req, res) => {
+        server.middlewares.use("/engagement.ics", (_req, res) => {
           res.setHeader("Content-Type", "text/calendar; charset=utf-8");
-          res.end(muhurthamIcs);
+          res.end(engagementIcs);
         });
       },
       generateBundle() {
-        this.emitFile({ type: "asset", fileName: "muhurtham.ics", source: muhurthamIcs });
+        this.emitFile({ type: "asset", fileName: "engagement.ics", source: engagementIcs });
       },
     },
     {

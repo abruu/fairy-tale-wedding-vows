@@ -7,7 +7,7 @@ interface SectionHeaderProps {
   /** Omit for a lighter header: the eyebrow then becomes the section's <h2> */
   title?: TranslationKey;
   subtitle?: TranslationKey;
-  /** 'light' = ivory/blush/sage background, 'dark' = emerald background */
+  /** 'light' = ivory/blush/sage background, 'dark' = burgundy background */
   tone?: "light" | "dark";
   id?: string;
   className?: string;

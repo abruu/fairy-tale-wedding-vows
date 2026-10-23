@@ -1,6 +1,6 @@
 /**
- * Every UI string on the site, in English and Malayalam. Couple-specific
- * details (names, events, venue, menu…) live in src/config/dates.ts instead.
+ * Every UI string on the site, in English and Hindi. Couple-specific
+ * details (names, date, venue…) live in src/config/dates.ts instead.
  * Keys are referenced from components as <T k="section.key" /> or t("section.key").
  */
 export const translations = {
@@ -12,22 +12,21 @@ export const translations = {
     "a11y.language": "Choose language",
     "a11y.home": "Back to the top of the page",
 
-    "intro.eyebrow": "The wedding of",
+    "intro.eyebrow": "The engagement of",
     "intro.open": "Tap to open",
     "intro.saveTheDate": "Save the date",
 
-    "nav.story": "Our Story",
+    "nav.story": "Invitation",
     "nav.couple": "Bride & Groom",
-    "nav.events": "Events",
-    "nav.gallery": "Gallery",
+    "nav.engagement": "Engagement",
     "nav.rsvp": "Wishes",
 
-    "hero.eyebrow": "We're getting married",
-    "hero.muhurtham": "The Muhurtham is at",
-    "hero.countdownLabel": "Until the Muhurtham",
+    "hero.eyebrow": "We're getting engaged",
+    "hero.engagement": "The Engagement is at",
+    "hero.countdownLabel": "Until the Engagement",
     "hero.countdownDone": "The big moment has arrived",
-    "hero.marriedTitle": "We're Married!",
-    "hero.marriedSubtitle": "Thank you for celebrating with us",
+    "hero.engagedTitle": "We're Engaged!",
+    "hero.engagedSubtitle": "Thank you for celebrating with us",
     "hero.scroll": "Scroll",
 
     "countdown.days": "Days",
@@ -36,33 +35,22 @@ export const translations = {
     "countdown.seconds": "Seconds",
 
     "story.eyebrow": "Welcome",
-    "story.title": "Our Story",
+    "story.title": "You're Invited",
     "story.body":
-      "We are so happy to share the beginning of our married life with you. Come celebrate with us — your presence is the best gift we could ask for.",
+      "We are delighted to share the beginning of our journey together. As our two families come together to celebrate our engagement, we would be honoured by your presence and blessings.",
 
     "couple.eyebrow": "The Bride & Groom",
     "couple.title": "Two families, one celebration",
     "couple.bride": "Bride",
     "couple.groom": "Groom",
     "couple.parents": "Parents",
-    "couple.hometown": "Hometown",
 
-    "events.eyebrow": "The Celebrations",
-    "events.title": "Wedding Events",
-    "events.subtitle": "The ceremony and the celebrations around it",
-    "events.map": "Google Maps",
-    "events.appleMap": "Apple Maps",
-
-    "muhurtham.eyebrow": "The Muhurtham",
-    "muhurtham.note": "Please be seated 30 minutes before the Muhurtham.",
-    "muhurtham.addToCalendar": "Add to Calendar",
-
-
-
-    "gallery.eyebrow": "Gallery",
-    "gallery.title": "Moments",
-    "gallery.open": "Open photo",
-
+    "engagement.eyebrow": "The Engagement",
+    "engagement.venue": "Venue",
+    "engagement.note": "Your presence and blessings will make our day complete.",
+    "engagement.map": "Google Maps",
+    "engagement.appleMap": "Apple Maps",
+    "engagement.addToCalendar": "Add to Calendar",
 
     "rsvp.eyebrow": "Wishes",
     "rsvp.title": "Send your wishes",
@@ -77,96 +65,84 @@ export const translations = {
     "rsvp.messageRequired": "Please write a few words for us",
     "rsvp.sendAnother": "Send another message",
 
-    "footer.thanks": "Thank you for being part of our story",
+    "footer.thanks": "Thank you for being part of our journey",
 
     "music.play": "Play background music",
     "music.pause": "Pause background music",
     "music.unavailable": "Music unavailable",
   },
-  ml: {
-    "a11y.skip": "ഉള്ളടക്കത്തിലേക്ക് പോകുക",
-    "a11y.backToTop": "മുകളിലേക്ക്",
-    "a11y.openMenu": "മെനു തുറക്കുക",
-    "a11y.closeMenu": "മെനു അടയ്ക്കുക",
-    "a11y.language": "ഭാഷ തിരഞ്ഞെടുക്കുക",
-    "a11y.home": "പേജിന്റെ തുടക്കത്തിലേക്ക്",
+  hi: {
+    "a11y.skip": "मुख्य सामग्री पर जाएँ",
+    "a11y.backToTop": "ऊपर जाएँ",
+    "a11y.openMenu": "मेनू खोलें",
+    "a11y.closeMenu": "मेनू बंद करें",
+    "a11y.language": "भाषा चुनें",
+    "a11y.home": "पृष्ठ के शीर्ष पर जाएँ",
 
-    "intro.eyebrow": "വിവാഹം",
-    "intro.open": "തുറക്കാൻ തൊടുക",
-    "intro.saveTheDate": "ഈ ദിനം ഓർത്തുവെക്കൂ",
+    "intro.eyebrow": "सगाई समारोह",
+    "intro.open": "खोलने के लिए टैप करें",
+    "intro.saveTheDate": "तारीख़ याद रखें",
 
-    "nav.story": "ഞങ്ങളുടെ കഥ",
-    "nav.couple": "വധൂവരന്മാർ",
-    "nav.events": "ചടങ്ങുകൾ",
-    "nav.gallery": "ചിത്രങ്ങൾ",
-    "nav.rsvp": "ആശംസകൾ",
+    "nav.story": "आमंत्रण",
+    "nav.couple": "वर-वधू",
+    "nav.engagement": "सगाई",
+    "nav.rsvp": "शुभकामनाएँ",
 
-    "hero.eyebrow": "ഞങ്ങൾ വിവാഹിതരാകുന്നു",
-    "hero.muhurtham": "മുഹൂർത്തം",
-    "hero.countdownLabel": "മുഹൂർത്തത്തിന് ഇനി",
-    "hero.countdownDone": "ആ വലിയ നിമിഷം വന്നെത്തി",
-    "hero.marriedTitle": "ഞങ്ങൾ വിവാഹിതരായി!",
-    "hero.marriedSubtitle": "ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി",
-    "hero.scroll": "താഴേക്ക്",
+    "hero.eyebrow": "हमारी सगाई हो रही है",
+    "hero.engagement": "सगाई का समय",
+    "hero.countdownLabel": "सगाई में शेष",
+    "hero.countdownDone": "वह ख़ास पल आ गया है",
+    "hero.engagedTitle": "हमारी सगाई हो गई!",
+    "hero.engagedSubtitle": "हमारी ख़ुशियों में शामिल होने के लिए धन्यवाद",
+    "hero.scroll": "नीचे जाएँ",
 
-    "countdown.days": "ദിവസം",
-    "countdown.hours": "മണിക്കൂർ",
-    "countdown.minutes": "മിനിറ്റ്",
-    "countdown.seconds": "സെക്കൻഡ്",
+    "countdown.days": "दिन",
+    "countdown.hours": "घंटे",
+    "countdown.minutes": "मिनट",
+    "countdown.seconds": "सेकंड",
 
-    "story.eyebrow": "സ്വാഗതം",
-    "story.title": "ഞങ്ങളുടെ കഥ",
+    "story.eyebrow": "स्वागत",
+    "story.title": "सादर आमंत्रण",
     "story.body":
-      "ഞങ്ങളുടെ ദാമ്പത്യജീവിതത്തിന്റെ തുടക്കം നിങ്ങളോടൊപ്പം പങ്കിടുന്നതിൽ ഞങ്ങൾക്ക് ഏറെ സന്തോഷമുണ്ട്. ഞങ്ങളോടൊപ്പം ആഘോഷിക്കാൻ വരൂ — നിങ്ങളുടെ സാന്നിധ്യമാണ് ഞങ്ങൾക്കുള്ള ഏറ്റവും വലിയ സമ്മാനം.",
+      "अपने नए सफ़र की शुरुआत आपके साथ साझा करते हुए हमें अत्यंत ख़ुशी हो रही है। हमारी सगाई के इस शुभ अवसर पर दोनों परिवार आपकी उपस्थिति और आशीर्वाद की कामना करते हैं।",
 
-    "couple.eyebrow": "വധൂവരന്മാർ",
-    "couple.title": "രണ്ടു കുടുംബങ്ങൾ, ഒരു ആഘോഷം",
-    "couple.bride": "വധു",
-    "couple.groom": "വരൻ",
-    "couple.parents": "മാതാപിതാക്കൾ",
-    "couple.hometown": "സ്വദേശം",
+    "couple.eyebrow": "वर-वधू",
+    "couple.title": "दो परिवार, एक उत्सव",
+    "couple.bride": "वधू",
+    "couple.groom": "वर",
+    "couple.parents": "माता-पिता",
 
-    "events.eyebrow": "ആഘോഷങ്ങൾ",
-    "events.title": "വിവാഹ ചടങ്ങുകൾ",
-    "events.subtitle": "വിവാഹ ചടങ്ങും അനുബന്ധ ആഘോഷങ്ങളും",
-    "events.map": "Google Maps",
-    "events.appleMap": "Apple Maps",
+    "engagement.eyebrow": "सगाई समारोह",
+    "engagement.venue": "स्थान",
+    "engagement.note": "आपकी उपस्थिति और आशीर्वाद से हमारा यह दिन पूर्ण होगा।",
+    "engagement.map": "Google Maps",
+    "engagement.appleMap": "Apple Maps",
+    "engagement.addToCalendar": "कैलेंडर में जोड़ें",
 
-    "muhurtham.eyebrow": "മുഹൂർത്തം",
-    "muhurtham.note": "മുഹൂർത്തത്തിന് 30 മിനിറ്റ് മുൻപ് ഇരിപ്പിടങ്ങളിൽ എത്തിച്ചേരണം.",
-    "muhurtham.addToCalendar": "കലണ്ടറിൽ ചേർക്കുക",
+    "rsvp.eyebrow": "शुभकामनाएँ",
+    "rsvp.title": "अपनी शुभकामनाएँ भेजें",
+    "rsvp.name": "आपका नाम",
+    "rsvp.message": "नव-युगल के लिए आपकी शुभकामनाएँ",
+    "rsvp.submit": "शुभकामनाएँ भेजें",
+    "rsvp.sending": "भेजा जा रहा है…",
+    "rsvp.success": "आपकी प्यारी शुभकामनाओं के लिए धन्यवाद! ये हमारे लिए बहुत अनमोल हैं, और हम आपके साथ जश्न मनाने के लिए उत्सुक हैं।",
+    "rsvp.error": "क्षमा करें, संदेश नहीं जा सका। कृपया थोड़ी देर बाद फिर प्रयास करें।",
+    "rsvp.notConfigured": "ऑनलाइन शुभकामनाएँ अभी शुरू नहीं हुई हैं। कृपया कुछ समय बाद देखें।",
+    "rsvp.nameRequired": "कृपया अपना नाम लिखें",
+    "rsvp.messageRequired": "कृपया हमारे लिए कुछ शब्द लिखें",
+    "rsvp.sendAnother": "एक और संदेश भेजें",
 
+    "footer.thanks": "हमारे सफ़र का हिस्सा बनने के लिए धन्यवाद",
 
-
-    "gallery.eyebrow": "ചിത്രശാല",
-    "gallery.title": "മധുര നിമിഷങ്ങൾ",
-    "gallery.open": "ചിത്രം വലുതായി കാണുക",
-
-
-    "rsvp.eyebrow": "ആശംസകൾ",
-    "rsvp.title": "ആശംസകൾ അയയ്ക്കൂ",
-    "rsvp.name": "താങ്കളുടെ പേര്",
-    "rsvp.message": "നവദമ്പതികൾക്കുള്ള നിങ്ങളുടെ ആശംസ",
-    "rsvp.submit": "ആശംസ അയയ്ക്കുക",
-    "rsvp.sending": "അയയ്ക്കുന്നു…",
-    "rsvp.success": "നിങ്ങളുടെ സ്നേഹനിർഭരമായ ആശംസകൾക്ക് നന്ദി! ഇതു ഞങ്ങൾക്ക് ഏറെ വിലപ്പെട്ടതാണ്, നിങ്ങളോടൊപ്പം ആഘോഷിക്കാൻ ഞങ്ങൾ കാത്തിരിക്കുന്നു.",
-    "rsvp.error": "ക്ഷമിക്കണം, അയയ്ക്കാൻ കഴിഞ്ഞില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
-    "rsvp.notConfigured": "ഓൺലൈൻ ആശംസകൾ ഇതുവരെ തുറന്നിട്ടില്ല. അൽപ്പസമയത്തിനു ശേഷം വീണ്ടും ശ്രമിക്കുക.",
-    "rsvp.nameRequired": "ദയവായി പേര് നൽകുക",
-    "rsvp.messageRequired": "ദയവായി ഏതാനും വാക്കുകൾ എഴുതുക",
-    "rsvp.sendAnother": "മറ്റൊരു സന്ദേശം അയയ്ക്കുക",
-
-    "footer.thanks": "ഞങ്ങളുടെ കഥയുടെ ഭാഗമായതിന് നന്ദി",
-
-    "music.play": "പശ്ചാത്തല സംഗീതം കേൾക്കുക",
-    "music.pause": "പശ്ചാത്തല സംഗീതം നിർത്തുക",
-    "music.unavailable": "സംഗീതം ലഭ്യമല്ല",
+    "music.play": "पृष्ठभूमि संगीत चलाएँ",
+    "music.pause": "पृष्ठभूमि संगीत रोकें",
+    "music.unavailable": "संगीत उपलब्ध नहीं है",
   },
 } as const;
 
 export type Lang = keyof typeof translations;
 export type TranslationKey = keyof (typeof translations)["en"];
 
-// Compile-time guard: Malayalam must define every English key.
-const _mlComplete: Record<TranslationKey, string> = translations.ml;
-void _mlComplete;
+// Compile-time guard: Hindi must define every English key.
+const _hiComplete: Record<TranslationKey, string> = translations.hi;
+void _hiComplete;

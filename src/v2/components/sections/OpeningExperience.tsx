@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { T, useLang } from "../../lib/i18n";
@@ -14,93 +14,63 @@ interface OpeningExperienceProps {
   onComplete: () => void;
 }
 
-/** Where the arch window sits, in viewport px — measured from the layout. */
-interface Arch {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  vw: number;
-  vh: number;
-}
-
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const EASE_SWEEP: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
 /** Opening timeline, seconds after the tap */
-const T_EXPAND = 0.25; // arch grows to fill the screen
-const T_LIFT = 1.3; // whole card lifts away
-const D_EXPAND = 1.05;
-const D_LIFT = 1.05;
+const T_PART = 0.5; // doors start to part (copy has faded by now)
+const D_PART = 1.25;
+
+/** Deterministic 0–1 pseudo-random, so the effects lay out identically every render. */
+const rand = (i: number, salt: number) => {
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+const SPARKS = Array.from({ length: 28 }, (_, i) => ({
+  left: `${(rand(i, 1) * 100).toFixed(1)}%`,
+  top: `${(rand(i, 2) * 100).toFixed(1)}%`,
+  size: 2 + rand(i, 3) * 3,
+  dur: 3.5 + rand(i, 4) * 4,
+  delay: rand(i, 5) * 6,
+}));
+const PETALS = Array.from({ length: 14 }, (_, i) => ({
+  left: `${(rand(i, 6) * 100).toFixed(1)}%`,
+  size: 10 + rand(i, 7) * 12,
+  dur: 11 + rand(i, 8) * 9,
+  delay: -rand(i, 9) * 20, // negative: already mid-fall on first paint
+  sway: 20 + rand(i, 10) * 50,
+  tone: i % 3,
+}));
+/** 72 tick marks for the ring around the "&" medallion */
+const TICKS = Array.from({ length: 72 }, (_, i) => i);
 
 const rise = (delay: number): Variants => ({
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 1, delay, ease: EASE_OUT } },
 });
-const letters: Variants = {
+const letters = (delayChildren: number): Variants => ({
   hidden: {},
-  show: { transition: { staggerChildren: 0.065, delayChildren: 1.25 } },
-};
+  show: { transition: { staggerChildren: 0.065, delayChildren } },
+});
 const letter: Variants = {
   hidden: { opacity: 0, y: "0.35em", filter: "blur(8px)" },
   show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.9, ease: EASE_OUT } },
 };
 
-/** inset() clip for a rect with a semicircular top — the arch window. */
-const archClip = (a: Arch, collapsed = false) => {
-  const r = a.width / 2;
-  const top = collapsed ? a.top + a.height : a.top;
-  return `inset(${top}px ${a.vw - a.left - a.width}px ${a.vh - a.top - a.height}px ${a.left}px round ${r}px ${r}px 0px 0px)`;
-};
-const FULL_CLIP = "inset(0px 0px 0px 0px round 0px 0px 0px 0px)";
-
-/** Hairline arch outline, 10px outside the photo, legs running past its foot. */
-const outlinePath = (a: Arch) => {
-  const g = 10;
-  const l = a.left - g;
-  const rgt = a.left + a.width + g;
-  const r = a.width / 2 + g;
-  const foot = a.top + a.height + 28;
-  return `M ${l} ${foot} V ${a.top - g + r} A ${r} ${r} 0 0 1 ${rgt} ${a.top - g + r} V ${foot}`;
-};
-
 /**
- * Opening screen — an editorial invitation card. The couple's photo rises
- * into a tall arch window while a hairline outline draws around it; the names
- * arrive letter by letter in oversized italics, overlapping the arch's foot.
- * A rotating "Tap to open" seal sits beneath.
+ * Opening screen — a split invitation. Two burgundy doors meet at a hairline seam:
+ * the bride's name on the left, the groom's on the right, joined by an "&"
+ * medallion on the seam. A rotating "Tap to open" seal sits beneath.
  *
- * On open the copy lifts away, the arch expands to fill the screen, and the
- * whole card slides up like a turned page to uncover the hero (already
- * mounted underneath). Reduced-motion visitors never mount this — see WeddingV2.
+ * On open the copy fades, then the doors part sideways (each name travelling
+ * with its door) to uncover the hero, already mounted underneath. No imagery.
+ * Reduced-motion visitors never mount this — see WeddingV2.
  */
 export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, onOpening, onComplete }) => {
   const [opening, setOpening] = useState(false);
-  const [arch, setArch] = useState<Arch | null>(null);
-  const archRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { lang, t } = useLang();
   const [first, second] = couplePeople(lang);
-
-  // The photo + outline are drawn in viewport coordinates, matched to the
-  // placeholder box the CSS lays out (so text and arch always line up).
-  useLayoutEffect(() => {
-    const measure = () => {
-      const el = archRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      setArch({ top: r.top, left: r.left, width: r.width, height: r.height, vw: window.innerWidth, vh: window.innerHeight });
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (archRef.current) ro.observe(archRef.current);
-    window.addEventListener("resize", measure);
-    document.fonts?.ready.then(measure).catch(() => {});
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
 
   useEffect(() => {
     buttonRef.current?.focus({ preventScroll: true });
@@ -122,20 +92,47 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, o
     // browser blocks audible playback.
     onStart();
     setOpening(true);
-    window.setTimeout(onOpening, T_LIFT * 1000);
+    window.setTimeout(onOpening, T_PART * 1000);
   }, [opening, onStart, onOpening]);
 
-  // English names arrive letter by letter; Malayalam as whole words, since
+  // English names arrive letter by letter; Hindi as whole words, since
   // splitting its conjuncts would break the shaping.
   const split = (text: string) => (lang === "en" ? Array.from(text) : [text]);
-  const nameParts = [
-    ...split(first.name).map((c) => ({ c, amp: false })),
-    { c: "&", amp: true },
-    ...split(second.name).map((c) => ({ c, amp: false })),
-  ];
 
-  const [y, m, d] = WEDDING_CONFIG.weddingDate.split("-");
+  const [y, m, d] = WEDDING_CONFIG.engagement.date.split("-");
   const copyExit = { opacity: 0, y: -14, transition: { duration: 0.45, ease: EASE_OUT } };
+  const part = { duration: D_PART, delay: T_PART, ease: EASE_SWEEP };
+
+  const side = (person: typeof first, dir: -1 | 1) => (
+    <motion.div
+      className={`v2-intro-side ${dir < 0 ? "is-left" : "is-right"}`}
+      animate={{ x: opening ? `${dir * 52}vw` : 0 }}
+      transition={part}
+    >
+      <motion.span
+        className="v2-intro-role"
+        variants={rise(1.5)}
+        animate={opening ? copyExit : "show"}
+        initial="hidden"
+      >
+        <T k={`couple.${person.role}`} />
+      </motion.span>
+      <motion.span
+        className="v2-intro-name"
+        lang={lang}
+        aria-hidden="true"
+        initial="hidden"
+        animate="show"
+        variants={letters(dir < 0 ? 0.7 : 1.1)}
+      >
+        {split(person.name).map((c, i) => (
+          <motion.span key={i} variants={letter}>
+            {c}
+          </motion.span>
+        ))}
+      </motion.span>
+    </motion.div>
+  );
 
   return (
     <motion.div
@@ -146,103 +143,95 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, o
       // Lenis must ignore wheel/touch over the overlay, or it scrolls the page behind
       data-lenis-prevent
       onClick={open}
-      initial={{ y: 0 }}
-      animate={{ y: opening ? "-100%" : 0 }}
-      transition={{ duration: D_LIFT, delay: opening ? T_LIFT : 0, ease: EASE_SWEEP }}
-      onAnimationComplete={() => {
-        if (opening) onComplete();
-      }}
     >
-      <div className="v2-intro-aura" aria-hidden="true" />
+      {/* The two doors */}
+      <motion.div
+        className="v2-intro-door is-left"
+        aria-hidden="true"
+        animate={{ x: opening ? "-101%" : 0 }}
+        transition={part}
+        onAnimationComplete={() => {
+          if (opening) onComplete();
+        }}
+      />
+      <motion.div className="v2-intro-door is-right" aria-hidden="true" animate={{ x: opening ? "101%" : 0 }} transition={part} />
 
-      {/* Photo in the arch window — grows up into the arch, then fills the screen on open */}
-      {arch && (
-        <motion.div
-          className="v2-intro-photo"
-          aria-hidden="true"
-          initial={{ clipPath: archClip(arch, true) }}
-          animate={{ clipPath: opening ? FULL_CLIP : archClip(arch), y: opening ? "22%" : 0 }}
-          transition={{
-            clipPath: opening
-              ? { duration: D_EXPAND, delay: T_EXPAND, ease: EASE_SWEEP }
-              : { duration: 1.5, delay: 0.25, ease: EASE_OUT },
-            y: { duration: D_LIFT, delay: T_LIFT, ease: EASE_SWEEP },
-          }}
-        >
-          {/* Sized to the arch at rest (so the whole portrait shows, even on wide
-              screens), then grown to the full viewport in step with the clip */}
-          <motion.img
-            src={WEDDING_CONFIG.intro.photo}
-            alt=""
-            initial={{ top: arch.top, left: arch.left, width: arch.width, height: arch.height, scale: 1.22 }}
-            animate={
-              opening
-                ? { top: 0, left: 0, width: arch.vw, height: arch.vh, scale: 1 }
-                : { top: arch.top, left: arch.left, width: arch.width, height: arch.height, scale: 1.04 }
-            }
-            transition={
-              opening
-                ? { duration: D_EXPAND, delay: T_EXPAND, ease: EASE_SWEEP }
-                : { duration: 2.6, delay: 0.25, ease: EASE_OUT, top: { duration: 0 }, left: { duration: 0 }, width: { duration: 0 }, height: { duration: 0 } }
-            }
+      {/* Ambient effects: a pulsing glow on the seam, twinkling gold dust, drifting petals */}
+      <motion.div className="v2-intro-fx" aria-hidden="true" animate={{ opacity: opening ? 0 : 1 }} transition={{ duration: 0.5 }}>
+        <span className="v2-intro-glow" />
+        {SPARKS.map((p, i) => (
+          <i
+            key={i}
+            className="v2-intro-spark"
+            style={{ left: p.left, top: p.top, width: p.size, height: p.size, animationDuration: `${p.dur}s`, animationDelay: `${p.delay}s` }}
           />
-          <motion.span
-            className="v2-intro-photo-shade"
-            animate={{ opacity: opening ? 0.35 : 1 }}
-            transition={{ duration: 0.8, delay: opening ? T_EXPAND : 0 }}
+        ))}
+        {PETALS.map((p, i) => (
+          <i
+            key={i}
+            className={`v2-intro-petal tone-${p.tone}`}
+            style={{ left: p.left, width: p.size, height: p.size * 1.5, animationDuration: `${p.dur}s`, animationDelay: `${p.delay}s`, ["--sway" as string]: `${p.sway}px` }}
           />
-        </motion.div>
-      )}
-
-      {/* Hairline outline drawn around the arch */}
-      {arch && (
-        <motion.svg
-          className="v2-intro-outline"
-          aria-hidden="true"
-          viewBox={`0 0 ${arch.vw} ${arch.vh}`}
-          animate={opening ? { opacity: 0 } : { opacity: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <motion.path
-            d={outlinePath(arch)}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 2, delay: 0.7, ease: EASE_OUT }}
-          />
-        </motion.svg>
-      )}
-
-      {/* Corner labels */}
-      <motion.div className="v2-intro-corners" initial="hidden" animate={opening ? copyExit : "show"} variants={rise(0.4)}>
-        <T k="intro.saveTheDate" className="v2-intro-corner" />
-        <span className="v2-intro-corner" lang="en">
-          {d} · {m} · {y}
-        </span>
+        ))}
       </motion.div>
 
-      {/* Copy, laid out around the arch placeholder */}
-      <motion.div className="v2-intro-content" initial="hidden" animate={opening ? copyExit : "show"}>
-        <motion.p variants={rise(0.9)} className="v2-intro-eyebrow">
+      {/* Hairline seam where the doors meet, with a spark travelling along it */}
+      <motion.span
+        className="v2-intro-seam"
+        aria-hidden="true"
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: opening ? 0 : 1, opacity: opening ? 0 : 1 }}
+        transition={opening ? { duration: 0.4 } : { duration: 1.8, delay: 0.3, ease: EASE_OUT }}
+      >
+        <i className="v2-intro-seam-spark" />
+      </motion.span>
+
+      <div className="v2-intro-content">
+        <motion.div className="v2-intro-corners" initial="hidden" animate={opening ? copyExit : "show"} variants={rise(0.4)}>
+          <T k="intro.saveTheDate" className="v2-intro-corner" />
+          <span className="v2-intro-corner" lang="en">
+            {d} · {m} · {y}
+          </span>
+        </motion.div>
+
+        <motion.p initial="hidden" animate={opening ? copyExit : "show"} variants={rise(0.6)} className="v2-intro-eyebrow">
           <T k="intro.eyebrow" />
         </motion.p>
 
-        <div ref={archRef} className="v2-intro-arch" aria-hidden="true" />
+        {/* Names + "&" medallion on one row; the names travel with their doors */}
+        <div className="v2-intro-pair">
+          {side(first, -1)}
+          <motion.span
+            className="v2-intro-amp"
+            lang="en"
+            aria-hidden="true"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={opening ? { opacity: 0, scale: 1.3, transition: { duration: 0.4 } } : { opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 1.4, ease: EASE_OUT }}
+          >
+            {/* Slowly turning ring of tick marks, with a counter-turning dashed ring inside */}
+            <svg className="v2-intro-amp-ring" viewBox="-50 -50 100 100">
+              {TICKS.map((i) => (
+                <line key={i} x1="0" y1={i % 6 === 0 ? -45 : -47} x2="0" y2="-49" transform={`rotate(${i * 5})`} />
+              ))}
+            </svg>
+            <svg className="v2-intro-amp-ring is-inner" viewBox="-50 -50 100 100">
+              <circle r="38" />
+            </svg>
+            <span>&amp;</span>
+          </motion.span>
+          {side(second, 1)}
+        </div>
 
-        <motion.h1 className="v2-intro-names" lang={lang} variants={letters} aria-label={`${first.name} & ${second.name}`}>
-          {nameParts.map((p, i) => (
-            <motion.span key={i} variants={letter} className={p.amp ? "v2-amp" : undefined} aria-hidden="true">
-              {p.c}
-            </motion.span>
-          ))}
-        </motion.h1>
-
-        <motion.p variants={rise(2.05)} className="v2-intro-date" lang={lang}>
-          {formatDate(WEDDING_CONFIG.weddingDate, lang)}
+        <motion.p initial="hidden" animate={opening ? copyExit : "show"} variants={rise(2.05)} className="v2-intro-date" lang={lang}>
+          {formatDate(WEDDING_CONFIG.engagement.date, lang)}
         </motion.p>
 
-        {/* Seal-style button: rotating ring of text around an arrow that points the way the card lifts */}
+        {/* Seal-style button: rotating ring of text around an arrow */}
         <motion.div
           className="v2-intro-cta-wrap"
+          initial="hidden"
+          animate={opening ? { opacity: 0, transition: { duration: 0.3 } } : "show"}
           variants={{
             hidden: { opacity: 0, scale: 0.8 },
             show: { opacity: 1, scale: 1, transition: { duration: 0.9, delay: 2.35, ease: EASE_OUT } },
@@ -274,9 +263,9 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, o
               </svg>
             </span>
           </button>
-          {lang === "ml" && <T k="intro.open" as="p" className="v2-intro-cta-caption" />}
+          {lang === "hi" && <T k="intro.open" as="p" className="v2-intro-cta-caption" />}
         </motion.div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };

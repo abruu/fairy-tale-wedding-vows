@@ -4,10 +4,10 @@ import type { Lang } from "../../lib/translations";
 
 const OPTIONS: { lang: Lang; label: string; name: string }[] = [
   { lang: "en", label: "EN", name: "English" },
-  { lang: "ml", label: "മലയാളം", name: "മലയാളം" },
+  { lang: "hi", label: "हिन्दी", name: "हिन्दी" },
 ];
 
-/** English / മലയാളം segmented switch — lives in the fixed nav's top corner. */
+/** English / हिन्दी segmented switch — lives in the fixed nav's top corner. */
 export const LanguageToggle: React.FC = () => {
   const { lang, setLang, t } = useLang();
   return (
