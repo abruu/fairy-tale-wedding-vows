@@ -29,7 +29,7 @@ export const asset = (name: AssetName) => `/img/${name}.${ASSET_EXT}`;
  * Deployed site URL (no trailing slash). Link previews need absolute URLs, so
  * the share image only shows on WhatsApp/Facebook once this is the real domain.
  */
-export const SITE_URL = "https://amalarya.vercel.app"; // TODO: swap for this site's own domain
+export const SITE_URL = "https://monika-dhirender.vercel.app";
 
 /** Build an absolute URL from a root-relative path. */
 export const absoluteUrl = (path: string) =>
