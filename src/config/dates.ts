@@ -99,8 +99,8 @@ export const WEDDING_CONFIG = {
   // ─── Background music ───
   // Starts the instant "Tap to open" is pressed (browsers only allow sound
   // that begins inside a tap). Leave "" for no music — the music button is
-  // hidden. TODO: placeholder — the previous couple's song; swap in this couple's mp3.
-  audioUrl: "/audio/ullam.mp3",
+  // hidden. Song: Khwabida (Shantanu Ravindra Pande).
+  audioUrl: "/audio/khwabida.mp3",
 
   // ─── Sharing / SEO (baked into index.html at build time by vite.config.ts) ───
   // Title + description are generated from the names, date and venue above.
