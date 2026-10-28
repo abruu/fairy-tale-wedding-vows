@@ -29,7 +29,7 @@ export const asset = (name: AssetName) => `/img/${name}.${ASSET_EXT}`;
  * Deployed site URL (no trailing slash). Link previews need absolute URLs, so
  * the share image only shows on WhatsApp/Facebook once this is the real domain.
  */
-export const SITE_URL = "https://monika-dhirender.vercel.app";
+export const SITE_URL = "https://monikadhirender.vercel.app";
 
 /** Build an absolute URL from a root-relative path. */
 export const absoluteUrl = (path: string) =>
@@ -50,7 +50,8 @@ export const WEDDING_CONFIG = {
     groomFullName_en: "Dhirender",
     groomFullName_hi: "धीरेन्द्र",
     brideParents_en: "D/o Smt. Renuka Devi & Sh. Late Jithender Kumar",
-    brideParents_hi: "श्रीमती रेणुका देवी एवं स्व. श्री जितेन्द्र कुमार की सुपुत्री",
+    brideParents_hi:
+      "श्रीमती रेणुका देवी एवं स्व. श्री जितेन्द्र कुमार की सुपुत्री",
     groomParents_en: "S/o Smt. Saroj Devi & Sh. Harender Singh",
     groomParents_hi: "श्रीमती सरोज देवी एवं श्री हरेन्द्र सिंह के सुपुत्र",
   },
@@ -74,7 +75,8 @@ export const WEDDING_CONFIG = {
         "सर्वे नं. 119, अरेकेरे गाँव, हेसरघट्टा होबली, येलहंका तालुक, बेंगलुरु, कर्नाटक 562163",
       mapUrl: "https://maps.app.goo.gl/xS7UbUyaqBtjctWR8",
       /** Apple Maps pin (coordinates from the Google Maps link) */
-      appleMapUrl: "https://maps.apple.com/?ll=13.2029937,77.5426564&q=Arekas%20Arena",
+      appleMapUrl:
+        "https://maps.apple.com/?ll=13.2029937,77.5426564&q=Arekas%20Arena",
     },
   },
 
@@ -120,4 +122,5 @@ export const ENGAGEMENT_END = `${engagement.date}T${engagement.endTime}:00${enga
  * a "We're Engaged!" status. Evaluated per call rather than cached, so a tab
  * left open across that moment flips over too.
  */
-export const isEngagementOver = () => Date.now() >= new Date(ENGAGEMENT_END).getTime();
+export const isEngagementOver = () =>
+  Date.now() >= new Date(ENGAGEMENT_END).getTime();
