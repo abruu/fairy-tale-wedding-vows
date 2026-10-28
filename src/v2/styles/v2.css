@@ -988,10 +988,11 @@
 }
 
 /* ═══ OPENING SCREEN ═══
-   A split invitation, no imagery: two burgundy doors meet at a hairline seam,
-   the bride's name on the left and the groom's on the right with an "&"
-   medallion between them. On open the doors part sideways (names travel with
-   them). The overlay itself is transparent; the doors carry the colour. */
+   A split invitation: the couple's photo fills the screen under a burgundy
+   wash, cut by a hairline seam into two doors — the bride's name on the left,
+   the groom's on the right, an "&" medallion between them. On open the doors
+   part sideways (names and their half of the photo travel with them). The
+   overlay itself is transparent; the doors carry the colour and the photo. */
 .v2-intro {
   position: fixed;
   inset: 0;
@@ -1028,11 +1029,48 @@
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: var(--grain);
   opacity: 0.9;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+
+/* The couple's photo. Each door holds a full-viewport copy, anchored to its own
+   outer edge and clipped by the door, so the two halves line up on the seam. The
+   burgundy wash keeps the names legible and the photo on-palette. */
+.v2-intro-door { overflow: hidden; }
+.v2-intro-photo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 0;
+  pointer-events: none;
+}
+.is-left > .v2-intro-photo { left: 0; }
+.is-right > .v2-intro-photo { right: 0; }
+.v2-intro-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 34%;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.v2-intro-photo img.is-loaded { opacity: 1; animation: v2-intro-photo-drift 14s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.v2-intro-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(69, 16, 25, 0.5) 0%, rgba(69, 16, 25, 0.08) 20%, rgba(69, 16, 25, 0.14) 38%, rgba(69, 16, 25, 0.72) 56%, rgba(69, 16, 25, 0.88) 74%, rgba(69, 16, 25, 0.94) 100%),
+    rgba(107, 31, 46, 0.14);
+}
+/* A slow settle from slightly zoomed-in; both halves share the same centre of scale, so the seam never opens */
+@keyframes v2-intro-photo-drift { from { scale: 1.1; } to { scale: 1; } }
+.v2-intro-door::before { z-index: 1; }
 
 /* Hairline frame inset on each door (open on the seam side), drawn in on load */
 .v2-intro-door::before {
@@ -1141,9 +1179,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* Sits low, over the couple's clothes, so their faces stay clear of the copy */
+  justify-content: flex-end;
   align-items: center;
-  padding: calc(3.5rem + env(safe-area-inset-top)) 0 calc(1.5rem + env(safe-area-inset-bottom));
+  padding: calc(3.5rem + env(safe-area-inset-top)) 0 calc(2rem + env(safe-area-inset-bottom));
   text-align: center;
 }
 .v2-intro-eyebrow {
@@ -1154,6 +1193,7 @@
   letter-spacing: 0.42em;
   text-transform: uppercase;
   color: var(--champagne-light);
+  text-shadow: 0 1px 14px rgba(36, 8, 14, 0.85);
 }
 .v2-intro-eyebrow :lang(hi) { font-size: 0.95rem; }
 
@@ -1304,4 +1344,129 @@
   .v2-intro-date { margin-top: 1.2rem; }
   .v2-intro-cta { width: 92px; height: 92px; }
   .v2-intro-cta-core { inset: 23px; }
+}
+
+/* ═══ GALLERY ═══
+   Blush band, photos in a centred grid (2 across on phones, 4 from 900px). */
+.v2-gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+.v2-gallery-cell { width: calc((100% - 0.65rem) / 2); }
+@media (min-width: 600px) {
+  .v2-gallery { gap: 1rem; }
+  .v2-gallery-cell { width: calc((100% - 1rem) / 2); }
+}
+@media (min-width: 900px) {
+  .v2-gallery-cell { width: calc((100% - 3rem) / 4); }
+}
+.v2-gallery-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--rose-tint);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  cursor: zoom-in;
+  aspect-ratio: 3 / 4;
+}
+.v2-gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Fine champagne keyline, inset, that brightens on hover */
+.v2-gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(250, 246, 239, 0.55);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .v2-gallery-item:hover img { transform: scale(1.05); }
+  .v2-gallery-item:hover::after { opacity: 1; }
+}
+.v2-gallery-item:focus-visible::after { opacity: 1; }
+
+/* Lightbox */
+.v2-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(3.5rem + env(safe-area-inset-top)) 0.75rem calc(3rem + env(safe-area-inset-bottom));
+  background: rgba(36, 8, 14, 0.94);
+  --focus-ring: var(--champagne-light);
+  animation: v2-fade-in 0.3s ease both;
+}
+.v2-lightbox-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  /* the thumbnail, already cached, shows while the full-size photo arrives */
+  background-size: cover;
+  background-position: center;
+  animation: v2-fade-in 0.4s ease both;
+}
+.v2-lightbox-btn {
+  position: absolute;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(184, 152, 90, 0.6);
+  border-radius: 50%;
+  background: rgba(69, 16, 25, 0.7);
+  color: var(--champagne-light);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+@media (hover: hover) {
+  .v2-lightbox-btn:hover { background: var(--champagne); color: var(--burgundy-deep); }
+}
+.v2-lightbox-btn.is-close { top: calc(0.75rem + env(safe-area-inset-top)); right: 0.75rem; }
+.v2-lightbox-btn.is-prev, .v2-lightbox-btn.is-next { top: 50%; translate: 0 -50%; }
+.v2-lightbox-btn.is-prev { left: 0.5rem; }
+.v2-lightbox-btn.is-next { right: 0.5rem; }
+.v2-lightbox-count {
+  position: absolute;
+  bottom: calc(0.9rem + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--ivory-soft);
+}
+@media (min-width: 900px) {
+  .v2-lightbox { padding-left: 5rem; padding-right: 5rem; }
+  .v2-lightbox-btn.is-prev { left: 1.5rem; }
+  .v2-lightbox-btn.is-next { right: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2-intro-photo img, .v2-lightbox, .v2-lightbox-img { animation: none !important; }
 }

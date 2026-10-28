@@ -20,6 +20,7 @@ export const translations = {
     "nav.couple": "Bride & Groom",
     "nav.engagement": "Engagement",
     "nav.rsvp": "Wishes",
+    "nav.gallery": "Gallery",
 
     "hero.eyebrow": "We're getting engaged",
     "hero.engagement": "The Engagement is at",
@@ -65,6 +66,15 @@ export const translations = {
     "rsvp.messageRequired": "Please write a few words for us",
     "rsvp.sendAnother": "Send another message",
 
+    "gallery.eyebrow": "Gallery",
+    "gallery.title": "Our Moments",
+    "gallery.subtitle": "A few of our favourite memories together",
+    "gallery.open": "View photo",
+    "gallery.of": "of",
+    "gallery.close": "Close photo",
+    "gallery.prev": "Previous photo",
+    "gallery.next": "Next photo",
+
     "footer.thanks": "Thank you for being part of our journey",
 
     "music.play": "Play background music",
@@ -87,6 +97,7 @@ export const translations = {
     "nav.couple": "वर-वधू",
     "nav.engagement": "सगाई",
     "nav.rsvp": "शुभकामनाएँ",
+    "nav.gallery": "गैलरी",
 
     "hero.eyebrow": "हमारी सगाई हो रही है",
     "hero.engagement": "सगाई का समय",
@@ -131,6 +142,15 @@ export const translations = {
     "rsvp.nameRequired": "कृपया अपना नाम लिखें",
     "rsvp.messageRequired": "कृपया हमारे लिए कुछ शब्द लिखें",
     "rsvp.sendAnother": "एक और संदेश भेजें",
+
+    "gallery.eyebrow": "गैलरी",
+    "gallery.title": "हमारे पल",
+    "gallery.subtitle": "साथ बिताए हमारे कुछ पसंदीदा पल",
+    "gallery.open": "तस्वीर देखें",
+    "gallery.of": "में से",
+    "gallery.close": "तस्वीर बंद करें",
+    "gallery.prev": "पिछली तस्वीर",
+    "gallery.next": "अगली तस्वीर",
 
     "footer.thanks": "हमारे सफ़र का हिस्सा बनने के लिए धन्यवाद",
 

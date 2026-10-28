@@ -15,6 +15,7 @@ import { StorySection } from "../components/sections/StorySection";
 import { CoupleSection } from "../components/sections/CoupleSection";
 import { EngagementSection } from "../components/sections/EngagementSection";
 import { RSVPSection } from "../components/sections/RSVPSection";
+import { GallerySection } from "../components/sections/GallerySection";
 import { FooterSection } from "../components/sections/FooterSection";
 import "../styles/v2.css";
 
@@ -23,14 +24,15 @@ const NAV_ITEMS: NavItem[] = [
   { id: "couple", label: "nav.couple" },
   { id: "engagement", label: "nav.engagement" },
   { id: "rsvp", label: "nav.rsvp" },
+  { id: "gallery", label: "nav.gallery" },
 ];
 
 // Every section the nav should react to — the hero has no link of its own.
-const SECTION_IDS = ["home", "story", "couple", "engagement", "rsvp"];
+const SECTION_IDS = ["home", "story", "couple", "engagement", "rsvp", "gallery"];
 
 /**
  * The engagement invitation (the home page, "/"). Opening screen → Hero → Invitation →
- * Bride & Groom → Engagement details → Wishes → Footer, with a thin diamond rule between bands.
+ * Bride & Groom → Engagement details → Wishes → Gallery → Footer, with a thin diamond rule between bands.
  */
 const WeddingPage: React.FC = () => {
   const lenisRef = useSmoothScroll();
@@ -108,6 +110,8 @@ const WeddingPage: React.FC = () => {
         <EngagementSection />
         <SectionDivider />
         <RSVPSection />
+        <SectionDivider />
+        <GallerySection />
       </main>
 
       <FooterSection />

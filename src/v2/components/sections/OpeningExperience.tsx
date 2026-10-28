@@ -4,6 +4,7 @@ import { WEDDING_CONFIG } from "@/config/dates";
 import { T, useLang } from "../../lib/i18n";
 import { couplePeople } from "../../lib/couple";
 import { formatDate } from "../../lib/format";
+import { OPENER_PHOTO } from "../../lib/gallery";
 
 interface OpeningExperienceProps {
   /** Starts the background song. Called synchronously inside the tap, so the browser allows sound. */
@@ -58,13 +59,42 @@ const letter: Variants = {
 };
 
 /**
- * Opening screen — a split invitation. Two burgundy doors meet at a hairline seam:
- * the bride's name on the left, the groom's on the right, joined by an "&"
+ * One half of the couple's photo, for a door to carry. Both halves are the same
+ * full-viewport image (see .v2-intro-photo), each clipped by its own door, so
+ * together they read as a single photograph split down the seam. Fades in once
+ * loaded, over the door's burgundy, so a slow connection never shows a blank.
+ */
+const DoorPhoto: React.FC = () => {
+  const [loaded, setLoaded] = useState(false);
+  // A cached image can finish before React attaches onLoad
+  const ref = useCallback((img: HTMLImageElement | null) => {
+    if (img?.complete && img.naturalWidth) setLoaded(true);
+  }, []);
+  return (
+    <div className="v2-intro-photo" aria-hidden="true">
+      <img
+        ref={ref}
+        className={loaded ? "is-loaded" : ""}
+        src={OPENER_PHOTO.src}
+        srcSet={OPENER_PHOTO.srcSet}
+        sizes="100vw"
+        alt=""
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  );
+};
+
+/**
+ * Opening screen — a split invitation. A photo of the couple fills the screen
+ * beneath a burgundy wash, divided by a hairline seam into two doors: the
+ * bride's name on the left, the groom's on the right, joined by an "&"
  * medallion on the seam. A rotating "Tap to open" seal sits beneath.
  *
- * On open the copy fades, then the doors part sideways (each name travelling
- * with its door) to uncover the hero, already mounted underneath. No imagery.
- * Reduced-motion visitors never mount this — see WeddingV2.
+ * On open the copy fades, then the doors part sideways (each name and its half
+ * of the photo travelling with its door) to uncover the hero, already mounted
+ * underneath. Reduced-motion visitors never mount this — see WeddingV2.
  */
 export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, onOpening, onComplete }) => {
   const [opening, setOpening] = useState(false);
@@ -153,8 +183,12 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onStart, o
         onAnimationComplete={() => {
           if (opening) onComplete();
         }}
-      />
-      <motion.div className="v2-intro-door is-right" aria-hidden="true" animate={{ x: opening ? "101%" : 0 }} transition={part} />
+      >
+        <DoorPhoto />
+      </motion.div>
+      <motion.div className="v2-intro-door is-right" aria-hidden="true" animate={{ x: opening ? "101%" : 0 }} transition={part}>
+        <DoorPhoto />
+      </motion.div>
 
       {/* Ambient effects: a pulsing glow on the seam, twinkling gold dust, drifting petals */}
       <motion.div className="v2-intro-fx" aria-hidden="true" animate={{ opacity: opening ? 0 : 1 }} transition={{ duration: 0.5 }}>
