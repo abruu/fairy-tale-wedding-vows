@@ -7,7 +7,7 @@ import { SectionHeader } from "../shared/SectionHeader";
 
 /**
  * Blush band with one ivory card split in two — a family on each side of a gold
- * seam, joined by an "&" medallion. Each half carries a large ghost initial (no photos).
+ * seam, joined by an "&" medallion. Each half opens with an arched portrait.
  */
 export const CoupleSection: React.FC = () => {
   const { lang } = useLang();
@@ -43,12 +43,8 @@ const PersonCard: React.FC<{ person: Person }> = ({ person }) => {
 
   return (
     <article className="v2-person">
-      <div className="v2-person-initial" aria-hidden="true">
-        {lang === "hi" ? (
-          <span lang="hi">{Array.from(person.nameHi)[0]}</span>
-        ) : (
-          <span lang="en">{person.nameEn[0]}</span>
-        )}
+      <div className="v2-person-frame">
+        <img src={person.photo} width={600} height={800} alt={fullName} loading="lazy" decoding="async" />
       </div>
       <T k={person.role === "bride" ? "couple.bride" : "couple.groom"} as="p" className="v2-eyebrow" />
       <h3 className="v2-person-name" lang={lang}>

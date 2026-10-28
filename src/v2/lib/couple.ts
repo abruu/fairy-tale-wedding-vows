@@ -14,6 +14,8 @@ export interface Person {
   fullNameEn: string;
   fullNameHi: string;
   parents: string;
+  /** Portrait for the profile card (public/img/) */
+  photo: string;
 }
 
 function person(role: Role, lang: Lang): Person {
@@ -26,6 +28,7 @@ function person(role: Role, lang: Lang): Person {
     fullNameEn: pick(c, `${role}FullName`, "en") || pick(c, `${role}Name`, "en"),
     fullNameHi: pick(c, `${role}FullName`, "hi") || pick(c, `${role}Name`, "hi"),
     parents: pick(c, `${role}Parents`, lang),
+    photo: `/img/${role}.webp`,
   };
 }
 
