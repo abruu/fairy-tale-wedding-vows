@@ -96,7 +96,7 @@ export const SITE = {
   // ─── Wishes (EmailJS) ───
   wishes: {
     /** TODO: who receives the wishes. Empty → the form shows "opening soon" instead of sending. */
-    recipientEmails: [] as string[],
+    recipientEmails: ["ancyfranciz@gmail.com"] as string[],
   },
 
   // ─── SEO / sharing ───

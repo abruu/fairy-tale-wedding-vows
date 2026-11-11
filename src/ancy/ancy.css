@@ -568,12 +568,14 @@ html.lenis body { height: auto; }
   .aa-hero {
     grid-template-columns: 1fr;
     text-align: center;
-    padding-top: 5.5rem;
-    gap: 2.2rem;
+    padding-top: 4.75rem;
+    gap: 1.4rem;
     min-height: auto;
     padding-bottom: 5rem;
   }
-  .aa-hero-photo { order: -1; width: min(74vw, 22rem); }
+  /* Sized off the viewport height so the names always land on the first screen */
+  .aa-hero-photo { order: -1; width: min(56vw, 15rem, calc(34svh * 3 / 4.15)); }
+  .aa-hero-names { margin: 0.9rem 0 1.1rem; }
   .aa-hero-names { justify-items: center; }
   .aa-hero-names .amp { margin: 0.5rem 0 0.35rem; justify-content: center; }
   .aa-hero-names .amp::before { content: ""; width: 2.5rem; height: 1px; background: var(--aa-gold-soft); }
@@ -581,8 +583,9 @@ html.lenis body { height: auto; }
   .aa-hero-names .n:last-child { padding-left: 0; }
   .aa-hero-meta { border-left: 0; padding-left: 0; justify-items: center; }
   .aa-hero-actions, .aa-countdown { justify-content: center; }
-  .aa-hero-badge { width: 5.4rem; height: 5.4rem; right: -9%; }
-  .aa-hero-badge b { font-size: 1.7rem; }
+  .aa-hero-badge { width: 4.2rem; height: 4.2rem; right: -14%; }
+  .aa-hero-badge b { font-size: 1.35rem; }
+  .aa-hero-badge small { font-size: 0.48rem; letter-spacing: 0.16em; }
   .aa-scroll-cue { display: none; }
 }
 
@@ -696,6 +699,12 @@ html.lenis body { height: auto; }
 .aa-event--dark .aa-row svg { color: var(--aa-pistachio); }
 .aa-row small { display: block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.6; }
 .aa-row p { font-size: 0.98rem; line-height: 1.5 !important; }
+.aa-event-count { display: grid; gap: 0.6rem; }
+.aa-event-count .aa-countdown { margin-top: 0; }
+.aa-event-count .aa-countdown div { flex: 1; min-width: 0; }
+.aa-event--dark .aa-countdown div { background: rgba(243, 238, 226, 0.06); border-color: rgba(243, 238, 226, 0.16); }
+.aa-event--dark .aa-countdown small { color: var(--aa-on-dark-soft); }
+.aa-event-done { font-family: var(--aa-f-display); font-style: italic; font-size: 1.1rem; }
 .aa-event-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.4rem; }
 .aa-event-actions .aa-btn { min-height: 44px; padding: 0.7rem 1.2rem; font-size: 0.66rem; }
 .aa-event-sprig { position: absolute; right: -2.5rem; top: -1.5rem; width: 9rem; opacity: 0.9; pointer-events: none; }
@@ -802,7 +811,6 @@ html.lenis body { height: auto; }
   overflow: hidden;
   cursor: zoom-in;
 }
-.aa-gallery-item:nth-child(3n + 2) { border-radius: 999px 999px 20px 20px; }
 .aa-gallery-item img { width: 100%; height: auto; transition: transform 1.2s var(--aa-ease); }
 .aa-gallery-item:hover img { transform: scale(1.04); }
 .aa-gallery-item:focus-visible { outline: 2px solid var(--aa-rose); outline-offset: 4px; }

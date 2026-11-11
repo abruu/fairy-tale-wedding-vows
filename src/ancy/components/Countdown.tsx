@@ -15,6 +15,28 @@ export const useNextEvent = () => {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/** Countdown chips for one specific event (used on each event card). */
+export const EventCountdown: React.FC<{ iso: string; doneText: string }> = ({ iso, doneText }) => {
+  const { timeLeft: t } = useCountdown(iso);
+  if (t.isComplete) return <p className="aa-event-done">{doneText}</p>;
+  const units: [number, string][] = [
+    [t.days, "Days"],
+    [t.hours, "Hours"],
+    [t.minutes, "Mins"],
+    [t.seconds, "Secs"],
+  ];
+  return (
+    <div className="aa-countdown" role="timer" aria-label={`${t.days} days to go`}>
+      {units.map(([v, l]) => (
+        <div key={l}>
+          <b>{v}</b>
+          <small>{l}</small>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const Countdown: React.FC<{ variant?: "chips" | "band" }> = ({ variant = "chips" }) => {
   const next = useNextEvent();
   const { timeLeft } = useCountdown(next?.iso ?? SITE.wedding.iso);

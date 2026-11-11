@@ -2,7 +2,7 @@ import React from "react";
 import { CalendarPlus, Clock, MapPin, Navigation, UtensilsCrossed, Church } from "lucide-react";
 import { SITE, calendarLink, mapsLink } from "../config";
 import { Sprig, Wreath } from "./Botanicals";
-import { Countdown, useNextEvent } from "./Countdown";
+import { Countdown, EventCountdown, useNextEvent } from "./Countdown";
 
 const Row: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
   <div className="aa-row">
@@ -57,6 +57,10 @@ export const Events: React.FC = () => {
             <Row icon={<Church aria-hidden="true" />} label="Venue" value={b.venue} />
             <Row icon={<UtensilsCrossed aria-hidden="true" />} label="Lunch" value={b.lunch} />
           </div>
+          <div className="aa-event-count">
+            <p className="aa-eyebrow">Counting down</p>
+            <EventCountdown iso={b.iso} doneText="Blessed on 02 January 2027 ✓" />
+          </div>
           <div className="aa-event-actions">
             <a className="aa-btn" href={mapsLink(b)} target="_blank" rel="noopener noreferrer">
               <Navigation size={14} aria-hidden="true" /> Directions
@@ -80,6 +84,10 @@ export const Events: React.FC = () => {
           <div className="aa-event-rows">
             <Row icon={<Clock aria-hidden="true" />} label="Time" value={w.time} />
             <Row icon={<MapPin aria-hidden="true" />} label="Church" value={w.venue} />
+          </div>
+          <div className="aa-event-count">
+            <p className="aa-eyebrow">Counting down</p>
+            <EventCountdown iso={w.iso} doneText="Joined in Holy Matrimony ✓" />
           </div>
           <div className="aa-event-actions">
             <a className="aa-btn aa-btn--light" href={mapsLink(w)} target="_blank" rel="noopener noreferrer">
