@@ -80,7 +80,6 @@ export const Events: React.FC = () => {
               {wd.month}
             </span>
           </div>
-          <p className="aa-event-note">{w.note}</p>
           <div className="aa-event-rows">
             <Row icon={<Clock aria-hidden="true" />} label="Time" value={w.time} />
             <Row icon={<MapPin aria-hidden="true" />} label="Church" value={w.venue} />
@@ -113,12 +112,16 @@ export const CountdownBand: React.FC = () => {
         <p className="aa-eyebrow" data-reveal>
           {next ? `Counting the days ${next.label}` : "With grateful hearts"}
         </p>
-        <p className="aa-band-quote aa-placeholder" data-reveal="blur">
-          {SITE.scripture.quote}
-        </p>
-        <p className="aa-band-ref aa-placeholder" data-reveal>
-          {SITE.scripture.reference}
-        </p>
+        {SITE.scripture.map((v) => (
+          <React.Fragment key={v.reference}>
+            <p className="aa-band-quote" lang="ml" data-reveal="blur">
+              {v.quote}
+            </p>
+            <p className="aa-band-ref" lang="ml" data-reveal style={{ marginBottom: "2rem" }}>
+              {v.reference}
+            </p>
+          </React.Fragment>
+        ))}
         <div data-reveal style={{ "--d": "0.2s" } as React.CSSProperties}>
           <Countdown variant="band" />
         </div>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Menu, Music2, X } from "lucide-react";
+import { ArrowUp, Menu, Music2, X } from "lucide-react";
 import { SITE } from "../config";
 import { Wreath } from "./Botanicals";
 
@@ -133,43 +133,31 @@ const MusicButton: React.FC<{ playing: boolean; onToggle: () => void }> = ({ pla
 
 /* ─── Footer ─── */
 
-export const Footer: React.FC = () => {
-  const d = new Date(SITE.betrothal.iso);
-  const { brideFamily: bf, groomFamily: gf } = SITE;
-  return (
-    <footer className="aa-footer">
-      <Wreath className="aa-band-wreath" seed={9} />
-      <div style={{ position: "relative" }}>
-        <p className="aa-eyebrow" data-reveal>
-          With love &amp; prayers
-        </p>
-        <p className="aa-footer-names aa-script" data-reveal="blur">
-          {SITE.couple.bride}
-          <span className="amp">&amp;</span>
-          {SITE.couple.groom}
-        </p>
-        <p className="aa-footer-date" data-reveal>
-          {String(d.getDate()).padStart(2, "0")} · {String(d.getMonth() + 1).padStart(2, "0")} · {d.getFullYear()}
-        </p>
-        <p className="aa-footer-note" data-reveal>
-          {SITE.footerNote}
-        </p>
+export const Footer: React.FC<{ onTop: () => void }> = ({ onTop }) => (
+  <footer className="aa-footer">
+    <Wreath className="aa-band-wreath" seed={9} />
+    <div className="aa-footer-inner">
+      <p className="aa-eyebrow" data-reveal>
+        With love &amp; prayers
+      </p>
+      <p className="aa-footer-from" data-reveal>
+        Anson Francis
+      </p>
+      <p className="aa-footer-names aa-script" data-reveal="blur">
+        {SITE.couple.bride}
+        <span className="amp">with</span>
+        {SITE.couple.groom}
+      </p>
+      <span className="aa-footer-orn" aria-hidden="true">
+        <i />
+      </span>
+    </div>
 
-        <div className="aa-footer-fams">
-          <div data-reveal>
-            <p className="aa-eyebrow">Bride's family</p>
-            <strong>{bf.parents}</strong>
-            {bf.house}, {bf.address}
-          </div>
-          <div data-reveal style={{ "--d": "0.1s" } as React.CSSProperties}>
-            <p className="aa-eyebrow">Groom's family</p>
-            <strong>{gf.parents}</strong>
-            {gf.house}, {gf.address}
-          </div>
-        </div>
-
-        <p className="aa-footer-small">Made with love · {d.getFullYear()}</p>
-      </div>
-    </footer>
-  );
-};
+    <div className="aa-footer-bar">
+      <button type="button" className="aa-footer-top" onClick={onTop}>
+        <ArrowUp aria-hidden="true" />
+        Back to top
+      </button>
+    </div>
+  </footer>
+);

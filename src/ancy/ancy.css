@@ -729,6 +729,8 @@ html.lenis body { height: auto; }
   margin: 1.2rem auto 0.8rem !important;
   font-variation-settings: "SOFT" 100;
 }
+.aa-band-quote:lang(ml) { font-family: "Manjari", var(--aa-f-display); font-style: normal; font-size: clamp(1.3rem, 3.4vw, 2rem); line-height: 1.75; font-weight: 400; }
+.aa-band-ref:lang(ml) { font-family: "Manjari", sans-serif; letter-spacing: 0.08em; text-transform: none; }
 .aa-band-ref { font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aa-on-dark-soft); }
 .aa-band-clock {
   display: flex;
@@ -893,32 +895,68 @@ html.lenis body { height: auto; }
   background: var(--aa-forest);
   color: var(--aa-on-dark);
   text-align: center;
-  padding: clamp(5rem, 12vh, 8rem) var(--aa-gutter) 2.5rem;
+  padding: clamp(4.5rem, 11vh, 7rem) var(--aa-gutter) 0;
   position: relative;
   overflow: hidden;
 }
+.aa-footer-inner { position: relative; display: grid; justify-items: center; }
 .aa-footer .aa-eyebrow { color: var(--aa-blush); }
-.aa-footer-names { font-size: clamp(3.4rem, 10vw, 6rem); margin: 1.2rem 0 0.6rem; }
-.aa-footer-names .amp { font-family: var(--aa-f-display); font-style: italic; font-size: 0.45em; color: var(--aa-blush); margin: 0 0.45em 0 0.3em; }
 .aa-footer .aa-band-wreath { opacity: 0.07; }
-.aa-footer-date { letter-spacing: 0.4em; font-size: 0.78rem; color: var(--aa-on-dark-soft); }
-.aa-footer-note { max-width: 32rem; margin: 2rem auto 0 !important; font-family: var(--aa-f-display); font-style: italic; color: var(--aa-on-dark-soft); }
-.aa-footer-fams {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  max-width: 44rem;
-  margin: 3.5rem auto 0;
-  padding-top: 2.5rem;
-  border-top: 1px solid rgba(243, 238, 226, 0.14);
-  font-size: 0.86rem;
+
+/* "from" line: small serif between two short gold rules */
+.aa-footer-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.1rem !important;
+  font-family: var(--aa-f-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
   color: var(--aa-on-dark-soft);
 }
-.aa-footer-fams strong { display: block; font-family: var(--aa-f-display); font-weight: 400; font-size: 1.05rem; color: var(--aa-on-dark); margin: 0.5rem 0 0.3rem; }
-.aa-footer-small { margin-top: 3.5rem !important; font-size: 0.68rem; letter-spacing: 0.14em; color: rgba(243, 238, 226, 0.4); }
-@media (max-width: 600px) {
-  .aa-footer-fams { grid-template-columns: 1fr; }
+.aa-footer-from::before,
+.aa-footer-from::after { content: ""; width: 2.2rem; height: 1px; background: var(--aa-gold); opacity: 0.7; }
+
+.aa-footer-names { font-size: clamp(3.2rem, 10vw, 6rem); line-height: 1.1; margin: clamp(2rem, 4vw, 2.4rem) 0 0.4rem; }
+.aa-footer-names .amp { font-family: var(--aa-f-display); font-style: italic; font-size: 0.4em; color: var(--aa-blush); margin: 0 0.45em 0 0.3em; }
+
+/* small gold diamond flanked by fading rules */
+.aa-footer-orn { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.4rem; }
+.aa-footer-orn i { width: 7px; height: 7px; background: var(--aa-gold); transform: rotate(45deg); }
+.aa-footer-orn::before,
+.aa-footer-orn::after { content: ""; width: 4.5rem; height: 1px; }
+.aa-footer-orn::before { background: linear-gradient(to left, var(--aa-gold), transparent); }
+.aa-footer-orn::after { background: linear-gradient(to right, var(--aa-gold), transparent); }
+
+.aa-footer-bar {
+  position: relative;
+  margin-top: clamp(3.5rem, 9vh, 5rem);
+  padding: 1.4rem 0 calc(1.4rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(243, 238, 226, 0.12);
 }
+.aa-footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 1.2rem;
+  border: 1px solid rgba(243, 238, 226, 0.22);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--aa-on-dark-soft);
+  font-family: var(--aa-f-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background-color 0.25s;
+}
+.aa-footer-top svg { width: 14px; height: 14px; transition: transform 0.25s; }
+.aa-footer-top:hover { color: var(--aa-forest); background: var(--aa-on-dark); border-color: var(--aa-on-dark); }
+.aa-footer-top:hover svg { transform: translateY(-2px); }
+.aa-footer-top:focus-visible { outline: 2px solid var(--aa-blush); outline-offset: 3px; }
 
 /* ═══ Music toggle (in the nav) ═══ */
 .aa-nav-end { display: flex; align-items: center; gap: 0.6rem; }

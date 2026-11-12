@@ -24,22 +24,22 @@ export const SITE = {
 
   // ─── Families (verbatim from the invitation) ───
   brideFamily: {
-    parents: "Mrs. Reena Francis & Mr. Francis C.A.",
+    parents: "Mrs. Reena Francis & Mr. Francis C.A",
     house: "Chiriyankandath House",
-    address: "Kayyala Road, Olarikkara, Pullazhi P.O., Thrissur – 680012",
+    address: "Kayyala Road, Olarikkara, Pullazhi P.O, Thrissur - 680012",
   },
   groomFamily: {
     relation: "S/o",
-    parents: "Mrs. Reena Johnson & Mr. P.G. Johnson (Late)",
+    parents: "Mrs. Reena Johnson & Mr. Johnson P. G (Late)",
     house: "Punnassery House",
-    address: "Yordhanapuram P.O., Kalady – Angamaly, Ernakulam",
+    address: "Yordhanapuram P.O, Angamaly - Kalady, Ernakulam",
   },
 
   invitation: {
     hosts: "Mrs. Reena Francis & Mr. Francis C.A.",
     body:
       "Cordially invite your gracious presence and blessings with family on the auspicious occasion of the Betrothal Ceremony of our daughter",
-    blessedLine: "Which will be blessed",
+    blessedLine: "Which will be blessed on",
   },
 
   // ─── Events ───
@@ -63,17 +63,17 @@ export const SITE = {
     dateLabel: "Sunday, 10 January 2027",
     time: "12:05 PM",
     venue: "St. John the Baptist Church, Yordhanapuram",
-    note: "Marriage will be, Deo Volente, solemnized at",
     mapsQuery: "St. John the Baptist Church, Yordhanapuram, Kalady",
     mapsUrl: "",
   },
 
   // ─── Placeholder content (to be supplied) ───
-  scripture: {
-    // TODO: family's chosen verse
-    quote: "“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.”",
-    reference: "Lorem 1:1",
-  },
+  scripture: [
+    {
+      quote: "“വിശ്വാസം, പ്രത്യാശ, സ്നേഹം ഈ മൂന്നും നിലനില്ക്കുന്നു; എങ്കിലും ഇവയിൽ വലിയതു സ്നേഹം തന്നേ.”",
+      reference: "1 കൊരിന്ത്യർ 13:13",
+    },
+  ],
   story: [
     { label: "Lorem ipsum", title: "Where it began", text: LOREM_SHORT, photo: "couple-2" },
     { label: "Dolor sit amet", title: "The question", text: LOREM_LONG, photo: "couple-3" },

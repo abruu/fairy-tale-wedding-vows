@@ -6,7 +6,6 @@ import { Opening } from "./components/Opening";
 import { Hero } from "./components/Hero";
 import { Invitation } from "./components/Invitation";
 import { Events, CountdownBand } from "./components/Events";
-import { Story } from "./components/Story";
 import { Gallery } from "./components/Gallery";
 import { Wishes } from "./components/Wishes";
 import { Nav, Footer, useMusic, type NavItem } from "./components/Chrome";
@@ -15,7 +14,6 @@ import "./ancy.css";
 const NAV: NavItem[] = [
   { id: "invitation", label: "Invitation" },
   { id: "celebrations", label: "Celebrations" },
-  { id: "story", label: "Story" },
   { id: "gallery", label: "Gallery" },
   { id: "wishes", label: "Wishes" },
 ];
@@ -129,11 +127,10 @@ const AncyAshish: React.FC = () => {
         <Invitation />
         <Events />
         <CountdownBand />
-        <Story />
         <Gallery />
         <Wishes />
       </main>
-      <Footer />
+      <Footer onTop={() => navigate("home")} />
     </div>
   );
 };

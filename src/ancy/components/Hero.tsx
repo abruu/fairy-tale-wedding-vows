@@ -87,9 +87,9 @@ export const Hero: React.FC<HeroProps> = ({ revealed, reducedMotion, onEnter }) 
       <div className="aa-hero">
         <div className="aa-hero-text">
           <p className="aa-eyebrow">
-            Together with their families<span className="aa-hide-sm"> · </span>
-            <br className="aa-show-sm" />
-            The Betrothal of
+            With the love and blessings of our families,
+            <br />
+            we joyfully invite you to celebrate our betrothal
           </p>
 
           <h1 className="aa-hero-names">
