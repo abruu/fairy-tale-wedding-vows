@@ -90,8 +90,15 @@ export const useMusic = () => {
     a.preload = "auto";
     a.onplay = () => setPlaying(true);
     a.onpause = () => setPlaying(false);
+    a.load(); // buffer now so the tap starts the song instantly
     audio.current = a;
+    // Native looping leaves an audible gap at the seam (MP3 padding + decoder
+    // restart). Jump back to the start just before the end to hide it.
+    const seam = window.setInterval(() => {
+      if (!a.paused && a.duration && a.currentTime >= a.duration - 0.35) a.currentTime = 0.02;
+    }, 40);
     return () => {
+      window.clearInterval(seam);
       a.pause();
       a.src = "";
     };
@@ -140,17 +147,12 @@ export const Footer: React.FC<{ onTop: () => void }> = ({ onTop }) => (
       <p className="aa-eyebrow" data-reveal>
         With love &amp; prayers
       </p>
-      <p className="aa-footer-from" data-reveal>
-        Anson Francis
-      </p>
-      <p className="aa-footer-names aa-script" data-reveal="blur">
-        {SITE.couple.bride}
-        <span className="amp">with</span>
-        {SITE.couple.groom}
-      </p>
       <span className="aa-footer-orn" aria-hidden="true">
         <i />
       </span>
+      <p className="aa-footer-names aa-script" data-reveal="blur">
+        Anson Francis
+      </p>
     </div>
 
     <div className="aa-footer-bar">

@@ -70,8 +70,8 @@ export const SITE = {
   // ─── Placeholder content (to be supplied) ───
   scripture: [
     {
-      quote: "“വിശ്വാസം, പ്രത്യാശ, സ്നേഹം ഈ മൂന്നും നിലനില്ക്കുന്നു; എങ്കിലും ഇവയിൽ വലിയതു സ്നേഹം തന്നേ.”",
-      reference: "1 കൊരിന്ത്യർ 13:13",
+      quote: "“And now these three remain: faith, hope and love. But the greatest of these is love.”",
+      reference: "1 Corinthians 13:13",
     },
   ],
   story: [

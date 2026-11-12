@@ -114,10 +114,10 @@ export const CountdownBand: React.FC = () => {
         </p>
         {SITE.scripture.map((v) => (
           <React.Fragment key={v.reference}>
-            <p className="aa-band-quote" lang="ml" data-reveal="blur">
+            <p className="aa-band-quote" data-reveal="blur">
               {v.quote}
             </p>
-            <p className="aa-band-ref" lang="ml" data-reveal style={{ marginBottom: "2rem" }}>
+            <p className="aa-band-ref" data-reveal style={{ marginBottom: "2rem" }}>
               {v.reference}
             </p>
           </React.Fragment>
