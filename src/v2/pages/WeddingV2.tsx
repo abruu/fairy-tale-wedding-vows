@@ -9,7 +9,6 @@ import { HeroSection } from "../components/sections/HeroSection";
 import { PostWeddingHero } from "../components/sections/PostWeddingHero";
 import { InvitationSection } from "../components/sections/InvitationSection";
 import { OurStorySection } from "../components/sections/OurStorySection";
-import { SpecialMomentsSection } from "../components/sections/SpecialMomentsSection";
 import { WeddingDetailsSection } from "../components/sections/WeddingDetailsSection";
 import { GallerySection } from "../components/sections/GallerySection";
 import { CountdownSection } from "../components/sections/CountdownSection";
@@ -24,7 +23,6 @@ const NAV_ITEMS = [
   { id: "hero", label: "Home" },
   { id: "invitation", label: "Invitation" },
   { id: "story", label: "Story" },
-  { id: "moments", label: "Moments" },
   { id: "details", label: "Details" },
   { id: "gallery", label: "Gallery" },
   { id: "countdown", label: "Countdown" },
@@ -35,7 +33,7 @@ const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
 
 /**
  * Wedding V2 — Main page composing all sections.
- * Storytelling flow: Opening → Hero → Invitation → Story → Moments → Details → Gallery → Countdown → RSVP → Thank You
+ * Storytelling flow: Opening → Hero → Invitation → Story → Details → Gallery → Countdown → RSVP → Thank You
  */
 const WeddingV2: React.FC = () => {
   const lenisRef = useSmoothScroll();
@@ -43,6 +41,9 @@ const WeddingV2: React.FC = () => {
   // the hero becomes the looping thank-you video.
   const [postWedding] = useState(isPostWedding);
   const [openingComplete, setOpeningComplete] = useState(postWedding);
+  // Flips slightly before openingComplete — when the intro's light bloom
+  // peaks — so the hero's entrance plays as the intro dissolves.
+  const [heroPlay, setHeroPlay] = useState(postWedding);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const activeSection = useActiveSection(SECTION_IDS);
   const { progress, scrollY } = useScrollProgress();
@@ -65,6 +66,10 @@ const WeddingV2: React.FC = () => {
     setOpeningComplete(true);
   }, []);
 
+  const handleOpeningReveal = useCallback(() => {
+    setHeroPlay(true);
+  }, []);
+
   const handleOpeningStart = useCallback(() => {
     forcePlayRef.current?.();
   }, []);
@@ -79,7 +84,7 @@ const WeddingV2: React.FC = () => {
 
   // Set document title
   useEffect(() => {
-    document.title = `${WEDDING_CONFIG.couple.displayNames} · Wedding Invitation`;
+    document.title = `${WEDDING_CONFIG.couple.displayNames} · ${WEDDING_CONFIG.couple.tagline}`;
   }, []);
 
   return (
@@ -92,6 +97,7 @@ const WeddingV2: React.FC = () => {
         <OpeningExperience
           onComplete={handleOpeningComplete}
           onStart={handleOpeningStart}
+          onReveal={handleOpeningReveal}
         />
       )}
 
@@ -109,11 +115,10 @@ const WeddingV2: React.FC = () => {
         {postWedding ? (
           <PostWeddingHero onEnter={() => handleNavigate("invitation")} />
         ) : (
-          <HeroSection onEnter={() => handleNavigate("invitation")} />
+          <HeroSection play={heroPlay || openingComplete} onEnter={() => handleNavigate("invitation")} />
         )}
         <InvitationSection />
-        <OurStorySection />
-        <SpecialMomentsSection />
+        <OurStorySection onNavigate={handleNavigate} />
         <WeddingDetailsSection />
         <GallerySection />
         <CountdownSection />

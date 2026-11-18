@@ -235,7 +235,9 @@ export const InvitationSection: React.FC = () => {
             {WEDDING_CONFIG.couple.supportingMessage}
           </p>
 
-          {/* Event dates, repeated under the scripture for visibility */}
+          {/* Event dates, repeated under the scripture for visibility. The
+              invite's headline event (see config `invite.featured`) is set
+              larger and brighter than the other. */}
           <div
             style={{
               display: "flex",
@@ -246,72 +248,54 @@ export const InvitationSection: React.FC = () => {
               marginTop: "2.5rem",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "0.2rem",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--v2-font-sans)",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: "rgba(198,161,91,0.6)",
-                }}
-              >
-                Betrothal
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "clamp(0.8rem, 1.6vw, 0.95rem)",
-                  color: "var(--v2-ivory)",
-                }}
-              >
-                {WEDDING_CONFIG.events.betrothal.dateLabel}
-              </span>
-            </div>
-            <span
-              style={{ color: "rgba(198,161,91,0.4)", fontSize: "0.7rem" }}
-              aria-hidden="true"
-            >
-              ✦
-            </span>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "0.2rem",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--v2-font-sans)",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: "rgba(198,161,91,0.6)",
-                }}
-              >
-                Wedding
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--v2-font-display)",
-                  fontStyle: "italic",
-                  fontSize: "clamp(0.8rem, 1.6vw, 0.95rem)",
-                  color: "var(--v2-ivory)",
-                }}
-              >
-                {WEDDING_CONFIG.events.wedding.dateLabel}
-              </span>
-            </div>
+            {(
+              [
+                { key: "betrothal", label: "Betrothal", dateLabel: WEDDING_CONFIG.events.betrothal.dateLabel },
+                { key: "wedding", label: "Wedding", dateLabel: WEDDING_CONFIG.events.wedding.dateLabel },
+              ] as const
+            ).map((ev, i) => {
+              const isFeatured = WEDDING_CONFIG.invite.featured.eventKey === ev.key;
+              return (
+                <React.Fragment key={ev.key}>
+                  {i > 0 && (
+                    <span style={{ color: "rgba(198,161,91,0.4)", fontSize: "0.7rem" }} aria-hidden="true">
+                      ✦
+                    </span>
+                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "0.25rem",
+                      opacity: isFeatured ? 1 : 0.6,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "var(--v2-font-sans)",
+                        fontSize: isFeatured ? "0.68rem" : "0.6rem",
+                        letterSpacing: "0.3em",
+                        textTransform: "uppercase",
+                        color: isFeatured ? "var(--v2-gold-light)" : "rgba(198,161,91,0.6)",
+                      }}
+                    >
+                      {ev.label}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--v2-font-display)",
+                        fontStyle: "italic",
+                        fontSize: isFeatured ? "clamp(1rem, 2vw, 1.2rem)" : "clamp(0.8rem, 1.6vw, 0.95rem)",
+                        color: "var(--v2-ivory)",
+                      }}
+                    >
+                      {ev.dateLabel}
+                    </span>
+                  </div>
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -26,6 +26,12 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
     WEDDING_CONFIG.dates.engagement,
   );
   const prefersReduced = useReducedMotion();
+  // The bride's-family invite (`?=b`) counts to the betrothal first; after
+  // it passes — and always on the groom's invite — this is the wedding.
+  const countBetrothal =
+    WEDDING_CONFIG.invite.featured.dateKey === "engagement" && !betrothalTimeLeft.isComplete;
+  const shown = countBetrothal ? betrothalTimeLeft : timeLeft;
+  const shownEvent = countBetrothal ? WEDDING_CONFIG.events.betrothal : WEDDING_CONFIG.events.wedding;
 
   const handleComplete = useCallback(() => {
     onComplete?.();
@@ -34,10 +40,10 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
   setOnComplete(handleComplete);
 
   const units = [
-    { value: timeLeft.days, label: "Days" },
-    { value: timeLeft.hours, label: "Hours" },
-    { value: timeLeft.minutes, label: "Minutes" },
-    { value: timeLeft.seconds, label: "Seconds" },
+    { value: shown.days, label: "Days" },
+    { value: shown.hours, label: "Hours" },
+    { value: shown.minutes, label: "Minutes" },
+    { value: shown.seconds, label: "Seconds" },
   ];
 
   return (
@@ -204,8 +210,8 @@ export const CountdownSection: React.FC<CountdownSectionProps> = ({
               marginTop: "2.5rem",
             }}
           >
-            {WEDDING_CONFIG.events.wedding.dateLabel} ·{" "}
-            {WEDDING_CONFIG.events.wedding.venue}
+            {countBetrothal ? "Betrothal · " : ""}
+            {shownEvent.dateLabel} · {shownEvent.venue}
           </p>
         )}
 

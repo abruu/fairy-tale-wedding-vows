@@ -71,7 +71,10 @@
 @layer base {
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
-  html, body { @apply overflow-x-hidden; width: 100%; max-width: 100%; }
+  /* clip (with a hidden fallback for pre-16 Safari), not hidden: when html
+     AND body both set overflow, body becomes its own scroll container and
+     every position: sticky on the page (the Journey stage) stops sticking. */
+  html, body { overflow-x: hidden; overflow-x: clip; width: 100%; max-width: 100%; }
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));

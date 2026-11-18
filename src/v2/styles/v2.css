@@ -87,7 +87,9 @@
   font-family: var(--v2-font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` turns .v2-root into a scroll container, which
+     silently breaks every position: sticky inside it (the Journey stage). */
+  overflow-x: clip;
 }
 
 /* Sections on the light "photo spread" band use this to flip text back to dark ink */
@@ -712,15 +714,779 @@
   animation: v2-scale-in 0.8s ease-out both;
 }
 
-/* ─── Hero Scripture ─── */
-.v2-hero-scripture {
-  text-align: right;
+
+/* ─── Hero ───
+   Phones: full-bleed portrait, faces kept clear, copy gathered in the lower
+   half over a deep bottom shade. Landscape ≥ 900px: editorial split — copy
+   left on charcoal, photo as a full-height panel right. Entrance motion is
+   driven from HeroSection.tsx (framer variants); CSS only owns layout, the
+   slow Ken Burns drift and the scroll-cue bead. */
+.v2-hero2 {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--v2-deep-charcoal);
 }
 
-@media (max-width: 640px) {
-  .v2-hero-scripture {
+.v2-hero2-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.v2-hero2-reveal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: clip-path, transform;
+}
+.v2-hero2-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+  transform-origin: 55% 30%;
+  animation: v2-hero2-drift 24s ease-in-out infinite alternate;
+}
+@keyframes v2-hero2-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09) translate3d(-1.2%, 1%, 0);
+  }
+}
+.v2-hero2-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 12, 11, 0.55) 0%,
+      rgba(13, 12, 11, 0) 16%,
+      rgba(13, 12, 11, 0) 36%,
+      rgba(13, 12, 11, 0.55) 52%,
+      rgba(13, 12, 11, 0.9) 70%,
+      rgba(13, 12, 11, 0.97) 100%
+    ),
+    radial-gradient(ellipse at 50% 30%, transparent 45%, rgba(13, 12, 11, 0.45) 100%);
+}
+.v2-hero2-ambient,
+.v2-hero2-scripture,
+.v2-hero2-scroll {
+  display: none;
+}
+
+.v2-hero2-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1.25rem calc(max(1.25rem, env(safe-area-inset-bottom)) + 0.75rem);
+}
+
+.v2-hero2-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--v2-font-sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--v2-gold-light);
+}
+.v2-hero2-eyebrow > span:not(.v2-hero2-rule) {
+  display: inline-block;
+  margin-right: -0.4em; /* optically re-centre the tracked caps */
+}
+.v2-hero2-rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--v2-gold));
+}
+.v2-hero2-rule--l {
+  transform-origin: right center;
+}
+.v2-hero2-rule--r {
+  transform-origin: left center;
+  background: linear-gradient(to left, transparent, var(--v2-gold));
+}
+
+.v2-hero2-names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0 0.2em;
+  margin: 0.85rem 0 0;
+  font-family: var(--v2-font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(3rem, 13.5vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--v2-ivory);
+}
+.v2-hero2-name {
+  display: inline-flex;
+}
+/* Each letter rises through its own mask; the padding keeps italic
+   overhangs and descenders from being shaved off by the clip. */
+.v2-hero2-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.12em 0.05em 0.16em;
+  margin: -0.12em -0.05em -0.16em;
+}
+.v2-hero2-letter {
+  display: inline-block;
+  transform-origin: 0 100%;
+  will-change: transform;
+}
+.v2-hero2-amp {
+  display: inline-block;
+  font-family: "Parisienne", var(--v2-font-display), cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.78em;
+  color: var(--v2-gold-light);
+  text-shadow: 0 0 28px rgba(230, 201, 138, 0.45);
+}
+
+.v2-hero2-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.15rem 0 0;
+  font-family: var(--v2-font-display);
+  font-size: 1.08rem;
+  letter-spacing: 0.12em;
+  color: var(--v2-ivory);
+}
+.v2-hero2-date i {
+  width: 5px;
+  height: 5px;
+  background: var(--v2-gold);
+  transform: rotate(45deg);
+}
+.v2-hero2-venue {
+  margin: 0.35rem 0 0;
+  font-family: var(--v2-font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 225, 0.58);
+}
+
+.v2-hero2-countdown-wrap {
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 1.35rem;
+}
+.v2-hero2-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.85rem 0.75rem 0.9rem;
+  border-radius: 18px;
+  background: rgba(13, 12, 11, 0.4);
+  border: 1px solid rgba(230, 201, 138, 0.2);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.v2-hero2-countdown-label {
+  font-family: var(--v2-font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--v2-gold-light);
+}
+.v2-hero2-countdown-units {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  margin-top: 0.55rem;
+}
+.v2-hero2-unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.v2-hero2-unit + .v2-hero2-unit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(230, 201, 138, 0.3), transparent);
+}
+.v2-hero2-unit-value {
+  display: block;
+  height: 1.15em;
+  overflow: hidden;
+  font-family: var(--v2-font-serif);
+  font-size: 1.7rem;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--v2-ivory);
+}
+.v2-hero2-unit-value span {
+  display: inline-block;
+}
+.v2-hero2-unit-label {
+  margin-top: 0.15rem;
+  font-family: var(--v2-font-sans);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 225, 0.5);
+}
+.v2-hero2-countdown-done {
+  margin-top: 0.35rem;
+  font-family: var(--v2-font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--v2-gold-light);
+}
+.v2-hero2-countdown-note {
+  margin: 0.55rem 0 0;
+  font-family: var(--v2-font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 225, 0.5);
+}
+
+.v2-hero2-actions {
+  margin-top: 1.25rem;
+}
+.v2-hero2-cta {
+  padding: 0.9rem 2.1rem;
+}
+
+/* Landscape — editorial split. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .v2-hero2 {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .v2-hero2-media {
+    left: 46%;
+  }
+  .v2-hero2-img {
+    object-position: 50% 18%;
+  }
+  .v2-hero2-shade {
+    background:
+      linear-gradient(to right, var(--v2-deep-charcoal) 0%, rgba(13, 12, 11, 0) 24%),
+      linear-gradient(to top, rgba(13, 12, 11, 0.85) 0%, rgba(13, 12, 11, 0) 38%),
+      linear-gradient(to bottom, rgba(13, 12, 11, 0.45) 0%, rgba(13, 12, 11, 0) 14%);
+  }
+  .v2-hero2-ambient {
+    display: block;
+    position: absolute;
+    inset: 0 50% 0 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 30% 45%, rgba(198, 161, 91, 0.13) 0%, transparent 60%),
+      radial-gradient(ellipse at 0% 100%, rgba(143, 113, 58, 0.12) 0%, transparent 55%);
+  }
+
+  .v2-hero2-content {
+    width: 46%;
+    align-items: flex-start;
     text-align: left;
-    max-width: 100% !important;
+    padding: 6.5rem clamp(2rem, 5vw, 5.5rem) 5rem;
+  }
+  .v2-hero2-rule--l {
+    display: none;
+  }
+  .v2-hero2-rule--r {
+    width: 64px;
+  }
+  .v2-hero2-names {
+    display: block;
+    margin-top: 1.4rem;
+    font-size: clamp(4rem, 7.2vw, 7.6rem);
+    line-height: 0.98;
+  }
+  .v2-hero2-name:first-child {
+    display: flex;
+    margin-bottom: -0.06em;
+  }
+  .v2-hero2-amp {
+    margin: 0 0.18em 0 0.5em;
+  }
+  .v2-hero2-date {
+    justify-content: flex-start;
+    margin-top: 1.9rem;
+    font-size: 1.3rem;
+  }
+  .v2-hero2-venue {
+    font-size: 0.66rem;
+  }
+  .v2-hero2-countdown-wrap {
+    max-width: 25rem;
+    margin-top: 2rem;
+  }
+  .v2-hero2-unit-value {
+    font-size: 2rem;
+  }
+  .v2-hero2-actions {
+    margin-top: 1.75rem;
+  }
+
+  .v2-hero2-scripture {
+    display: block;
+    position: absolute;
+    right: clamp(1.75rem, 3vw, 3rem);
+    bottom: clamp(1.75rem, 4vh, 3rem);
+    z-index: 2;
+    max-width: 21rem;
+    margin: 0;
+    text-align: right;
+  }
+  .v2-hero2-scripture blockquote {
+    margin: 0;
+    font-family: var(--v2-font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: rgba(244, 237, 225, 0.9);
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.6);
+  }
+  .v2-hero2-scripture figcaption {
+    margin-top: 0.5rem;
+    font-family: var(--v2-font-sans);
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--v2-gold-light);
+  }
+
+  .v2-hero2-scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    position: absolute;
+    left: clamp(2rem, 5vw, 5.5rem);
+    bottom: 2rem;
+    z-index: 3;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-family: var(--v2-font-sans);
+    font-size: 0.58rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(230, 201, 138, 0.7);
+  }
+  .v2-hero2-scroll i {
+    position: relative;
+    width: 56px;
+    height: 1px;
+    overflow: hidden;
+    background: rgba(230, 201, 138, 0.22);
+  }
+  .v2-hero2-scroll i::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 1px;
+    background: var(--v2-gold-light);
+    animation: v2-hero2-bead 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  .v2-hero2-scroll:focus-visible {
+    outline: 2px solid var(--v2-gold-light);
+    outline-offset: 6px;
+  }
+}
+@keyframes v2-hero2-bead {
+  from {
+    transform: translateX(-18px);
+  }
+  to {
+    transform: translateX(56px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero2-img,
+  .v2-hero2-scroll i::after {
+    animation: none;
+  }
+}
+
+/* ─── Our Journey (sticky scrollytelling) ───
+   .v2-journey-track is (chapters + 1) screens tall; .v2-journey-stage is a
+   100vh sticky child, so it stays pinned for `chapters` screens of scroll.
+   NB: no overflow: hidden on this section or any ancestor — it disables
+   sticky. (.v2-root uses overflow-x: clip for that reason.) */
+.v2-journey {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 25% 55%, rgba(198, 161, 91, 0.1) 0%, transparent 55%),
+    var(--v2-deep-charcoal);
+}
+.v2-journey-head {
+  padding: clamp(5rem, 12vh, 8rem) 1.5rem 0;
+}
+.v2-journey-track {
+  position: relative;
+  height: calc((var(--n) + 1) * 100vh);
+  height: calc((var(--n) + 1) * 100svh);
+}
+.v2-journey-anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.v2-journey-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+.v2-journey-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Bottom padding keeps copy clear of the fixed music player and
+     back-to-top buttons that live in the bottom-right corner on phones. */
+  padding: 5.25rem 1.25rem calc(6.25rem + env(safe-area-inset-bottom));
+}
+
+/* Arched frame — church-window silhouette with an inset gold hairline. */
+.v2-journey-visual {
+  position: relative;
+  flex-shrink: 1;
+  min-height: 0;
+}
+.v2-journey-visual::before {
+  content: "";
+  position: absolute;
+  inset: -12% -20%;
+  background: radial-gradient(ellipse at center, rgba(230, 201, 138, 0.16) 0%, transparent 65%);
+  pointer-events: none;
+}
+.v2-journey-frame {
+  position: relative;
+  height: min(44svh, 112vw);
+  aspect-ratio: 4 / 5;
+  border-radius: 999px 999px 22px 22px;
+  overflow: hidden;
+  background: #1a1612;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(230, 201, 138, 0.25);
+  /* Safari: keep the rounded clip while children transform. */
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+.v2-journey-zoom {
+  position: absolute;
+  inset: 0;
+}
+.v2-journey-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(calc(var(--s, 1) * 1.14));
+  transition:
+    opacity 0.9s ease,
+    transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.v2-journey-img.is-active {
+  opacity: 1;
+  transform: scale(var(--s, 1));
+}
+.v2-journey-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 12, 11, 0.45) 0%, transparent 35%);
+  pointer-events: none;
+}
+.v2-journey-frame-line {
+  position: absolute;
+  inset: 9px;
+  z-index: 2;
+  border: 1px solid rgba(240, 214, 160, 0.5);
+  border-radius: 999px 999px 15px 15px;
+  pointer-events: none;
+}
+
+.v2-journey-counter {
+  position: absolute;
+  right: -0.4rem;
+  bottom: -0.9rem;
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--v2-font-serif);
+  font-style: italic;
+  color: var(--v2-gold-light);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+.v2-journey-counter-num {
+  display: inline-block;
+  height: 1.1em;
+  overflow: hidden;
+  font-size: 2.6rem;
+  line-height: 1.1;
+  font-variant-numeric: lining-nums;
+}
+.v2-journey-counter-num span {
+  display: inline-block;
+}
+.v2-journey-counter-total {
+  font-family: var(--v2-font-sans);
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  color: rgba(244, 237, 225, 0.55);
+}
+
+/* Copy — every chapter shares one grid cell; only the active one shows. */
+.v2-journey-copy {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 30rem;
+  margin-top: 1.1rem;
+  text-align: center;
+}
+.v2-journey-chapters {
+  display: grid;
+}
+.v2-journey-chapter {
+  grid-area: 1 / 1;
+  pointer-events: none;
+}
+.v2-journey-chapter.is-active {
+  pointer-events: auto;
+}
+.v2-journey-chapter > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.v2-journey-chapter.is-past > * {
+  transform: translateY(-26px);
+}
+.v2-journey-chapter.is-active > * {
+  opacity: 1;
+  transform: none;
+}
+.v2-journey-chapter.is-active > :nth-child(1) {
+  transition-delay: 0.12s;
+}
+.v2-journey-chapter.is-active > :nth-child(2) {
+  transition-delay: 0.2s;
+}
+.v2-journey-chapter.is-active > :nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.v2-journey-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem 0.6rem;
+  margin: 0;
+  font-family: var(--v2-font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--v2-gold-light);
+}
+.v2-journey-label i {
+  width: 18px;
+  height: 1px;
+  background: var(--v2-gold);
+}
+.v2-journey-label em {
+  flex-basis: 100%;
+  font-style: normal;
+  color: rgba(244, 237, 225, 0.6);
+}
+.v2-journey-title {
+  margin: 0.6rem 0 0;
+  font-family: var(--v2-font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.75rem, 7.4vw, 2.3rem);
+  line-height: 1.1;
+  color: var(--v2-ivory);
+}
+.v2-journey-text {
+  margin: 0.7rem auto 0;
+  max-width: 34ch;
+  font-family: var(--v2-font-display);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: rgba(244, 237, 225, 0.78);
+}
+
+/* Segmented progress — one bar per chapter; also chapter navigation. */
+/* Phones: the bars sit right under the frame, clear of the fixed music
+   player / back-to-top buttons in the bottom corner. */
+.v2-journey-segs {
+  order: -1;
+  display: flex;
+  gap: 0.4rem;
+  width: min(100%, 15rem);
+  margin: 0 auto 0.9rem;
+}
+.v2-journey-seg {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+.v2-journey-seg-track {
+  position: relative;
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(244, 237, 225, 0.14);
+}
+.v2-journey-seg-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(to right, var(--v2-gold), var(--v2-gold-light));
+}
+.v2-journey-seg-label {
+  display: none;
+  font-family: var(--v2-font-sans);
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 225, 0.4);
+  transition: color 0.4s ease;
+}
+.v2-journey-seg.is-active .v2-journey-seg-label,
+.v2-journey-seg:hover .v2-journey-seg-label {
+  color: var(--v2-gold-light);
+}
+.v2-journey-seg:focus-visible {
+  outline: 2px solid var(--v2-gold-light);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-height: 700px) and (max-width: 899px) {
+  .v2-journey-frame {
+    height: 36svh;
+  }
+  .v2-journey-copy {
+    margin-top: 0.85rem;
+  }
+  .v2-journey-text {
+    font-size: 0.98rem;
+  }
+}
+
+/* Landscape — frame left, copy right. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .v2-journey-inner {
+    flex-direction: row;
+    gap: clamp(3.5rem, 7vw, 7.5rem);
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: 6rem 2.5rem 3rem;
+  }
+  .v2-journey-frame {
+    height: min(68svh, 660px);
+  }
+  .v2-journey-counter {
+    right: auto;
+    left: -1.6rem;
+    bottom: -1.2rem;
+  }
+  .v2-journey-counter-num {
+    font-size: 4.6rem;
+  }
+  .v2-journey-copy {
+    flex: 1;
+    max-width: 32rem;
+    margin-top: 0;
+    text-align: left;
+  }
+  .v2-journey-label {
+    justify-content: flex-start;
+    font-size: 0.64rem;
+  }
+  .v2-journey-label em {
+    flex-basis: auto;
+  }
+  .v2-journey-label em::before {
+    content: "·";
+    margin-right: 0.6rem;
+  }
+  .v2-journey-title {
+    margin-top: 1rem;
+    font-size: clamp(2.6rem, 4.2vw, 3.9rem);
+    line-height: 1.05;
+  }
+  .v2-journey-text {
+    margin: 1.3rem 0 0;
+    max-width: 38ch;
+    font-size: 1.25rem;
+    line-height: 1.65;
+  }
+  .v2-journey-segs {
+    order: 0;
+    width: 100%;
+    gap: 0.75rem;
+    margin: 2.75rem 0 0;
+  }
+  .v2-journey-seg-label {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-journey-img,
+  .v2-journey-chapter > * {
+    transition: none;
   }
 }
 
@@ -847,10 +1613,385 @@
 }
 
 
-/* Clear band reserved for the wax seal baked into the intro video, so the
-   overlay text never lands on top of the stamp. */
-.v2-intro-seal-gap {
-  height: clamp(4.5rem, 15vh, 8rem);
+/* ─── Opening (envelope intro) ───
+   The intro video is a 9:16 portrait clip. `.v2-op-stage` is always a box of
+   exactly that ratio, so the wax-seal hotspot can be pinned in % to where the
+   seal sits in the footage (centre 50% / 54%, ~32% of the frame wide).
+   ≤ portrait / phones : the stage is sized like object-fit: cover, full-bleed,
+                         copy split above and below the seal.
+   landscape ≥ 768px    : the stage lives in a framed card beside a copy column;
+                         on tap GSAP slides the card to centre while it plays. */
+.v2-op {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: var(--v2-deep-charcoal);
+  color: var(--v2-ivory);
+  -webkit-tap-highlight-color: transparent;
+}
+.v2-op--start {
+  cursor: pointer;
+}
+
+/* Warm ambient field: the poster, tiny and heavily blurred. */
+.v2-op-backdrop {
+  position: absolute;
+  inset: -8%;
+  background: url("/video/opening-poster-blur.webp") center / cover no-repeat;
+  filter: blur(28px) saturate(1.15) brightness(0.42);
+  transform: scale(1.1);
+}
+.v2-op-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(230, 201, 138, 0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at center, transparent 30%, rgba(8, 6, 4, 0.75) 100%);
+}
+
+.v2-op-layout {
+  position: absolute;
+  inset: 0;
+}
+
+.v2-op-card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.v2-op-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 56.25vh);
+  width: max(100vw, 56.25dvh);
+  aspect-ratio: 9 / 16;
+  transform: translate(-50%, -50%);
+}
+.v2-op-stage video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Top + bottom scrims keep the copy legible while leaving the seal and
+   envelope at full brightness. Lifted the moment the envelope opens. */
+.v2-op-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 7, 4, 0.82) 0%,
+    rgba(12, 7, 4, 0.5) 22%,
+    rgba(12, 7, 4, 0) 40%,
+    rgba(12, 7, 4, 0) 62%,
+    rgba(12, 7, 4, 0.55) 78%,
+    rgba(12, 7, 4, 0.88) 100%
+  );
+  transition: opacity 0.9s ease;
+}
+.v2-op--playing .v2-op-scrim {
+  opacity: 0;
+}
+
+/* Seal hotspot — sits exactly over the wax seal in the first frame. */
+.v2-op-seal {
+  position: absolute;
+  left: 50%;
+  top: 54.1%;
+  width: 34%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.4s ease;
+}
+.v2-op-seal::before,
+.v2-op-seal::after {
+  content: "";
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(240, 214, 160, 0.75);
+  box-shadow: 0 0 18px rgba(240, 214, 160, 0.35);
+  animation: v2-op-seal-ring 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  pointer-events: none;
+}
+.v2-op-seal::after {
+  animation-delay: 1.3s;
+}
+.v2-op-seal:focus-visible {
+  outline: 2px solid var(--v2-gold-light);
+  outline-offset: 6px;
+}
+.v2-op--playing .v2-op-seal {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes v2-op-seal-ring {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* Copy — on phones it overlays the full-bleed video in two groups. */
+.v2-op-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: max(2.25rem, env(safe-area-inset-top)) 1.25rem
+    max(1.75rem, env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+.v2-op-copy button {
+  pointer-events: auto;
+}
+.v2-op-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.v2-op-cross {
+  opacity: 0.6;
+  margin-bottom: 0.9rem;
+}
+.v2-op-eyebrow {
+  font-family: var(--v2-font-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--v2-gold-light);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+}
+.v2-op-names {
+  margin: 0.7rem 0 0;
+  font-family: var(--v2-font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.5rem, 11vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--v2-ivory);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.65);
+}
+.v2-op-amp {
+  font-family: "Parisienne", var(--v2-font-display), cursive;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--v2-gold-light);
+  margin: 0 0.25em;
+  font-size: 0.9em;
+}
+.v2-op-rule {
+  width: 72px;
+  height: 1px;
+  margin: 1.1rem auto 0.95rem;
+  background: linear-gradient(to right, transparent, var(--v2-gold), transparent);
+}
+.v2-op-date {
+  font-family: var(--v2-font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.18em;
+  color: var(--v2-ivory);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+}
+.v2-op-venue {
+  margin-top: 0.35rem;
+  font-family: var(--v2-font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(244, 237, 225, 0.62);
+}
+.v2-op-cta {
+  margin-top: 1.4rem;
+}
+.v2-op-cta svg {
+  flex-shrink: 0;
+}
+.v2-op-hint {
+  margin-top: 0.75rem;
+  font-family: var(--v2-font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(244, 237, 225, 0.6);
+}
+.v2-op-hint--loading {
+  animation: v2-gentle-pulse 1.8s ease-in-out infinite;
+}
+
+/* Hidden on phones: the bottom group already sits right under the seal. */
+.v2-op-desktop-only {
+  display: none;
+}
+
+/* Playback progress — fills to the reveal cue. */
+.v2-op-progress {
+  position: absolute;
+  left: 50%;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  width: min(180px, 40vw);
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: rgba(244, 237, 225, 0.18);
+  overflow: hidden;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+}
+.v2-op--playing .v2-op-progress {
+  opacity: 1;
+}
+.v2-op-progress span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: linear-gradient(to right, var(--v2-gold), var(--v2-gold-light));
+}
+
+.v2-op-skip {
+  position: absolute;
+  top: max(1.25rem, env(safe-area-inset-top));
+  right: 1.25rem;
+  z-index: 4;
+  background: rgba(12, 8, 5, 0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(244, 237, 225, 0.22);
+  border-radius: 9999px;
+  padding: 0.45rem 1.1rem;
+  color: rgba(244, 237, 225, 0.85);
+  font-family: var(--v2-font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  animation: v2-fade-in 0.6s ease forwards;
+}
+.v2-op-skip:focus-visible {
+  outline: 2px solid var(--v2-gold-light);
+  outline-offset: 3px;
+}
+
+.v2-op-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70vmax;
+  height: 70vmax;
+  margin: -35vmax 0 0 -35vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 250, 235, 0.95) 0%,
+    rgba(230, 201, 138, 0.5) 35%,
+    rgba(198, 161, 91, 0) 70%
+  );
+  opacity: 0;
+  transform: scale(0.15);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Landscape / desktop — framed card beside a copy column. */
+@media (min-width: 768px) and (min-aspect-ratio: 1/1) {
+  .v2-op-layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(3rem, 7vw, 7rem);
+    padding: 0 2rem;
+  }
+  .v2-op-card {
+    position: relative;
+    inset: auto;
+    flex-shrink: 0;
+    height: min(86vh, 860px);
+    height: min(86dvh, 860px);
+    aspect-ratio: 9 / 16;
+    border-radius: 18px;
+    box-shadow:
+      0 0 0 1px rgba(230, 201, 138, 0.28),
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      0 0 120px rgba(230, 201, 138, 0.12);
+    will-change: transform;
+  }
+  .v2-op-stage {
+    inset: 0;
+    width: 100%;
+    transform: none;
+    left: 0;
+    top: 0;
+  }
+  .v2-op-scrim {
+    display: none;
+  }
+  .v2-op-copy {
+    position: relative;
+    inset: auto;
+    order: -1;
+    width: min(440px, 38vw);
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+  }
+  .v2-op-names {
+    font-size: clamp(3.4rem, 5.6vw, 5.4rem);
+    margin-top: 1.1rem;
+  }
+  .v2-op-names > span:not(.v2-op-amp) {
+    display: block;
+  }
+  .v2-op-amp {
+    display: block;
+    margin: 0.05em 0 0.1em;
+    font-size: 0.62em;
+    line-height: 1;
+  }
+  .v2-op-rule {
+    margin-top: 1.6rem;
+    width: 96px;
+  }
+  .v2-op-date {
+    font-size: 1.3rem;
+  }
+  .v2-op-cta {
+    margin-top: 2.2rem;
+  }
+  .v2-op-desktop-only {
+    display: block;
+  }
+  .v2-op-progress {
+    bottom: 1.5rem;
+  }
 }
 
 /* ─── Wish Envelope (GSAP-owned send sequence) ─── */
@@ -1155,45 +2296,18 @@
   }
 }
 
-.v2-hero-countdown-strip {
-  display: flex;
-  /* Column, so the CTA stacks under the countdown instead of being pushed
-     alongside it and overflowing the viewport on narrow screens. */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 3vw, 2.5rem);
-  border-radius: 1.25rem;
-  background: rgba(13, 12, 11, 0.45);
-  border: 1px solid rgba(198, 161, 91, 0.25);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  width: 100%;
-  max-width: 30rem;
-  margin-top: 2.25rem;
-  transition:
-    border-color 0.6s ease,
-    box-shadow 0.6s ease,
-    background 0.6s ease;
-}
-
-/* Once the betrothal has passed, the wedding countdown becomes the headline
-   event and the strip is highlighted to match. */
-.v2-hero-countdown-strip.is-primary {
-  background: rgba(13, 12, 11, 0.55);
-  border-color: rgba(230, 201, 138, 0.55);
-  box-shadow:
-    0 0 0 1px rgba(198, 161, 91, 0.12),
-    0 10px 40px rgba(198, 161, 91, 0.18);
-}
-
 /* ─── Navigation ─── */
 .v2-nav {
   position: fixed;
   top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Centred with auto margins, not translateX(-50%): framer-motion writes an
+     inline transform on this element, which wiped out the translate and
+     left the pill hanging off the right half of the screen. */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
   z-index: 50;
   display: flex;
   align-items: center;
@@ -1700,7 +2814,7 @@
   .v2-nav {
     left: 1rem;
     right: 1rem;
-    transform: none;
+    width: auto;
     max-width: calc(100vw - 2rem);
   }
   .v2-nav.open .v2-nav-links {

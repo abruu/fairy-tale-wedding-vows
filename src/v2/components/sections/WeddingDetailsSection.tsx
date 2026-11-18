@@ -9,12 +9,15 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { DURATION, EASE_OUT, fadeRise, motionVariants } from "../../lib/motion";
 
 /**
- * Wedding celebrations — two asymmetric "ticket stub" cards; the wedding
- * (main event) rendered larger/primary, the betrothal smaller alongside.
+ * Celebrations — two asymmetric "ticket stub" cards in date order. Whichever
+ * event this invite leads with (wedding by default, betrothal on the
+ * bride's-family `?=b` link) is rendered larger/primary.
  */
 export const WeddingDetailsSection: React.FC = () => {
   const betrothal = WEDDING_CONFIG.events.betrothal;
   const wedding = WEDDING_CONFIG.events.wedding;
+  const { featured } = WEDDING_CONFIG.invite;
+  const betrothalFeatured = featured.eventKey === "betrothal";
 
   return (
     <section
@@ -36,7 +39,7 @@ export const WeddingDetailsSection: React.FC = () => {
       >
         <SectionHeader
           eyebrow="Join Us"
-          title="Wedding Celebrations"
+          title={`${featured.label} Celebrations`}
           subtitle="We invite you to be part of our journey as we celebrate our union"
           variant="dark"
         />
@@ -45,7 +48,7 @@ export const WeddingDetailsSection: React.FC = () => {
           className="v2-details-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1.4fr",
+            gridTemplateColumns: betrothalFeatured ? "1.4fr 1fr" : "1fr 1.4fr",
             gap: "clamp(1.5rem, 3vw, 2.5rem)",
             marginTop: "4rem",
             alignItems: "stretch",
@@ -57,7 +60,11 @@ export const WeddingDetailsSection: React.FC = () => {
             time={betrothal.time}
             venue={betrothal.venue}
             mapsUrl={betrothal.mapsUrl}
+            receptionLabel={betrothal.receptionLabel}
+            receptionVenue={betrothal.receptionVenue}
+            receptionMapsUrl={betrothal.receptionMapsUrl}
             targetDate={WEDDING_CONFIG.dates.engagement}
+            featured={betrothalFeatured}
             fromLeft
           />
           <EventTicket
@@ -66,10 +73,11 @@ export const WeddingDetailsSection: React.FC = () => {
             time={wedding.time}
             venue={wedding.venue}
             mapsUrl={wedding.mapsUrl}
+            receptionLabel={wedding.receptionLabel}
             receptionVenue={wedding.receptionVenue}
             receptionMapsUrl={wedding.receptionMapsUrl}
             targetDate={WEDDING_CONFIG.dates.wedding}
-            featured
+            featured={!betrothalFeatured}
             fromLeft={false}
           />
         </div>
@@ -93,6 +101,7 @@ interface EventTicketProps {
   time: string;
   venue: string;
   mapsUrl: string;
+  receptionLabel?: string;
   receptionVenue?: string;
   receptionMapsUrl?: string;
   targetDate: string;
@@ -106,6 +115,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
   time,
   venue,
   mapsUrl,
+  receptionLabel = "Reception",
   receptionVenue,
   receptionMapsUrl,
   targetDate,
@@ -188,7 +198,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
           {receptionVenue && (
             <DetailRow
               icon={<MapPin size={16} />}
-              label="Reception"
+              label={receptionLabel}
               value={receptionVenue}
               prefersReduced={prefersReduced}
             />
@@ -237,7 +247,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
               className="v2-btn v2-btn-outline"
               style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}
             >
-              Reception Map
+              {receptionLabel} Map
             </a>
           )}
         </div>

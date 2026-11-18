@@ -13,12 +13,17 @@ const absolute = (p: string) =>
 const names = `${groom} & ${bride}`;
 const ogImage = absolute(seo.ogImage);
 
-/** Schema.org Event — only facts we actually have (no invented venue/address). */
+/** Schema.org Event — only facts we actually have. */
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Event",
   name: `Wedding of ${names}`,
   startDate: seo.isoDate,
+  location: {
+    "@type": "Place",
+    name: seo.venueName,
+    address: { "@type": "PostalAddress", addressLocality: seo.venueLocality, addressCountry: "IN" },
+  },
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   description: seo.description,

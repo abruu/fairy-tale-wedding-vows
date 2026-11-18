@@ -1,98 +1,199 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { SectionHeader } from "../shared/SectionHeader";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
+interface OurStorySectionProps {
+  /** Scrolls to an element id through the page's Lenis-aware navigator. */
+  onNavigate?: (id: string) => void;
+}
+
+const ORDINALS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"];
+const pad = (n: number) => String(n).padStart(2, "0");
 /**
- * Editorial timeline — the rule sits offset from center (not centered),
- * with alternating content either side, consistent with the asymmetric
- * layout language used across the site.
+ * transform-origin that leaves point `c` (0–100) centred after scaling by
+ * `s`: the visible centre is o + (50 − o)/s, solved for o and clamped so
+ * the frame never shows past the photo's edge.
  */
-export const OurStorySection: React.FC = () => {
-  const items = WEDDING_CONFIG.story.items;
+const originFor = (c: number, s: number) =>
+  s <= 1 ? 50 : Math.min(100, Math.max(0, (c - 50 / s) / (1 - 1 / s)));
 
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+/** One progress bar per chapter, filling as that chapter's stretch is scrolled. */
+const Segment: React.FC<{
+  progress: MotionValue<number>;
+  index: number;
+  count: number;
+  label: string;
+  active: boolean;
+  onSelect: () => void;
+}> = ({ progress, index, count, label, active, onSelect }) => {
+  const fill = useTransform(progress, [index / count, (index + 1) / count], [0, 1], { clamp: true });
   return (
-    <section
-      id="story"
-      style={{
-        position: "relative",
-        background: "var(--v2-deep-charcoal)",
-        padding: "clamp(5rem, 12vh, 8rem) 1.5rem",
-        overflow: "hidden",
-      }}
+    <button
+      type="button"
+      className={`v2-journey-seg ${active ? "is-active" : ""}`}
+      onClick={onSelect}
+      aria-label={`Chapter ${index + 1}: ${label}`}
+      aria-current={active ? "step" : undefined}
     >
-      <div style={{ position: "relative", zIndex: 2, maxWidth: "56rem", margin: "0 auto" }}>
-        <SectionHeader eyebrow="Our Journey" title="How it all began" subtitle="Every love story is beautiful, but ours is our favorite" variant="dark" />
-
-        <div className="v2-story-timeline" style={{ position: "relative", marginTop: "4rem" }}>
-          <div
-            aria-hidden="true"
-            className="v2-story-line"
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: "clamp(1rem, 8vw, 30%)",
-              width: 1,
-              background: "linear-gradient(to bottom, transparent, var(--v2-gold) 10%, var(--v2-gold) 90%, transparent)",
-              opacity: 0.35,
-            }}
-          />
-
-          {items.map((story, i) => (
-            <StoryItem key={i} date={story.date} content={story.content} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
+      <span className="v2-journey-seg-track">
+        <motion.span className="v2-journey-seg-fill" style={{ scaleX: fill }} />
+      </span>
+      <span className="v2-journey-seg-label">{label}</span>
+    </button>
   );
 };
 
-const StoryItem: React.FC<{ date: string; content: string; index: number }> = ({ date, content, index }) => {
-  const prefersReduced = useReducedMotion();
+/**
+ * "Our Journey" — scrollytelling. The track is (chapters + 1) screens tall;
+ * inside it a 100vh stage stays pinned (position: sticky) while scrolling
+ * advances the chapter: the arched frame "camera" glides to that chapter's
+ * focus on the photo, the copy swaps with a staggered rise, and the
+ * segmented bar fills. Every chapter's copy stays in the DOM (stacked in one
+ * grid cell), so the stage never changes height mid-scroll.
+ */
+export const OurStorySection: React.FC<OurStorySectionProps> = ({ onNavigate }) => {
+  const items = WEDDING_CONFIG.story.items;
+  const count = items.length;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const [active, setActive] = useState(0);
+
+  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    const i = Math.min(count - 1, Math.max(0, Math.floor(p * count)));
+    setActive((prev) => (prev === i ? prev : i));
+  });
+  // A slow push-in across the whole journey, on top of each chapter's framing.
+  const drift = useTransform(scrollYProgress, [0, 1], [1, reduced ? 1 : 1.08]);
+
+  const dateFor = (event?: "engagement" | "wedding") =>
+    event ? formatDate(WEDDING_CONFIG.dates[event]) : null;
 
   return (
-    <motion.div
-      initial={prefersReduced ? undefined : { opacity: 0, x: -24 }}
-      whileInView={prefersReduced ? undefined : { opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{
-        position: "relative",
-        paddingLeft: "clamp(2rem, 10vw, calc(30% + 2.5rem))",
-        marginBottom: "3rem",
-      }}
-    >
+    <section id="story" className="v2-journey">
+      <div className="v2-journey-head">
+        <SectionHeader
+          eyebrow="Our Journey"
+          title="How it all began"
+          subtitle="Every love story is beautiful, but ours is our favorite"
+          variant="dark"
+        />
+      </div>
+
       <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          left: "clamp(1rem, 8vw, 30%)",
-          top: "0.4rem",
-          transform: "translateX(-50%)",
-          width: 12,
-          height: 12,
-          borderRadius: "50%",
-          background: "linear-gradient(135deg, var(--v2-gold), var(--v2-gold-light))",
-          boxShadow: "0 0 0 4px rgba(198,161,91,0.15)",
-        }}
-      />
-      <p className="v2-eyebrow" style={{ color: "var(--v2-gold)", marginBottom: "0.6rem" }}>
-        {date}
-      </p>
-      <p
-        style={{
-          fontFamily: "var(--v2-font-display)",
-          fontStyle: "italic",
-          fontSize: "clamp(1.05rem, 2.2vw, 1.3rem)",
-          color: "rgba(234,228,216,0.85)",
-          lineHeight: 1.7,
-          maxWidth: "48ch",
-        }}
+        ref={trackRef}
+        className="v2-journey-track"
+        style={{ "--n": count } as React.CSSProperties}
       >
-        {content}
-      </p>
-    </motion.div>
+        {/* Scroll targets for the chapter buttons — each lands a little way
+            into its chapter's stretch so it is unambiguously active. */}
+        {items.map((_, i) => (
+          <span
+            key={i}
+            id={`story-ch-${i}`}
+            className="v2-journey-anchor"
+            style={{ top: i === 0 ? 0 : `calc(${i + 0.3} * 100svh)` }}
+            aria-hidden="true"
+          />
+        ))}
+
+        <div className="v2-journey-stage">
+          <div className="v2-journey-inner">
+            {/* ── Arched frame ── */}
+            <div className="v2-journey-visual">
+              <div className="v2-journey-frame">
+                <motion.div className="v2-journey-zoom" style={{ scale: drift }}>
+                  {items.map((it, i) => {
+                    const f = it.focus ?? { x: 50, y: 40, scale: 1 };
+                    return (
+                      <img
+                        key={i}
+                        src={it.image ?? WEDDING_CONFIG.media.heroBgImage}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className={`v2-journey-img ${i === active ? "is-active" : ""}`}
+                        style={
+                          {
+                            transformOrigin: `${originFor(f.x, f.scale)}% ${originFor(f.y, f.scale)}%`,
+                            "--s": f.scale,
+                          } as React.CSSProperties
+                        }
+                      />
+                    );
+                  })}
+                </motion.div>
+                <span className="v2-journey-frame-line" aria-hidden="true" />
+              </div>
+
+              <div className="v2-journey-counter" aria-hidden="true">
+                <span className="v2-journey-counter-num">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.span
+                      key={active}
+                      initial={{ y: "100%", opacity: 0 }}
+                      animate={{ y: "0%", opacity: 1 }}
+                      exit={{ y: "-100%", opacity: 0 }}
+                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      {pad(active + 1)}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+                <span className="v2-journey-counter-total">/ {pad(count)}</span>
+              </div>
+            </div>
+
+            {/* ── Copy ── */}
+            <div className="v2-journey-copy">
+              <div className="v2-journey-chapters">
+                {items.map((it, i) => {
+                  const date = dateFor(it.event);
+                  const state = i === active ? "is-active" : i < active ? "is-past" : "is-next";
+                  return (
+                    <article key={i} className={`v2-journey-chapter ${state}`}>
+                      <p className="v2-journey-label">
+                        <span>Chapter {ORDINALS[i] ?? i + 1}</span>
+                        <i aria-hidden="true" />
+                        <span>{it.label}</span>
+                        {date && <em>{date}</em>}
+                      </p>
+                      <h3 className="v2-journey-title">{it.title}</h3>
+                      <p className="v2-journey-text">{it.content}</p>
+                    </article>
+                  );
+                })}
+              </div>
+
+              <nav className="v2-journey-segs" aria-label="Journey chapters">
+                {items.map((it, i) => (
+                  <Segment
+                    key={i}
+                    progress={scrollYProgress}
+                    index={i}
+                    count={count}
+                    label={it.label}
+                    active={i === active}
+                    onSelect={() => onNavigate?.(`story-ch-${i}`)}
+                  />
+                ))}
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };

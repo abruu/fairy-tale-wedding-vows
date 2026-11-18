@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Mounts a Lenis smooth-scroll instance synced to GSAP's ticker/ScrollTrigger
- * for the lifetime of the calling component. Scoped to /main only — never
+ * for the lifetime of the calling component. Scoped to the main page only — never
  * touches the coming-soon page's native scroll. No-ops under reduced motion.
  *
  * Returns a ref to the live Lenis instance (null when not mounted) so callers

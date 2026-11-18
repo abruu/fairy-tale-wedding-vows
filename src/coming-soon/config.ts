@@ -126,9 +126,10 @@ export const comingSoonConfig = {
 
   // ─── Page metadata (injected into index.html at build time) ───
   seo: {
-    title: "Abrin & Elsa | Wedding — 02 January 2027",
+    title: "Abrin & Elsa | Betrothal & Wedding Invitation",
+    /** One preview serves both family links (`/` and `/?=b`), so it names both events. */
     description:
-      "Celebrate the wedding of Abrin & Elsa on 02 January 2027. Our story, wedding moments and more are coming soon.",
+      "Abrin & Elsa invite you to their betrothal on 28 December 2026 at St. Mary's Church, Elamgulam, and their wedding on 2 January 2027 at St. Antony's Church, Arimpur.",
     /**
      * Root-relative share card in /public (see scripts/og-image.html for the
      * source). Set to "" to omit the og:image / twitter:image tags entirely.
@@ -142,7 +143,10 @@ export const comingSoonConfig = {
     locale: "en_IN",
     twitterCard: "summary_large_image",
     /** Machine-readable wedding date for structured data */
-    isoDate: "2027-01-02",
+    isoDate: "2027-01-02T11:00:00+05:30",
+    /** Wedding venue for structured data */
+    venueName: "St. Antony's Church",
+    venueLocality: "Arimpur, Thrissur, Kerala",
   },
 
   // ─── Decorative behaviour ───

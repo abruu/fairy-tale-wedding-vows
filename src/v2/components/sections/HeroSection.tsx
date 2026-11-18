@@ -1,265 +1,300 @@
 import React, { useMemo, useRef } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { useCountdown } from "../../hooks/useCountdown";
 import { FloatingOrnaments } from "../shared/FloatingOrnaments";
-import { MiniCountdown } from "../shared/MiniCountdown";
 
 interface HeroSectionProps {
   onEnter?: () => void;
+  /**
+   * Starts the entrance choreography. The hero is mounted underneath the
+   * envelope intro, so it holds its "before" pose until the intro's light
+   * bloom begins to fade — otherwise the whole entrance would play unseen.
+   */
+  play?: boolean;
 }
+
+const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const EASE_IN_OUT: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
 const formatDate = (iso: string) => {
   const d = new Date(iso);
   return {
+    weekday: d.toLocaleDateString("en-GB", { weekday: "long" }),
     day: d.toLocaleDateString("en-GB", { day: "2-digit" }),
     month: d.toLocaleDateString("en-GB", { month: "long" }),
     year: d.toLocaleDateString("en-GB", { year: "numeric" }),
   };
 };
 
-const containerVariants = (reduced: boolean) => ({
-  hidden: {},
-  show: { transition: { staggerChildren: reduced ? 0 : 0.1, delayChildren: reduced ? 0 : 0.1 } },
-});
-const itemVariants = (reduced: boolean) => ({
-  hidden: { opacity: reduced ? 1 : 0, y: reduced ? 0 : 24 },
-  show: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.9, ease: [0.25, 0.46, 0.45, 0.94] } },
-});
+const pad = (n: number) => String(n).padStart(2, "0");
 
-/**
- * Full-screen editorial hero — asymmetric bottom-left name block over a
- * slow-drifting background image, with scroll-linked parallax depth
- * (works on touch devices, unlike mouse-only parallax).
- */
-export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const prefersReduced = useReducedMotion();
-  const containerV = containerVariants(prefersReduced);
-  const itemV = itemVariants(prefersReduced);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
+/* ─── Choreography (seconds from `play`) ───
+   0.0  photo opens from a framed card to full bleed
+   0.55 eyebrow rules draw in
+   0.75 names rise letter by letter through a mask
+   1.25 ampersand settles
+   1.45 date → venue → countdown → CTA cascade
+   2.3  scroll cue                                                      */
+const media: Variants = {
+  hidden: { clipPath: "inset(14% 12% 14% 12% round 32px)", scale: 1.3 },
+  show: {
+    clipPath: "inset(0% 0% 0% 0% round 0px)",
+    scale: 1,
+    transition: { duration: 1.8, ease: EASE_IN_OUT },
+  },
+};
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", prefersReduced ? "0%" : "30%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 1 : 1.15]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", prefersReduced ? "0%" : "-15%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 1 : 0]);
+const rise: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, delay, ease: EASE_OUT },
+  }),
+};
 
-  const weddingDate = useMemo(
-    () => formatDate(WEDDING_CONFIG.dates.wedding),
-    [],
-  );
-  const engagementDate = useMemo(
-    () => formatDate(WEDDING_CONFIG.dates.engagement),
-    [],
-  );
-  const heroImage = WEDDING_CONFIG.media.heroBgImage;
-  const { timeLeft: betrothalTimeLeft } = useCountdown(WEDDING_CONFIG.dates.engagement);
+const rule: Variants = {
+  hidden: { scaleX: 0 },
+  show: (delay: number) => ({ scaleX: 1, transition: { duration: 1.1, delay, ease: EASE_OUT } }),
+};
+
+const letter: Variants = {
+  hidden: { y: "115%", rotate: 8 },
+  show: (delay: number) => ({
+    y: "0%",
+    rotate: 0,
+    transition: { duration: 1.1, delay, ease: EASE_OUT },
+  }),
+};
+
+const amp: Variants = {
+  hidden: { opacity: 0, scale: 0.6, rotate: -18 },
+  show: (delay: number) => ({
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: { duration: 1.2, delay, ease: EASE_OUT },
+  }),
+};
+
+/** A name whose letters rise one by one through a clipping mask. */
+const SplitName: React.FC<{ text: string; delay: number }> = ({ text, delay }) => (
+  <span className="v2-hero2-name" aria-hidden="true">
+    {Array.from(text).map((ch, i) => (
+      <span key={i} className="v2-hero2-mask">
+        <motion.span className="v2-hero2-letter" variants={letter} custom={delay + i * 0.05}>
+          {ch === " " ? " " : ch}
+        </motion.span>
+      </span>
+    ))}
+  </span>
+);
+
+/** Days / hours / mins / secs — each digit pair rolls when it changes. */
+const HeroCountdown: React.FC<{ label: string; target: string; completeText: string }> = ({
+  label,
+  target,
+  completeText,
+}) => {
+  const { timeLeft } = useCountdown(target);
+  const units = [
+    { v: timeLeft.days, l: "Days" },
+    { v: timeLeft.hours, l: "Hours" },
+    { v: timeLeft.minutes, l: "Mins" },
+    { v: timeLeft.seconds, l: "Secs" },
+  ];
 
   return (
-    <section
+    <div className="v2-hero2-countdown" role="timer" aria-label={label}>
+      <span className="v2-hero2-countdown-label">{label}</span>
+      {timeLeft.isComplete ? (
+        <span className="v2-hero2-countdown-done">{completeText}</span>
+      ) : (
+        <div className="v2-hero2-countdown-units">
+          {units.map((u) => (
+            <div key={u.l} className="v2-hero2-unit">
+              <span className="v2-hero2-unit-value">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={u.v}
+                    initial={{ y: "-100%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    exit={{ y: "100%", opacity: 0 }}
+                    transition={{ duration: 0.45, ease: EASE_OUT }}
+                  >
+                    {pad(u.v)}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+              <span className="v2-hero2-unit-label">{u.l}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Hero — phones: full-bleed portrait with the faces left clear and every
+ * line of copy gathered into the lower half. Landscape ≥ 900px: an editorial
+ * split, copy on the left and the photo as a full-height panel on the right
+ * with the scripture set as a caption on it. The entrance is a choreographed
+ * sequence (see above) triggered by `play`; scroll then drives a gentle
+ * parallax and fade-out.
+ */
+export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter, play = true }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "18%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "-20%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduced ? 1 : 0]);
+
+  // The headline event depends on whose family sent the invite (see config).
+  const { featured } = WEDDING_CONFIG.invite;
+  const featuredDate = useMemo(() => formatDate(WEDDING_CONFIG.dates[featured.dateKey]), [featured]);
+  const engagementDate = useMemo(() => formatDate(WEDDING_CONFIG.dates.engagement), []);
+  const { timeLeft: betrothalLeft } = useCountdown(WEDDING_CONFIG.dates.engagement);
+  // First names only — the full names are set in the Invitation section.
+  const { shortName1: name1, shortName2: name2, displayNames, tagline } = WEDDING_CONFIG.couple;
+  const venue = WEDDING_CONFIG.events[featured.eventKey].venueShort;
+  // Bride's-family invite counts down to the betrothal until it has passed;
+  // otherwise (and afterwards) the countdown is to the wedding.
+  const countBetrothal = featured.dateKey === "engagement" && !betrothalLeft.isComplete;
+
+  // Reduced motion: render the final pose straight away.
+  const initial = reduced ? false : "hidden";
+  const animate = play || reduced ? "show" : "hidden";
+
+  return (
+    <motion.section
       id="hero"
       ref={sectionRef}
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "flex-end",
-        overflow: "hidden",
-      }}
+      className="v2-hero2"
+      initial={initial}
+      animate={animate}
     >
-      {/* Parallax background layer */}
-      <motion.div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          y: bgY,
-          scale: bgScale,
-        }}
-      />
+      {/* ── Photo ── */}
+      <motion.div className="v2-hero2-media" style={{ y: mediaY }}>
+        <motion.div className="v2-hero2-reveal" variants={media}>
+          <img
+            className="v2-hero2-img"
+            src={WEDDING_CONFIG.media.heroBgImage}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+          />
+        </motion.div>
+        <div className="v2-hero2-shade" aria-hidden="true" />
 
-      {/* Dark editorial overlay for readability */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: WEDDING_CONFIG.textOverlay.heroGradient }} />
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "radial-gradient(ellipse at bottom left, rgba(13,12,11,0.15) 0%, rgba(13,12,11,0.55) 60%, rgba(13,12,11,0.8) 100%)",
-        }}
-      />
+        {WEDDING_CONFIG.scripture && (
+          <motion.figure className="v2-hero2-scripture" variants={rise} custom={2.1}>
+            <blockquote>{WEDDING_CONFIG.scripture.quote}</blockquote>
+            <figcaption>{WEDDING_CONFIG.scripture.reference}</figcaption>
+          </motion.figure>
+        )}
+      </motion.div>
 
+      <div className="v2-hero2-ambient" aria-hidden="true" />
       <FloatingOrnaments count={6} variant="sparkles" />
 
-      {/* Asymmetric content block — bottom-left third, magazine-cover style */}
-      <motion.div
-        variants={containerV}
-        initial="hidden"
-        animate="show"
-        style={{
-          position: "relative",
-          zIndex: 2,
-          y: contentY,
-          opacity: contentOpacity,
-          width: "100%",
-          padding: "2rem clamp(1.5rem, 6vw, 5rem) clamp(3rem, 10vh, 6rem)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          gap: "2rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ maxWidth: "36rem", textAlign: "left" }}>
-          <motion.p variants={itemV} className="v2-eyebrow" style={{ color: "var(--v2-gold-light)", marginBottom: "1.25rem" }}>
-            {WEDDING_CONFIG.couple.tagline}
-          </motion.p>
-
-          <motion.div
-            variants={itemV}
-            aria-hidden="true"
-            style={{ width: 1, height: "2.5rem", background: "linear-gradient(to bottom, var(--v2-gold), transparent)", marginBottom: "1.25rem" }}
-          />
-
-          <motion.h1
-            variants={itemV}
-            className="v2-heading-xl"
-            style={{ fontStyle: "italic", color: "var(--v2-ivory)", textShadow: WEDDING_CONFIG.textOverlay.nameShadow, margin: 0, lineHeight: 1 }}
-          >
-            {WEDDING_CONFIG.couple.name1}
-            <span style={{ fontFamily: "var(--v2-font-display)", color: "var(--v2-gold)", margin: "0 0.3em" }}>&amp;</span>
-            <br />
-            {WEDDING_CONFIG.couple.name2}
-          </motion.h1>
-
-          <motion.div variants={itemV} style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "1.75rem" }}>
-            <div style={{ width: 40, height: 1, background: "var(--v2-line)" }} />
-            <p style={{ fontFamily: "var(--v2-font-sans)", fontSize: "clamp(0.7rem, 2vw, 0.85rem)", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(234,228,216,0.75)", margin: 0 }}>
-              {weddingDate.day} {weddingDate.month} {weddingDate.year}
-            </p>
-          </motion.div>
-          <motion.p
-            variants={itemV}
-            style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(234,228,216,0.45)", margin: "0.4rem 0 0" }}
-          >
-            {WEDDING_CONFIG.couple.venue}
-          </motion.p>
+      {/* ── Copy ── */}
+      <motion.div className="v2-hero2-content" style={{ y: contentY, opacity: contentOpacity }}>
+        <div className="v2-hero2-eyebrow">
+          <motion.span className="v2-hero2-rule v2-hero2-rule--l" variants={rule} custom={0.55} aria-hidden="true" />
+          <motion.span variants={rise} custom={0.6}>
+            {tagline}
+          </motion.span>
+          <motion.span className="v2-hero2-rule v2-hero2-rule--r" variants={rule} custom={0.55} aria-hidden="true" />
         </div>
 
-        {/* Scripture quote — quiet permanent faith marker */}
-        {WEDDING_CONFIG.scripture && (
-          <motion.div variants={itemV} className="v2-hero-scripture" style={{ maxWidth: "20rem" }}>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-display)",
-                fontStyle: "italic",
-                fontSize: "clamp(0.85rem, 1.8vw, 1.05rem)",
-                color: "rgba(234,228,216,0.85)",
-                lineHeight: 1.6,
-                margin: 0,
-                textShadow: WEDDING_CONFIG.textOverlay.textShadow,
-              }}
-            >
-              {WEDDING_CONFIG.scripture.quote}
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--v2-font-display)",
-                fontStyle: "italic",
-                fontSize: "clamp(0.8rem, 1.6vw, 1rem)",
-                color: "rgba(217,181,103,0.8)",
-                lineHeight: 1.6,
-                margin: "0.6rem 0 0",
-              }}
-            >
-              {WEDDING_CONFIG.scripture.reference}
-            </p>
-          </motion.div>
-        )}
+        <h1 className="v2-hero2-names" aria-label={displayNames}>
+          <SplitName text={name1} delay={0.75} />
+          <motion.span className="v2-hero2-amp" variants={amp} custom={1.25} aria-hidden="true">
+            &amp;
+          </motion.span>
+          <SplitName text={name2} delay={0.75 + name1.length * 0.05 + 0.15} />
+        </h1>
 
-        {/* Single active countdown — betrothal counts down first; once that date
-            arrives it automatically switches over to the wedding countdown. */}
-        {/* Betrothal counts down first, then this automatically becomes the
-            wedding countdown and the strip lifts to a highlighted state. */}
-        <motion.div
-          variants={itemV}
-          className={`v2-hero-countdown-strip ${betrothalTimeLeft.isComplete ? "is-primary" : ""}`}
-        >
-          <AnimatePresence mode="wait">
-            {betrothalTimeLeft.isComplete ? (
-              <motion.div
-                key="wedding"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.6 }}
-              >
-                <MiniCountdown
-                  label="Counting Down to Our Wedding"
-                  targetDate={WEDDING_CONFIG.dates.wedding}
-                  accent="var(--v2-gold-light)"
-                  completeText="United Forever"
+        <motion.p className="v2-hero2-date" variants={rise} custom={1.45}>
+          <span>{featuredDate.weekday}</span>
+          <i aria-hidden="true" />
+          <span>
+            {featuredDate.day} {featuredDate.month} {featuredDate.year}
+          </span>
+        </motion.p>
+        <motion.p className="v2-hero2-venue" variants={rise} custom={1.55}>
+          {venue}
+        </motion.p>
+
+        {/* Wedding countdown — except on the bride's-family invite, which
+            counts to the betrothal first. Once the betrothal has passed it is
+            noted beneath the wedding countdown. */}
+        <motion.div className="v2-hero2-countdown-wrap" variants={rise} custom={1.7}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={countBetrothal ? "betrothal" : "wedding"}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5 }}
+            >
+              {countBetrothal ? (
+                <HeroCountdown
+                  label="Until our betrothal"
+                  target={WEDDING_CONFIG.dates.engagement}
+                  completeText="Celebrated"
                 />
-                <p
-                  style={{
-                    fontFamily: "var(--v2-font-sans)",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "rgba(234,228,216,0.5)",
-                    margin: "0.6rem 0 0",
-                  }}
-                >
-                  {WEDDING_CONFIG.countdown.pastEngagementLabel} · {engagementDate.day} {engagementDate.month} {engagementDate.year}
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="betrothal"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.6 }}
-              >
-                <MiniCountdown
-                  label="Counting Down to Our Betrothal"
-                  targetDate={WEDDING_CONFIG.dates.engagement}
-                  accent="var(--v2-gold-light)"
-                  completeText="Celebrated ✓"
-                />
-              </motion.div>
-            )}
+              ) : (
+                <>
+                  <HeroCountdown
+                    label="Until our wedding"
+                    target={WEDDING_CONFIG.dates.wedding}
+                    completeText="United Forever"
+                  />
+                  {betrothalLeft.isComplete && (
+                    <p className="v2-hero2-countdown-note">
+                      {WEDDING_CONFIG.countdown.pastEngagementLabel} · {engagementDate.day} {engagementDate.month}{" "}
+                      {engagementDate.year}
+                    </p>
+                  )}
+                </>
+              )}
+            </motion.div>
           </AnimatePresence>
+        </motion.div>
 
-          {/* Secondary CTA — deliberately quieter than the names/countdown */}
+        <motion.div className="v2-hero2-actions" variants={rise} custom={1.9}>
           <motion.button
-            variants={itemV}
-            className="v2-btn v2-btn-quiet"
+            type="button"
+            className="v2-btn v2-btn-gold v2-hero2-cta"
             onClick={() => onEnter?.()}
-            whileHover={prefersReduced ? undefined : { y: -2 }}
-            whileTap={prefersReduced ? undefined : { scale: 0.97 }}
-            transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{ marginTop: "1.5rem" }}
+            whileHover={reduced ? undefined : { y: -2 }}
+            whileTap={reduced ? undefined : { scale: 0.97 }}
           >
             View Invitation
+            <ArrowDown size={15} strokeWidth={1.8} aria-hidden="true" />
           </motion.button>
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <div className="v2-scroll-indicator" onClick={() => onEnter?.()}>
-        <div className="v2-scroll-mouse" />
-        <span style={{ fontFamily: "var(--v2-font-sans)", fontSize: "0.55rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(198,161,91,0.6)" }}>
-          Scroll
-        </span>
-      </div>
-    </section>
+      {/* Scroll cue — a bead travelling down a hairline */}
+      <motion.button
+        type="button"
+        className="v2-hero2-scroll"
+        onClick={() => onEnter?.()}
+        variants={rise}
+        custom={2.3}
+        aria-label="Scroll to invitation"
+      >
+        <span>Scroll</span>
+        <i aria-hidden="true" />
+      </motion.button>
+    </motion.section>
   );
 };

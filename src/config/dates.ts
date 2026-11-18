@@ -7,11 +7,34 @@ export const SITE_URL = "https://www.abrinelsa.in";
 export const absoluteUrl = (path: string) =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
+// ─── Invite side (one site, two invitations) ───
+// The groom's family shares the plain URL; the bride's family shares `?=b`.
+//   groom (default): Abrin first, the WEDDING is the headline event.
+//   bride  (`?=b`) : Elsa first, the BETROTHAL is the headline event.
+// `?b`, `?side=b` and `?v=b` are accepted too, so a hand-typed link still works.
+export type InviteSide = "groom" | "bride";
+
+export const detectInviteSide = (
+  search: string = typeof window !== "undefined" ? window.location.search : "",
+): InviteSide => {
+  for (const [key, value] of new URLSearchParams(search)) {
+    if (key.toLowerCase() === "b" || value.toLowerCase() === "b") return "bride";
+  }
+  return "groom";
+};
+
+/** Read once at load — the invite side never changes during a visit. */
+const inviteSide: InviteSide = detectInviteSide();
+
 // ─── Canonical couple data ───
-const groomName = "Abrin"; // TODO: fill in full name
-const brideName = "Elsa"; // TODO: fill in full name
-/** Set to true to show bride's side first (bride-side website), false for groom first */
-const brideFirst = true;
+const groomName = "Abrin C Saiju";
+const brideName = "Elsa P Francis";
+/** Bride's side is shown first on the bride's-family invite (`?=b`). */
+const brideFirst = inviteSide === "bride";
+/** Event the invite leads with: `dates`/`events` keys and its display name. */
+const featured = brideFirst
+  ? ({ dateKey: "engagement", eventKey: "betrothal", label: "Betrothal" } as const)
+  : ({ dateKey: "wedding", eventKey: "wedding", label: "Wedding" } as const);
 
 const firstPerson = brideFirst ? brideName : groomName;
 const secondPerson = brideFirst ? groomName : brideName;
@@ -24,61 +47,77 @@ const secondShort = brideFirst
 
 export const WEDDING_CONFIG = {
   // ─── Couple & Content ───
+  invite: {
+    side: inviteSide,
+    /** The headline event for this invite — highlighted across the site. */
+    featured,
+  },
+
   couple: {
     /** Canonical names (always groom then bride regardless of display order) */
     groomName,
     brideName,
-    /** Flag: true = bride's side shown first */
+    /** true on the bride's-family invite (`?=b`) — set from the URL, see top of file */
     brideFirst,
     /** Display names (computed from brideFirst flag) */
     name1: firstPerson,
     name2: secondPerson,
+    /** First names in display order — hero, intro, anywhere space is tight */
+    shortName1: firstShort,
+    shortName2: secondShort,
     /** Short display (hero heading) */
     displayNames: `${firstShort} & ${secondShort}`,
     /** Hero tagline above names */
-    tagline: "Wedding Invitation",
+    tagline: `${featured.label} Invitation`,
     /** Primary wedding message */
     weddingMessage: "We are getting married",
     /** Supporting sub-message */
     supportingMessage:
       '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate." — Matthew 19:6',
-    /** Venue line shown under date */
-    venue: "TODO: venue name · city", // TODO: fill in real wedding venue
     // ─── Family / Invitation ───
-    groomParents: "TODO: groom's parents", // TODO: fill in
-    groomAddress: "TODO: groom's house address", // TODO: fill in
-    groomHouseShort: "TODO: House Name",
-    brideParents: "TODO: bride's parents", // TODO: fill in
-    brideAddress: "TODO: bride's house address", // TODO: fill in
-    brideHouseShort: "TODO: House Name",
+    groomParents: "Saiju Thomas & Ajitha K Paul",
+    groomAddress: "Challissery (H), Manakody P.O., Thrissur",
+    groomHouseShort: "Challissery",
+    brideParents: "Babu Antony & Tessy P Zacharia",
+    brideAddress: "Pidiencheril (H), Anickadu P.O., Pallickathodu",
+    brideHouseShort: "Pidiencheril",
     invitationIntro:
-      "With the grace of God and the blessings of our families, we joyfully invite you to celebrate our wedding",
+      `With the grace of God and the blessings of our families, we joyfully invite you to celebrate our ${featured.label.toLowerCase()}`,
     sharingHappiness: "",
     brideSharingHappiness: "",
   },
 
   // ─── Event Dates (ISO with timezone) ───--
   dates: {
-    engagement: "2027-01-02T00:00:00+05:30", // TODO: set real engagement/betrothal date & time
-    wedding: "2027-01-02T00:00:00+05:30", // 2nd Jan 2027 — matches comingSoonConfig.weddingDate; update venue/time below
+    engagement: "2026-12-28T11:00:00+05:30", // Betrothal — Mon 28 Dec 2026, 11 AM
+    wedding: "2027-01-02T11:00:00+05:30", // Wedding — Sat 2 Jan 2027, 11 AM
   },
 
   // ─── Detailed Event Info ───
   events: {
     betrothal: {
-      dateLabel: "TODO: e.g. Saturday, 2nd January 2027", // TODO: fill in
-      time: "TODO: e.g. 11:30 AM",
-      venue: "TODO: betrothal venue",
-      mapsUrl: "",
-      receptionVenue: "",
-      receptionMapsUrl: "",
+      dateLabel: "Monday, 28th December 2026",
+      time: "11:00 AM",
+      venue: "St. Mary's Church, Elamgulam",
+      /** Short "venue · city" line for the intro and hero */
+      venueShort: "St. Mary's Church · Elamgulam",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Mary%27s+Church%2C+Elamgulam",
+      /** Heading for the meal/reception row on the event card */
+      receptionLabel: "Lunch",
+      receptionVenue:
+        "Orchard River Mansion Homestay & Convention Centre, Pulickakandathil (H), Near Murikkumpuzha Devi Temple, Parappaly Road, Pala, Kerala 686575",
+      receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=Orchard+River+Mansion+Homestay+%26+Convention+Centre%2C+Pala",
     },
     wedding: {
-      dateLabel: "TODO: e.g. Saturday, 2nd January 2027", // TODO: fill in
-      time: "TODO: e.g. 11:30 AM",
-      venue: "TODO: wedding venue",
-      mapsUrl: "",
-      receptionVenue: "TODO: reception venue",
+      dateLabel: "Saturday, 2nd January 2027",
+      time: "11:00 AM",
+      venue: "St. Antony's Church, Arimpur",
+      /** Short "venue · city" line for the intro and hero */
+      venueShort: "St. Antony's Church · Arimpur",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Church%2C+Arimpur%2C+Thrissur",
+      /** Heading for the meal/reception row on the event card */
+      receptionLabel: "Lunch",
+      receptionVenue: "St. Antony's Community (Parish) Hall, Arimpur",
       receptionMapsUrl: "",
     },
   },
@@ -106,17 +145,53 @@ export const WEDDING_CONFIG = {
   },
 
   // ─── Our Story Items ───
+  // Sticky-scroll "Our Journey" chapters. Copy is deliberately generic —
+  // TODO: replace titles/content with the couple's own words.
+  //  - `event`: shows that date from `dates` beside the label.
+  //  - `image`: optional per-chapter photo (defaults to media.heroBgImage).
+  //  - `focus`: where the framed "camera" settles — x/y is the point of the
+  //    photo (in %) to centre in the frame, scale is the zoom. With a single
+  //    shared photo this turns the chapters into a slow tour across it.
   story: {
     items: [
       {
-        date: "TODO: date", // TODO: fill in real story milestones
-        content: "TODO: engagement ceremony details.",
+        label: "The Beginning",
+        title: "Two paths, one plan",
+        content:
+          "Long before we knew it, our steps were already being guided toward each other — two lives, gently woven into one story by grace.",
+        focus: { x: 66, y: 43, scale: 2 }, // her
       },
       {
-        date: "January 2, 2027",
-        content: "TODO: wedding ceremony and reception details.",
+        label: "The Blessing",
+        title: "Two families, one heart",
+        content:
+          "With the prayers and blessings of our parents and loved ones, a quiet hope grew into a promise we were ready to make.",
+        focus: { x: 41, y: 28, scale: 2 }, // him
       },
-    ],
+      {
+        label: "The Betrothal",
+        event: "engagement",
+        title: "A promise before God",
+        content:
+          "Surrounded by family, we exchange our first vows — a sacred beginning, held in faith and sealed in love.",
+        focus: { x: 54, y: 36, scale: 1.4 }, // both
+      },
+      {
+        label: "The Wedding",
+        event: "wedding",
+        title: "And so, forever begins",
+        content:
+          "Two become one. We would be honoured to have you with us on the day our journey truly begins.",
+        focus: { x: 50, y: 45, scale: 1.02 }, // full photo
+      },
+    ] as {
+      label: string;
+      title: string;
+      content: string;
+      event?: "engagement" | "wedding";
+      image?: string;
+      focus?: { x: number; y: number; scale: number };
+    }[],
   },
 
   // ─── Countdown Behaviour ───
@@ -175,7 +250,7 @@ export const WEDDING_CONFIG = {
      * beat where the envelope finishes opening. The reveal does not wait for
      * the video to end.
      */
-    introRevealAtSeconds: 4,
+    introRevealAtSeconds: 4.5,
     fireworks: {
       duration: 50000,
       intensity: 7,
@@ -186,13 +261,11 @@ export const WEDDING_CONFIG = {
   // ─── Video Intro Screen ───
   videoIntro: {
     /** Top flourish line */
-    topFlourish: "You are invited to witness",
+    topFlourish: `You are invited to the ${featured.label.toLowerCase()} of`,
     /** "The Wedding of" label */
     weddingOfLabel: "The Wedding of",
     /** CTA text below play button */
-    ctaText: "Tap to begin our story",
-    /** Venue shown on intro screen (short form) */
-    venue: "TODO: venue name · city", // TODO: fill in
+    ctaText: "Open the invitation",
   },
 
   // ─── Preloader ───
