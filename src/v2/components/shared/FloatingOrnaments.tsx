@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface FloatingOrnamentsProps {
@@ -31,6 +31,7 @@ export const FloatingOrnaments: React.FC<FloatingOrnamentsProps> = ({
   className = '',
 }) => {
   const prefersReduced = useReducedMotion();
+  const layerRef = useRef<HTMLDivElement>(null);
 
   const particles = useMemo<Particle[]>(() => {
     if (prefersReduced) return [];
@@ -52,11 +53,28 @@ export const FloatingOrnaments: React.FC<FloatingOrnamentsProps> = ({
     }));
   }, [count, variant, prefersReduced]);
 
+  // Pause the particles while their section is off-screen.
+  useEffect(() => {
+    const el = layerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.removeAttribute('data-paused');
+        else el.setAttribute('data-paused', '');
+      },
+      { rootMargin: '100px 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [particles.length]);
+
   if (particles.length === 0) return null;
 
   return (
     <div
-      className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+      ref={layerRef}
+      data-paused=""
+      className={`v2-ornaments pointer-events-none absolute inset-0 overflow-hidden ${className}`}
       aria-hidden="true"
       style={{ zIndex: 1 }}
     >

@@ -2,20 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { WEDDING_CONFIG } from '@/config/dates';
+import { useScrolledPast } from '../../hooks/useScrolledPast';
 
 const WAVE_DELAYS = ['0s', '0.15s', '0.3s', '0.45s', '0.3s'];
 
 interface MusicPlayerV2Props {
   autoPlay?: boolean;
   forcePlayRef?: React.MutableRefObject<(() => void) | null>;
-  /** Current page scroll position — used to keep the player clear of the Hero's CTA. */
-  scrollY?: number;
 }
 
 /**
  * Elegant floating music player with glassmorphism and gold accents.
  */
-export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, forcePlayRef, scrollY = 0 }) => {
+export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, forcePlayRef }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
@@ -92,7 +91,7 @@ export const MusicPlayerV2: React.FC<MusicPlayerV2Props> = ({ autoPlay = false, 
   // The Hero's "View Invitation" CTA sits directly under this fixed corner
   // widget on short/mobile viewports — hidden until scrolled past it rather
   // than fighting for the same pixels.
-  const pastHero = scrollY > (typeof window !== 'undefined' ? window.innerHeight * 0.85 : 600);
+  const pastHero = useScrolledPast(() => window.innerHeight * 0.85);
 
   return (
     <div className={`v2-music-player ${pastHero ? '' : 'v2-music-player--hidden'}`}>

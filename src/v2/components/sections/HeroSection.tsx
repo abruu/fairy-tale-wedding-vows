@@ -4,6 +4,7 @@ import { ArrowDown } from "lucide-react";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { useCountdown } from "../../hooks/useCountdown";
+import { useHasPassed } from "../../hooks/useHasPassed";
 import { FloatingOrnaments } from "../shared/FloatingOrnaments";
 
 interface HeroSectionProps {
@@ -159,13 +160,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter, play = true }
   const { featured } = WEDDING_CONFIG.invite;
   const featuredDate = useMemo(() => formatDate(WEDDING_CONFIG.dates[featured.dateKey]), [featured]);
   const engagementDate = useMemo(() => formatDate(WEDDING_CONFIG.dates.engagement), []);
-  const { timeLeft: betrothalLeft } = useCountdown(WEDDING_CONFIG.dates.engagement);
+  // Only "has it happened?" is needed here — the ticking lives inside
+  // HeroCountdown, so the rest of the hero doesn't re-render every second.
+  const betrothalPassed = useHasPassed(WEDDING_CONFIG.dates.engagement);
   // First names only — the full names are set in the Invitation section.
   const { shortName1: name1, shortName2: name2, displayNames, tagline } = WEDDING_CONFIG.couple;
   const venue = WEDDING_CONFIG.events[featured.eventKey].venueShort;
   // Bride's-family invite counts down to the betrothal until it has passed;
   // otherwise (and afterwards) the countdown is to the wedding.
-  const countBetrothal = featured.dateKey === "engagement" && !betrothalLeft.isComplete;
+  const countBetrothal = featured.dateKey === "engagement" && !betrothalPassed;
 
   // Reduced motion: render the final pose straight away.
   const initial = reduced ? false : "hidden";
@@ -257,7 +260,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onEnter, play = true }
                     target={WEDDING_CONFIG.dates.wedding}
                     completeText="United Forever"
                   />
-                  {betrothalLeft.isComplete && (
+                  {betrothalPassed && (
                     <p className="v2-hero2-countdown-note">
                       {WEDDING_CONFIG.countdown.pastEngagementLabel} · {engagementDate.day} {engagementDate.month}{" "}
                       {engagementDate.year}

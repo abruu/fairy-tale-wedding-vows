@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Navigation, ArrowUpRight, UtensilsCrossed } from "lucide-react";
 import { SectionHeader } from "../shared/SectionHeader";
 import { CrossMotif } from "../shared/CrossMotif";
 import { MiniCountdown } from "../shared/MiniCountdown";
@@ -194,12 +194,20 @@ const EventTicket: React.FC<EventTicketProps> = ({
           style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}
         >
           <DetailRow icon={<Clock size={16} />} label="Time" value={time} prefersReduced={prefersReduced} />
-          <DetailRow icon={<MapPin size={16} />} label="Venue" value={venue} prefersReduced={prefersReduced} />
+          {/* Directions sit right under the place they lead to. */}
+          <DetailRow
+            icon={<MapPin size={16} />}
+            label="Venue"
+            value={venue}
+            mapsUrl={mapsUrl}
+            prefersReduced={prefersReduced}
+          />
           {receptionVenue && (
             <DetailRow
-              icon={<MapPin size={16} />}
+              icon={<UtensilsCrossed size={15} />}
               label={receptionLabel}
               value={receptionVenue}
+              mapsUrl={receptionMapsUrl}
               prefersReduced={prefersReduced}
             />
           )}
@@ -220,49 +228,20 @@ const EventTicket: React.FC<EventTicketProps> = ({
           />
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "0.75rem",
-            marginTop: "1.5rem",
-            flexWrap: "wrap",
-          }}
-        >
-          {mapsUrl && (
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-btn v2-btn-outline"
-              style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}
-            >
-              View on Map
-            </a>
-          )}
-          {receptionMapsUrl && (
-            <a
-              href={receptionMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-btn v2-btn-outline"
-              style={{ fontSize: "0.65rem", padding: "0.65rem 1.5rem" }}
-            >
-              {receptionLabel} Map
-            </a>
-          )}
-        </div>
       </div>
     </motion.div>
   );
 };
 
-/** A staggered child of the ticket card — rows arrive one after another. */
+/** A staggered child of the ticket card — rows arrive one after another.
+ *  With `mapsUrl`, a "Directions" chip opens Google Maps for that place. */
 const DetailRow: React.FC<{
   icon: React.ReactNode;
   label: string;
   value: string;
+  mapsUrl?: string;
   prefersReduced: boolean;
-}> = ({ icon, label, value, prefersReduced }) => (
+}> = ({ icon, label, value, mapsUrl, prefersReduced }) => (
   <motion.div
     variants={motionVariants(prefersReduced, fadeRise)}
     style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}
@@ -307,6 +286,19 @@ const DetailRow: React.FC<{
       >
         {value}
       </p>
+      {mapsUrl && (
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="v2-map-link"
+          aria-label={`Directions to ${value} (opens Google Maps)`}
+        >
+          <Navigation size={12} strokeWidth={2} aria-hidden="true" />
+          <span>Directions</span>
+          <ArrowUpRight size={12} strokeWidth={2} className="v2-map-link-arrow" aria-hidden="true" />
+        </a>
+      )}
     </div>
   </motion.div>
 );

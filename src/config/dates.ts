@@ -18,7 +18,8 @@ export const detectInviteSide = (
   search: string = typeof window !== "undefined" ? window.location.search : "",
 ): InviteSide => {
   for (const [key, value] of new URLSearchParams(search)) {
-    if (key.toLowerCase() === "b" || value.toLowerCase() === "b") return "bride";
+    if (key.toLowerCase() === "b" || value.toLowerCase() === "b")
+      return "bride";
   }
   return "groom";
 };
@@ -33,7 +34,11 @@ const brideName = "Elsa P Francis";
 const brideFirst = inviteSide === "bride";
 /** Event the invite leads with: `dates`/`events` keys and its display name. */
 const featured = brideFirst
-  ? ({ dateKey: "engagement", eventKey: "betrothal", label: "Betrothal" } as const)
+  ? ({
+      dateKey: "engagement",
+      eventKey: "betrothal",
+      label: "Betrothal",
+    } as const)
   : ({ dateKey: "wedding", eventKey: "wedding", label: "Wedding" } as const);
 
 const firstPerson = brideFirst ? brideName : groomName;
@@ -81,8 +86,7 @@ export const WEDDING_CONFIG = {
     brideParents: "Babu Antony & Tessy P Zacharia",
     brideAddress: "Pidiencheril (H), Anickadu P.O., Pallickathodu",
     brideHouseShort: "Pidiencheril",
-    invitationIntro:
-      `With the grace of God and the blessings of our families, we joyfully invite you to celebrate our ${featured.label.toLowerCase()}`,
+    invitationIntro: `With the grace of God and the blessings of our families, we joyfully invite you to celebrate our ${featured.label.toLowerCase()}`,
     sharingHappiness: "",
     brideSharingHappiness: "",
   },
@@ -101,12 +105,14 @@ export const WEDDING_CONFIG = {
       venue: "St. Mary's Church, Elamgulam",
       /** Short "venue · city" line for the intro and hero */
       venueShort: "St. Mary's Church · Elamgulam",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Mary%27s+Church%2C+Elamgulam",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=St.+Mary%27s+Church%2C+Elamgulam",
       /** Heading for the meal/reception row on the event card */
       receptionLabel: "Lunch",
       receptionVenue:
         "Orchard River Mansion Homestay & Convention Centre, Pulickakandathil (H), Near Murikkumpuzha Devi Temple, Parappaly Road, Pala, Kerala 686575",
-      receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=Orchard+River+Mansion+Homestay+%26+Convention+Centre%2C+Pala",
+      receptionMapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Orchard+River+Mansion+Homestay+%26+Convention+Centre%2C+Pala",
     },
     wedding: {
       dateLabel: "Saturday, 2nd January 2027",
@@ -114,11 +120,12 @@ export const WEDDING_CONFIG = {
       venue: "St. Antony's Church, Arimpur",
       /** Short "venue · city" line for the intro and hero */
       venueShort: "St. Antony's Church · Arimpur",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Church%2C+Arimpur%2C+Thrissur",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Church%2C+Arimpur%2C+Thrissur",
       /** Heading for the meal/reception row on the event card */
       receptionLabel: "Lunch",
       receptionVenue: "St. Antony's Community (Parish) Hall, Arimpur",
-      receptionMapsUrl: "",
+      receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Parish+Hall%2C+Arimpur%2C+Thrissur",
     },
   },
 
@@ -322,7 +329,7 @@ export const WEDDING_CONFIG = {
   // ─── Email Configuration ───
   email: {
     /** Email addresses to receive wedding wishes (can be single email or array of emails) */
-    recipientEmails: [""], // TODO: fill in recipient email for RSVP/wishes
+    recipientEmails: ["abrinsaiju@gmail.com"], // TODO: fill in recipient email for RSVP/wishes
     /** EmailJS configuration (free service) */
     emailJS: {
       serviceId: "service_qjht1ax", // Replace with your EmailJS service ID

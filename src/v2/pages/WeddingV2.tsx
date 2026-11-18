@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
+import type Lenis from "lenis";
 import { WEDDING_CONFIG, isPostWedding } from "@/config/dates";
-import { useActiveSection } from "../hooks/useActiveSection";
-import { useScrollProgress } from "../hooks/useScrollProgress";
+import { useScrolledPast } from "../hooks/useScrolledPast";
 import { Navigation } from "../components/layout/Navigation";
+import { ScrollProgressBar } from "../components/layout/ScrollProgressBar";
 import { MusicPlayerV2 } from "../components/layout/MusicPlayerV2";
 import { OpeningExperience } from "../components/sections/OpeningExperience";
 import { HeroSection } from "../components/sections/HeroSection";
@@ -29,11 +30,33 @@ const NAV_ITEMS = [
   { id: "rsvp", label: "RSVP" },
 ];
 
-const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
+/** Back-to-top button — owns its own scroll threshold so the page doesn't re-render. */
+const BackToTop: React.FC<{ lenisRef: React.MutableRefObject<Lenis | null> }> = ({ lenisRef }) => {
+  const visible = useScrolledPast(600);
+  return (
+    <button
+      className={`v2-back-to-top ${visible ? "visible" : ""}`}
+      onClick={() => {
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(0);
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
+      aria-label="Back to top"
+    >
+      <ArrowUp size={18} />
+    </button>
+  );
+};
 
 /**
  * Wedding V2 — Main page composing all sections.
  * Storytelling flow: Opening → Hero → Invitation → Story → Details → Gallery → Countdown → RSVP → Thank You
+ *
+ * Perf rule: no scroll-position state at this level. Anything that reacts to
+ * scrolling (progress bar, back-to-top, nav highlight, music-player reveal)
+ * owns that state itself, so scrolling never re-renders every section.
  */
 const WeddingV2: React.FC = () => {
   const lenisRef = useSmoothScroll();
@@ -44,9 +67,6 @@ const WeddingV2: React.FC = () => {
   // Flips slightly before openingComplete — when the intro's light bloom
   // peaks — so the hero's entrance plays as the intro dissolves.
   const [heroPlay, setHeroPlay] = useState(postWedding);
-  const [showBackToTop, setShowBackToTop] = useState(false);
-  const activeSection = useActiveSection(SECTION_IDS);
-  const { progress, scrollY } = useScrollProgress();
   const forcePlayRef = useRef<(() => void) | null>(null);
 
   const handleNavigate = useCallback(
@@ -74,14 +94,6 @@ const WeddingV2: React.FC = () => {
     forcePlayRef.current?.();
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => {
-      setShowBackToTop(window.scrollY > 600);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   // Set document title
   useEffect(() => {
     document.title = `${WEDDING_CONFIG.couple.displayNames} · ${WEDDING_CONFIG.couple.tagline}`;
@@ -89,8 +101,7 @@ const WeddingV2: React.FC = () => {
 
   return (
     <div className="v2-root">
-      {/* Scroll progress bar */}
-      <div className="v2-scroll-progress" style={{ width: `${progress}%` }} />
+      <ScrollProgressBar />
 
       {/* Opening Experience — never shown once the wedding is over */}
       {!postWedding && !openingComplete && (
@@ -105,7 +116,6 @@ const WeddingV2: React.FC = () => {
       {openingComplete && (
         <Navigation
           items={NAV_ITEMS}
-          activeSection={activeSection}
           onNavigate={handleNavigate}
         />
       )}
@@ -130,23 +140,9 @@ const WeddingV2: React.FC = () => {
       <MusicPlayerV2
         autoPlay={openingComplete && WEDDING_CONFIG.features.autoPlayMusic}
         forcePlayRef={forcePlayRef}
-        scrollY={scrollY}
       />
 
-      {/* Back to Top */}
-      <button
-        className={`v2-back-to-top ${showBackToTop ? "visible" : ""}`}
-        onClick={() => {
-          if (lenisRef.current) {
-            lenisRef.current.scrollTo(0);
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }}
-        aria-label="Back to top"
-      >
-        <ArrowUp size={18} />
-      </button>
+      <BackToTop lenisRef={lenisRef} />
     </div>
   );
 };

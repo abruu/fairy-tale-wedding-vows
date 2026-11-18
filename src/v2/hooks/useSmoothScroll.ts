@@ -1,15 +1,21 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "./useReducedMotion";
 
-gsap.registerPlugin(ScrollTrigger);
-
 /**
- * Mounts a Lenis smooth-scroll instance synced to GSAP's ticker/ScrollTrigger
- * for the lifetime of the calling component. Scoped to the main page only — never
+ * Mounts a Lenis smooth-scroll instance driven by GSAP's ticker for the
+ * lifetime of the calling component. Scoped to the main page only — never
  * touches the coming-soon page's native scroll. No-ops under reduced motion.
+ *
+ * Lenis only smooths wheel input; touch devices keep native scrolling.
+ *
+ * Deliberately NO GSAP ScrollTrigger here. Nothing on the page creates a
+ * ScrollTrigger, and `ScrollTrigger.normalizeScroll(true)` — which used to
+ * be on — hijacks every wheel/touch event and re-implements scrolling in JS.
+ * On phones that replaced native momentum scrolling and was the single
+ * biggest cause of scroll lag. Scroll-linked effects use framer-motion's
+ * useScroll, which reads native scroll and needs no syncing.
  *
  * Returns a ref to the live Lenis instance (null when not mounted) so callers
  * can drive programmatic scrolling (nav clicks, back-to-top) through Lenis
@@ -26,28 +32,13 @@ export function useSmoothScroll() {
 
     const lenis = new Lenis();
     lenisRef.current = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
 
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    ScrollTrigger.normalizeScroll(true);
-
-    let resizeTimer: ReturnType<typeof setTimeout>;
-    const onResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
-    };
-    window.addEventListener("resize", onResize);
-    window.addEventListener("orientationchange", onResize);
-
     return () => {
-      clearTimeout(resizeTimer);
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("orientationchange", onResize);
       gsap.ticker.remove(tick);
-      ScrollTrigger.getAll().forEach((t) => t.kill());
       lenis.destroy();
       lenisRef.current = null;
     };

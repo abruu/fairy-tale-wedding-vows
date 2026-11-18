@@ -56,8 +56,8 @@ const Segment: React.FC<{
 };
 
 /**
- * "Our Journey" — scrollytelling. The track is (chapters + 1) screens tall;
- * inside it a 100vh stage stays pinned (position: sticky) while scrolling
+ * "Our Journey" — scrollytelling. The track is one screen plus ~a third
+ * of a screen per chapter (CSS --chapter-scroll); inside it a 100vh stage stays pinned (position: sticky) while scrolling
  * advances the chapter: the arched frame "camera" glides to that chapter's
  * focus on the photo, the copy swaps with a staggered rise, and the
  * segmented bar fills. Every chapter's copy stays in the DOM (stacked in one
@@ -104,7 +104,7 @@ export const OurStorySection: React.FC<OurStorySectionProps> = ({ onNavigate }) 
             key={i}
             id={`story-ch-${i}`}
             className="v2-journey-anchor"
-            style={{ top: i === 0 ? 0 : `calc(${i + 0.3} * 100svh)` }}
+            style={{ top: i === 0 ? 0 : `calc(${i + 0.3} * var(--chapter-scroll) * 1svh)` }}
             aria-hidden="true"
           />
         ))}

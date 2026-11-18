@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useScrollDirection } from "../../hooks/useScrollDirection";
+import { useScrolledPast } from "../../hooks/useScrolledPast";
+import { useActiveSection } from "../../hooks/useActiveSection";
 import { CrossMotif } from "../shared/CrossMotif";
 
 interface NavItem {
@@ -11,7 +12,6 @@ interface NavItem {
 
 interface NavigationProps {
   items: NavItem[];
-  activeSection: string;
   onNavigate: (id: string) => void;
 }
 
@@ -20,9 +20,12 @@ interface NavigationProps {
  * indicator and a cross-motif logo mark. Always stays visible/sticky —
  * never hides on scroll, only gains a stronger backdrop once scrolled.
  */
-export const Navigation: React.FC<NavigationProps> = ({ items, activeSection, onNavigate }) => {
+export const Navigation: React.FC<NavigationProps> = ({ items, onNavigate }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { scrolled } = useScrollDirection(10);
+  const scrolled = useScrolledPast(100);
+  // Tracked here (not on the page) so a section change re-renders only the nav.
+  const sectionIds = useMemo(() => items.map((it) => it.id), [items]);
+  const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
