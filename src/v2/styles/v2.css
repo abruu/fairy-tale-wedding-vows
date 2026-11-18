@@ -2304,6 +2304,66 @@
   transform: translate(2px, -2px);
 }
 
+/* ─── Event card: "Add to calendar" (opens in place, below the chip) ─── */
+.v2-cal-toggle {
+  cursor: pointer;
+}
+.v2-cal-chevron {
+  transition: transform 0.3s ease;
+}
+.v2-cal-toggle.is-open {
+  background: rgba(198, 161, 91, 0.18);
+  border-color: var(--v2-gold);
+}
+.v2-cal-toggle.is-open .v2-cal-chevron {
+  transform: rotate(180deg);
+}
+.v2-cal-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-width: 19rem;
+}
+.v2-cal-menu li:first-child {
+  padding-top: 0.55rem;
+}
+.v2-cal-menu li + li {
+  margin-top: 0.4rem;
+}
+.v2-cal-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--v2-line);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+.v2-cal-option:hover {
+  background: rgba(198, 161, 91, 0.1);
+  border-color: rgba(198, 161, 91, 0.5);
+}
+.v2-cal-option:focus-visible {
+  outline: 2px solid var(--v2-gold-light);
+  outline-offset: 2px;
+}
+.v2-cal-option-label {
+  font-family: var(--v2-font-sans);
+  font-size: 0.82rem;
+  color: var(--v2-ivory);
+}
+.v2-cal-option-note {
+  font-family: var(--v2-font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: rgba(234, 228, 216, 0.5);
+}
+
 /* ─── Countdown ─── */
 .v2-countdown-box {
   display: flex;

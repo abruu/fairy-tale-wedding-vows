@@ -5,6 +5,8 @@ import { MapPin, Clock, Navigation, ArrowUpRight, UtensilsCrossed } from "lucide
 import { SectionHeader } from "../shared/SectionHeader";
 import { CrossMotif } from "../shared/CrossMotif";
 import { MiniCountdown } from "../shared/MiniCountdown";
+import { AddToCalendar } from "../shared/AddToCalendar";
+import type { CalendarEventKey } from "@/lib/calendar";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { DURATION, EASE_OUT, fadeRise, motionVariants } from "../../lib/motion";
 
@@ -64,6 +66,7 @@ export const WeddingDetailsSection: React.FC = () => {
             receptionVenue={betrothal.receptionVenue}
             receptionMapsUrl={betrothal.receptionMapsUrl}
             targetDate={WEDDING_CONFIG.dates.engagement}
+            calendarKey="betrothal"
             featured={betrothalFeatured}
             fromLeft
           />
@@ -77,6 +80,7 @@ export const WeddingDetailsSection: React.FC = () => {
             receptionVenue={wedding.receptionVenue}
             receptionMapsUrl={wedding.receptionMapsUrl}
             targetDate={WEDDING_CONFIG.dates.wedding}
+            calendarKey="wedding"
             featured={!betrothalFeatured}
             fromLeft={false}
           />
@@ -105,6 +109,7 @@ interface EventTicketProps {
   receptionVenue?: string;
   receptionMapsUrl?: string;
   targetDate: string;
+  calendarKey: CalendarEventKey;
   featured?: boolean;
   fromLeft: boolean;
 }
@@ -119,6 +124,7 @@ const EventTicket: React.FC<EventTicketProps> = ({
   receptionVenue,
   receptionMapsUrl,
   targetDate,
+  calendarKey,
   featured,
   fromLeft,
 }) => {
@@ -193,7 +199,14 @@ const EventTicket: React.FC<EventTicketProps> = ({
         <div
           style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}
         >
-          <DetailRow icon={<Clock size={16} />} label="Time" value={time} prefersReduced={prefersReduced} />
+          {/* "Add to calendar" sits with the time, like Directions with each place. */}
+          <DetailRow
+            icon={<Clock size={16} />}
+            label="Time"
+            value={time}
+            action={<AddToCalendar event={calendarKey} />}
+            prefersReduced={prefersReduced}
+          />
           {/* Directions sit right under the place they lead to. */}
           <DetailRow
             icon={<MapPin size={16} />}
@@ -240,8 +253,10 @@ const DetailRow: React.FC<{
   label: string;
   value: string;
   mapsUrl?: string;
+  /** Extra control rendered under the value (e.g. Add to calendar). */
+  action?: React.ReactNode;
   prefersReduced: boolean;
-}> = ({ icon, label, value, mapsUrl, prefersReduced }) => (
+}> = ({ icon, label, value, mapsUrl, action, prefersReduced }) => (
   <motion.div
     variants={motionVariants(prefersReduced, fadeRise)}
     style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}
@@ -299,6 +314,7 @@ const DetailRow: React.FC<{
           <ArrowUpRight size={12} strokeWidth={2} className="v2-map-link-arrow" aria-hidden="true" />
         </a>
       )}
+      {action}
     </div>
   </motion.div>
 );

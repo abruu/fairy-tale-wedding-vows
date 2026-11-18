@@ -15,7 +15,9 @@ export const absoluteUrl = (path: string) =>
 export type InviteSide = "groom" | "bride";
 
 export const detectInviteSide = (
-  search: string = typeof window !== "undefined" ? window.location.search : "",
+  // globalThis rather than `window`: this file is also loaded by vite.config.ts
+  // (Node, no DOM types) to generate the calendar files.
+  search: string = (globalThis as { location?: { search?: string } }).location?.search ?? "",
 ): InviteSide => {
   for (const [key, value] of new URLSearchParams(search)) {
     if (key.toLowerCase() === "b" || value.toLowerCase() === "b")
@@ -100,6 +102,8 @@ export const WEDDING_CONFIG = {
   // ─── Detailed Event Info ───
   events: {
     betrothal: {
+      /** End time for "Add to calendar" — assumed ceremony + lunch (~3 h); adjust if known. */
+      calendarEnd: "2026-12-28T14:00:00+05:30",
       dateLabel: "Monday, 28th December 2026",
       time: "11:00 AM",
       venue: "St. Mary's Church, Elamgulam",
@@ -115,6 +119,8 @@ export const WEDDING_CONFIG = {
         "https://www.google.com/maps/search/?api=1&query=Orchard+River+Mansion+Homestay+%26+Convention+Centre%2C+Pala",
     },
     wedding: {
+      /** End time for "Add to calendar" — assumed ceremony + lunch (~3 h); adjust if known. */
+      calendarEnd: "2027-01-02T14:00:00+05:30",
       dateLabel: "Saturday, 2nd January 2027",
       time: "11:00 AM",
       venue: "St. Antony's Church, Arimpur",
