@@ -17,7 +17,8 @@ export type InviteSide = "groom" | "bride";
 export const detectInviteSide = (
   // globalThis rather than `window`: this file is also loaded by vite.config.ts
   // (Node, no DOM types) to generate the calendar files.
-  search: string = (globalThis as { location?: { search?: string } }).location?.search ?? "",
+  search: string = (globalThis as { location?: { search?: string } }).location
+    ?.search ?? "",
 ): InviteSide => {
   for (const [key, value] of new URLSearchParams(search)) {
     if (key.toLowerCase() === "b" || value.toLowerCase() === "b")
@@ -82,11 +83,11 @@ export const WEDDING_CONFIG = {
     supportingMessage:
       '"So then, they are no longer two but one flesh. Therefore what God has joined together, let not man separate." — Matthew 19:6',
     // ─── Family / Invitation ───
-    groomParents: "Saiju Thomas & Ajitha K Paul",
-    groomAddress: "Challissery (H), Manakody P.O., Thrissur",
-    groomHouseShort: "Challissery",
-    brideParents: "Babu Antony & Tessy P Zacharia",
-    brideAddress: "Pidiencheril (H), Anickadu P.O., Pallickathodu",
+    groomParents: "Mr. Saiju Thomas (Late) & Mrs. Ajitha Saiju",
+    groomAddress: "Chalissery (H), Manakody P.O., Thrissur",
+    groomHouseShort: "Chalissery",
+    brideParents: "Mr. Babu Antony & Mrs. Tessy P Zacharia",
+    brideAddress: "Pidiencheril (H), Anickadu P.O., Pallickathodu, Kottayam",
     brideHouseShort: "Pidiencheril",
     invitationIntro: `With the grace of God and the blessings of our families, we joyfully invite you to celebrate our ${featured.label.toLowerCase()}`,
     sharingHappiness: "",
@@ -131,7 +132,8 @@ export const WEDDING_CONFIG = {
       /** Heading for the meal/reception row on the event card */
       receptionLabel: "Lunch",
       receptionVenue: "St. Antony's Community (Parish) Hall, Arimpur",
-      receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Parish+Hall%2C+Arimpur%2C+Thrissur",
+      receptionMapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Parish+Hall%2C+Arimpur%2C+Thrissur",
     },
   },
 

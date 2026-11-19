@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { motion } from "framer-motion";
 import { WEDDING_CONFIG } from "@/config/dates";
 import { CrossMotif } from "../shared/CrossMotif";
@@ -21,6 +21,21 @@ export const PostWeddingHero: React.FC<PostWeddingHeroProps> = ({ onEnter }) => 
   const prefersReduced = useReducedMotion();
   const { postWedding, couple, textOverlay } = WEDDING_CONFIG;
 
+  /*
+   * React sets `muted` as a DOM property but never writes the `muted`
+   * attribute (facebook/react#10389), and iOS Safari / some Android browsers
+   * check the attribute when deciding whether `autoPlay` is allowed — so the
+   * loop sat frozen on its poster for those guests. Force both, then kick
+   * playback explicitly; a rejection just leaves the poster showing.
+   */
+  const videoRef = useCallback((vid: HTMLVideoElement | null) => {
+    if (!vid) return;
+    vid.muted = true;
+    vid.defaultMuted = true;
+    vid.setAttribute("muted", "");
+    void vid.play()?.catch(() => {});
+  }, []);
+
   return (
     <section
       id="hero"
@@ -35,6 +50,7 @@ export const PostWeddingHero: React.FC<PostWeddingHeroProps> = ({ onEnter }) => 
       }}
     >
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop

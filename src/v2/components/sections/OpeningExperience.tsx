@@ -16,21 +16,29 @@ interface OpeningExperienceProps {
 
 type Phase = "start" | "playing";
 
-/** Counted from the Start tap, not from mount. */
-const POSTER_FALLBACK_MS = 3000;
+/**
+ * How long the video gets, from the Start tap, to actually begin playing.
+ * Counted from the tap, not from mount. 3s was too tight: on a slow mobile
+ * connection the file had not buffered by then, so those guests skipped
+ * straight to the hero and never saw the intro. The Skip button (shown after
+ * SKIP_DELAY_MS) lets anyone impatient leave sooner.
+ */
+const POSTER_FALLBACK_MS = 7000;
 const SKIP_DELAY_MS = 1000;
 const MOBILE_BREAKPOINT = 767;
 /** First frame of the intro video, so the start screen paints instantly. */
 const INTRO_POSTER = "/video/opening-poster.webp";
 /**
- * Absolute upper bound from the Start tap, cleared only by `triggerComplete`
- * itself (never by `playing`). Playback can start and then stall mid-way —
- * a slow connection re-buffering, the tab losing focus, iOS pausing a
- * silently-failed autoplay — after which no further `timeupdate`/`ended`
- * event ever arrives. Without this, that stall left visitors stuck on the
- * intro forever instead of reaching the site.
+ * Stall guard, armed when playback starts (and re-armed on every `playing`,
+ * e.g. after a re-buffer). Playback can start and then stall mid-way — a slow
+ * connection re-buffering, the tab losing focus, iOS pausing playback — after
+ * which no further `timeupdate`/`ended` event ever arrives. Without this,
+ * that stall left visitors stuck on the intro forever instead of reaching the
+ * site. Counted from playback start (not the tap) so a video that took a few
+ * seconds to load still gets to play through to the reveal.
  */
-const HARD_CEILING_MS = 9000;
+const STALL_SLACK_MS = 3000;
+const stallCeilingMs = () => WEDDING_CONFIG.media.introRevealAtSeconds * 1000 + STALL_SLACK_MS;
 
 const container = {
   hidden: {},
@@ -164,16 +172,9 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
     if (!prefersReduced) stepAside();
     skipTimerRef.current = setTimeout(() => setShowSkip(true), SKIP_DELAY_MS);
     fallbackTimerRef.current = setTimeout(() => {
-      console.warn("[intro] video did not start within 3s — skipping to hero");
+      console.warn(`[intro] video did not start within ${POSTER_FALLBACK_MS / 1000}s — skipping to hero`);
       triggerComplete();
     }, POSTER_FALLBACK_MS);
-    // Not cleared by `playing` — guards against playback starting then
-    // stalling (buffering, backgrounded tab) with no further event ever
-    // reaching handleTimeUpdate/onEnded.
-    hardCeilingTimerRef.current = setTimeout(() => {
-      console.warn("[intro] hard ceiling reached — forcing reveal");
-      triggerComplete();
-    }, HARD_CEILING_MS);
 
     void playPromise?.catch((err: unknown) => {
       console.warn("[intro] video play() rejected:", err);
@@ -183,7 +184,14 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
 
   /** Playback genuinely started — the poster fallback is no longer needed. */
   const handlePlaying = useCallback(() => {
+    if (revealedRef.current) return;
     if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+    // (Re-)arm the stall guard — see STALL_SLACK_MS.
+    if (hardCeilingTimerRef.current) clearTimeout(hardCeilingTimerRef.current);
+    hardCeilingTimerRef.current = setTimeout(() => {
+      console.warn("[intro] playback stalled — forcing reveal");
+      triggerComplete();
+    }, stallCeilingMs());
     // Drive the progress line from the video clock itself (timeupdate only
     // fires ~4×/s, which made it visibly step).
     if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
@@ -197,7 +205,7 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onComplete
       if (!revealedRef.current) rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
-  }, []);
+  }, [triggerComplete]);
 
   /** The one 4-second cue. No other timeupdate logic exists. */
   const handleTimeUpdate = useCallback(() => {
