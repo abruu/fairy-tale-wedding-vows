@@ -12,7 +12,7 @@
  * Relative import (no "@/" alias) on purpose: vite.config.ts imports this
  * file, and the config bundle doesn't resolve app aliases.
  */
-import { SITE_URL, WEDDING_CONFIG } from "../config/dates";
+import { BRIDE_INVITE_PATH, SITE_URL, WEDDING_CONFIG } from "../config/dates";
 
 export type CalendarEventKey = "betrothal" | "wedding";
 
@@ -43,7 +43,7 @@ export function getCalendarEvent(key: CalendarEventKey): CalendarEvent {
   // side, the wedding by the groom's.
   const title =
     key === "betrothal" ? `Betrothal · ${bride} & ${groom}` : `Wedding · ${groom} & ${bride}`;
-  const inviteUrl = key === "betrothal" ? `${SITE_URL}/?=b` : `${SITE_URL}/`;
+  const inviteUrl = key === "betrothal" ? `${SITE_URL}${BRIDE_INVITE_PATH}` : `${SITE_URL}/`;
   const lines = [
     `${key === "betrothal" ? "Betrothal" : "Holy Matrimony"} — ${ev.venue}, ${ev.time}`,
     ev.receptionVenue ? `${ev.receptionLabel ?? "Reception"}: ${ev.receptionVenue}` : "",

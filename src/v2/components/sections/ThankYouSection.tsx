@@ -10,6 +10,19 @@ import { CrossMotif } from '../shared/CrossMotif';
 export const ThankYouSection: React.FC = () => {
   const { ref, revealed, className } = useReveal<HTMLDivElement>({ type: 'blur' });
 
+  const { couple } = WEDDING_CONFIG;
+  const groomFamily = {
+    label: `${couple.groomName.split(' ')[0]}'s Family`,
+    names: couple.sharingHappiness.groomFamily,
+  };
+  const brideFamily = {
+    label: `${couple.brideName.split(' ')[0]}'s Family`,
+    names: couple.sharingHappiness.brideFamily,
+  };
+  const happinessFamilies = couple.brideFirst
+    ? [brideFamily, groomFamily]
+    : [groomFamily, brideFamily];
+
   return (
     <section
       id="thankyou"
@@ -98,33 +111,52 @@ export const ThankYouSection: React.FC = () => {
           </h3>
         </div>
 
-        {/* Best wishes credit */}
-        {(() => {
-          const lines = [WEDDING_CONFIG.couple.brideSharingHappiness, WEDDING_CONFIG.couple.sharingHappiness].filter(Boolean);
-          if (lines.length === 0) return null;
-          return (
-            <div style={{ marginTop: '2.5rem' }}>
-              <p className="v2-eyebrow" style={{ color: 'var(--v2-gold-light)', marginBottom: '0.75rem' }}>
-                With Best Wishes
-              </p>
-              {lines.map((line, i) => (
+        {/* Sharing the happiness — the inviting family's list comes first */}
+        <div style={{ marginTop: '2.5rem' }}>
+          <p className="v2-eyebrow" style={{ color: 'var(--v2-gold-light)', marginBottom: '1.25rem' }}>
+            Sharing the Happiness
+          </p>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '1.5rem 3rem',
+            }}
+          >
+            {happinessFamilies.map(({ label, names }) => (
+              <div key={label} style={{ minWidth: '12rem' }}>
                 <p
-                  key={i}
                   style={{
-                    fontFamily: 'var(--v2-font-display)',
-                    fontStyle: 'italic',
-                    fontSize: '0.85rem',
-                    color: 'rgba(234,228,216,0.5)',
-                    margin: 0,
-                    lineHeight: 1.7,
+                    fontFamily: 'var(--v2-font-sans)',
+                    fontSize: '0.6rem',
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(198,161,91,0.55)',
+                    margin: '0 0 0.5rem',
                   }}
                 >
-                  {line}
+                  {label}
                 </p>
-              ))}
-            </div>
-          );
-        })()}
+                {names.map((name) => (
+                  <p
+                    key={name}
+                    style={{
+                      fontFamily: 'var(--v2-font-display)',
+                      fontStyle: 'italic',
+                      fontSize: '0.95rem',
+                      color: 'rgba(234,228,216,0.6)',
+                      margin: 0,
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {name}
+                  </p>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Bottom flourish — the countdown lives in the Hero only */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginTop: '3rem' }}>

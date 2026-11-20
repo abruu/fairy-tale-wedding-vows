@@ -8,18 +8,30 @@ export const absoluteUrl = (path: string) =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
 // ─── Invite side (one site, two invitations) ───
-// The groom's family shares the plain URL; the bride's family shares `?=b`.
+// The groom's family shares the plain URL; the bride's family shares `/b`.
 //   groom (default): Abrin first, the WEDDING is the headline event.
-//   bride  (`?=b`) : Elsa first, the BETROTHAL is the headline event.
-// `?b`, `?side=b` and `?v=b` are accepted too, so a hand-typed link still works.
+//   bride  (`/b`)  : Elsa first, the BETROTHAL is the headline event.
+// Share `/b`, not `?=b`: link previews (WhatsApp etc.) don't run JS and are
+// keyed on the path, so only `/b` gets the betrothal share image — the build
+// writes a separate dist/b/index.html for it (see vite.config.ts).
+// Old `?=b`, `?b`, `?side=b` and `?v=b` links still open the bride side.
 export type InviteSide = "groom" | "bride";
 
+/** Path of the bride's-family invite — also the folder the build writes its HTML to. */
+export const BRIDE_INVITE_PATH = "/b";
+
+// globalThis rather than `window`: this file is also loaded by vite.config.ts
+// (Node, no DOM types) to generate the calendar files.
+const currentLocation = (
+  globalThis as { location?: { search?: string; pathname?: string } }
+).location;
+
 export const detectInviteSide = (
-  // globalThis rather than `window`: this file is also loaded by vite.config.ts
-  // (Node, no DOM types) to generate the calendar files.
-  search: string = (globalThis as { location?: { search?: string } }).location
-    ?.search ?? "",
+  search: string = currentLocation?.search ?? "",
+  pathname: string = currentLocation?.pathname ?? "",
 ): InviteSide => {
+  if (pathname.replace(/\/+$/, "").toLowerCase() === BRIDE_INVITE_PATH)
+    return "bride";
   for (const [key, value] of new URLSearchParams(search)) {
     if (key.toLowerCase() === "b" || value.toLowerCase() === "b")
       return "bride";
@@ -65,7 +77,7 @@ export const WEDDING_CONFIG = {
     /** Canonical names (always groom then bride regardless of display order) */
     groomName,
     brideName,
-    /** true on the bride's-family invite (`?=b`) — set from the URL, see top of file */
+    /** true on the bride's-family invite (`/b`) — set from the URL, see top of file */
     brideFirst,
     /** Display names (computed from brideFirst flag) */
     name1: firstPerson,
@@ -90,8 +102,16 @@ export const WEDDING_CONFIG = {
     brideAddress: "Pidiencheril (H), Anickadu P.O., Pallickathodu, Kottayam",
     brideHouseShort: "Pidiencheril",
     invitationIntro: `With the grace of God and the blessings of our families, we joyfully invite you to celebrate our ${featured.label.toLowerCase()}`,
-    sharingHappiness: "",
-    brideSharingHappiness: "",
+    /** "Sharing the happiness" credits in the footer, one list per family. */
+    sharingHappiness: {
+      groomFamily: ["Amil Mariya Saiju", "Sr. Soji Mariya (CMC)"],
+      brideFamily: [
+        "Issan Bony",
+        "Johnathan Raise Charles",
+        "Amaris Liss Charles",
+        "Nathan Bony",
+      ],
+    },
   },
 
   // ─── Event Dates (ISO with timezone) ───--
@@ -107,15 +127,15 @@ export const WEDDING_CONFIG = {
       calendarEnd: "2026-12-28T14:00:00+05:30",
       dateLabel: "Monday, 28th December 2026",
       time: "11:00 AM",
-      venue: "St. Mary's Church, Elamgulam",
+      venue: "St. Mary's Church, Elamgulam, Kottayam",
       /** Short "venue · city" line for the intro and hero */
-      venueShort: "St. Mary's Church · Elamgulam",
+      venueShort: "St. Mary's Church · Elamgulam, Kottayam",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=St.+Mary%27s+Church%2C+Elamgulam",
       /** Heading for the meal/reception row on the event card */
       receptionLabel: "Lunch",
       receptionVenue:
-        "Orchard River Mansion Homestay & Convention Centre, Pulickakandathil (H), Near Murikkumpuzha Devi Temple, Parappaly Road, Pala, Kerala 686575",
+        "Orchard River Mansion Homestay & Convention Centre, Pulickakandathil, Near Murikkumpuzha Devi Temple, Parappaly Road, Pala, Kottayam",
       receptionMapsUrl:
         "https://www.google.com/maps/search/?api=1&query=Orchard+River+Mansion+Homestay+%26+Convention+Centre%2C+Pala",
     },
@@ -124,16 +144,15 @@ export const WEDDING_CONFIG = {
       calendarEnd: "2027-01-02T14:00:00+05:30",
       dateLabel: "Saturday, 2nd January 2027",
       time: "11:00 AM",
-      venue: "St. Antony's Church, Arimpur",
+      venue: "St. Antony's Church, Arimpur, Thrissur",
       /** Short "venue · city" line for the intro and hero */
-      venueShort: "St. Antony's Church · Arimpur",
+      venueShort: "St. Antony's Church · Arimpur, Thrissur",
       mapsUrl:
         "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Church%2C+Arimpur%2C+Thrissur",
       /** Heading for the meal/reception row on the event card */
       receptionLabel: "Lunch",
-      receptionVenue: "St. Antony's Community (Parish) Hall, Arimpur",
-      receptionMapsUrl:
-        "https://www.google.com/maps/search/?api=1&query=St.+Antony%27s+Parish+Hall%2C+Arimpur%2C+Thrissur",
+      receptionVenue: "St. Antony's Community (Parish) Hall, Arimpur, Thrissur",
+      receptionMapsUrl: "https://maps.app.goo.gl/EbqTPVGpwtMhWCc69",
     },
   },
 
@@ -337,7 +356,7 @@ export const WEDDING_CONFIG = {
   // ─── Email Configuration ───
   email: {
     /** Email addresses to receive wedding wishes (can be single email or array of emails) */
-    recipientEmails: ["abrinsaiju@gmail.com"], // TODO: fill in recipient email for RSVP/wishes
+    recipientEmails: ["abrinsaiju@gmail.com,elsapfrancis@gmail.com"], // TODO: fill in recipient email for RSVP/wishes
     /** EmailJS configuration (free service) */
     emailJS: {
       serviceId: "service_qjht1ax", // Replace with your EmailJS service ID

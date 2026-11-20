@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import NotFound from "./pages/NotFound";
+import { BRIDE_INVITE_PATH } from "./config/dates";
 
 // Routed pages are mutually exclusive, but both were statically imported —
 // every visitor's initial bundle included GSAP/Lenis/Framer Motion and every
@@ -31,6 +32,8 @@ const App = () => {
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<WeddingV2 />} />
+              {/* Bride's-family invite — config/dates.ts reads the path. */}
+              <Route path={BRIDE_INVITE_PATH} element={<WeddingV2 />} />
               {/* Old shared links pointed at /main — send them to the root. */}
               <Route path="/main" element={<RedirectToRoot />} />
               <Route path="*" element={<NotFound />} />

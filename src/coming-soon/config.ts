@@ -137,6 +137,19 @@ export const comingSoonConfig = {
     ogImage: "/og-abrin-elsa.jpg",
     ogImageWidth: 1200,
     ogImageHeight: 630,
+    /**
+     * Preview for the bride's-family link (`/b`): the build writes a copy of
+     * index.html to dist/b/index.html with these swapped in, so WhatsApp etc.
+     * show the betrothal card there. Source: scripts/og-image-betrothal.html.
+     * Same 1200x630 size as ogImage.
+     */
+    bride: {
+      title: "Elsa & Abrin | Betrothal & Wedding Invitation",
+      description:
+        "Elsa & Abrin invite you to their betrothal on 28 December 2026 at St. Mary's Church, Elamgulam, and their wedding on 2 January 2027 at St. Antony's Church, Arimpur.",
+      ogImage: "/og-elsa-abrin-betrothal.jpg",
+      imageAlt: "Elsa & Abrin — Betrothal, 28 December 2026",
+    },
     /** Deployed origin — used for canonical + absolute OG URLs */
     siteUrl: "https://www.abrinelsa.in",
     themeColor: "#f7efe3",

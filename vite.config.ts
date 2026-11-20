@@ -1,8 +1,10 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import fs from "fs";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { comingSoonConfig } from "./src/coming-soon/config";
+import { BRIDE_INVITE_PATH } from "./src/config/dates";
 import {
   buildIcs,
   getCalendarEvent,
@@ -87,6 +89,57 @@ const calendarFiles: Plugin = {
   },
 };
 
+/**
+ * Set the value attribute of the one <meta>/<link> whose `keyAttr` equals
+ * `key`. Throws when the tag is missing so a template change can't silently
+ * ship the groom's preview on the bride's link.
+ */
+const setTagValue = (
+  html: string,
+  keyAttr: "name" | "property" | "rel",
+  key: string,
+  value: string,
+  valueAttr: "content" | "href" = "content",
+) => {
+  const re = new RegExp(
+    `(<(?:meta|link)\\s[^>]*\\b${keyAttr}="${key.replace(/[.:]/g, "\\$&")}"[^>]*?\\b${valueAttr}=")[^"]*(")`,
+  );
+  if (!re.test(html)) throw new Error(`bride invite: no ${keyAttr}="${key}" tag in index.html`);
+  return html.replace(re, (_, open: string, close: string) => open + value + close);
+};
+
+// The bride's family shares `/b`. Link-preview crawlers (WhatsApp, Facebook…)
+// don't run JS and see one HTML file per path, so `/b` gets its own copy of
+// the built index.html with the betrothal title, description and share image.
+// The app itself is identical — it reads the path to pick the bride side.
+const brideInvitePage: Plugin = {
+  name: "wedding-bride-invite-page",
+  apply: "build",
+  writeBundle(options) {
+    const outDir = options.dir ?? "dist";
+    const bride = seo.bride;
+    const url = `${siteUrl}${BRIDE_INVITE_PATH}`;
+    const image = absolute(bride.ogImage);
+    let html = fs.readFileSync(path.join(outDir, "index.html"), "utf8");
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${bride.title}</title>`);
+    html = setTagValue(html, "name", "description", bride.description);
+    html = setTagValue(html, "rel", "canonical", url, "href");
+    html = setTagValue(html, "property", "og:title", bride.title);
+    html = setTagValue(html, "property", "og:description", bride.description);
+    html = setTagValue(html, "property", "og:url", url);
+    html = setTagValue(html, "name", "twitter:title", bride.title);
+    html = setTagValue(html, "name", "twitter:description", bride.description);
+    if (ogImage) {
+      html = setTagValue(html, "property", "og:image", image);
+      html = setTagValue(html, "property", "og:image:alt", bride.imageAlt);
+      html = setTagValue(html, "name", "twitter:image", image);
+    }
+    const dir = path.join(outDir, BRIDE_INVITE_PATH.replace(/^\//, ""));
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "index.html"), html);
+  },
+};
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
@@ -97,6 +150,7 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     calendarFiles,
+    brideInvitePage,
     {
       name: "wedding-html-inject",
       transformIndexHtml(html: string) {
