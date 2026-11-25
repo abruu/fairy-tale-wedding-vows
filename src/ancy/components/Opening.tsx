@@ -1,7 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { SITE } from "../config";
-import { Wreath } from "./Botanicals";
 
 interface OpeningProps {
   /** Start the song — must run synchronously inside the tap for autoplay rules. */
@@ -16,8 +15,8 @@ interface OpeningProps {
 const BURST_TONES = ["var(--aa-blush)", "#f6e3dd", "var(--aa-pistachio)", "var(--aa-rose)", "var(--aa-sage)"];
 
 /**
- * Opening — a gatefold invitation card. On load the wreath draws itself
- * (stem, then leaves, then blossoms) around the A & A monogram. On tap the
+ * Opening — a gatefold invitation card. On load the A & A wreath logo
+ * blooms in out of a soft blur. On tap the
  * seal breaks into a burst of petals and the two halves swing open in 3D
  * onto the already-mounted hero.
  */
@@ -30,18 +29,12 @@ export const Opening: React.FC<OpeningProps> = ({ onStart, onReveal, onComplete,
     const ctx = gsap.context(() => {
       gsap.set(".aa-open-stage > *", { autoAlpha: 0, y: 18 });
       gsap.set(".aa-open-seal", { autoAlpha: 1, y: 0 });
-      gsap.set(".aa-open-seal .aa-stem", { strokeDasharray: 1, strokeDashoffset: 1 });
-      gsap.set(".aa-open-seal .aa-leaf", { scale: 0, transformOrigin: "0% 50%" });
-      gsap.set(".aa-open-seal .aa-bloom", { scale: 0, transformOrigin: "50% 50%" });
-      gsap.set(".aa-open-mono", { autoAlpha: 0, scale: 0.85, filter: "blur(10px)" });
+      gsap.set(".aa-open-logo", { autoAlpha: 0, scale: 0.86, rotate: -6, filter: "blur(10px)" });
 
       gsap
         .timeline({ delay: 0.25, defaults: { ease: "power3.out" } })
-        .to(".aa-open-seal .aa-stem", { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" })
-        .to(".aa-open-seal .aa-leaf", { scale: 1, duration: 0.7, stagger: { each: 0.025, from: "edges" }, ease: "back.out(2)" }, 0.35)
-        .to(".aa-open-seal .aa-bloom", { scale: 1, duration: 0.8, stagger: 0.08, ease: "back.out(2.4)" }, 1.1)
-        .to(".aa-open-mono", { autoAlpha: 1, scale: 1, filter: "blur(0px)", duration: 1.1 }, 0.9)
-        .to(".aa-open-stage > *:not(.aa-open-seal)", { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.12 }, 1.4);
+        .to(".aa-open-logo", { autoAlpha: 1, scale: 1, rotate: 0, filter: "blur(0px)", duration: 1.6 }, 0)
+        .to(".aa-open-stage > *:not(.aa-open-seal)", { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.12 }, 0.9);
     }, root);
     return () => ctx.revert();
   }, [reducedMotion]);
@@ -116,12 +109,15 @@ export const Opening: React.FC<OpeningProps> = ({ onStart, onReveal, onComplete,
       <div className="aa-open-stage">
         <p className="aa-eyebrow">The Betrothal of</p>
         <div className="aa-open-seal">
-          <Wreath />
-          <div className="aa-open-mono aa-script" aria-hidden="true">
-            {SITE.couple.monogram[0]}
-            <span className="amp">&amp;</span>
-            {SITE.couple.monogram[1]}
-          </div>
+          <img
+            className="aa-open-logo"
+            src={SITE.couple.logo}
+            alt=""
+            width={640}
+            height={595}
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
         <h1 className="aa-open-names">
           {b} <span style={{ color: "var(--aa-rose)" }}>&amp;</span> {g}

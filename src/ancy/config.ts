@@ -20,6 +20,9 @@ export const SITE = {
     groom: "Ashish",
     /** Shown in the monogram / favicon */
     monogram: ["A", "A"] as const,
+    /** Watercolour A & A wreath logo (640px + 160px webp) */
+    logo: "/ancy-ashish/logo.webp",
+    logoSm: "/ancy-ashish/logo-sm.webp",
   },
 
   // ─── Families (verbatim from the invitation) ───
@@ -32,13 +35,12 @@ export const SITE = {
     relation: "S/o",
     parents: "Mrs. Reena Johnson & Mr. Johnson P. G (Late)",
     house: "Punnassery House",
-    address: "Yordhanapuram P.O, Angamaly - Kalady, Ernakulam",
+    address: "Yordhanapuram, Angamaly - Kalady, Ernakulam",
   },
 
   invitation: {
     hosts: "Mrs. Reena Francis & Mr. Francis C.A.",
-    body:
-      "Cordially invite your gracious presence and blessings with family on the auspicious occasion of the Betrothal Ceremony of our daughter",
+    body: "Cordially invite your gracious presence and blessings with family on the auspicious occasion of the Betrothal Ceremony of our daughter",
     blessedLine: "Which will be blessed on",
   },
 
@@ -50,8 +52,8 @@ export const SITE = {
     endIso: "2027-01-02T14:00:00+05:30",
     dateLabel: "Saturday, 02 January 2027",
     time: "11:00 AM",
-    venue: "Little Flower Church, Olarikkara",
-    lunch: "Little Flower Church Parish Hall",
+    venue: "Little Flower Church, Olarikkara, Thrissur",
+    lunch: "Little Flower Church Parish Hall, Olarikkara, Thrissur",
     mapsQuery: "Little Flower Church, Olarikkara, Thrissur",
     /** TODO: paste the exact Google Maps share link if the family has one */
     mapsUrl: "",
@@ -62,22 +64,38 @@ export const SITE = {
     endIso: "2027-01-10T14:00:00+05:30",
     dateLabel: "Sunday, 10 January 2027",
     time: "12:05 PM",
-    venue: "St. John the Baptist Church, Yordhanapuram",
-    mapsQuery: "St. John the Baptist Church, Yordhanapuram, Kalady",
+    venue: "St. John the Baptist Church, Yordhanapuram, Angamaly",
+    mapsQuery: "St. John the Baptist Church, Yordhanapuram, Angamaly",
     mapsUrl: "",
   },
 
   // ─── Placeholder content (to be supplied) ───
   scripture: [
     {
-      quote: "“And now these three remain: faith, hope and love. But the greatest of these is love.”",
+      quote:
+        "“And now these three remain: faith, hope and love. But the greatest of these is love.”",
       reference: "1 Corinthians 13:13",
     },
   ],
   story: [
-    { label: "Lorem ipsum", title: "Where it began", text: LOREM_SHORT, photo: "couple-2" },
-    { label: "Dolor sit amet", title: "The question", text: LOREM_LONG, photo: "couple-3" },
-    { label: "02 · 01 · 2027", title: "Forever, blessed", text: LOREM_SHORT, photo: "couple-1" },
+    {
+      label: "Lorem ipsum",
+      title: "Where it began",
+      text: LOREM_SHORT,
+      photo: "couple-2",
+    },
+    {
+      label: "Dolor sit amet",
+      title: "The question",
+      text: LOREM_LONG,
+      photo: "couple-3",
+    },
+    {
+      label: "02 · 01 · 2027",
+      title: "Forever, blessed",
+      text: LOREM_SHORT,
+      photo: "couple-1",
+    },
   ],
   footerNote: LOREM_SHORT,
 
@@ -91,7 +109,8 @@ export const SITE = {
 
   // ─── Media ───
   /** TODO: the couple's own song. Empty string hides the music button. */
-  musicUrl: "/music/msuic1.mp3",
+  /** msuic1.mp3 with the first 1s and the trailing silence cut, so it loops straight back with no pause */
+  musicUrl: "/music/ancy-ashish.mp3",
 
   // ─── Wishes (EmailJS) ───
   wishes: {
@@ -129,7 +148,10 @@ export const calendarLink = (ev: {
   venue: string;
 }) => {
   const fmt = (iso: string) =>
-    new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    new Date(iso)
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "");
   const p = new URLSearchParams({
     action: "TEMPLATE",
     text: `${ev.title} · ${SITE.couple.bride} & ${SITE.couple.groom}`,

@@ -37,9 +37,9 @@ export const Invitation: React.FC = () => {
         </h2>
 
         <p className="aa-card-son" data-reveal style={step(7)}>
-          ({gf.relation} {gf.parents})
+          {gf.relation} {gf.parents}
           <br />
-          {gf.house}, {gf.address}.
+          {gf.house}, {gf.address}
         </p>
 
         <hr className="aa-card-rule" />
