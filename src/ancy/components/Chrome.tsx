@@ -35,7 +35,7 @@ export const Nav: React.FC<{
     <>
       <nav className={`aa-nav ${solid || open ? "is-solid" : ""}`} aria-label="Sections">
         <button type="button" className="aa-nav-mono" onClick={() => go("home")} aria-label="Back to top">
-          <img src={SITE.couple.logoSm} alt="" width={160} height={149} decoding="async" />
+          <img src={SITE.couple.logoSm} alt="" width={200} height={150} decoding="async" />
         </button>
         <div className="aa-nav-links">
           {items.map((it) => (

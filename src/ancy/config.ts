@@ -20,9 +20,11 @@ export const SITE = {
     groom: "Ashish",
     /** Shown in the monogram / favicon */
     monogram: ["A", "A"] as const,
-    /** Watercolour A & A wreath logo (640px + 160px webp) */
-    logo: "/ancy-ashish/logo.webp",
-    logoSm: "/ancy-ashish/logo-sm.webp",
+    /** Interlaced A A monogram (560px for the opening seal, 200px for the header) */
+    logo: "/ancy-ashish/monogram.webp",
+    logoSm: "/ancy-ashish/monogram-sm.webp",
+    /** Watercolour flower ring framing the monogram on the opening screen */
+    wreath: "/ancy-ashish/wreath.webp",
   },
 
   // ─── Families (verbatim from the invitation) ───

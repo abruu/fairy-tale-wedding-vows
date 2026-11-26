@@ -233,7 +233,17 @@ html.lenis body { height: auto; }
   position: relative;
   width: clamp(220px, 54vmin, 360px);
 }
-.aa-open-logo { width: 100%; height: auto; display: block; user-select: none; -webkit-user-drag: none; }
+.aa-open-wreath { width: 100%; height: auto; display: block; }
+/* Centred on the ring's open middle (the ring sits slightly above the image centre) */
+.aa-open-logo {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 46%;
+  height: auto;
+  translate: -50% -50%;
+}
+.aa-open-wreath, .aa-open-logo { user-select: none; -webkit-user-drag: none; }
 .aa-open-names {
   font-family: var(--aa-f-display);
   font-size: clamp(1.6rem, 5vw, 2.4rem);
@@ -299,7 +309,7 @@ html.lenis body { height: auto; }
   padding: 0;
   line-height: 0;
 }
-.aa-nav-mono img { width: clamp(58px, 6vw, 76px); height: auto; display: block; }
+.aa-nav-mono img { width: clamp(56px, 5.5vw, 72px); height: auto; display: block; }
 .aa-nav-links { display: flex; gap: clamp(1rem, 2.4vw, 2.2rem); margin-left: auto; margin-right: clamp(1rem, 2.4vw, 2rem); }
 .aa-nav-link {
   position: relative;

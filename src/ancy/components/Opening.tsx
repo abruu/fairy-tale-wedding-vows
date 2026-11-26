@@ -15,8 +15,8 @@ interface OpeningProps {
 const BURST_TONES = ["var(--aa-blush)", "#f6e3dd", "var(--aa-pistachio)", "var(--aa-rose)", "var(--aa-sage)"];
 
 /**
- * Opening — a gatefold invitation card. On load the A & A wreath logo
- * blooms in out of a soft blur. On tap the
+ * Opening — a gatefold invitation card. On load the flower ring turns into
+ * place and the A A monogram sharpens out of a soft blur inside it. On tap the
  * seal breaks into a burst of petals and the two halves swing open in 3D
  * onto the already-mounted hero.
  */
@@ -29,11 +29,13 @@ export const Opening: React.FC<OpeningProps> = ({ onStart, onReveal, onComplete,
     const ctx = gsap.context(() => {
       gsap.set(".aa-open-stage > *", { autoAlpha: 0, y: 18 });
       gsap.set(".aa-open-seal", { autoAlpha: 1, y: 0 });
-      gsap.set(".aa-open-logo", { autoAlpha: 0, scale: 0.86, rotate: -6, filter: "blur(10px)" });
+      gsap.set(".aa-open-wreath", { autoAlpha: 0, scale: 0.82, rotate: -14 });
+      gsap.set(".aa-open-logo", { autoAlpha: 0, scale: 0.9, filter: "blur(10px)" });
 
       gsap
         .timeline({ delay: 0.25, defaults: { ease: "power3.out" } })
-        .to(".aa-open-logo", { autoAlpha: 1, scale: 1, rotate: 0, filter: "blur(0px)", duration: 1.6 }, 0)
+        .to(".aa-open-wreath", { autoAlpha: 1, scale: 1, rotate: 0, duration: 1.6 }, 0)
+        .to(".aa-open-logo", { autoAlpha: 1, scale: 1, filter: "blur(0px)", duration: 1.2 }, 0.5)
         .to(".aa-open-stage > *:not(.aa-open-seal)", { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.12 }, 0.9);
     }, root);
     return () => ctx.revert();
@@ -110,11 +112,20 @@ export const Opening: React.FC<OpeningProps> = ({ onStart, onReveal, onComplete,
         <p className="aa-eyebrow">The Betrothal of</p>
         <div className="aa-open-seal">
           <img
-            className="aa-open-logo"
-            src={SITE.couple.logo}
+            className="aa-open-wreath"
+            src={SITE.couple.wreath}
             alt=""
             width={640}
             height={595}
+            fetchPriority="high"
+            decoding="async"
+          />
+          <img
+            className="aa-open-logo"
+            src={SITE.couple.logo}
+            alt=""
+            width={560}
+            height={420}
             fetchPriority="high"
             decoding="async"
           />
