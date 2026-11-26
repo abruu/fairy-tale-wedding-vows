@@ -64,8 +64,8 @@ export const SITE = {
     endIso: "2027-01-10T14:00:00+05:30",
     dateLabel: "Sunday, 10 January 2027",
     time: "12:05 PM",
-    venue: "St. John the Baptist Church, Yordhanapuram, Angamaly",
-    mapsQuery: "St. John the Baptist Church, Yordhanapuram, Angamaly",
+    venue: "St. John the Baptist Church, Yordhanapuram, Angamaly - Kalady",
+    mapsQuery: "St. John the Baptist Church, Yordhanapuram, Angamaly - Kalady",
     mapsUrl: "",
   },
 
